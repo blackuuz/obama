@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_statistics_title0"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/text_red"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_statistics_title1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/text_red"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_statistics_title2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/text_red"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="29dp"
+        android:orientation="horizontal"
+        android:paddingLeft="29dp">
+
+        <TextView
+            style="@style/text_statistics"
+            android:text="姓名 :" />
+
+        <EditText
+            android:id="@+id/et_statistics_name"
+            style="@style/edit_statistice" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <TextView
+            style="@style/text_statistics"
+            android:text="卡号 :" />
+
+        <EditText
+            android:id="@+id/et_statistics_cardNum"
+            style="@style/edit_statistice" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_phone"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:paddingRight="29dp"
+        android:paddingLeft="29dp">
+
+        <TextView
+            android:id="@+id/tv_statistics_cen"
+            style="@style/text_statistics"
+            android:text="电话号码 :" />
+
+        <EditText
+            android:id="@+id/et_statistics_phone"
+            style="@style/edit_statistice"
+            android:layout_width="match_parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:paddingRight="29dp"
+        android:paddingLeft="29dp">
+
+        <TextView
+            style="@style/text_statistics"
+            android:text="时间 :" />
+
+        <TextView
+            android:id="@+id/tv_statistics_time_start"
+            style="@style/text_statistice_time" />
+
+        <TextView
+            style="@style/text_statistics"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:text="-  -  -" />
+
+        <TextView
+            android:id="@+id/tv_statistics_time_end"
+            style="@style/text_statistice_time" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_statistics_commit"
+        android:layout_width="180dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/select_pw_yes"
+        android:gravity="center"
+        android:text="查询"
+        android:textSize="22sp"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/main_bg" />
+</LinearLayout>

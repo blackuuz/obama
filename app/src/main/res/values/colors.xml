@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#317ed4</color>
+    <color name="colorAccent">#317ed4</color>
+    <color name="vip_to_shop_1">#e5e5e5</color>
+    <color name="main_item">#c5c5c5</color>
+    <color name="main_title_bg">#317ed4</color>
+    <color name="main_bg">#f3f3f3</color>
+    <color name="white">#FFFFFF</color>
+    <color name="text_black0">#8e8e8e</color>
+    <color name="text_black1">#5e5e5e</color>
+    <color name="text_black2">#838383</color>
+    <color name="text_black3">#333</color>
+    <color name="text_black4">#2b2b2b</color>
+    <color name="text_black5">#323232</color>
+    <color name="text_blue">#0073f3</color>
+    <color name="text_blue1">#327ed4</color>
+    <color name="text_blue2">#d5e6f5</color>
+    <color name="text_red">#fd1918</color>
+    <color name="text_red2">#ff3737</color>
+    <color name="line_blue_h">#317ed4</color>
+    <color name="bottom_bg_y">#317ed4</color>
+    <color name="bottom_bg_n">#bcd4ef</color>
+    <color name="bottom_bg_c">#888888</color>
+    <color name="house_1">#df9b45</color>
+    <color name="house_2">#fee0b9</color>
+    <color name="item_order_bg">#00000000</color>
+
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="result_view">#b0000000</color>
+    <color name="possible_result_points">#c0ffff00</color>
+
+</resources>

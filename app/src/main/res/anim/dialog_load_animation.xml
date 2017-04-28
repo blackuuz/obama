@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set android:shareInterpolator="false" xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--    
+  fromDegrees   动画开始时的角度   
+  toDegrees     动画结束时物件的旋转角度,正代表顺时针     
+  pivotX    属性为动画相对于物件的X坐标的开始位置  
+  pivotY    属性为动画相对于物件的Y坐标的开始位置 
+  repeatMode 重复的模式，默认为restart，即重头开始重新运行
+  repeatCount 重复的次数，默认为0，必须是int，可以为-1表示不停止 
+  startOffset 在调用start函数之后等待开始运行的时间，单位为毫秒，若为10，表示10ms后开始运行  
+  interpolator表示变化率，但不是运行速度可设置为加速，减速，反复，反弹等。默认为开始和结束慢中间快-->   
+    <rotate 
+        android:interpolator="@android:anim/linear_interpolator"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:fromDegrees="0"
+        android:toDegrees="+360"
+        android:duration="1000"
+        android:startOffset="-1"
+        android:repeatMode="restart"
+        android:repeatCount="-1"/>
+</set>

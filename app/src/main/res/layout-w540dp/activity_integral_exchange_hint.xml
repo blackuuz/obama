@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_buy_count_list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_obama" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:text="消费成功"
+            android:textColor="@color/line_blue_h"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/tv_integral_hint_0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="50dp"
+            android:textColor="@color/text_black4"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_integral_hint_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/text_black4"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_integral_hint_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/text_black4"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_integral_hint_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/text_black4"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_integral_hint_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/text_black4"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <include layout="@layout/bottom_s" />
+
+</LinearLayout>
+

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_obama" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="请刷卡"
+            android:textColor="@color/text_black4"
+            android:textSize="25sp" />
+
+        <LinearLayout
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_read_card_num"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_weight="1"
+                android:background="@mipmap/read_card_info_et"
+                android:gravity="center"
+                android:hint="请输入卡号/电话号"
+                android:inputType="number"
+                android:textColor="@color/text_black4"
+                android:textSize="25sp" />
+
+            <Button
+                android:id="@+id/btn_read_code"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/select_code" />
+        </LinearLayout>
+
+        <Button
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:id="@+id/btn_read_yes"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:background="@mipmap/read_card_info_yes"
+            android:text="确     定"
+            android:textColor="@color/white"
+            android:textSize="25sp" />
+
+        <Button
+            android:id="@+id/btn_read_no"
+            android:layout_width="336dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:background="@mipmap/read_card_info_yes"
+            android:text="非会员消费"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/tv_hint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/text_black4"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="19dp"
+            android:layout_marginRight="19dp"
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            android:paddingBottom="50dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="99dp"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:text="磁条卡"
+                    android:textColor="#4652ee"
+                    android:textSize="25sp" />
+
+                <ImageView
+                    android:layout_width="125dp"
+                    android:layout_height="162dp"
+                    android:src="@mipmap/read2" />
+
+                <TextView
+                    android:layout_width="64dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="请在设备右侧刷卡"
+                    android:textColor="#ff0000"
+                    android:textSize="18sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="99dp"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:text="芯片卡"
+                    android:textColor="#4652ee"
+                    android:textSize="25sp" />
+
+                <ImageView
+                    android:layout_width="125dp"
+                    android:layout_height="162dp"
+                    android:src="@mipmap/read1" />
+
+                <TextView
+                    android:layout_width="58dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center_horizontal"
+                    android:text="将卡放在设备上"
+                    android:textColor="#ff0000"
+                    android:textSize="18sp" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <include layout="@layout/bottom_s" />
+</LinearLayout>

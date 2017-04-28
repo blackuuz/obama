@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_pay_buy_shop"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_obama" />
+
+    <LinearLayout
+        android:id="@+id/ll_pay_0"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="应支付："
+                android:textColor="@android:color/holo_red_light"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/et_pay_money"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/edit_bg"
+                android:gravity="center"
+                android:inputType="numberDecimal"
+                android:text="800"
+                android:selectAllOnFocus="true"
+                android:textColor="@android:color/holo_red_light"
+                android:textSize="30sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="元"
+                android:textColor="@android:color/holo_red_light"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="获得积分："
+                android:textColor="@android:color/holo_red_light"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/et_pay_gread"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/edit_bg"
+                android:gravity="center"
+                android:inputType="numberDecimal"
+                android:textColor="@android:color/holo_red_light"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="元"
+                android:textColor="@android:color/holo_red_light"
+                android:textSize="20sp"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+
+        <include layout="@layout/pay_hint" />
+
+        <include layout="@layout/pay_select" />
+
+    </LinearLayout>
+
+    <include layout="@layout/bottom_s" />
+
+</LinearLayout>

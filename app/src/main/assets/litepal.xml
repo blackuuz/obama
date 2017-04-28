@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+    <dbname value="yide"></dbname>
+    <version value="17"></version>
+
+    <list>
+        <mapping class="com.ksk.obama.DB.RechargeAgain"></mapping>
+        <mapping class="com.ksk.obama.DB.BuyCountDb"></mapping>
+        <mapping class="com.ksk.obama.DB.OpenCardDb"></mapping>
+        <mapping class="com.ksk.obama.DB.BuyShopDb"></mapping>
+        <mapping class="com.ksk.obama.DB.QuickDelMoney"></mapping>
+        <mapping class="com.ksk.obama.DB.OrderNumber"></mapping>
+        <mapping class="com.ksk.obama.DB.UserID"></mapping>
+        <mapping class="com.ksk.obama.model.BuyCount"></mapping>
+    </list>
+</litepal>

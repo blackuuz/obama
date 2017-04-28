@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_try_out"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_obama" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="10dp"
+        android:background="@mipmap/line_00" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="#FFF"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="18dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/try_01" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:text="姓名:"
+            android:textColor="#4968ef"
+            android:textSize="17sp" />
+
+        <RelativeLayout
+            android:layout_width="6dp"
+            android:layout_height="18dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:src="@mipmap/try_02" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="185dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp">
+
+            <EditText
+                android:id="@+id/try_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:paddingBottom="1dp"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:src="@mipmap/try_03" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@mipmap/line_00" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="5dp"
+        android:background="@mipmap/line_00" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="#FFF"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="21dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/try_04" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:text="电话:"
+            android:textColor="#4968ef"
+            android:textSize="17sp" />
+
+        <RelativeLayout
+            android:layout_width="6dp"
+            android:layout_height="18dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:src="@mipmap/try_02" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="185dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp">
+
+            <EditText
+                android:id="@+id/try_phone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:inputType="number"
+                android:maxLength="11"
+                android:paddingBottom="1dp" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:src="@mipmap/try_03" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@mipmap/line_00" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="5dp"
+        android:background="@mipmap/line_00" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="#FFF"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="21dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/try_05" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:text="验证码:"
+            android:textColor="#4968ef"
+            android:textSize="17sp" />
+
+        <RelativeLayout
+            android:layout_width="6dp"
+            android:layout_height="18dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:src="@mipmap/try_02" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="125dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp">
+
+            <EditText
+                android:id="@+id/try_yzm"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:inputType="number"
+                android:maxLength="6"
+                android:paddingBottom="1dp" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:src="@mipmap/try_03" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/try_btn_get"
+            android:layout_width="50dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="2dp"
+            android:background="@drawable/select_pw_yes"
+            android:text="获取"
+            android:textColor="#FFF"
+            android:textSize="12sp" />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@mipmap/line_00" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="5dp"
+        android:background="@mipmap/line_00" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="#FFF"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp">
+
+        <ImageView
+            android:layout_width="22dp"
+            android:layout_height="23dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/try_07" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:text="行业:"
+            android:textColor="#4968ef"
+            android:textSize="17sp" />
+
+        <RelativeLayout
+            android:layout_width="185dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp">
+
+            <EditText
+                android:id="@+id/try_shop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:paddingBottom="1dp" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:src="@mipmap/try_03" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@mipmap/line_00" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="5dp"
+        android:background="@mipmap/line_00" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="#FFF"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="20dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/try_08" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:text="企业名称:"
+            android:textColor="#4968ef"
+            android:textSize="17sp" />
+
+        <RelativeLayout
+            android:layout_width="185dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp">
+
+            <EditText
+                android:id="@+id/try_shop_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:paddingBottom="1dp" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:src="@mipmap/try_03" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@mipmap/line_00" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="20dp"
+            android:src="@mipmap/try_09" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="申请说明"
+            android:textColor="#4968ef"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/try_remark"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:background="@mipmap/try_10"
+        android:gravity="top|left"
+        android:padding="15dp"
+        android:textColor="#80000000"
+        android:textSize="15sp" />
+
+    <include layout="@layout/bottom_s" />
+
+
+</LinearLayout>

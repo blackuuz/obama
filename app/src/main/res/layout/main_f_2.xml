@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/main_bg"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rl_main20"
+            style="@style/main_f">
+
+            <ImageView
+                style="@style/main_iv_item"
+                android:src="@mipmap/main20" />
+
+            <TextView
+                style="@style/main_tv_item"
+                android:text="开卡统计" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_main21"
+            style="@style/main_f"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                style="@style/main_iv_item"
+                android:src="@mipmap/main21" />
+
+            <TextView
+                style="@style/main_tv_item"
+                android:text="消费统计" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_main22"
+            style="@style/main_f"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                style="@style/main_iv_item"
+                android:src="@mipmap/main22" />
+
+            <TextView
+                style="@style/main_tv_item"
+                android:text="充值统计" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_main23"
+            style="@style/main_f"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                style="@style/main_iv_item"
+                android:src="@mipmap/main23" />
+
+            <TextView
+                style="@style/main_tv_item"
+                android:text="兑换统计" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_main25"
+            style="@style/main_f"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                style="@style/main_iv_item"
+                android:src="@mipmap/main25" />
+
+            <TextView
+                style="@style/main_tv_item"
+                android:text="购次统计" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_main26"
+            style="@style/main_f"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                style="@style/main_iv_item"
+                android:src="@mipmap/main26" />
+
+            <TextView
+                style="@style/main_tv_item"
+                android:text="计次统计" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_main27"
+            style="@style/main_f"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                style="@style/main_iv_item"
+                android:src="@mipmap/main15" />
+
+            <TextView
+                style="@style/main_tv_item"
+                android:text="退卡统计" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_main28"
+            style="@style/main_f"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                style="@style/main_iv_item"
+                android:src="@mipmap/main_16" />
+
+            <TextView
+                style="@style/main_tv_item"
+                android:text="销售统计" />
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>

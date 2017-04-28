@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_main10"
+        style="@style/main_f">
+
+        <TextView
+            style="@style/main_tv_item"
+            android:text="会员开卡" />
+
+        <ImageView
+            style="@style/main_iv_item"
+            android:src="@mipmap/main10" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_main11"
+        style="@style/main_f"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            style="@style/main_tv_item"
+            android:text="会员充值" />
+
+        <ImageView
+            style="@style/main_iv_item"
+            android:src="@mipmap/main11" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_main12"
+        style="@style/main_f"
+        android:layout_marginTop="5dp">
+
+        <ImageView
+            style="@style/main_iv_item"
+            android:src="@mipmap/main12" />
+
+        <TextView
+            style="@style/main_tv_item"
+            android:text="购买次数" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_main13"
+        style="@style/main_f"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            style="@style/main_tv_item"
+            android:text="会员到店" />
+
+        <ImageView
+            style="@style/main_iv_item"
+            android:src="@mipmap/main13" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_main04"
+        style="@style/main_f"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            style="@style/main_tv_item"
+            android:text="赠送/扣除积分" />
+
+        <ImageView
+            style="@style/main_iv_item"
+            android:src="@mipmap/main04" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_main06"
+        style="@style/main_f"
+        android:layout_marginTop="5dp">
+
+        <ImageView
+            android:id="@+id/imageView"
+            style="@style/main_iv_item"
+            android:src="@mipmap/main06" />
+
+        <TextView
+            android:id="@+id/textView4"
+            style="@style/main_tv_item"
+            android:layout_alignTop="@+id/imageView"
+            android:layout_marginStart="14dp"
+            android:layout_toEndOf="@+id/imageView"
+            android:text="卡片延期" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_main14"
+        style="@style/main_f"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            style="@style/main_tv_item"
+            android:text="挂失补卡" />
+
+        <ImageView
+            style="@style/main_iv_item"
+            android:src="@mipmap/main14" />
+    </RelativeLayout>
+
+</LinearLayout>

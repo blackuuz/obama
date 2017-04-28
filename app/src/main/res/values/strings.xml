@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">易德会员云POS</string>
+    <string name="dialog_warnning_name">重要提示：</string>
+    <string name="dialog_warnning_message">与服务器断开连接，订单已经生成!订单上传成功之前,请勿卸载本软件!否则，出现任何问题，与本软件无关！</string>
+    <string name="dialog_warnning_yes">退出</string>
+    <string name="dialog_warnning_no">再试一次</string>
+    <string name="order_alert">取单操作会覆盖当前已选择商品!是否继续取单?</string>
+    <string name="scan_text">将二维码放入框内, 即可自动扫描</string>
+</resources>

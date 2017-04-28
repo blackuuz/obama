@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_open_card_info"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_obama" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|right"
+                android:text="性别 :"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/open_info_iv1"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:src="@mipmap/sel_box" />
+
+            <TextView
+                android:id="@+id/open_info_tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:gravity="center_vertical"
+                android:text="男"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/open_info_iv2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="45dp"
+                android:src="@mipmap/sel_box" />
+
+            <TextView
+                android:id="@+id/open_info_tv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:gravity="center_vertical"
+                android:text="女"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/open_info_iv3"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="45dp"
+                android:src="@mipmap/sel_box" />
+
+            <TextView
+                android:id="@+id/open_info_tv3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:gravity="center_vertical"
+                android:text="保密"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|right"
+                android:text="手机号 :"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/et_open_info_phone"
+                android:layout_width="210dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:background="@mipmap/edit_bg"
+                android:gravity="center_vertical"
+                android:inputType="phone"
+                android:maxLength="11"
+                android:paddingLeft="10dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|right"
+                android:text="验证码 :"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/et_open_info_yzm"
+                android:layout_width="105dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:background="@mipmap/edit_bg"
+                android:gravity="center_vertical"
+                android:inputType="number"
+                android:paddingLeft="10dp" />
+
+            <Button
+                android:id="@+id/btn_yzm"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="25dp"
+                android:background="@mipmap/query"
+                android:gravity="center"
+                android:text="获取验证码"
+                android:textColor="@color/white"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|right"
+                android:text="生日 :"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tv_open_info_birthday"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:background="@mipmap/edit_bg"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|right"
+                android:text="消费密码 :"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/et_open_info_pw1"
+                android:layout_width="210dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:background="@mipmap/edit_bg"
+                android:gravity="center_vertical"
+                android:inputType="textPassword"
+                android:paddingLeft="10dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|right"
+                android:text="确认密码 :"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/et_open_info_pw2"
+                android:layout_width="210dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:background="@mipmap/edit_bg"
+                android:gravity="center_vertical"
+                android:inputType="textPassword"
+                android:paddingLeft="10dp" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/add_shop"
+            android:layout_width="220dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:background="@mipmap/add_person"
+            android:text="点击选择推荐员工"
+            android:textColor="#323232"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/add_vip"
+            android:layout_width="220dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:background="@mipmap/add_person"
+            android:text="点击选择推荐会员"
+            android:textColor="#323232"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <include layout="@layout/bottom_s" />
+</LinearLayout>

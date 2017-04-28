@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_setting"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_obama" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:text="支付方式设置"
+            android:textColor="@color/text_blue1"
+            android:textSize="20sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp">
+
+            <TextView
+                style="@style/text_statistics_del_l"
+                android:text="现金" />
+
+            <TextView
+                android:id="@+id/tv_set_0"
+                style="@style/text_statistics_del_r"
+                android:textColor="@color/text_black0" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ebebeb" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp">
+
+            <TextView
+                style="@style/text_statistics_del_l"
+                android:text="微信" />
+
+            <TextView
+                android:id="@+id/tv_set_1"
+                style="@style/text_statistics_del_r"
+                android:textColor="@color/text_black0" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ebebeb" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp">
+
+            <TextView
+                style="@style/text_statistics_del_l"
+                android:text="支付宝" />
+
+            <TextView
+                android:id="@+id/tv_set_2"
+                style="@style/text_statistics_del_r"
+                android:textColor="@color/text_black0" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ebebeb" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp">
+
+            <TextView
+                style="@style/text_statistics_del_l"
+                android:text="银联" />
+
+            <TextView
+                android:id="@+id/tv_set_3"
+                style="@style/text_statistics_del_r"
+                android:textColor="@color/text_black0" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="#ebebeb" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:text="刷卡方式设置"
+            android:textColor="@color/text_blue1"
+            android:textSize="20sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp">
+
+            <TextView
+                style="@style/text_statistics_del_l"
+                android:text="M1卡" />
+
+            <TextView
+                android:id="@+id/tv_set_4"
+                style="@style/text_statistics_del_r"
+                android:textColor="@color/text_black0" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ebebeb" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp">
+
+            <TextView
+                style="@style/text_statistics_del_l"
+                android:text="磁条卡" />
+
+            <TextView
+                android:id="@+id/tv_set_5"
+                style="@style/text_statistics_del_r"
+                android:textColor="@color/text_black0" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ebebeb" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp">
+
+            <TextView
+                style="@style/text_statistics_del_l"
+                android:text="二维码卡" />
+
+            <TextView
+                android:id="@+id/tv_set_6"
+                style="@style/text_statistics_del_r"
+                android:textColor="@color/text_black0" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="#ebebeb" />
+
+        <TextView
+            android:id="@+id/tv_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="27dp"
+            android:layout_marginTop="20dp"
+            android:text="版本:"
+            android:textColor="@color/text_blue1"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <include layout="@layout/bottom_s" />
+
+</LinearLayout>

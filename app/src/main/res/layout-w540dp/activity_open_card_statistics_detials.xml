@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_open_card_statistics_detials"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_obama" />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+
+                <TextView
+                    style="@style/text_statistics_del_l"
+                    android:text="卡价格" />
+
+                <TextView
+                    android:id="@+id/tv_open_card_money"
+                    style="@style/text_statistics_del_r" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="14dp"
+                android:background="@color/main_bg" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <TextView
+                    style="@style/text_statistics_del_l"
+                    android:text="卡类型" />
+
+                <TextView
+                    android:id="@+id/tv_open_card_type"
+                    style="@style/text_statistics_del_r"
+                    android:textColor="@color/text_black0" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/main_bg" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <TextView
+                    style="@style/text_statistics_del_l"
+                    android:text="卡号" />
+
+                <TextView
+                    android:id="@+id/tv_open_card_num"
+                    style="@style/text_statistics_del_r"
+                    android:textColor="@color/text_black0" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <TextView
+                    style="@style/text_statistics_del_l"
+                    android:text="姓名" />
+
+                <TextView
+                    android:id="@+id/tv_open_card_name"
+                    style="@style/text_statistics_del_r"
+                    android:textColor="@color/text_black0" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="14dp"
+                android:background="@color/main_bg" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <TextView
+                    style="@style/text_statistics_del_l"
+                    android:text="开卡时间" />
+
+                <TextView
+                    android:id="@+id/tv_open_card_time"
+                    style="@style/text_statistics_del_r"
+                    android:textColor="@color/text_black0" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <TextView
+                    style="@style/text_statistics_del_l"
+                    android:text="手持序列号" />
+
+                <TextView
+                    android:id="@+id/tv_open_mode"
+                    style="@style/text_statistics_del_r"
+                    android:textColor="@color/text_black0" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <TextView
+                    style="@style/text_statistics_del_l"
+                    android:text="支付方式" />
+
+                <TextView
+                    android:id="@+id/tv_open_pay_mode"
+                    style="@style/text_statistics_del_r"
+                    android:textColor="@color/text_black0" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <TextView
+                    style="@style/text_statistics_del_l"
+                    android:text="收款单号" />
+
+                <TextView
+                    android:id="@+id/tv_open_dj"
+                    style="@style/text_statistics_del_r"
+                    android:textColor="@color/text_black0" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="14dp"
+                android:background="@color/main_bg" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <TextView
+                    android:id="@+id/tv_open_start_money"
+                    style="@style/text_statistics_del_r"
+                    android:textColor="@color/text_black0" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    style="@style/text_statistics_del_l"
+                    android:layout_alignParentTop="true"
+                    android:text="初始储值" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <TextView
+                    style="@style/text_statistics_del_l"
+                    android:text="实收金额" />
+
+                <TextView
+                    android:id="@+id/tv_open_end_money"
+                    style="@style/text_statistics_del_r"
+                    android:textColor="@color/text_black4" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <TextView
+                    style="@style/text_statistics_del_l"
+                    android:text="初始积分" />
+
+                <TextView
+                    android:id="@+id/tv_open_jf"
+                    style="@style/text_statistics_del_r"
+                    android:textColor="@color/text_black0" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="14dp"
+                android:background="@color/main_bg" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <TextView
+                    style="@style/text_statistics_del_l"
+                    android:text="开卡店面" />
+
+                <TextView
+                    android:id="@+id/tv_open_shop_name"
+                    style="@style/text_statistics_del_r"
+                    android:textColor="@color/text_black0" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/main_bg" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <TextView
+                    style="@style/text_statistics_del_l"
+                    android:text="操作员" />
+
+                <TextView
+                    android:id="@+id/tv_open_user"
+                    style="@style/text_statistics_del_r"
+                    android:textColor="@color/text_black0" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <include layout="@layout/bottom_s" />
+</LinearLayout>
