@@ -57,7 +57,7 @@ import java.util.Map;
 import static com.ksk.obama.utils.SharedUtil.getSharedData;
 
 /**
- * 快速收银界面
+ * 快速收银界面*2017
  */
 public class QuickDelMActivity extends BasePAndRActivity implements View.OnClickListener,
         IReadCardId, IPayCallBack, IQrcodeCallBack, IPrintErrorCallback, IPrintSuccessCallback
@@ -87,7 +87,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
     private String dmoney;
     private String orderNo = "";
     private boolean isVip = false;
-    private boolean isInfo = false;
+    private boolean isInfo = false;//是否检测到会员卡的信息
     private String gread = "0";
     private String ordernb;
     private String orderte;
@@ -118,7 +118,6 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         this.setOnPrintError(this);
         this.setOnPrintSuccess(this);
         this.setOnCrateOrderNumber(this);
-
         initTitle();
         setQX();
         initViewM();
@@ -150,7 +149,6 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         if (SharedUtil.getSharedBData(QuickDelMActivity.this, "saoma")) {
             str += "二维码卡";
         }
-
         tv.setText("当前可刷卡类型：" + str);
     }
 
@@ -172,7 +170,6 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         if (list != null && list.size() > 0 && flag) {
             startActivity(new Intent(QuickDelMActivity.this, QuickDelMoneySupplementActivity.class));
         }
-
         return list.size();
     }
 
@@ -273,9 +270,6 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                         isTemporary = true;
                         et_gread_dx.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
                         et_gread_dx.setInputType(EditorInfo.TYPE_CLASS_PHONE);
-//                        if(et_gread_dx != null && et_gread_dx.getText().length()>0){
-//                            et_gread_dx.setSelection(et_gread_dx.getText().length());//将光标移至文字末尾
-//                        }
                     } else {
                         Utils.showToast(QuickDelMActivity.this, "您没有权限");
                     }
@@ -340,7 +334,6 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
 
                 break;
             case R.id.tv_pay_1://lkl扫码
-
                 if (Float.parseFloat(mon) > maxMoney && maxMoney != 0) {
                     isclick_pay = true;
                     Utils.showToast(QuickDelMActivity.this, "超出扣除最大范围，请修改扣除金额");
@@ -383,11 +376,8 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                         }
                     }
                 }
-
                 break;
-
-            case R.id.tv_pay_3:
-
+            case R.id.tv_pay_3://银联支付
                 if (Float.parseFloat(mon) > maxMoney && maxMoney != 0) {
                     isclick_pay = true;
                     Utils.showToast(QuickDelMActivity.this, "超出扣除最大范围，请修改扣除金额");
@@ -431,11 +421,10 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                     }
                 }
                 break;
-            case R.id.tv_pay_4:
+            case R.id.tv_pay_4://会员支付
                 if (isInfo) {
                     if (isclick_pay) {
                         isclick_pay = false;
-
                         if (TextUtils.isEmpty(et_cardNum.getText().toString())) {
                             Utils.showToast(QuickDelMActivity.this, "请填写卡号");
                             openRead();
@@ -474,7 +463,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                 }
                 break;
 
-            case R.id.tv_pay_1_1:
+            case R.id.tv_pay_1_1://微信支付
                 if (Float.parseFloat(mon) > maxMoney && maxMoney != 0) {
                     isclick_pay = true;
                     Utils.showToast(QuickDelMActivity.this, "超出扣除最大范围，请修改扣除金额");
@@ -511,7 +500,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                 }
                 break;
 
-            case R.id.tv_pay_2:
+            case R.id.tv_pay_2://支付宝
                 if (maxMoney != 0 && Float.parseFloat(mon) > maxMoney) {
                     isclick_pay = true;
                     Utils.showToast(QuickDelMActivity.this, "超出扣除最大范围，请修改扣除金额");
@@ -572,6 +561,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                         case 4:
                             sendDelMoney();
                             break;
+                     // case 2:
                         case 1:
                         case 3:
                             payMoney(n, payau, orderNumber, "商品消费");
@@ -609,7 +599,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
     }
 
     private void getDelMoney() {
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
         map.put("dbName", getSharedData(QuickDelMActivity.this, "dbname"));
         postToHttp(NetworkUrl.QUICK, map, new IHttpCallBack() {
             @Override
@@ -623,7 +613,6 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                     e.printStackTrace();
                 }
             }
-
             @Override
             public void OnFail(String message) {
 
@@ -765,13 +754,13 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         }
     }
 
-
-    private void initViewM() {
-
+    /**
+     * 计算
+     * */
+    private void calculate(){
         dx_jf = Float.parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_jf"));//几多积分抵现一元
         dx_mr = Float.parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_mr")) * 0.01f;//默认抵现倍率
         dx_max = Float.parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_max"));//最大抵现几多
-
         String str = SharedUtil.getSharedData(QuickDelMActivity.this, "maxmoney");
         if (TextUtils.isEmpty(str)) {
             maxMoney = 0;
@@ -783,6 +772,10 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         } else {
             shopi = 0;
         }
+    }
+
+    private void initViewM() {
+        calculate();
         et_cardNum = (EditText) findViewById(R.id.et_card_num);
         if (SharedUtil.getSharedData(QuickDelMActivity.this, "isedit").equals("0")) {
             et_cardNum.setInputType(InputType.TYPE_NULL);
@@ -790,16 +783,13 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         et_money = (EditText) findViewById(R.id.et_money);//消费金额
         InputFilter[] filters = {new MyTextFilter()};
         et_money.setFilters(filters);
-
         et_money.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
 
             @Override
@@ -811,7 +801,6 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                 } else {
                     delm = Float.parseFloat(str);
                 }
-
                 if (delm > maxMoney) {
                     et_money.setText(Utils.getNumStr(maxMoney));
                     et_money.setSelection(Utils.getNumStr(maxMoney).length());
@@ -840,7 +829,6 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         db_isCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // if (SharedUtil.getSharedBData(QuickDelMActivity.this, "qdx")) {
                 if (isInfo) {
                     if (TextUtils.isEmpty(et_money.getText().toString())) {
                         db_isCheck.setChecked(false);
@@ -893,7 +881,6 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                             tv_pay.setText("0");
                             btn_change.setEnabled(false);
                             isTemporary = false;
-//                                et_money.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
                             et_gread_dx.setInputType(InputType.TYPE_NULL);
                             ll_dx.setVisibility(View.GONE);
                         }
@@ -905,10 +892,6 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                     isTemporary = false;
                     Utils.showToast(QuickDelMActivity.this, "请刷卡");
                 }
-//                } else {
-//                    db_isCheck.setChecked(false);
-//                    Utils.showToast(QuickDelMActivity.this, "您没有开通此功能");
-//                }
 
             }
         });
@@ -947,24 +930,16 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
 
         et_gread_dx.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
             @Override
-
             public void afterTextChanged(Editable s) {
 
                 String e = et_gread_dx.getText().toString();
                 if(e.equals(0)||e.equals("0")||e.equals("0.")){
                     et_gread_dx.setText("");
                 }
-
                 if (isTemporary || SharedUtil.getSharedBData(QuickDelMActivity.this, "qdx")) {
                     String str = et_gread_dx.getText().toString();
                     String str2 = et_money.getText().toString();
@@ -1029,7 +1004,6 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                 getCardInfo("");
             }
         });
-
         getDelMoney();
     }
 

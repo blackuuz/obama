@@ -146,13 +146,10 @@ public class LoginActivity extends BaseTypeActivity {
                 case 3:
                     map.put("EquipmentType", "sunmi");
                     break;
-
                 case 4:
                     map.put("EquipmentType", "android");
                     break;
             }
-
-
             map.put("Edition", Utils.getAppVersionName(LoginActivity.this));
             postToHttp(NetworkUrl.LOGIN, map, new IHttpCallBack() {
 
@@ -164,7 +161,6 @@ public class LoginActivity extends BaseTypeActivity {
                         SharedUtil.setSharedData(LoginActivity.this, "login_id", employeeNo);
                         SharedUtil.setSharedData(LoginActivity.this, "login_gid", username);
                         setting();
-
                         SharedUtil.setSharedData(LoginActivity.this, "dx_jf", loginData.getN_IntegralToMoney());
                         SharedUtil.setSharedData(LoginActivity.this, "dx_mr", loginData.getN_IntegralToMoneyDefault());
                         SharedUtil.setSharedData(LoginActivity.this, "dx_max", loginData.getN_IntegralToMoneyMax());
@@ -273,12 +269,6 @@ public class LoginActivity extends BaseTypeActivity {
 
         if (loginData.getAuthor() != null) {
             List<LoginData.AuthorBean> list = loginData.getAuthor();
-
-//            SharedUtil.setSharedBData(LoginActivity.this, "ssje", false);
-//            SharedUtil.setSharedBData(LoginActivity.this, "zsjf", false);
-//            SharedUtil.setSharedBData(LoginActivity.this, "zsje", false);
-//            SharedUtil.setSharedBData(LoginActivity.this, "qdx", false);
-
             for (int i = 0; i < list.size(); i++) {
                 LoginData.AuthorBean bean = list.get(i);
                 String str = bean.getC_PopedomName();
