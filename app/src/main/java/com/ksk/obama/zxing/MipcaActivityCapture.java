@@ -187,7 +187,7 @@ public class MipcaActivityCapture extends BaseActivity implements Callback {
 
             @Override
             public void OnSucess(String jsonText) {
-                Logger.e(jsonText);
+                Logger.e("二维码"+jsonText);
                 try {
                     JSONObject object = new JSONObject(jsonText);
                     String msg = object.getString("result");
@@ -196,7 +196,7 @@ public class MipcaActivityCapture extends BaseActivity implements Callback {
                         imgName = object.getString("code_name");
                         getCodeImage(codeUrl);
                     } else {
-
+                        Logger.e("二维码错误"+jsonText);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -205,7 +205,7 @@ public class MipcaActivityCapture extends BaseActivity implements Callback {
 
             @Override
             public void OnFail(String message) {
-
+                Logger.e("失败"+message);
             }
         });
 

@@ -159,7 +159,7 @@ public class BaseReadCardActivity extends BaseTypeActivity {
     /**************************************************************************************
      * *************************************拉卡拉*****************************************
      **************************************************************************************/
-    private AidlRFCard rfcard = null;
+    private AidlRFCard rfcard = null;// 射频卡 rf卡
     private AidlMagCard magCardDev = null; // 磁条卡设备
     protected AidlPrinter printerDev = null;
     private Handler handler = new Handler();

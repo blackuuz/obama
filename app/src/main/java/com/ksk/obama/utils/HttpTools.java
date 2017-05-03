@@ -47,7 +47,7 @@ public class HttpTools {
         for (Iterator<String> iter = keySet.iterator(); iter.hasNext(); ) {
             String key = iter.next();
             String value = map.get(key);
-            Log.d("djy", key + "=" + value);
+            Log.d("djy", key + "*=" + value);
             builder.add(key, value);
         }
         RequestBody body = builder.build();
@@ -63,19 +63,21 @@ public class HttpTools {
                 msg.what = 0;
                 msg.obj = "服务器连接失败,请稍后重试";
                 mHandler.sendMessage(msg);
-                Log.d("httptool", "fali");
+                Log.d("httptool", "fali"+e);
             }
-
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 Message msg = Message.obtain();
                 if (response.isSuccessful()) {
                     msg.what = 110;
                     msg.obj = response.body().string();
+                    Log.d("httptool", "successful!!!"+msg.obj);
                 } else {
                     msg.what = 0;
                     msg.obj = "服务器访问失败,请稍后重试";
+                    Log.e("djy", "successful!!!"+msg.obj);
                 }
+                Log.d("httptool", "response ");
                 mHandler.sendMessage(msg);
             }
         });

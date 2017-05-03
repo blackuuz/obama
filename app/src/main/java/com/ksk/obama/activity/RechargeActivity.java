@@ -124,10 +124,7 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
         setListener();
         initData();
         getOrderNum("CZ");
-
     }
-
-
 
     private void initTitale() {
         TextView title_name = (TextView) findViewById(R.id.title_name);

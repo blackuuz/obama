@@ -17,8 +17,8 @@ android {
         applicationId "com.ksk.obama"
         minSdkVersion 14
         targetSdkVersion 24
-        versionCode 340
-        versionName "3.1.1"
+        versionCode 341
+        versionName "3.1.2"
     }
     buildTypes {
         release {

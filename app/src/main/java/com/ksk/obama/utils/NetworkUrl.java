@@ -49,8 +49,8 @@ public class NetworkUrl {
     public static final String YZM = URL_1 + "App/System/sms";
     public static final String SHIYONG = URL_1 + "App/System/put_Trial";
     public static final String CHANGEPERSON = URL_1 + "App/Record/saveticalrecord";
-    public static final String PAYCODE = URL_2 + "Payment/pay";
-    public static final String queryOrder = URL_2 + "Payment/queryOrder";
+    public static final String PAYCODE = URL_2 + "Payment/pay";//手机微信扫码支付
+    public static final String queryOrder = URL_2 + "Payment/queryOrder";//
     public static final String deleteCode = URL_2 + "Payment/deleteCode";
     public static final String PAYQRCODE = URL_2 + "Business/savebillstatus";//拉卡拉微信支付确认订单号
     public static final String DELPAYQRCODE = URL_2 + "Business/deleteSaveBill";//拉卡拉微信支付确认订单号

@@ -98,6 +98,7 @@ public class MainFrag1 extends Fragment implements View.OnClickListener {
                 case R.id.rl_main10:
                     intent.setClass(getActivity(), OpenCardActivity.class);
                     break;
+                //会员充值
                 case R.id.rl_main11:
                     intent.putExtra("type", 11);
                     intent.setClass(getActivity(), ReadCardInfoActivity.class);

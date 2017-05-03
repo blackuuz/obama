@@ -299,6 +299,7 @@ public class BaseActivity extends AppCompatActivity {
             intent.putExtra("goods", title);
             intent.putExtra("money", money);
             intent.putExtra("order", orderNo);
+
             startActivityForResult(intent, 10087);
         } else {
             isclick_pay = true;
@@ -412,7 +413,7 @@ public class BaseActivity extends AppCompatActivity {
             }
         }
         if (resultCode == Activity.RESULT_OK) {
-            Logger.e(resultCode + "   " + data.toString());
+            Logger.e(resultCode + " *** " + data.toString());
             String orderidScan = "";
             switch (requestCode) {
                 case 1:
@@ -470,7 +471,35 @@ public class BaseActivity extends AppCompatActivity {
                                 map.put("goods", title);
                                 map.put("money", money);
                                 map.put("order", orderNo);
-                                HttpTools.postMethod(handler, NetworkUrl.PAYCODE, map);
+                                Log.e("HTTP1",orderNo+"");
+                                postToHttp(NetworkUrl.PAYCODE, map, new IHttpCallBack() {
+                                    @Override
+                                    public void OnSucess(String jsonText) {
+                                        Log.e("djy","成功-"+jsonText);
+                                        try {
+                                            JSONObject object1 = new JSONObject(jsonText);
+                                            String tag = object1.getString("result");
+                                            if (tag.equals("SUCCESS")) {
+                                                Utils.showToast(BaseActivity.this, "支付成功");
+                                            }else if(tag.equals("FAIL")){
+                                                JSONObject object2 = new JSONObject(jsonText);
+                                                String tag2 = object1.getString("result_msg");
+                                                Utils.showToast(BaseActivity.this, ""+tag2);
+                                            }
+
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                        Log.e("djy","成功"+jsonText);
+
+                                    }
+                                    @Override
+                                    public void OnFail(String message) {
+                                        Log.e("djy","失败*"+message);
+                                    }
+                                });
+                               // HttpTools.postMethod(handler, NetworkUrl.PAYCODE, map);
+                                Log.e("djy",map.toString());
                             } else {
                                 Utils.showToast(BaseActivity.this, "获取二维码信息失败,请重试");
                             }
@@ -478,13 +507,13 @@ public class BaseActivity extends AppCompatActivity {
                         case 1:
                             String memoBillNum = data.getExtras().getString("memoBillNum");
                             if (iPayCallBack != null) {
-                                iPayCallBack.OnPaySucess(memoBillNum, type);
+                                iPayCallBack.OnPaySucess(memoBillNum,type);
+
                             } else {
                                 Log.e("djy", "请实现IPayCallBack接口");
                             }
                             break;
                     }
-
                     break;
             }
 
