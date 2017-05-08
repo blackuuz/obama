@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
@@ -25,8 +24,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.Thing;
 import com.ksk.obama.DB.RechargeAgain;
 import com.ksk.obama.R;
 import com.ksk.obama.callback.ICreateOrderNumber;
@@ -254,20 +251,13 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
         et_paya.setFilters(filters);
         et_pay_give.setFilters(filters);
         et_integral.setFilters(filters);
-
         // et_pay_give.setInputType(InputType.TYPE_NULL);
         // et_integral.setInputType(InputType.TYPE_NULL);
         et_paya.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
             @Override
             public void afterTextChanged(Editable editable) {
                 addMoney();
@@ -276,15 +266,9 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
 
         et_pay_give.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
             @Override
             public void afterTextChanged(Editable editable) {
                 addMoney();
@@ -311,7 +295,7 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_pay_0:
+            case R.id.tv_pay_0://现金支付
             case R.id.tv_pay_0_0:
                 if (isXJ) {
                     if (isclick_pay) {
@@ -324,7 +308,7 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
                 }
 
                 break;
-            case R.id.tv_pay_1:
+            case R.id.tv_pay_1://扫码支付
                 if (isclick_pay) {
                     isclick_pay = false;
 
@@ -336,14 +320,14 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
                     }
                 }
                 break;
-            case R.id.tv_pay_1_1:
+            case R.id.tv_pay_1_1://微信支付
                 if (isclick_pay) {
                     isclick_pay = false;
                     n = 1;
                     payMoney(1, tv_pay.getText().toString(), orderNumber, "会员充值");
                 }
                 break;
-            case R.id.tv_pay_3:
+            case R.id.tv_pay_3://银联支付
                 if (isclick_pay) {
                     isclick_pay = false;
                     n = 3;
@@ -355,7 +339,7 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
                 }
                 break;
 
-            case R.id.tv_pay_2:
+            case R.id.tv_pay_2://支付宝支付
                 if (isclick_pay) {
                     isclick_pay = false;
                     n = 2;
@@ -408,9 +392,7 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
             map.put("c_Billfrom", robotType + "");
             map.put("Supplement", "0");
             map.put("result_name",result);
-            //  map.put("n_GetIntegral","685");
             map.put("n_GetIntegral", et_integral.getText().toString());
-           // Logger.e("123456", et_integral.getText().toString());
             switch (n) {
                 case 0:
                     map.put("payCash", m_sj);
@@ -427,7 +409,6 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
                     map.put("refernumber", orderidScan);
                     map.put("payBank", m_sj);
                     break;
-
             }
             postToHttp(NetworkUrl.RECHARGE, map, new IHttpCallBack() {
                 @Override
@@ -588,22 +569,6 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
             postToHttp(NetworkUrl.DELPAYQRCODE, map, null);
         }
         getOrderNum("CZ");
-    }
-
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    public Action getIndexApiAction() {
-        Thing object = new Thing.Builder()
-                .setName("Recharge Page") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
-                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
-                .build();
-        return new Action.Builder(Action.TYPE_VIEW)
-                .setObject(object)
-                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
-                .build();
     }
 
     @Override
@@ -962,7 +927,7 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
         postToHttp(NetworkUrl.TEMPORARY, map, new IHttpCallBack() {
             @Override
             public void OnSucess(String jsonText) {
-                Logger.e("" + jsonText);
+                Logger.e(jsonText);
 
                 try {
                     JSONObject j = new JSONObject(jsonText);

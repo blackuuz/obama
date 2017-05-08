@@ -483,9 +483,9 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (isclick_pay) {
-                                    if(payau.equals("")||payau.equals("0")||payau.equals("0.")){
-                                        Utils.showToast(QuickDelMActivity.this,"该方式实际消费金额不能为0");
-                                    }else{
+                                    if (payau.equals("") || payau.equals("0") || payau.equals("0.")) {
+                                        Utils.showToast(QuickDelMActivity.this, "该方式实际消费金额不能为0");
+                                    } else {
                                         showCodeSure();
                                     }
 //                                    if (isQrSure) {
@@ -501,9 +501,9 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                         isclick_pay = true;
                     } else {
                         if (isclick_pay) {
-                            if(payau.equals("")||payau.equals("0")||payau.equals("0.")){
-                                Utils.showToast(QuickDelMActivity.this,"该方式实际消费金额不能为0");
-                            }else{
+                            if (payau.equals("") || payau.equals("0") || payau.equals("0.")) {
+                                Utils.showToast(QuickDelMActivity.this, "该方式实际消费金额不能为0");
+                            } else {
                                 showCodeSure();
                             }
 //                            if (isQrSure) {
@@ -672,6 +672,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
             @Override
             public void OnSucess(String jsonText) {
                 try {
+                    Logger.e(jsonText);
                     JSONObject object = new JSONObject(jsonText);
                     String money = object.getString("defaultcost");
                     et_money.setText(money);
@@ -793,6 +794,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                             e.printStackTrace();
                         }
                     }
+
                     @Override
                     public void OnFail(String message) {
                         showDBAlert();
@@ -828,11 +830,16 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         dx_mr = Float.parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_mr")) * 0.01f;//默认抵现倍率
         dx_max = Float.parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_max"));//最大抵现几多
         String str = SharedUtil.getSharedData(QuickDelMActivity.this, "maxmoney");
+
         if (TextUtils.isEmpty(str)) {
             maxMoney = 0;
+        } else if (str.equals("0")) {
+            maxMoney = 999999;
         } else {
             maxMoney = Float.parseFloat(str);
         }
+
+
         if (SharedUtil.getSharedBData(QuickDelMActivity.this, "quicki")) {
             shopi = 1;
         } else {
@@ -948,6 +955,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                             btn_change.setEnabled(false);
                             isTemporary = false;
                             et_gread_dx.setInputType(InputType.TYPE_NULL);
+                            et_money.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
                             ll_dx.setVisibility(View.GONE);
                         }
                     }

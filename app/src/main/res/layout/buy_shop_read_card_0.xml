@@ -42,7 +42,11 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="15dp"
-        android:background="@drawable/select_code" />
+        android:text="扫码"
+        android:background="@drawable/select_pw_yes"
+        android:textColor="@color/white"
+        android:textSize="20sp" >
+    </Button>
 
     <Button
         android:id="@+id/btn_read_novip"

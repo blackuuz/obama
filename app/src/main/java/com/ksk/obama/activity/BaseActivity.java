@@ -60,7 +60,6 @@ import static com.ksk.obama.utils.SharedUtil.getSharedBData;
  * Created by Administrator on 2016/7/27.
  */
 public class BaseActivity extends AppCompatActivity {
-
     public static List<BuyCount> list_buy = new ArrayList<>();
     public static List<IntegralShopCount> list_integral = new ArrayList<>();
     private InputMethodManager manager;
@@ -618,7 +617,6 @@ public class BaseActivity extends AppCompatActivity {
      * @param
      * @return
      */
-
     protected boolean isNetworkAvailable(Activity activity) {
         Context context = activity.getApplicationContext();
         // 获取手机所有连接管理对象（包括对wi-fi,net等连接的管理）

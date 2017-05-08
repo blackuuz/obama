@@ -434,8 +434,6 @@
             </TextView>
 
 
-
-
             <include layout="@layout/select_pay_1" />
 
         </LinearLayout>

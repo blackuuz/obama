@@ -52,10 +52,19 @@ public class LoginData {
     private String n_IntegralToMoneyDefault;
 
 
-
+    private List<SetPaysBean> SetPays;
 
     private List<AuthorBean> Author;
+
     private List<ModuleBean> Module;
+
+    public List<SetPaysBean> getSetPays() {
+        return SetPays;
+    }
+
+    public void setSetPays(List<SetPaysBean> setPays) {
+        SetPays = setPays;
+    }
 
     public String getN_IntegralToMoney() {
         return n_IntegralToMoney;
@@ -271,7 +280,6 @@ public class LoginData {
         }
     }
 
-
     public static class SetBean {
         private List<String> CardSet;
         private List<String> PaySet;
@@ -302,7 +310,7 @@ public class LoginData {
         }
     }
 
-    public static class ModuleBean implements Parcelable{
+    public static class ModuleBean implements Parcelable {
         /**
          * id : 1
          * i_GroupID : 1
@@ -391,4 +399,61 @@ public class LoginData {
             dest.writeString(ROW_NUMBER);
         }
     }
+
+    public static class SetPaysBean implements Parcelable {
+        /**
+         * "c_Value": "FastWeChat"
+         * "c_Remark": "1"
+         * "ROW_NUMBER": "1"
+         */
+
+        private String c_Value;
+        private String ROW_NUMBER;
+        public String getROW_NUMBER() {
+            return ROW_NUMBER;
+        }
+
+        public void setROW_NUMBER(String ROW_NUMBER) {
+            this.ROW_NUMBER = ROW_NUMBER;
+        }
+
+        public String getC_Value() {
+            return c_Value;
+        }
+
+        public void setC_Value(String c_Value) {
+            this.c_Value = c_Value;
+        }
+
+
+
+        protected SetPaysBean(Parcel in) {
+            c_Value = in.readString();
+            ROW_NUMBER = in.readString();
+        }
+
+        public static final Creator<SetPaysBean> CREATOR = new Creator<SetPaysBean>() {
+            @Override
+            public SetPaysBean createFromParcel(Parcel in) {
+                return new SetPaysBean(in);
+            }
+
+            @Override
+            public SetPaysBean[] newArray(int size) {
+                return new SetPaysBean[size];
+            }
+        };
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(c_Value);
+            dest.writeString(ROW_NUMBER);
+        }
+    }
+
 }

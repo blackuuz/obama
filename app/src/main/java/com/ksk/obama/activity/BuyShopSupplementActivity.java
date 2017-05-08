@@ -16,6 +16,7 @@ import com.ksk.obama.callback.IHttpCallBackS;
 import com.ksk.obama.callback.IPrintErrorCallback;
 import com.ksk.obama.callback.IPrintSuccessCallback;
 import com.ksk.obama.model.PrintPage;
+import com.orhanobut.logger.Logger;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -132,11 +133,13 @@ public class BuyShopSupplementActivity extends BaseSupplementActivity implements
             postToHttps(i, url, map, new IHttpCallBackS() {
                 @Override
                 public void OnSucess(String jsonText, int n) {
+                    Logger.e("断网补传"+jsonText);
                     showData(jsonText, n);
                 }
 
                 @Override
                 public void OnFail(String message) {
+                    Logger.e("断网补传失败"+message);
                     isComplition = true;
                     isChangeActivity();
                 }

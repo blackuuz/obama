@@ -95,7 +95,12 @@ public class BuyShopCartActivity extends BuyShopReadActivity implements IReadCar
         tv_print.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeAcivity();
+                if(list_buy.size() > 0){
+                    changeAcivity();
+                }else{
+                    Utils.showToast(BuyShopCartActivity.this, "您还没有选中任何商品");
+                }
+
             }
         });
     }
@@ -152,8 +157,6 @@ public class BuyShopCartActivity extends BuyShopReadActivity implements IReadCar
 
             }
         });
-
-
         gv_project.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

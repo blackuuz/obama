@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -42,6 +45,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
+
 import static com.ksk.obama.R.id.pay_shop_payau;
 import static com.ksk.obama.utils.SharedUtil.getSharedData;
 
@@ -59,7 +67,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements View.OnClic
     private float del_jf = 0.00f;
     private int n = -1;
     private String order_again = "";
-    private boolean isVip = true;
+    private boolean isVip = false;
     private TextView tv_should;
     private TextView tv_del;
     private TextView tv_del_kq;
@@ -78,13 +86,52 @@ public class PayBuyShopActivity extends BasePrintActivity implements View.OnClic
     private float delmoney_jf = 0;
     private float delmoney_kq = 0;
     private float payAu = 0;
-    private String password;
-    private float oldm;
-    private String gread;
+    private String password = "";//
+    private float oldm = 0;//
+    private String gread = "";//
     private boolean flag = false;
     private String orderTime = "";
     private List<PrintPage> list_son = new ArrayList<>();
     private String uid = "";
+    private Unbinder unbinder = null;
+    private boolean isCheck = false;
+    @BindView(R.id.ll_jfdx)
+    LinearLayout ll_jfdx;
+    @BindView(R.id.btn_sjsk)
+    Button btn_sjsk;
+    @BindView(R.id.btn_hdjf)
+    Button btn_hdjf;
+    @BindView(R.id.btn_modify_jf)
+    Button btn_modify_jf;
+    @BindView(R.id.btn_buqi)
+    Button btn_buqi;
+    @BindView(R.id.cb_ischeck_cpxf)
+    AppCompatCheckBox db_isCheck;
+    @BindView(R.id.tv_paymoney)
+    TextView tv_paymoney;
+    @BindView(R.id.tv_money_dx)
+    TextView tv_mondy_dx;
+    @BindView(R.id.et_dx_jf)
+    EditText et_dx_jf;
+
+    @BindView(R.id.tv_pay_xj)
+    TextView pay_xj;
+    @BindView(R.id.tv_pay_sm)
+    TextView pay_sm;
+    @BindView(R.id.tv_pay_hy)
+    TextView pay_hy;
+    @BindView(R.id.tv_pay_yl)
+    TextView pay_yl;
+    @BindView(R.id.tv_pay_wx)
+    TextView pay_wx;
+    @BindView(R.id.tv_pay_zfb)
+    TextView pay_zfb;
+    @BindView(R.id.ll_lkl)
+    LinearLayout ll_lkl;
+    @BindView(R.id.ll_w_a)
+    LinearLayout ll_w_a;
+
+
 
 
     @Override
@@ -96,10 +143,17 @@ public class PayBuyShopActivity extends BasePrintActivity implements View.OnClic
         setOnPrintError(this);
         this.setOnCrateOrderNumber(this);
         initTitale();
+        unbinder = ButterKnife.bind(this);
         initView();
         initData();
         initSendData();
         getOrderNum("SY");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 
     private void initTitale() {
@@ -130,6 +184,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements View.OnClic
     }
 
     private void initView() {
+
         tv_should = (TextView) findViewById(R.id.pay_shop_shuold);
         tv_del = (TextView) findViewById(R.id.pay_shop_del);
         tv_del_kq = (TextView) findViewById(R.id.pay_shop_del_kq);
@@ -141,32 +196,59 @@ public class PayBuyShopActivity extends BasePrintActivity implements View.OnClic
         et_gread.setFilters(filters);
         TextView tv_kq = (TextView) findViewById(R.id.tv_pay_kq);
         tv_jf = (TextView) findViewById(R.id.tv_pay_jf);
+
+
         switch (robotType) {
             case 1:
-                findViewById(R.id.ll_sm).setVisibility(View.GONE);
-                TextView pay1 = (TextView) findViewById(R.id.tv_pay_1);
-                TextView pay3 = (TextView) findViewById(R.id.tv_pay_3);
-                pay1.setOnClickListener(this);
-                pay3.setOnClickListener(this);
+                ll_w_a.setVisibility(View.GONE);
+                //findViewById(R.id.ll_sm).setVisibility(View.GONE);
+                //TextView pay1 = (TextView) findViewById(R.id.tv_pay_1);
+                //TextView pay3 = (TextView) findViewById(R.id.tv_pay_3);
+                //pay1.setOnClickListener(this);
+                //pay3.setOnClickListener(this);
                 break;
 
             case 3:
             case 4:
             case 8:
-                findViewById(R.id.ll_lkl).setVisibility(View.GONE);
-                TextView pay1_1 = (TextView) findViewById(R.id.tv_pay_1_1);
-                TextView pay2 = (TextView) findViewById(R.id.tv_pay_2);
-                pay1_1.setOnClickListener(this);
-                pay2.setOnClickListener(this);
+                ll_lkl.setVisibility(View.GONE);
+//                findViewById(R.id.ll_lkl).setVisibility(View.GONE);
+//                TextView pay1_1 = (TextView) findViewById(R.id.tv_pay_1_1);
+//                TextView pay2 = (TextView) findViewById(R.id.tv_pay_2);
+//                pay1_1.setOnClickListener(this);
+//                pay2.setOnClickListener(this);
                 break;
         }
-        TextView pay0 = (TextView) findViewById(R.id.tv_pay_0);
-        pay4 = (TextView) findViewById(R.id.tv_pay_4);
+// TODO: 2017/5/8 建立并更改
+        db_isCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isVip) {
+                    isCheck = isChecked;
+                    if (isChecked) {
+                        ll_jfdx.setVisibility(View.VISIBLE);
 
-        tv_kq.setOnClickListener(this);
-        tv_jf.setOnClickListener(this);
-        pay0.setOnClickListener(this);
-        pay4.setOnClickListener(this);
+                    } else {
+                        ll_jfdx.setVisibility(View.GONE);
+                    }
+
+
+                } else {
+                    db_isCheck.setChecked(false);
+                    Utils.showToast(PayBuyShopActivity.this, "您不是会员，无法使用积分");
+                    ll_jfdx.setVisibility(View.GONE);
+                }
+            }
+        });
+
+
+//        TextView pay0 = (TextView) findViewById(R.id.tv_pay_0);
+//        pay4 = (TextView) findViewById(R.id.tv_pay_4);
+//
+//        tv_kq.setOnClickListener(this);
+//        tv_jf.setOnClickListener(this);
+//        pay0.setOnClickListener(this);
+//        pay4.setOnClickListener(this);
 
         et_payau.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -185,6 +267,8 @@ public class PayBuyShopActivity extends BasePrintActivity implements View.OnClic
                 }
             }
         });
+
+
     }
 
     private void initData() {
@@ -195,7 +279,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements View.OnClic
             if (str.equals("yes")) {
                 isVip = true;
                 tv_jf.setVisibility(View.VISIBLE);
-                pay4.setVisibility(View.VISIBLE);
+                pay_hy.setVisibility(View.VISIBLE);
                 uid = intent.getStringExtra("uid");
                 memid = intent.getStringExtra("memid");
                 cardNum = intent.getStringExtra("cardNum");
@@ -213,7 +297,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements View.OnClic
                 tv_jf.setVisibility(View.INVISIBLE);
                 payAu = Float.parseFloat(should);
                 et_payau.setText(should);
-                pay4.setVisibility(View.INVISIBLE);
+                pay_hy.setVisibility(View.INVISIBLE);
             }
             payau = payAu - delmoney_jf - delmoney_kq;
             tv_should.setText("总价:￥" + should);
@@ -224,8 +308,9 @@ public class PayBuyShopActivity extends BasePrintActivity implements View.OnClic
         }
     }
 
-    @Override
-    public void onClick(View v) {
+    //支付的点击监听
+    @OnClick({R.id.tv_pay_xj, R.id.tv_pay_sm, R.id.tv_pay_hy, R.id.tv_pay_yl, R.id.tv_pay_wx, R.id.tv_pay_zfb,R.id.tv_pay_kq,R.id.tv_pay_jf})
+    public void pay(TextView view) {
         if (TextUtils.isEmpty(et_payau.getText().toString())) {
             payau = 0;
         } else {
@@ -235,6 +320,124 @@ public class PayBuyShopActivity extends BasePrintActivity implements View.OnClic
         if (TextUtils.isEmpty(gread)) {
             gread = "0";
         }
+        if (isclick_pay) {
+            isclick_pay = false;
+            switch (view.getId()) {
+                case R.id.tv_pay_kq:
+                    if (payau > 0) {
+                        Intent intent = new Intent(PayBuyShopActivity.this, BuyShopUseCouponActivity.class);
+                        intent.putExtra("delmoney", delmoney_kq);
+                        intent.putExtra("oldMoney", Utils.getNumStr(payau));
+                        startActivityForResult(intent, 119);
+                    } else {
+                        Utils.showToast(PayBuyShopActivity.this, "已经不用付钱了");
+                    }
+                    break;
+                case R.id.tv_pay_jf:
+                    if (isVip) {
+                        if (payau > 0) {
+                            Intent intent1 = new Intent(PayBuyShopActivity.this, BuyShopUseIntegralActivity.class);
+                            intent1.putExtra("cardNum", cardNum);
+                            intent1.putExtra("name", name);
+                            intent1.putExtra("integral", inteCount);
+                            intent1.putExtra("delIntegral", del_jf);
+                            intent1.putExtra("delmoney", delmoney_jf);
+                            intent1.putExtra("oldMoney", Utils.getNumStr(payau));
+                            startActivityForResult(intent1, 120);
+                        } else {
+                            Utils.showToast(PayBuyShopActivity.this, "已经不用付钱了");
+                        }
+                    }
+                    break;
+                case R.id.tv_pay_xj:
+                    if (isXJ) {
+                        if (isVip && TextUtils.isEmpty(gread)) {
+                            isclick_pay = true;
+                            Utils.showToast(PayBuyShopActivity.this, "请输入积分");
+                        } else {
+                            n = 0;
+                            sendData("");
+                        }
+                    } else {
+                        isclick_pay = true;
+                        Utils.showToast(PayBuyShopActivity.this, "没有开通此功能");
+                    }
+
+                    break;
+                case R.id.tv_pay_sm:
+                    if (isVip && TextUtils.isEmpty(gread)) {
+                        isclick_pay = true;
+                        Utils.showToast(PayBuyShopActivity.this, "请输入积分");
+                    } else {
+                        n = 1;
+                        sendData("");
+//                        payMoney(1, payau + "", orderNumber, "商品消费");
+                    }
+                    break;
+
+                case R.id.tv_pay_wx:
+                    if (isVip && TextUtils.isEmpty(gread)) {
+                        isclick_pay = true;
+                        Utils.showToast(PayBuyShopActivity.this, "请输入积分");
+                    } else {
+                        n = 1;
+                        payMoney(1, payau + "", orderNumber, "商品消费");
+                    }
+                    break;
+                case R.id.tv_pay_zfb:
+                    if (isVip && TextUtils.isEmpty(gread)) {
+                        isclick_pay = true;
+                        Utils.showToast(PayBuyShopActivity.this, "请输入积分");
+                    } else {
+                        n = 2;
+                        payMoney(2, payau + "", orderNumber, "商品消费");
+                    }
+                    break;
+                case R.id.tv_pay_yl:
+                    if (isVip && TextUtils.isEmpty(gread)) {
+                        isclick_pay = true;
+                        Utils.showToast(PayBuyShopActivity.this, "请输入积分");
+                    } else {
+                        n = 3;
+                        sendData("");
+                    }
+                    break;
+                case R.id.tv_pay_hy:
+                    if (isVip) {
+                        if (TextUtils.isEmpty(gread)) {
+                            isclick_pay = true;
+                            Utils.showToast(PayBuyShopActivity.this, "请输入积分");
+                        } else {
+                            n = 4;
+                            if (oldm > payau) {
+                                if (TextUtils.isEmpty(password)) {
+                                    sendData("");
+                                } else {
+                                    getPassword();
+                                }
+                            } else {
+                                isclick_pay = true;
+                                Utils.showToast(PayBuyShopActivity.this, "余额不足,请充值");
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        /*if (TextUtils.isEmpty(et_payau.getText().toString())) {
+            payau = 0;
+        } else {
+            payau = Float.parseFloat(et_payau.getText().toString());
+        }
+        gread = et_gread.getText().toString();
+        if (TextUtils.isEmpty(gread)) {
+            gread = "0";
+        }
+
         if (isclick_pay) {
             isclick_pay = false;
             switch (v.getId()) {
@@ -264,7 +467,8 @@ public class PayBuyShopActivity extends BasePrintActivity implements View.OnClic
                         }
                     }
                     break;
-                case R.id.tv_pay_0:
+
+                case R.id.tv_pay_xj:
                     if (isXJ) {
                         if (isVip && TextUtils.isEmpty(gread)) {
                             isclick_pay = true;
@@ -279,7 +483,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements View.OnClic
                     }
 
                     break;
-                case R.id.tv_pay_1:
+                case R.id.tv_pay_sm:
                     if (isVip && TextUtils.isEmpty(gread)) {
                         isclick_pay = true;
                         Utils.showToast(PayBuyShopActivity.this, "请输入积分");
@@ -290,7 +494,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements View.OnClic
                     }
                     break;
 
-                case R.id.tv_pay_1_1:
+                case R.id.tv_pay_wx:
                     if (isVip && TextUtils.isEmpty(gread)) {
                         isclick_pay = true;
                         Utils.showToast(PayBuyShopActivity.this, "请输入积分");
@@ -299,7 +503,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements View.OnClic
                         payMoney(1, payau + "", orderNumber, "商品消费");
                     }
                     break;
-                case R.id.tv_pay_2:
+                case R.id.tv_pay_zfb:
                     if (isVip && TextUtils.isEmpty(gread)) {
                         isclick_pay = true;
                         Utils.showToast(PayBuyShopActivity.this, "请输入积分");
@@ -308,7 +512,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements View.OnClic
                         payMoney(2, payau + "", orderNumber, "商品消费");
                     }
                     break;
-                case R.id.tv_pay_3:
+                case R.id.tv_pay_yl:
                     if (isVip && TextUtils.isEmpty(gread)) {
                         isclick_pay = true;
                         Utils.showToast(PayBuyShopActivity.this, "请输入积分");
@@ -317,7 +521,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements View.OnClic
                         sendData("");
                     }
                     break;
-                case R.id.tv_pay_4:
+                case R.id.tv_pay_hy:
                     if (isVip) {
                         if (TextUtils.isEmpty(gread)) {
                             isclick_pay = true;
@@ -338,7 +542,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements View.OnClic
                     }
                     break;
             }
-        }
+        }*/
     }
 
     private void getPassword() {
@@ -442,7 +646,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements View.OnClic
         postToHttp(NetworkUrl.BUYSHOP, map, new IHttpCallBack() {
             @Override
             public void OnSucess(String jsonText) {
-                Logger.e(jsonText);
+                Logger.e("445行" + jsonText);
                 isPay = true;
                 showHttpData(jsonText);
             }

@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Administrator on 2016/10/18.
+ * Created by Administrator on 2016/10/18. 读卡界面
  */
 
 public class ReadCardInfoActivity extends BaseReadCardActivity implements IReadCardId, IQrcodeCallBack {

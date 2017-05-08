@@ -303,14 +303,14 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
             @Override
             public void afterTextChanged(Editable s) {
                 if (editz.hasFocus()) {
-                    float money = 0;
+                    float money = 0f;
                     if (TextUtils.isEmpty(editz.getText().toString())) {
                         money = 0;
                     } else {
                         money = Float.parseFloat(editz.getText().toString());
                     }
 
-                    float num = 0;
+                    float num = 0f;
                     if (isVip) {
                         if (list.get(i).getN_DiscountValue() == 1) {
                             num = money / (dj * Float.parseFloat(cardInfo.getN_DiscountValue()) * 0.01f);
@@ -496,30 +496,30 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
         if (TextUtils.isEmpty(cardNum)) {
             Utils.showToast(BuyShopListActivity.this, "请填写卡号");
         } else {
-            if(editText == null){
+            if (editText == null) {
                 return;
             }
-                if (!TextUtils.isEmpty(editText.getText().toString())) {
-                    cardNum = editText.getText().toString();
-                }
-                if (cardNum.equals(preID)) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setTitle("重要提示：");
-                    builder.setMessage("此次卡号" + cardNum + "与上次卡号" + preID + "重复,是否继续操作?");
-                    builder.setNegativeButton("取消", null);
-                    final String finalCardNum = cardNum;
-                    builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            sendId(finalCardNum);
-                        }
-                    });
-                    builder.create().show();
-                } else {
-                    sendId(cardNum);
-                }
+            if (!TextUtils.isEmpty(editText.getText().toString())) {
+                cardNum = editText.getText().toString();
+            }
+            if (cardNum.equals(preID)) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("重要提示：");
+                builder.setMessage("此次卡号" + cardNum + "与上次卡号" + preID + "重复,是否继续操作?");
+                builder.setNegativeButton("取消", null);
+                final String finalCardNum = cardNum;
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        sendId(finalCardNum);
+                    }
+                });
+                builder.create().show();
+            } else {
+                sendId(cardNum);
             }
         }
+    }
 
 
     private void sendId(String cardNum) {
@@ -617,7 +617,6 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
             ColorDrawable dw = new ColorDrawable();
             this.setBackgroundDrawable(dw);
         }
-
         /**
          * 显示popupWindow
          *
