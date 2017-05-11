@@ -33,11 +33,11 @@
 
                     <TextView
                         style="@style/exit_text1"
-                        android:text="会员卡号:"/>
+                        android:text="会员卡号:" />
 
                     <TextView
                         android:id="@+id/tv_rech_cardNum"
-                        style="@style/exit_text2"/>
+                        style="@style/exit_text2" />
 
                 </LinearLayout>
 
@@ -50,11 +50,11 @@
 
                     <TextView
                         style="@style/exit_text1"
-                        android:text="会员卡类型"/>
+                        android:text="会员卡类型" />
 
                     <TextView
                         android:id="@+id/tv_rech_type"
-                        style="@style/exit_text2"/>
+                        style="@style/exit_text2" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -73,11 +73,11 @@
 
                     <TextView
                         style="@style/exit_text1"
-                        android:text="会员姓名:"/>
+                        android:text="会员姓名:" />
 
                     <TextView
                         android:id="@+id/tv_rech_name"
-                        style="@style/exit_text2"/>
+                        style="@style/exit_text2" />
 
                 </LinearLayout>
 
@@ -90,11 +90,16 @@
 
                     <TextView
                         style="@style/exit_text1"
-                        android:text="会员有效期"/>
+                        android:text="会员有效期" />
 
                     <TextView
                         android:id="@+id/tv_rech_time"
-                        style="@style/exit_text2"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:textSize="10sp"
+                        android:textColor="@color/text_black3"
+                         />
                 </LinearLayout>
             </LinearLayout>
 
@@ -113,11 +118,11 @@
 
                     <TextView
                         style="@style/exit_text1"
-                        android:text="当前储值:"/>
+                        android:text="当前储值:" />
 
                     <TextView
                         android:id="@+id/tv_rech_str0"
-                        style="@style/exit_text2"/>
+                        style="@style/exit_text2" />
 
                 </LinearLayout>
 
@@ -130,11 +135,11 @@
 
                     <TextView
                         style="@style/exit_text1"
-                        android:text="折扣倍率"/>
+                        android:text="折扣倍率" />
 
                     <TextView
                         android:id="@+id/tv_rech_str1"
-                        style="@style/exit_text2"/>
+                        style="@style/exit_text2" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -152,11 +157,11 @@
 
                     <TextView
                         style="@style/exit_text1"
-                        android:text="当前积分:"/>
+                        android:text="当前积分:" />
 
                     <TextView
                         android:id="@+id/tv_rech_str2"
-                        style="@style/exit_text2"/>
+                        style="@style/exit_text2" />
 
                 </LinearLayout>
 
@@ -170,11 +175,15 @@
 
                     <TextView
                         style="@style/exit_text1"
-                        android:text="积分倍率"/>
+                        android:text="充值积分倍率" />
 
                     <TextView
                         android:id="@+id/tv_rech_str3"
-                        style="@style/exit_text2"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="9dp"
+                        android:textSize="13sp"
+                        android:textColor="@color/text_black3"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -190,6 +199,8 @@
                 android:layout_marginLeft="27dp"
                 android:layout_marginRight="27dp"
                 android:layout_marginTop="10dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:orientation="horizontal">
 
                 <TextView
@@ -197,11 +208,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:clickable="true"
                     android:gravity="right"
                     android:text="充值金额 :"
-                    android:clickable="true"
                     android:textColor="@color/text_blue"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
 
                 <EditText
                     android:id="@+id/et_rech_paya"
@@ -213,7 +224,7 @@
                     android:inputType="numberDecimal"
                     android:paddingLeft="10dp"
                     android:textColor="@color/text_red"
-                    android:textSize="18sp"/>
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -222,7 +233,7 @@
                     android:layout_marginLeft="10dp"
                     android:text="元"
                     android:textColor="@color/text_black3"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
 
                 <Button
                     android:id="@+id/btn_rech"
@@ -233,7 +244,7 @@
                     android:background="@drawable/select_button_r"
                     android:text="快速充值"
                     android:textColor="@color/white"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
 
             </LinearLayout>
 
@@ -252,20 +263,20 @@
                     android:gravity="right"
                     android:text="赠送金额 :"
                     android:textColor="@color/text_blue"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
 
                 <EditText
                     android:id="@+id/et_rech_pay_give"
                     android:layout_width="75dp"
                     android:layout_height="30dp"
-                    android:clickable="false"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"
                     android:background="@mipmap/edit_text_1"
+                    android:clickable="false"
                     android:inputType="numberDecimal"
                     android:paddingLeft="10dp"
                     android:textColor="@color/text_black3"
-                    android:textSize="18sp"/>
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/textView12"
@@ -275,7 +286,7 @@
                     android:layout_marginLeft="10dp"
                     android:text="元"
                     android:textColor="@color/text_black3"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
 
                 <Button
                     android:id="@+id/btn_modify_je"
@@ -286,7 +297,7 @@
                     android:background="@drawable/select_button_r"
                     android:text="点击修改"
                     android:textColor="@color/white"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
 
             </LinearLayout>
 
@@ -304,20 +315,20 @@
                     android:gravity="right"
                     android:text="赠送积分 :"
                     android:textColor="@color/text_blue"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
 
                 <EditText
                     android:id="@+id/et_rech_integral"
                     android:layout_width="75dp"
                     android:layout_height="30dp"
-                    android:clickable="false"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"
                     android:background="@mipmap/edit_text_1"
+                    android:clickable="false"
                     android:inputType="numberDecimal"
                     android:paddingLeft="10dp"
                     android:textColor="@color/text_black3"
-                    android:textSize="18sp"/>
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -326,7 +337,7 @@
                     android:layout_marginLeft="10dp"
                     android:text="分"
                     android:textColor="@color/text_black3"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
 
                 <Button
                     android:id="@+id/btn_modify_jf"
@@ -337,7 +348,7 @@
                     android:background="@drawable/select_button_r"
                     android:text="点击修改"
                     android:textColor="@color/white"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -354,18 +365,18 @@
                     android:gravity="right"
                     android:text="合计金额 :"
                     android:textColor="@color/text_blue"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/tv_rech_money"
-                    android:layout_width="200dp"
+                    android:layout_width="75dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"
                     android:background="@mipmap/edit_text_1"
                     android:paddingLeft="10dp"
                     android:textColor="@color/text_black3"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -374,7 +385,7 @@
                     android:layout_marginLeft="10dp"
                     android:text="元"
                     android:textColor="@color/text_black3"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -391,19 +402,20 @@
                     android:gravity="right"
                     android:text="实收金额 :"
                     android:textColor="@color/text_blue"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
 
                 <EditText
                     android:id="@+id/tv_rech_pay"
                     android:layout_width="75dp"
                     android:layout_height="30dp"
-                    android:clickable="false"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"
                     android:background="@mipmap/edit_text_1"
+                    android:inputType="numberDecimal"
                     android:paddingLeft="10dp"
+                    android:clickable="false"
                     android:textColor="@color/text_red"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -412,7 +424,7 @@
                     android:layout_marginLeft="10dp"
                     android:text="元"
                     android:textColor="@color/text_black3"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
 
                 <Button
                     android:id="@+id/btn_modify_ss"
@@ -423,7 +435,7 @@
                     android:background="@drawable/select_button_r"
                     android:text="点击修改"
                     android:textColor="@color/white"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <TextView
@@ -434,7 +446,7 @@
             </TextView>
 
 
-            <include layout="@layout/select_pay_1" />
+            <include layout="@layout/pay_select2" />
 
         </LinearLayout>
     </ScrollView>

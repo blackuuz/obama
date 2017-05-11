@@ -302,7 +302,7 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <include layout="@layout/pay_select" />
+                <include layout="@layout/pay_select3" />
 
             </LinearLayout>
         </LinearLayout>

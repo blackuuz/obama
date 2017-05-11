@@ -17,15 +17,18 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.ksk.obama.DB.RechargeAgain;
 import com.ksk.obama.R;
+import com.ksk.obama.adapter.RechargeAdapter;
 import com.ksk.obama.callback.ICreateOrderNumber;
 import com.ksk.obama.callback.IHttpCallBack;
 import com.ksk.obama.callback.IPayCallBack;
@@ -49,6 +52,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 import static com.ksk.obama.R.id.et_rech_pay_give;
 import static com.ksk.obama.R.id.tv_commit;
 import static com.ksk.obama.utils.SharedUtil.getSharedData;
@@ -70,9 +77,6 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
     private TextView tv_str3;
     private TextView tv_money;
     private EditText tv_pay;
-    private TextView tv_pay0;
-    private TextView tv_pay1;
-    private TextView tv_pay3;
     private TextView tv_clean;
 
 
@@ -101,13 +105,40 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
     private String temName;
     private String temporaryNum;
     private boolean isTemporary;
+    private boolean isflag;
+
     private String key = "";
     private String result = "";
+
+    private String globalIntegral = "";//全局积分倍率
+    private String rechargeIntegral = "";//充值积分倍率
+    private Float gi = 0f;
+    private Float ri = 0f;
+    private Float hi = 0f;
+
+    private ListView lv_recharge;
     // float integra;
-
-
     private ReadCardInfo.ResultDataBean cardInfo = null;
+    private Unbinder unbinder;
+    private RechargeAdapter adapter;
 
+    @BindView(R.id.tv_pay_xj)
+    TextView pay_xj;
+    @BindView(R.id.tv_pay_xj1)
+    TextView pay_xj1;
+    @BindView(R.id.tv_pay_sm)
+    TextView pay_sm;
+    @BindView(R.id.tv_pay_yl)
+    TextView pay_yl;
+    @BindView(R.id.tv_pay_wx)
+    TextView pay_wx;
+    @BindView(R.id.tv_pay_zfb)
+    TextView pay_zfb;
+
+    @BindView(R.id.ll_lkl)
+    LinearLayout ll_lkl;
+    @BindView(R.id.ll_w_a)
+    LinearLayout ll_w_a;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +147,7 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
         setOnPrintError(this);
         setOnPrintSuccess(this);
         setOnCrateOrderNumber(this);
+        unbinder = ButterKnife.bind(this);
         initTitale();
         initView();
         setListener();
@@ -170,6 +202,8 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
         et_pay_give.setInputType(InputType.TYPE_NULL);
         et_integral.setInputType(InputType.TYPE_NULL);
 
+
+
         if (SharedUtil.getSharedBData(RechargeActivity.this, "zsje")) {
             btn_modify0.setVisibility(View.GONE);
             et_pay_give.setClickable(true);
@@ -188,37 +222,49 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
 
         }
 
-        btn_select = (Button) findViewById(R.id.btn_rech);
 
+        if (!SharedUtil.getSharedBData(RechargeActivity.this, "RX")) {
+            pay_xj.setVisibility(View.GONE);
+            pay_xj1.setVisibility(View.GONE);
+        }
         switch (robotType) {
             case 1:
-                findViewById(R.id.ll_sm).setVisibility(View.GONE);
-                tv_pay0 = (TextView) findViewById(R.id.tv_pay_0);
-                tv_pay1 = (TextView) findViewById(R.id.tv_pay_1);
-                tv_pay3 = (TextView) findViewById(R.id.tv_pay_3);
+                ll_w_a.setVisibility(View.GONE);
+                if (SharedUtil.getSharedBData(RechargeActivity.this, "RW") && SharedUtil.getSharedBData(RechargeActivity.this, "RA")) {
+                    pay_sm.setVisibility(View.VISIBLE);
+                } else {
+                    pay_sm.setVisibility(View.GONE);
+                }
+                if (!SharedUtil.getSharedBData(RechargeActivity.this, "RY")) {
+                    pay_yl.setVisibility(View.GONE);
+                }
                 break;
-
             case 3:
             case 4:
             case 8:
-                findViewById(R.id.ll_lkl).setVisibility(View.GONE);
-                tv_pay0 = (TextView) findViewById(R.id.tv_pay_0_0);
-                tv_pay1 = (TextView) findViewById(R.id.tv_pay_1_1);
-                tv_pay3 = (TextView) findViewById(R.id.tv_pay_2);
-                break;
+                ll_lkl.setVisibility(View.GONE);
+                if (!SharedUtil.getSharedBData(RechargeActivity.this, "RW")) {
+                    pay_wx.setVisibility(View.GONE);
+                }
+                if (!SharedUtil.getSharedBData(RechargeActivity.this, "RA")) {
+                    pay_zfb.setVisibility(View.GONE);
+                }
 
+                break;
         }
 
         btn_select = (Button) findViewById(R.id.btn_rech);
-
-
+        lv_recharge = (ListView) findViewById(R.id.lv_recharge);
+        if(!SharedUtil.getSharedBData(RechargeActivity.this,"fast_recharge")){
+            btn_select.setVisibility(View.GONE);
+        }
     }
 
     private void initData() {
         if (getIntent() != null) {
             cardInfo = getIntent().getExtras().getParcelable("infoma");
             uid = getIntent().getExtras().getString("uid");
-            n_integra = Float.parseFloat(cardInfo.getN_IntegralValue()) * 0.01f;
+           // n_integra = Float.parseFloat(cardInfo.getN_IntegralValue()) * 0.01f;
             oldMoney = Float.parseFloat(cardInfo.getN_AmountAvailable());
             oldintegra = Float.parseFloat(cardInfo.getN_IntegralAvailable());
             cardNum = cardInfo.getC_CardNO();
@@ -231,15 +277,29 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
             tv_str0.setText("" + oldMoney);//当前储值
             tv_str1.setText("" + cardInfo.getN_DiscountValue() + "%");//折扣倍率
             tv_str2.setText("" + oldintegra);//当前积分
-            tv_str3.setText("" + cardInfo.getN_IntegralValue() + "%");//积分倍率
+            tv_str3.setText("" + cardInfo.getN_Recharge_Integral_Value() + "%");//积分倍率
         }
+
+                if(adapter != null){
+                adapter.notifyDataSetChanged();
+            }
+
+
+        adapter = new RechargeAdapter(RechargeActivity.this,list_rechargefast);
+
+        globalIntegral = SharedUtil.getSharedData(RechargeActivity.this, "shopintegral");//全局积分倍数
+        rechargeIntegral = SharedUtil.getSharedData(RechargeActivity.this, "rechargepoints");//充值积分倍数
     }
 
     private void setListener() {
         this.setOnPayCallBack(this);
-        tv_pay0.setOnClickListener(this);
-        tv_pay1.setOnClickListener(this);
-        tv_pay3.setOnClickListener(this);
+        pay_xj1.setOnClickListener(this);
+        pay_sm.setOnClickListener(this);
+        pay_wx.setOnClickListener(this);
+        pay_xj.setOnClickListener(this);
+        pay_zfb.setOnClickListener(this);
+        pay_yl.setOnClickListener(this);
+
         tv_clean.setOnClickListener(this);
         btn_select.setOnClickListener(this);
         btn_modify0.setOnClickListener(this);
@@ -251,52 +311,119 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
         et_paya.setFilters(filters);
         et_pay_give.setFilters(filters);
         et_integral.setFilters(filters);
+        tv_pay.setFilters(filters);
         // et_pay_give.setInputType(InputType.TYPE_NULL);
         // et_integral.setInputType(InputType.TYPE_NULL);
         et_paya.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
             @Override
             public void afterTextChanged(Editable editable) {
-                addMoney();
+                if(et_paya.hasFocus()){
+                    addMoney();
+                    et_pay_give.setText("");
+                }
             }
         });
 
         et_pay_give.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
             @Override
             public void afterTextChanged(Editable editable) {
-                addMoney();
+                if(et_pay_give.hasFocus()){
+                    addMoney();
+                }
+               // addMoney();
+            }
+        });
+
+        tv_pay.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(tv_pay.hasFocus()){
+                    hi = Float.parseFloat(cardInfo.getN_Recharge_Integral_Value())/100;
+                    if (globalIntegral.equals("0") || globalIntegral.equals("")) {
+                        gi = 0f;
+                    } else {
+                        gi = Float.parseFloat(globalIntegral);
+                    }
+                    if (rechargeIntegral.equals("0") || rechargeIntegral.equals("")) {
+                        ri = 0f;
+                    } else {
+                        ri = Float.parseFloat(rechargeIntegral);
+                    }
+                    String m_sj = tv_pay.getText().toString();
+                    if(m_sj.equals("")){
+                        m_sj = "0";
+                    }
+                    float m_s = Float.parseFloat(m_sj);
+                    float m_jf  = gi*ri*m_s*hi;      //m_jfs.equals("") ? 0 : Float.parseFloat(m_jfs);
+                    et_integral.setText(Utils.getNumStr(m_jf));
+                }
             }
         });
     }
 
     private void addMoney() {
+
+        hi = Float.parseFloat(cardInfo.getN_Recharge_Integral_Value())/100;
+
+        if (globalIntegral.equals("0") || globalIntegral.equals("")) {
+             gi = 0f;
+        } else {
+             gi = Float.parseFloat(globalIntegral);
+        }
+
+        if (rechargeIntegral.equals("0") || rechargeIntegral.equals("")) {
+            ri = 0f;
+        } else {
+            ri = Float.parseFloat(rechargeIntegral);
+        }
         String m_is = et_paya.getText().toString();
         String m_ps = et_pay_give.getText().toString();
-        // String m_jf = et_integral.getText().toString();
         //  et_integral
         float m_i = m_is.equals("") ? 0 : Float.parseFloat(m_is);
         float m_p = m_ps.equals("") ? 0 : Float.parseFloat(m_ps);
-        float m_je = m_ps.equals("") ? 0 : Float.parseFloat(m_ps);
-        float m_jf = m_ps.equals("") ? 0 : Float.parseFloat(m_ps);
         float money = m_i + m_p;
         tv_pay.setText(Utils.getNumStr(m_i));
-        tv_money.setText(Utils.getNumStr(money));
-        et_integral.setText(Utils.getNumStr(0));
+        String m_sj = tv_pay.getText().toString();
+       // if(m_sj.equals("")){m_sj = "0";}
+        float m_s = m_is.equals("") ? 0 : Float.parseFloat(m_sj);
+        float m_jf  = gi*ri*m_s*hi;      //m_jfs.equals("") ? 0 : Float.parseFloat(m_jfs);
+        tv_money.setText(Utils.getNumStr(money));//合计金额
+        et_integral.setText(Utils.getNumStr(m_jf));
+
 
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_pay_0://现金支付
-            case R.id.tv_pay_0_0:
+            case R.id.tv_pay_xj://现金支付
+            case R.id.tv_pay_xj1:
                 if (isXJ) {
                     if (isclick_pay) {
                         isclick_pay = false;
@@ -308,7 +435,7 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
                 }
 
                 break;
-            case R.id.tv_pay_1://扫码支付
+            case R.id.tv_pay_sm://扫码支付
                 if (isclick_pay) {
                     isclick_pay = false;
 
@@ -320,14 +447,14 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
                     }
                 }
                 break;
-            case R.id.tv_pay_1_1://微信支付
+            case R.id.tv_pay_wx://微信支付
                 if (isclick_pay) {
                     isclick_pay = false;
                     n = 1;
                     payMoney(1, tv_pay.getText().toString(), orderNumber, "会员充值");
                 }
                 break;
-            case R.id.tv_pay_3://银联支付
+            case R.id.tv_pay_yl://银联支付
                 if (isclick_pay) {
                     isclick_pay = false;
                     n = 3;
@@ -339,7 +466,7 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
                 }
                 break;
 
-            case R.id.tv_pay_2://支付宝支付
+            case R.id.tv_pay_zfb://支付宝支付
                 if (isclick_pay) {
                     isclick_pay = false;
                     n = 2;
@@ -347,6 +474,8 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
                 }
                 break;
             case R.id.btn_rech:
+                et_paya.clearFocus();
+                //et_paya.setFocusable(false);
                 new PopupWindows(RechargeActivity.this, findViewById(R.id.activity_recharge));
                 break;
             case R.id.btn_modify_jf:
@@ -391,7 +520,7 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
             map.put("CardCode", uid);
             map.put("c_Billfrom", robotType + "");
             map.put("Supplement", "0");
-            map.put("result_name",result);
+            map.put("result_name", result);
             map.put("n_GetIntegral", et_integral.getText().toString());
             switch (n) {
                 case 0:
@@ -546,11 +675,12 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
                 break;
 
         }
-        list.add("充值金额:" + str1);
+        list.add("充值金额 :" + str1);
         list.add("实收金额 :" + str2);
         if (flag) {
             list.add("充后余额 :" + newMoney);
-            list.add("可用积分:" + newintegra);
+         //   list.add("原有积分 :"+ oldintegra);
+            list.add("可用积分 :" + newintegra);
         }
         if (flag) {
             printPage("充值小票", list, null, false);
@@ -584,27 +714,29 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
+    }
+
     public class PopupWindows extends PopupWindow implements View.OnClickListener, PopupWindow.OnDismissListener {
 
-        private final ImageView iv1;
-        private final ImageView iv2;
-        private final ImageView iv3;
+//        private final ImageView iv1;
+//        private final ImageView iv2;
+//        private final ImageView iv3;
         private List<ImageView> list;
         private int n1 = 0, n2 = 0;
-        private double n3;
+        private float n3;
 
         public PopupWindows(Context mContext, View parent) {
-
-            View view = View
-                    .inflate(mContext, R.layout.my_popuwindow, null);
+            View view = View.inflate(mContext, R.layout.my_popuwindow, null);
             DisplayMetrics dm = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(dm);
             int w = dm.widthPixels;
             setWidth(w * 2 / 3);
             setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-
             setBackgroundDrawable(new BitmapDrawable());
-
             setContentView(view);
             setOutsideTouchable(false);
             setFocusable(true);
@@ -612,90 +744,119 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
             showAtLocation(parent, Gravity.CENTER, 0, 0);
             update();
             ImageView back = (ImageView) view.findViewById(R.id.pop_iv_click);
-            iv1 = (ImageView) view.findViewById(R.id.pop_iv1);
-            iv2 = (ImageView) view.findViewById(R.id.pop_iv2);
-            iv3 = (ImageView) view.findViewById(R.id.pop_iv3);
-            list = new ArrayList<>();
-            list.add(iv1);
-            list.add(iv2);
-            list.add(iv3);
-            LinearLayout ll1 = (LinearLayout) view.findViewById(R.id.pop_click1);
-            LinearLayout ll2 = (LinearLayout) view.findViewById(R.id.pop_click2);
-            LinearLayout ll3 = (LinearLayout) view.findViewById(R.id.pop_click3);
+            lv_recharge = (ListView) view.findViewById(R.id.lv_recharge);
+            lv_recharge.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+
+            lv_recharge.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    et_pay_give.setText(list_rechargefast.get(position).getC_Remark()+"");
+                    et_paya.setText(list_rechargefast.get(position).getC_Value()+"");
+//                    hi = Float.parseFloat(cardInfo.getN_Recharge_Integral_Value())/100;
+//                    if (globalIntegral.equals("0") || globalIntegral.equals("")) {
+//                        gi = 0f;
+//                    } else {
+//                        gi = Float.parseFloat(globalIntegral);
+//                    }
+//                    if (rechargeIntegral.equals("0") || rechargeIntegral.equals("")) {
+//                        ri = 0f;
+//                    } else {
+//                        ri = Float.parseFloat(rechargeIntegral);
+//                    }
+//                    String s = list_rechargefast.get(position).getC_Value()+"";
+//                    float m_s = s.equals("") ? 0 : Float.parseFloat(s);
+//                    float m_jf  = gi*ri*hi*m_s;
+//                    et_integral.setText(m_jf+"");
+                    addMoney();
+
+                   // adapter.getItem(position).
+                    dismiss();
+                }
+            });
+//            iv1 = (ImageView) view.findViewById(R.id.pop_iv1);
+//            iv2 = (ImageView) view.findViewById(R.id.pop_iv2);
+//            iv3 = (ImageView) view.findViewById(R.id.pop_iv3);
+//            list = new ArrayList<>();
+//            list.add(iv1);
+//            list.add(iv2);
+//            list.add(iv3);
+
+//            LinearLayout ll1 = (LinearLayout) view.findViewById(R.id.pop_click1);
+//            LinearLayout ll2 = (LinearLayout) view.findViewById(R.id.pop_click2);
+//            LinearLayout ll3 = (LinearLayout) view.findViewById(R.id.pop_click3);
             back.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    selectColor(-1);
+                    //selectColor(-1);
                     dismiss();
                 }
             });
 
-            ll1.setOnClickListener(this);
-            ll2.setOnClickListener(this);
-            ll3.setOnClickListener(this);
+
+
+//            ll1.setOnClickListener(this);
+//            ll2.setOnClickListener(this);
+//            ll3.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            switch (view.getId()) {
-                case R.id.pop_click1:
-                    selectColor(0);
-                    n1 = 100;
-                    n2 = 50;
-                    if (cardInfo != null) {
-                        try {
-                            n3 = Double.parseDouble(cardInfo.getN_IntegralValue());
-                        } catch (NumberFormatException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        n3 = 100;
-                    }
-                    break;
-                case R.id.pop_click2:
-                    selectColor(1);
-                    n1 = 200;
-                    n2 = 120;
-                    if (cardInfo != null) {
-                        try {
-                            n3 = Double.parseDouble(cardInfo.getN_IntegralValue()) * 2;
-                        } catch (NumberFormatException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        n3 = 200;
-                    }
-                    break;
-                case R.id.pop_click3:
-                    selectColor(2);
-                    n1 = 300;
-                    n2 = 200;
-                    if (cardInfo != null) {
-                        try {
-                            n3 = Double.parseDouble(cardInfo.getN_IntegralValue()) * 3;
-                        } catch (NumberFormatException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        n3 = 300;
-                    }
-                    break;
-
-            }
-            et_paya.setText(n1 + "");
-            et_pay_give.setText(n2 + "");
-            et_integral.setText(n3 + "");
-
-
             addMoney();
             dismiss();
+//            switch (view.getId()) {
+//                case R.id.pop_click1:
+//                    //selectColor(0);
+//                    n1 = 100;
+//                    // TODO: 2017/5/9
+//                    n2 = 50;
+//                    if (cardInfo != null) {
+//                        try {
+//                          //  n3 = Float.parseFloat(cardInfo.getN_IntegralValue());
+//                        } catch (NumberFormatException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                    break;
+//                case R.id.pop_click2:
+//                    //selectColor(1);
+//                    n1 = 200;
+//                    n2 = 120;
+//                    if (cardInfo != null) {
+//                        try {
+//                           // n3 = Float.parseFloat(cardInfo.getN_IntegralValue()) * 2;
+//                        } catch (NumberFormatException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                    break;
+//                case R.id.pop_click3:
+//                   // selectColor(2);
+//                    n1 = 300;
+//                    n2 = 200;
+//                    if (cardInfo != null) {
+//                        try {
+//                           // n3 = Float.parseFloat(cardInfo.getN_IntegralValue()) * 3;
+//                        } catch (NumberFormatException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                    break;
+//
+//            }
+////            et_paya.setText(n1 + "");
+////            et_pay_give.setText(n2 + "");
+////            et_integral.setText(n3 + "");
+//
+
+
         }
 
-        private void selectColor(int n) {
-            for (int i = 0; i < list.size(); i++) {
-                list.get(i).setImageResource(n == i ? R.mipmap.pop_up_04 : R.mipmap.pop_up_02);
-            }
-        }
+//        private void selectColor(int n) {
+//            for (int i = 0; i < list.size(); i++) {
+//                list.get(i).setImageResource(n == i ? R.mipmap.pop_up_04 : R.mipmap.pop_up_02);
+//            }
+//        }
 
         @Override
         public void onDismiss() {
@@ -934,9 +1095,6 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
                     String s = j.getString("result_data");
                     result = j.getString("result_name");
 
-
-//                    JSONObject js = new JSONObject(s);
-//                    String s1 = js.getString("Author");
                     int ssje = s.indexOf("POS:充值实收金额修改");
                     int zsjf = s.indexOf("POS:充值赠送积分修改");
                     int zsje = s.indexOf("POS:充值赠送金额修改");
@@ -978,7 +1136,6 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
                     e.printStackTrace();
                     Utils.showToast(RechargeActivity.this, "服务器异常");
                 }
-
 
 
 //                    if (str.equals("1")) {

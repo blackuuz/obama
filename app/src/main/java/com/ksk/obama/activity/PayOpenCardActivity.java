@@ -38,13 +38,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public class PayOpenCardActivity extends BasePrintActivity implements View.OnClickListener, IPayCallBack,
         IPrintSuccessCallback, IPrintErrorCallback {
 
     private TextView tv_money;
-    private TextView tv_pay0;
-    private TextView tv_pay1;
-    private TextView tv_pay3;
     private int n = -1;
     private OpenCardInfo cardInfo;
     private String orderno = "";
@@ -52,6 +53,26 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
     private String orderTime = "";
     private boolean flag = false;
     private boolean isPay = false;
+    private Unbinder unbinder;
+
+    @BindView(R.id.tv_pay_xj)
+    TextView pay_xj;
+    @BindView(R.id.tv_pay_xj1)
+    TextView pay_xj1;
+    @BindView(R.id.tv_pay_sm)
+    TextView pay_sm;
+    @BindView(R.id.tv_pay_yl)
+    TextView pay_yl;
+    @BindView(R.id.tv_pay_wx)
+    TextView pay_wx;
+    @BindView(R.id.tv_pay_zfb)
+    TextView pay_zfb;
+
+    @BindView(R.id.ll_lkl)
+    LinearLayout ll_lkl;
+    @BindView(R.id.ll_w_a)
+    LinearLayout ll_w_a;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +81,7 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
         this.setOnPayCallBack(this);
         this.setOnPrintSuccess(this);
         this.setOnPrintError(this);
+        unbinder= ButterKnife.bind(this);
         getOrderNum("KK");
         initTitale();
         initView();
@@ -97,28 +119,41 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
 
     private void initView() {
         tv_money = (TextView) findViewById(R.id.tv_pay_open_money);
+        if (!SharedUtil.getSharedBData(PayOpenCardActivity.this, "RX")) {
+            pay_xj.setVisibility(View.GONE);
+            pay_xj1.setVisibility(View.GONE);
+        }
         switch (robotType) {
             case 1:
-                findViewById(R.id.ll_sm).setVisibility(View.GONE);
-                tv_pay0 = (TextView) findViewById(R.id.tv_pay_0);
-                tv_pay1 = (TextView) findViewById(R.id.tv_pay_1);
-                tv_pay3 = (TextView) findViewById(R.id.tv_pay_3);
+                ll_w_a.setVisibility(View.GONE);
+                if (SharedUtil.getSharedBData(PayOpenCardActivity.this, "RW") && SharedUtil.getSharedBData(PayOpenCardActivity.this, "RA")) {
+                    pay_sm.setVisibility(View.VISIBLE);
+                } else {
+                    pay_sm.setVisibility(View.GONE);
+                }
+                if(!SharedUtil.getSharedBData(PayOpenCardActivity.this,"RY")){
+                    pay_yl.setVisibility(View.GONE);
+                }
                 break;
-
             case 3:
             case 4:
             case 8:
-                findViewById(R.id.ll_lkl).setVisibility(View.GONE);
-                tv_pay0 = (TextView) findViewById(R.id.tv_pay_0_0);
-                tv_pay1 = (TextView) findViewById(R.id.tv_pay_1_1);
-                tv_pay3 = (TextView) findViewById(R.id.tv_pay_2);
+                ll_lkl.setVisibility(View.GONE);
+                if (!SharedUtil.getSharedBData(PayOpenCardActivity.this, "RW")) {
+                    pay_wx.setVisibility(View.GONE);
+                }
+                if (!SharedUtil.getSharedBData(PayOpenCardActivity.this, "RA")) {
+                    pay_zfb.setVisibility(View.GONE);
+                }
+
                 break;
         }
-
-
-        tv_pay0.setOnClickListener(this);
-        tv_pay1.setOnClickListener(this);
-        tv_pay3.setOnClickListener(this);
+        pay_xj1.setOnClickListener(this);
+        pay_sm.setOnClickListener(this);
+        pay_wx.setOnClickListener(this);
+        pay_xj.setOnClickListener(this);
+        pay_zfb.setOnClickListener(this);
+        pay_yl.setOnClickListener(this);
         this.setOnPayCallBack(this);
     }
 
@@ -194,9 +229,9 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
                 flag = true;
                 tv_print.setVisibility(View.VISIBLE);
                 tv_print.setEnabled(true);
-                tv_pay0.setVisibility(View.GONE);
-                tv_pay1.setVisibility(View.GONE);
-                tv_pay3.setVisibility(View.GONE);
+                pay_xj.setVisibility(View.GONE);
+                pay_sm.setVisibility(View.GONE);
+                pay_yl.setVisibility(View.GONE);
                 String msg = object.getString("result_msg");
                 Utils.showToast(PayOpenCardActivity.this, msg);
                 payHint(true);
@@ -234,8 +269,8 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
         if (isclick_pay) {
             isclick_pay = false;
             switch (v.getId()) {
-                case R.id.tv_pay_0:
-                case R.id.tv_pay_0_0:
+                case R.id.tv_pay_xj:
+                case R.id.tv_pay_xj1:
                     if (isXJ) {
                         n = 0;
                         sendData();
@@ -245,16 +280,16 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
                     }
 
                     break;
-                case R.id.tv_pay_1:
-                case R.id.tv_pay_1_1:
+                case R.id.tv_pay_sm:
+                case R.id.tv_pay_wx:
                     n = 1;
                     payMoney(1, cardInfo.getPaymoney(), orderNumber, "开卡");
                     break;
-                case R.id.tv_pay_2:
+                case R.id.tv_pay_zfb:
                     n = 2;
                     payMoney(2, cardInfo.getPaymoney(), orderNumber, "开卡");
                     break;
-                case R.id.tv_pay_3:
+                case R.id.tv_pay_yl:
                     n = 3;
                     payMoney(3, cardInfo.getPaymoney(), orderNumber, "开卡");
                     break;
@@ -477,4 +512,11 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(unbinder!=null){
+            unbinder.unbind();
+        }
+    }
 }

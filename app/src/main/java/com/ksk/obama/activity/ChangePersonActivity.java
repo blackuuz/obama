@@ -77,6 +77,7 @@ public class ChangePersonActivity extends BasePrintActivity implements IPrintSuc
     private boolean isSupplement = false;
     private boolean flag = false;
 
+    //交班
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

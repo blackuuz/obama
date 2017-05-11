@@ -30,6 +30,7 @@ import com.ksk.obama.callback.IPayCallBack;
 import com.ksk.obama.callback.IQrcodeCallBack;
 import com.ksk.obama.model.BuyCount;
 import com.ksk.obama.model.IntegralShopCount;
+import com.ksk.obama.model.LoginData;
 import com.ksk.obama.utils.HttpTools;
 import com.ksk.obama.utils.MyDialog;
 import com.ksk.obama.utils.NetworkUrl;
@@ -61,6 +62,7 @@ import static com.ksk.obama.utils.SharedUtil.getSharedBData;
  */
 public class BaseActivity extends AppCompatActivity {
     public static List<BuyCount> list_buy = new ArrayList<>();
+    public static List<LoginData.RechargefastBean> list_rechargefast = new ArrayList<>();
     public static List<IntegralShopCount> list_integral = new ArrayList<>();
     private InputMethodManager manager;
     protected MyDialog loadingDialog;

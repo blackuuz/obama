@@ -13,6 +13,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,6 +54,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
 import static com.ksk.obama.utils.SharedUtil.getSharedData;
 
@@ -108,6 +114,29 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
     private boolean isTemporary = false;
     //private boolean isQrSure = false;//二维码支付确认
     private String temName = "";
+    private Unbinder unbinder;
+
+
+    @BindView(R.id.tv_pay_xj)
+    TextView pay_xj;
+    @BindView(R.id.tv_pay_hy)
+    TextView pay_hy;
+    @BindView(R.id.tv_pay_sm)
+    TextView pay_sm;
+    @BindView(R.id.tv_pay_yl)
+    TextView pay_yl;
+    @BindView(R.id.tv_pay_wx)
+    TextView pay_wx;
+    @BindView(R.id.tv_pay_zfb)
+    TextView pay_zfb;
+
+    @BindView(R.id.ll_lkl)
+    LinearLayout ll_lkl;
+    @BindView(R.id.ll_w_a)
+    LinearLayout ll_w_a;
+
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -119,6 +148,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         this.setOnPrintError(this);
         this.setOnPrintSuccess(this);
         this.setOnCrateOrderNumber(this);
+        unbinder = ButterKnife.bind(this);
         initTitle();
         setQX();
         initViewM();
@@ -216,12 +246,6 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
             }
         });
 
-//        contentView.findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                window.dismiss();
-//            }
-//        });
 
         contentView.findViewById(R.id.btn_yes).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -286,9 +310,8 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         });
     }
 
-    @Override
+    @OnClick({R.id.btn_read_code,R.id.btn_change,R.id.tv_pay_xj,R.id.tv_pay_sm,R.id.tv_pay_yl, R.id.tv_pay_hy,R.id.tv_pay_wx,R.id.tv_pay_zfb})
     public void onClick(View v) {
-
         payau = et_money.getText().toString();
         String mon = et_money.getText().toString();
         if (TextUtils.isEmpty(mon)) {
@@ -302,7 +325,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                 Arrived();
                 break;
 
-            case R.id.tv_pay_0://现金支付
+            case R.id.tv_pay_xj://现金支付
                 if (isXJ) {
                     if (!TextUtils.isEmpty(cardNum) && cardNum.equals(preID)) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -334,7 +357,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                 }
 
                 break;
-            case R.id.tv_pay_1://lkl扫码
+            case R.id.tv_pay_sm://lkl扫码
                 if (Float.parseFloat(mon) > maxMoney && maxMoney != 0) {
                     isclick_pay = true;
                     Utils.showToast(QuickDelMActivity.this, "超出扣除最大范围，请修改扣除金额");
@@ -378,7 +401,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                     }
                 }
                 break;
-            case R.id.tv_pay_3://银联支付
+            case R.id.tv_pay_yl://银联支付
                 if (Float.parseFloat(mon) > maxMoney && maxMoney != 0) {
                     isclick_pay = true;
                     Utils.showToast(QuickDelMActivity.this, "超出扣除最大范围，请修改扣除金额");
@@ -422,7 +445,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                     }
                 }
                 break;
-            case R.id.tv_pay_4://会员支付
+            case R.id.tv_pay_hy://会员支付
                 if (isInfo) {
                     if (isclick_pay) {
                         isclick_pay = false;
@@ -464,7 +487,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                 }
                 break;
 
-            case R.id.tv_pay_1_1://微信支付
+            case R.id.tv_pay_wx://微信支付
                 if (Float.parseFloat(mon) > maxMoney && maxMoney != 0) {
                     isclick_pay = true;
                     Utils.showToast(QuickDelMActivity.this, "超出扣除最大范围，请修改扣除金额");
@@ -516,7 +539,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                 }
                 break;
 
-            case R.id.tv_pay_2://支付宝
+            case R.id.tv_pay_zfb://支付宝
                 if (maxMoney != 0 && Float.parseFloat(mon) > maxMoney) {
                     isclick_pay = true;
                     Utils.showToast(QuickDelMActivity.this, "超出扣除最大范围，请修改扣除金额");
@@ -884,8 +907,8 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         tv_name = (TextView) findViewById(R.id.tv_exit_str0);
         tv_m = (TextView) findViewById(R.id.tv_exit_str2);
         tv_i = (TextView) findViewById(R.id.tv_exit_str4);
-        TextView pay0 = (TextView) findViewById(R.id.tv_pay_0);
-        TextView pay4 = (TextView) findViewById(R.id.tv_pay_4);
+    //    TextView pay0 = (TextView) findViewById(R.id.tv_pay_0);
+    //    TextView pay4 = (TextView) findViewById(R.id.tv_pay_4);
         db_isCheck = (AppCompatCheckBox) findViewById(R.id.cb_ischeck);
         ll_dx = (LinearLayout) findViewById(R.id.ll_dx);
         et_gread_dx = (EditText) findViewById(R.id.et_gread_dx);
@@ -970,26 +993,35 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
             }
         });
 
-        pay0.setOnClickListener(this);
-        pay4.setOnClickListener(this);
-        btn_change.setOnClickListener(this);
+
+        if (!SharedUtil.getSharedBData(QuickDelMActivity.this, "FX")) {
+            pay_xj.setVisibility(View.GONE);
+        }
+
+        Log.d("10086", SharedUtil.getSharedBData(QuickDelMActivity.this, "FW")+"------"+SharedUtil.getSharedBData(QuickDelMActivity.this, "FA"));
         switch (robotType) {
             case 1:
-                findViewById(R.id.ll_sm).setVisibility(View.GONE);
-                TextView pay1 = (TextView) findViewById(R.id.tv_pay_1);
-                TextView pay3 = (TextView) findViewById(R.id.tv_pay_3);
-                pay1.setOnClickListener(this);
-                pay3.setOnClickListener(this);
+                ll_w_a.setVisibility(View.GONE);
+                if (SharedUtil.getSharedBData(QuickDelMActivity.this, "FW") && SharedUtil.getSharedBData(QuickDelMActivity.this, "FA")) {
+                    pay_sm.setVisibility(View.VISIBLE);
+                } else {
+                    pay_sm.setVisibility(View.GONE);
+                }
+                if(!SharedUtil.getSharedBData(QuickDelMActivity.this,"FY")){
+                    pay_yl.setVisibility(View.GONE);
+                }
                 break;
-
             case 3:
             case 4:
             case 8:
-                findViewById(R.id.ll_lkl).setVisibility(View.GONE);
-                TextView pay1_1 = (TextView) findViewById(R.id.tv_pay_1_1);
-                TextView pay2 = (TextView) findViewById(R.id.tv_pay_2);
-                pay2.setOnClickListener(this);
-                pay1_1.setOnClickListener(this);
+                ll_lkl.setVisibility(View.GONE);
+                if (!SharedUtil.getSharedBData(QuickDelMActivity.this, "FW")) {
+                    pay_wx.setVisibility(View.GONE);
+                }
+                if (!SharedUtil.getSharedBData(QuickDelMActivity.this, "FA")) {
+                    pay_zfb.setVisibility(View.GONE);
+                }
+
                 break;
         }
 
@@ -1075,7 +1107,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                 }
             }
         });
-        findViewById(R.id.btn_read_code).setOnClickListener(this);
+        //findViewById(R.id.btn_read_code).setOnClickListener(this);
         btn_query.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1480,6 +1512,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
     protected void onDestroy() {
         super.onDestroy();
         close();
+        unbinder.unbind();
     }
 
     @Override

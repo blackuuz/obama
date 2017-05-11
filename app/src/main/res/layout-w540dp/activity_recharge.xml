@@ -305,7 +305,7 @@
                     android:textSize="20sp" />
             </LinearLayout>
 
-            <include layout="@layout/select_pay_1" />
+            <include layout="@layout/pay_select2" />
 
         </LinearLayout>
     </ScrollView>

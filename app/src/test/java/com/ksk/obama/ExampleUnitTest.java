@@ -11,6 +11,7 @@ public class ExampleUnitTest {
         int n = 3;
         switch (n ){
             case 3 :
+                System.out.print(n);
                 break;
             case 2 :
                 break;

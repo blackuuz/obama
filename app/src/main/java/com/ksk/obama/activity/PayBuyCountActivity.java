@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +43,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 import static com.ksk.obama.utils.SharedUtil.getSharedData;
 
 public class PayBuyCountActivity extends BasePrintActivity implements View.OnClickListener, IPayCallBack,
@@ -73,6 +78,24 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
     private boolean flag = false;
     private String orderTime = "";
     private String uid;
+    private Unbinder unbinder;
+
+    @BindView(R.id.tv_pay_xj)
+    TextView pay_xj;
+    @BindView(R.id.tv_pay_sm)
+    TextView pay_sm;
+    @BindView(R.id.tv_pay_hy)
+    TextView pay_hy;
+    @BindView(R.id.tv_pay_yl)
+    TextView pay_yl;
+    @BindView(R.id.tv_pay_wx)
+    TextView pay_wx;
+    @BindView(R.id.tv_pay_zfb)
+    TextView pay_zfb;
+    @BindView(R.id.ll_lkl)
+    LinearLayout ll_lkl;
+    @BindView(R.id.ll_w_a)
+    LinearLayout ll_w_a;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,10 +105,17 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
         this.setOnPrintSuccess(this);
         this.setOnPrintError(this);
         this.setOnCrateOrderNumber(this);
+        unbinder = ButterKnife.bind(this);
         initTitale();
         initView();
         initData();
         getOrderNum("BT");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 
     private void initTitale() {
@@ -119,33 +149,46 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
         et_money = (EditText) findViewById(R.id.et_pay_money);
         et_gread = (EditText) findViewById(R.id.et_pay_gread);
         ll_pay = (LinearLayout) findViewById(R.id.ll_pay);
-        TextView pay0 = (TextView) findViewById(R.id.tv_pay_0);
-        TextView pay4 = (TextView) findViewById(R.id.tv_pay_4);
+        if (!SharedUtil.getSharedBData(PayBuyCountActivity.this, "PX")) {
+            pay_xj.setVisibility(View.GONE);
+        }
+
+        Log.d("10086", SharedUtil.getSharedBData(PayBuyCountActivity.this, "PW")+"------"+SharedUtil.getSharedBData(PayBuyCountActivity.this, "PA"));
         switch (robotType) {
             case 1:
-                findViewById(R.id.ll_sm).setVisibility(View.GONE);
-                TextView pay1 = (TextView) findViewById(R.id.tv_pay_1);
-                TextView pay3 = (TextView) findViewById(R.id.tv_pay_3);
-                pay1.setOnClickListener(this);
-                pay3.setOnClickListener(this);
+                ll_w_a.setVisibility(View.GONE);
+                if (SharedUtil.getSharedBData(PayBuyCountActivity.this, "PW") && SharedUtil.getSharedBData(PayBuyCountActivity.this, "PA")) {
+                    pay_sm.setVisibility(View.VISIBLE);
+                } else {
+                    pay_sm.setVisibility(View.GONE);
+                }
+                if(!SharedUtil.getSharedBData(PayBuyCountActivity.this,"PY")){
+                    pay_yl.setVisibility(View.GONE);
+                }
                 break;
-
             case 3:
             case 4:
             case 8:
-                findViewById(R.id.ll_lkl).setVisibility(View.GONE);
-                TextView pay1_1 = (TextView) findViewById(R.id.tv_pay_1_1);
-                TextView pay2 = (TextView) findViewById(R.id.tv_pay_2);
-                pay1_1.setOnClickListener(this);
-                pay2.setOnClickListener(this);
+                ll_lkl.setVisibility(View.GONE);
+                if (!SharedUtil.getSharedBData(PayBuyCountActivity.this, "PW")) {
+                    pay_wx.setVisibility(View.GONE);
+                }
+                if (!SharedUtil.getSharedBData(PayBuyCountActivity.this, "PA")) {
+                    pay_zfb.setVisibility(View.GONE);
+                }
                 break;
         }
 
         InputFilter[] filters = {new MyTextFilter()};
         et_money.setFilters(filters);
         et_gread.setFilters(filters);
-        pay0.setOnClickListener(this);
-        pay4.setOnClickListener(this);
+        pay_xj.setOnClickListener(this);
+        pay_hy.setOnClickListener(this);
+        pay_sm.setOnClickListener(this);
+        pay_yl.setOnClickListener(this);
+        pay_wx.setOnClickListener(this);
+        pay_zfb.setOnClickListener(this);
+
 
         et_money.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -197,7 +240,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
         if (isclick_pay) {
             isclick_pay = false;
             switch (v.getId()) {
-                case R.id.tv_pay_0:
+                case R.id.tv_pay_xj:
                     if (isXJ) {
                         if (TextUtils.isEmpty(gread)) {
                             isclick_pay = true;
@@ -212,7 +255,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
                     }
 
                     break;
-                case R.id.tv_pay_1:
+                case R.id.tv_pay_sm:
                     if (TextUtils.isEmpty(gread)) {
                         isclick_pay = true;
                         Utils.showToast(PayBuyCountActivity.this, "请输入积分");
@@ -221,7 +264,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
                         sendData("");
                     }
                     break;
-                case R.id.tv_pay_1_1:
+                case R.id.tv_pay_wx:
                     if (TextUtils.isEmpty(gread)) {
                         isclick_pay = true;
                         Utils.showToast(PayBuyCountActivity.this, "请输入积分");
@@ -230,7 +273,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
                         payMoney(1, payau, orderNumber, "购买次数");
                     }
                     break;
-                case R.id.tv_pay_2:
+                case R.id.tv_pay_zfb:
                     if (TextUtils.isEmpty(gread)) {
                         isclick_pay = true;
                         Utils.showToast(PayBuyCountActivity.this, "请输入积分");
@@ -244,7 +287,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
                         }
                     }
                     break;
-                case R.id.tv_pay_3:
+                case R.id.tv_pay_yl:
                     if (TextUtils.isEmpty(gread)) {
                         isclick_pay = true;
                         Utils.showToast(PayBuyCountActivity.this, "请输入积分");
@@ -254,7 +297,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
 //                        payMoney(3, payau, orderNumber, "购买次数");
                     }
                     break;
-                case R.id.tv_pay_4:
+                case R.id.tv_pay_hy:
                     if (TextUtils.isEmpty(gread)) {
                         isclick_pay = true;
                         Utils.showToast(PayBuyCountActivity.this, "请输入积分");
@@ -447,8 +490,8 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
                     Utils.showToast(PayBuyCountActivity.this, msg);
                     tv_print.setVisibility(View.INVISIBLE);
                     tv_print.setEnabled(false);
-                        payHint(false);
-                        showAlert();
+                    payHint(false);
+                    showAlert();
                 } else {
                     isclick_pay = true;
                 }
@@ -464,8 +507,8 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
         ll_pay.setVisibility(View.GONE);
         tv_print.setVisibility(View.VISIBLE);
         tv_print.setEnabled(true);
-            payHint(true);
-            printInfo(true);
+        payHint(true);
+        printInfo(true);
     }
 
     private synchronized void printInfo(boolean flag) {

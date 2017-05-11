@@ -55,9 +55,11 @@ public class GetMoneyActivity extends BasePrintActivity {
     private TextView tv_jf_give;
     private TextView tv_jf_del;
     private TextView tv_jf_hj;
+    private TextView tv_title_jrsy;
+    private TextView tv_change_time;
     private String startTime;
     private String endTime;
-
+    //今日收益*
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +68,7 @@ public class GetMoneyActivity extends BasePrintActivity {
         initView();
         getNowTime();
         getshiftInfo();
+        tv_change_time.setText(startTime+" - "+endTime);
     }
 
     private void initTitale() {
@@ -78,7 +81,7 @@ public class GetMoneyActivity extends BasePrintActivity {
             }
         });
         tv_print.setText("打印票据");
-        title_name.setText("交班");
+        title_name.setText("今日收益");
         tv_print.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,6 +123,10 @@ public class GetMoneyActivity extends BasePrintActivity {
         tv_jf_give = (TextView) findViewById(R.id.tv_change_jf_give);
         tv_jf_del = (TextView) findViewById(R.id.tv_change_jf_del);
         tv_jf_hj = (TextView) findViewById(R.id.tv_change_jf_hj);
+        tv_change_time = (TextView) findViewById(R.id.tv_change_time);
+        tv_title_jrsy = (TextView) findViewById(R.id.tv_title_jrsy);
+        tv_title_jrsy.setText("今日收益");
+
     }
 
     private void getNowTime() {
@@ -187,6 +194,7 @@ public class GetMoneyActivity extends BasePrintActivity {
                 tv_pay1_t.setText("微信退款:￥" + shiftInfo.getResult_data().getCancelcardmoneyPaywechat());
                 tv_pay2_t.setText("支付宝退款:￥" + shiftInfo.getResult_data().getCancelcardmoneyPayali());
                 tv_pay3_t.setText("银行卡退款:￥" + shiftInfo.getResult_data().getCancelcardmoneyPayBank());
+
 
             } else {
                 String result_msg = object.getString("result_errmsg");

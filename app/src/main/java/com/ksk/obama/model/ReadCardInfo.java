@@ -51,6 +51,7 @@ public class ReadCardInfo{
      * c_Photo :
      * i_Memberup : null
      * c_Memberpath : null
+     * N_Recharge_Integral_Value: .00
      * ROW_NUMBER : 1
      */
 
@@ -147,6 +148,7 @@ public class ReadCardInfo{
         }
     }
     public static class ResultDataBean implements Parcelable{
+
         private String id;
         private String i_GroupID;
         private String i_ShopID;
@@ -179,6 +181,15 @@ public class ReadCardInfo{
         private String i_Memberup;
         private String c_Memberpath;
         private String ROW_NUMBER;
+        private String N_Recharge_Integral_Value;
+
+        public String getN_Recharge_Integral_Value() {
+            return N_Recharge_Integral_Value;
+        }
+
+        public void setN_Recharge_Integral_Value(String n_Recharge_Integral_Value) {
+            N_Recharge_Integral_Value = n_Recharge_Integral_Value;
+        }
 
         protected ResultDataBean(Parcel in) {
             id = in.readString();
@@ -210,6 +221,7 @@ public class ReadCardInfo{
             c_OpenID = in.readString();
             c_Remark = in.readString();
             c_Photo = in.readString();
+            N_Recharge_Integral_Value = in.readString();
             ROW_NUMBER = in.readString();
         }
 
@@ -517,6 +529,7 @@ public class ReadCardInfo{
             dest.writeString(c_OpenID);
             dest.writeString(c_Remark);
             dest.writeString(c_Photo);
+            dest.writeString(N_Recharge_Integral_Value);
             dest.writeString(ROW_NUMBER);
         }
     }

@@ -28,6 +28,7 @@ import com.ksk.obama.broadcast.MyReceiver;
 import com.ksk.obama.callback.IHttpCallBack;
 import com.ksk.obama.model.LoginData;
 import com.ksk.obama.utils.NetworkUrl;
+import com.ksk.obama.utils.NoDoubleClickListener;
 import com.ksk.obama.utils.SharedUtil;
 import com.ksk.obama.utils.Utils;
 import com.lkl.cloudpos.aidl.AidlDeviceService;
@@ -101,9 +102,9 @@ public class LoginActivity extends BaseTypeActivity {
             }
         });
 
-        btn_login.setOnClickListener(new View.OnClickListener() {
+        btn_login.setOnClickListener(new NoDoubleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onNoDoubleClick(View v) {
                 if (isNetworkAvailable(LoginActivity.this)) {
                     login();
                 } else {
@@ -111,6 +112,17 @@ public class LoginActivity extends BaseTypeActivity {
                 }
             }
         });
+
+//        btn_login.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (isNetworkAvailable(LoginActivity.this)) {
+//                    login();
+//                } else {
+//                    Utils.showToast(LoginActivity.this, "当前无网络，无法登录");
+//                }
+//            }
+//        });
 
         employeeNo = SharedUtil.getSharedData(LoginActivity.this, "login_id");
         username = SharedUtil.getSharedData(LoginActivity.this, "login_gid");
@@ -172,6 +184,7 @@ public class LoginActivity extends BaseTypeActivity {
                         SharedUtil.setSharedData(LoginActivity.this, "groupid", loginData.getYdManagerId());
                         SharedUtil.setSharedData(LoginActivity.this, "maxmoney", loginData.getMaxFastCostMoney());
                         SharedUtil.setSharedData(LoginActivity.this, "shopintegral", loginData.getShopIntegraltimes());
+                        SharedUtil.setSharedData(LoginActivity.this, "rechargepoints", loginData.getRechargePoints());
                         SharedUtil.setSharedData(LoginActivity.this, "isedit", loginData.getSetHandCard());
                         SharedUtil.setSharedData(LoginActivity.this, "time", loginData.getHandoverTime());
                         SharedUtil.setSharedData(LoginActivity.this, "exittime", loginData.getQuitTime());
@@ -197,15 +210,16 @@ public class LoginActivity extends BaseTypeActivity {
     }
 
     private void initShared() {
-        SharedUtil.setSharedBData(LoginActivity.this, "paybank", false);
-        SharedUtil.setSharedBData(LoginActivity.this, "payxj", false);
-        SharedUtil.setSharedBData(LoginActivity.this, "paywx", false);
-        SharedUtil.setSharedBData(LoginActivity.this, "payal", false);
-        SharedUtil.setSharedBData(LoginActivity.this, "paycode", false);
-        SharedUtil.setSharedBData(LoginActivity.this, "nfc", false);
-        SharedUtil.setSharedBData(LoginActivity.this, "citiao", false);
-        SharedUtil.setSharedBData(LoginActivity.this, "saoma", false);
-        SharedUtil.setSharedBData(LoginActivity.this, "quicki", false);
+        SharedUtil.setSharedBData(LoginActivity.this, "paybank", true);
+        SharedUtil.setSharedBData(LoginActivity.this, "payxj", true);
+        SharedUtil.setSharedBData(LoginActivity.this, "paywx", true);
+        SharedUtil.setSharedBData(LoginActivity.this, "payal", true);
+        SharedUtil.setSharedBData(LoginActivity.this, "paycode", true);
+        SharedUtil.setSharedBData(LoginActivity.this, "nfc", true);
+        SharedUtil.setSharedBData(LoginActivity.this, "citiao", true);
+        SharedUtil.setSharedBData(LoginActivity.this, "saoma", true);
+        SharedUtil.setSharedBData(LoginActivity.this, "quicki", true);
+        SharedUtil.setSharedBData(LoginActivity.this, "fast_recharge", false);
 
         SharedUtil.setSharedBData(LoginActivity.this, "vip0", false);
         SharedUtil.setSharedBData(LoginActivity.this, "vip1", false);
@@ -240,32 +254,38 @@ public class LoginActivity extends BaseTypeActivity {
         SharedUtil.setSharedBData(LoginActivity.this, "ssje", false);
         SharedUtil.setSharedBData(LoginActivity.this, "zsjf", false);
         SharedUtil.setSharedBData(LoginActivity.this, "zsje", false);
-
+        SharedUtil.setSharedBData(LoginActivity.this, "cxsj", false);
+        SharedUtil.setSharedBData(LoginActivity.this, "cxjf", false);
     }
 
     private void setting() {
         loadingDialog.show();
         initShared();
+        if (loginData.getRechargebutton() != null) {
+            boolean b = loginData.getRechargebutton().equals("1");
+            SharedUtil.setSharedBData(LoginActivity.this, "fast_recharge", b);
+        }
         if (loginData.getSet() != null) {
-            List<String> list_pay = loginData.getSet().getPaySet();
+
             List<String> list_card = loginData.getSet().getCardSet();
             List<String> list_integral = loginData.getSet().getIntegralSet();
-            if (list_pay != null && list_pay.size() > 0) {
-                for (int i = 0; i < list_pay.size(); i++) {
-                    if ("银联卡".equals(list_pay.get(i))) {
-                        SharedUtil.setSharedBData(LoginActivity.this, "paybank", true);
-                    } else if ("微信".equals(list_pay.get(i))) {
-                        SharedUtil.setSharedBData(LoginActivity.this, "paywx", true);
-                    } else if ("支付宝".equals(list_pay.get(i))) {
-                        SharedUtil.setSharedBData(LoginActivity.this, "payal", true);
-                    } else if ("现金".equals(list_pay.get(i))) {
-                        SharedUtil.setSharedBData(LoginActivity.this, "payxj", true);
-                    }
-                }
-                if (SharedUtil.getSharedBData(LoginActivity.this, "paywx") && SharedUtil.getSharedBData(LoginActivity.this, "payal")) {
-                    SharedUtil.setSharedBData(LoginActivity.this, "paycode", true);
-                }
-            }
+            //  List<String> list_pay = loginData.getSet().getPaySet();
+//            if (list_pay != null && list_pay.size() > 0) {
+//                for (int i = 0; i < list_pay.size(); i++) {
+//                    if ("银联卡".equals(list_pay.get(i))) {
+//                        SharedUtil.setSharedBData(LoginActivity.this, "paybank", true);
+//                    } else if ("微信".equals(list_pay.get(i))) {
+//                        SharedUtil.setSharedBData(LoginActivity.this, "paywx", true);
+//                    } else if ("支付宝".equals(list_pay.get(i))) {
+//                        SharedUtil.setSharedBData(LoginActivity.this, "payal", true);
+//                    } else if ("现金".equals(list_pay.get(i))) {
+//                        SharedUtil.setSharedBData(LoginActivity.this, "payxj", true);
+//                    }
+//                }
+//                if (SharedUtil.getSharedBData(LoginActivity.this, "paywx") && SharedUtil.getSharedBData(LoginActivity.this, "payal")) {
+//                    SharedUtil.setSharedBData(LoginActivity.this, "paycode", true);
+//                }
+//            }
 
             if (list_card != null && list_card.size() > 0) {
                 for (int i = 0; i < list_card.size(); i++) {
@@ -307,70 +327,75 @@ public class LoginActivity extends BaseTypeActivity {
                     SharedUtil.setSharedBData(LoginActivity.this, "vip5", true);
                 } else if (str.equals("POS:快消积分抵现修改")) {
                     SharedUtil.setSharedBData(LoginActivity.this, "qdx", true);
-                } else if (str.equals("POS:产销实收金额修改")) {
+                } else if (str.equals("POS:充值实收金额修改")) {
                     SharedUtil.setSharedBData(LoginActivity.this, "ssje", true);
                 } else if (str.equals("POS:充值赠送积分修改")) {
                     SharedUtil.setSharedBData(LoginActivity.this, "zsjf", true);
                 } else if (str.equals("POS:充值赠送金额修改")) {
                     SharedUtil.setSharedBData(LoginActivity.this, "zsje", true);
+                } else if(str.equals("POS:产销实收金额修改")){
+                    SharedUtil.setSharedBData(LoginActivity.this, "cxsj", true);
+                }else if(str.equals("POS:产销获得积分修改")){
+                    SharedUtil.setSharedBData(LoginActivity.this, "cxjf",true);
                 }
             }
         }
-        // TODO: 2017/5/8 改接口
         if (loginData.getSetPays() != null) {
             List<LoginData.SetPaysBean> list = loginData.getSetPays();
-            for (int i = 0;i<list.size();i++){
+            for (int i = 0; i < list.size(); i++) {
                 LoginData.SetPaysBean bean = list.get(i);
                 String str = bean.getC_Value();
-                if (str.equals("FastWeChat")){
-                    SharedUtil.setSharedBData(LoginActivity.this,"FW",true);//快速消费 微信支付
-                }else if(str.equals("FastAlipay")){
-                    SharedUtil.setSharedBData(LoginActivity.this,"FA",true);//支付宝
-                }else if(str.equals("FastCash")){
-                    SharedUtil.setSharedBData(LoginActivity.this,"FX",true);//现金
-                }else if(str.equals("FastCard")){
-                    SharedUtil.setSharedBData(LoginActivity.this,"FY",true);//银行卡
+                if (str.equals("FastWeChat")) {
+                    SharedUtil.setSharedBData(LoginActivity.this, "FW", true);//快速消费 微信支付
+                } else if (str.equals("FastAlipay")) {
+                    SharedUtil.setSharedBData(LoginActivity.this, "FA", true);//支付宝
+                } else if (str.equals("FastCash")) {
+                    SharedUtil.setSharedBData(LoginActivity.this, "FX", true);//现金
+                } else if (str.equals("FastCard")) {
+                    SharedUtil.setSharedBData(LoginActivity.this, "FY", true);//银行卡
 
-                }else if(str.equals("RechargeWeChat")){
-                    SharedUtil.setSharedBData(LoginActivity.this,"RW",true);//充值
-                }else if(str.equals("RechargeAlipay")){
-                    SharedUtil.setSharedBData(LoginActivity.this,"RA",true);
-                }else if(str.equals("RechargeCash")){
-                    SharedUtil.setSharedBData(LoginActivity.this,"RX",true);
-                }else if(str.equals("RechargeCard")){
-                    SharedUtil.setSharedBData(LoginActivity.this,"RY",true);
+                } else if (str.equals("RechargeWeChat")) {
+                    SharedUtil.setSharedBData(LoginActivity.this, "RW", true);//充值
+                } else if (str.equals("RechargeAlipay")) {
+                    SharedUtil.setSharedBData(LoginActivity.this, "RA", true);
+                } else if (str.equals("RechargeCash")) {
+                    SharedUtil.setSharedBData(LoginActivity.this, "RX", true);
+                } else if (str.equals("RechargeCard")) {
+                    SharedUtil.setSharedBData(LoginActivity.this, "RY", true);
 
-                }else if(str.equals("OpenWeChat")){
-                    SharedUtil.setSharedBData(LoginActivity.this,"OW",true);//开卡
-                }else if(str.equals("OpenAlipay")){
-                    SharedUtil.setSharedBData(LoginActivity.this,"OA",true);
-                }else if(str.equals("OpenCash")){
-                    SharedUtil.setSharedBData(LoginActivity.this,"OX",true);
-                }else if(str.equals("OpenCard")){
-                    SharedUtil.setSharedBData(LoginActivity.this,"OY",true);
+                } else if (str.equals("OpenWeChat")) {
+                    SharedUtil.setSharedBData(LoginActivity.this, "OW", true);//开卡
+                } else if (str.equals("OpenAlipay")) {
+                    SharedUtil.setSharedBData(LoginActivity.this, "OA", true);
+                } else if (str.equals("OpenCash")) {
+                    SharedUtil.setSharedBData(LoginActivity.this, "OX", true);
+                } else if (str.equals("OpenCard")) {
+                    SharedUtil.setSharedBData(LoginActivity.this, "OY", true);
 
-                }else if(str.equals("GoodWeChat")){
-                    SharedUtil.setSharedBData(LoginActivity.this,"GW",true);//产品消费
-                }else if(str.equals("GoodAlipay")){
-                    SharedUtil.setSharedBData(LoginActivity.this,"GA",true);
-                }else if(str.equals("GoodCash")){
-                    SharedUtil.setSharedBData(LoginActivity.this,"GX",true);
-                }else if(str.equals("GoodCard")){
-                    SharedUtil.setSharedBData(LoginActivity.this,"GY",true);
+                } else if (str.equals("GoodWeChat")) {
+                    SharedUtil.setSharedBData(LoginActivity.this, "GW", true);//产品消费
+                } else if (str.equals("GoodAlipay")) {
+                    SharedUtil.setSharedBData(LoginActivity.this, "GA", true);
+                } else if (str.equals("GoodCash")) {
+                    SharedUtil.setSharedBData(LoginActivity.this, "GX", true);
+                } else if (str.equals("GoodCard")) {
+                    SharedUtil.setSharedBData(LoginActivity.this, "GY", true);
 
-                }else if(str.equals("PurchaseWeChat")){
-                    SharedUtil.setSharedBData(LoginActivity.this,"PW",true);//购次
-                }else if(str.equals("PurchaseAlipay")){
-                    SharedUtil.setSharedBData(LoginActivity.this,"PA",true);
-                }else if(str.equals("PurchaseCash")){
-                    SharedUtil.setSharedBData(LoginActivity.this,"PX",true);
-                }else if(str.equals("PurchaseCard")){
-                    SharedUtil.setSharedBData(LoginActivity.this,"PY",true);
+                } else if (str.equals("PurchaseWeChat")) {
+                    SharedUtil.setSharedBData(LoginActivity.this, "PW", true);//购次
+                } else if (str.equals("PurchaseAlipay")) {
+                    SharedUtil.setSharedBData(LoginActivity.this, "PA", true);
+                } else if (str.equals("PurchaseCash")) {
+                    SharedUtil.setSharedBData(LoginActivity.this, "PX", true);
+                } else if (str.equals("PurchaseCard")) {
+                    SharedUtil.setSharedBData(LoginActivity.this, "PY", true);
                 }
 
-
-
             }
+        }
+        list_rechargefast.clear();
+        if (loginData.getRechargefast() != null) {
+            list_rechargefast = loginData.getRechargefast();
         }
 
 

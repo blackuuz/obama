@@ -4,8 +4,8 @@
     android:layout_height="wrap_content"
     android:background="@mipmap/pop_up_01"
     android:gravity="center_horizontal"
-    android:paddingBottom="30dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="30dp">
 
     <ImageView
         android:id="@+id/pop_iv_click"
@@ -22,103 +22,50 @@
         android:textColor="#3444f5"
         android:textSize="20sp" />
 
-    <LinearLayout
-        android:id="@+id/pop_click1"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        android:paddingLeft="45dp"
-        android:paddingTop="10dp">
+        android:layout_height="1dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:background="#8d8d8d" />
 
-        <ImageView
-            android:id="@+id/pop_iv1"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@drawable/select_pop" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="充100送"
-            android:textColor="#000"
-            android:textSize="20sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="50"
-            android:textColor="#ff0000"
-            android:textSize="20sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/pop_click2"
+    <ListView
+        android:id="@+id/lv_recharge"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        android:paddingLeft="45dp"
-        android:paddingTop="10dp">
+        android:layout_height="match_parent"
+        android:layout_margin="1dp"
+        android:divider="@color/main_bg"
+        android:dividerHeight="1dp"></ListView>
 
-        <ImageView
-            android:id="@+id/pop_iv2"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@drawable/select_pop" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="充200送"
-            android:textColor="#000"
-            android:textSize="20sp" />
+</LinearLayout><!--<LinearLayout--><!--android:id="@+id/pop_click1"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:layout_marginTop="20dp"--><!--android:orientation="horizontal"--><!--android:paddingBottom="10dp"--><!--android:paddingLeft="45dp"--><!--android:paddingTop="10dp">-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="120"
-            android:textColor="#ff0000"
-            android:textSize="20sp" />
+    <!--<ImageView--><!--android:id="@+id/pop_iv1"--><!--android:layout_width="20dp"--><!--android:layout_height="20dp"--><!--android:background="@drawable/select_pop" />-->
 
-    </LinearLayout>
+    <!--<TextView--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_marginLeft="20dp"--><!--android:text="充100送"--><!--android:textColor="#000"--><!--android:textSize="20sp" />-->
 
-    <LinearLayout
-        android:id="@+id/pop_click3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        android:paddingLeft="45dp"
-        android:paddingTop="10dp">
+    <!--<TextView--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:text="50"--><!--android:textColor="#ff0000"--><!--android:textSize="20sp" />-->
 
-        <ImageView
-            android:id="@+id/pop_iv3"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@drawable/select_pop" />
+    <!--</LinearLayout>-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="充300送"
-            android:textColor="#000"
-            android:textSize="20sp" />
+    <!--<LinearLayout--><!--android:id="@+id/pop_click2"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:layout_marginTop="20dp"--><!--android:orientation="horizontal"--><!--android:paddingBottom="10dp"--><!--android:paddingLeft="45dp"--><!--android:paddingTop="10dp">-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="200"
-            android:textColor="#ff0000"
-            android:textSize="20sp" />
+    <!--<ImageView--><!--android:id="@+id/pop_iv2"--><!--android:layout_width="20dp"--><!--android:layout_height="20dp"--><!--android:background="@drawable/select_pop" />-->
 
-    </LinearLayout>
+    <!--<TextView--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_marginLeft="20dp"--><!--android:text="充200送"--><!--android:textColor="#000"--><!--android:textSize="20sp" />-->
 
-</LinearLayout>
+    <!--<TextView--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:text="120"--><!--android:textColor="#ff0000"--><!--android:textSize="20sp" />-->
+
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout--><!--android:id="@+id/pop_click3"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:layout_marginTop="20dp"--><!--android:orientation="horizontal"--><!--android:paddingBottom="10dp"--><!--android:paddingLeft="45dp"--><!--android:paddingTop="10dp">-->
+
+    <!--<ImageView--><!--android:id="@+id/pop_iv3"--><!--android:layout_width="20dp"--><!--android:layout_height="20dp"--><!--android:background="@drawable/select_pop" />-->
+
+    <!--<TextView--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_marginLeft="20dp"--><!--android:text="充300送"--><!--android:textColor="#000"--><!--android:textSize="20sp" />-->
+
+    <!--<TextView--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:text="200"--><!--android:textColor="#ff0000"--><!--android:textSize="20sp" />-->
+
+    <!--</LinearLayout>-->
+
+

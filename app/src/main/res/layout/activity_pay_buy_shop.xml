@@ -93,7 +93,7 @@
 
         <include layout="@layout/pay_hint" />
 
-        <include layout="@layout/pay_select" />
+        <include layout="@layout/pay_select3" />
 
     </LinearLayout>
 

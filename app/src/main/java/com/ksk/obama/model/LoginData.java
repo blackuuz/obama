@@ -50,20 +50,38 @@ public class LoginData {
     private String n_IntegralToMoney;
     private String n_IntegralToMoneyMax;
     private String n_IntegralToMoneyDefault;
-
+    private String Rechargebutton;//是否开启快速充值
+    private String RechargePoints;
 
     private List<SetPaysBean> SetPays;
+    private List<RechargefastBean> Rechargefast;
+
+    public List<RechargefastBean> getRechargefast() {
+        return Rechargefast;
+    }
+
+    public void setRechargefast(List<RechargefastBean> rechargefast) {
+        Rechargefast = rechargefast;
+    }
 
     private List<AuthorBean> Author;
-
     private List<ModuleBean> Module;
+
+
+    public String getRechargePoints() {
+        return RechargePoints;
+    }
+
+    public void setRechargePoints(String rechargePoints) {
+        RechargePoints = rechargePoints;
+    }
 
     public List<SetPaysBean> getSetPays() {
         return SetPays;
     }
 
     public void setSetPays(List<SetPaysBean> setPays) {
-        SetPays = setPays;
+        this.SetPays = setPays;
     }
 
     public String getN_IntegralToMoney() {
@@ -225,6 +243,73 @@ public class LoginData {
     public void setModule(List<ModuleBean> Module) {
         this.Module = Module;
     }
+
+
+    public static class RechargefastBean implements Parcelable {
+        /**
+         * "c_Value": "45"
+         * "c_Remark": "5"
+         * "ROW_NUMBER": "1"
+         */
+        private String c_Value;
+        private String c_Remark;
+        private String ROW_NUMBER;
+
+        protected RechargefastBean(Parcel in) {
+            c_Value = in.readString();
+            c_Remark = in.readString();
+            ROW_NUMBER = in.readString();
+        }
+
+        public static final Creator<RechargefastBean> CREATOR = new Creator<RechargefastBean>() {
+            @Override
+            public RechargefastBean createFromParcel(Parcel in) {
+                return new RechargefastBean(in);
+            }
+
+            @Override
+            public RechargefastBean[] newArray(int size) {
+                return new RechargefastBean[size];
+            }
+        };
+
+        public String getC_Value() {
+            return c_Value;
+        }
+
+        public void setC_Value(String c_Value) {
+            this.c_Value = c_Value;
+        }
+
+        public String getROW_NUMBER() {
+            return ROW_NUMBER;
+        }
+
+        public void setROW_NUMBER(String ROW_NUMBER) {
+            this.ROW_NUMBER = ROW_NUMBER;
+        }
+
+        public String getC_Remark() {
+            return c_Remark;
+        }
+
+        public void setC_Remark(String c_Remark) {
+            this.c_Remark = c_Remark;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(c_Value);
+            dest.writeString(c_Remark);
+            dest.writeString(ROW_NUMBER);
+        }
+    }
+
 
     public static class AuthorBean implements Parcelable {
         /**
@@ -403,12 +488,12 @@ public class LoginData {
     public static class SetPaysBean implements Parcelable {
         /**
          * "c_Value": "FastWeChat"
-         * "c_Remark": "1"
          * "ROW_NUMBER": "1"
          */
 
         private String c_Value;
         private String ROW_NUMBER;
+
         public String getROW_NUMBER() {
             return ROW_NUMBER;
         }
@@ -424,8 +509,6 @@ public class LoginData {
         public void setC_Value(String c_Value) {
             this.c_Value = c_Value;
         }
-
-
 
         protected SetPaysBean(Parcel in) {
             c_Value = in.readString();
@@ -455,5 +538,11 @@ public class LoginData {
             dest.writeString(ROW_NUMBER);
         }
     }
+    public String getRechargebutton() {
+        return Rechargebutton;
+    }
 
+    public void setRechargebutton(String rechargebutton) {
+        Rechargebutton = rechargebutton;
+    }
 }
