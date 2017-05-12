@@ -61,7 +61,7 @@
             android:layout_weight="3"
             android:gravity="center"
             android:text="充值"
-            android:background="@mipmap/recharge_fast"
+            android:background="@drawable/select_button_r"
             android:textColor="#fff"
             android:textSize="15sp" />
 

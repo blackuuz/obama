@@ -61,6 +61,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import static com.ksk.obama.utils.SharedUtil.getSharedData;
+import static java.lang.Float.parseFloat;
 
 /**
  * 快速收银界面*2017
@@ -358,7 +359,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
 
                 break;
             case R.id.tv_pay_sm://lkl扫码
-                if (Float.parseFloat(mon) > maxMoney && maxMoney != 0) {
+                if (parseFloat(mon) > maxMoney && maxMoney != 0) {
                     isclick_pay = true;
                     Utils.showToast(QuickDelMActivity.this, "超出扣除最大范围，请修改扣除金额");
                 } else {
@@ -402,7 +403,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                 }
                 break;
             case R.id.tv_pay_yl://银联支付
-                if (Float.parseFloat(mon) > maxMoney && maxMoney != 0) {
+                if (parseFloat(mon) > maxMoney && maxMoney != 0) {
                     isclick_pay = true;
                     Utils.showToast(QuickDelMActivity.this, "超出扣除最大范围，请修改扣除金额");
                 } else {
@@ -488,7 +489,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                 break;
 
             case R.id.tv_pay_wx://微信支付
-                if (Float.parseFloat(mon) > maxMoney && maxMoney != 0) {
+                if (parseFloat(mon) > maxMoney && maxMoney != 0) {
                     isclick_pay = true;
                     Utils.showToast(QuickDelMActivity.this, "超出扣除最大范围，请修改扣除金额");
                 } else {
@@ -540,7 +541,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                 break;
 
             case R.id.tv_pay_zfb://支付宝
-                if (maxMoney != 0 && Float.parseFloat(mon) > maxMoney) {
+                if (maxMoney != 0 && parseFloat(mon) > maxMoney) {
                     isclick_pay = true;
                     Utils.showToast(QuickDelMActivity.this, "超出扣除最大范围，请修改扣除金额");
                 } else {
@@ -747,7 +748,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                             cardNum = cardInfo.getResult_data().getC_CardNO();
                             cardName = cardInfo.getResult_data().getC_Name();
                             money1 = cardInfo.getResult_data().getN_AmountAvailable();
-                            vipIntegral = Float.parseFloat(cardInfo.getResult_data().getN_IntegralValue()) * 0.01f;
+                            vipIntegral = parseFloat(cardInfo.getResult_data().getN_IntegralValue()) * 0.01f;
                             String jifen = cardInfo.getResult_data().getN_IntegralAvailable();
                             password = cardInfo.getResult_data().getC_Password();
                             tv_name.setText("会员姓名:" + cardName);
@@ -832,11 +833,11 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
             isclick_pay = true;
             Utils.showToast(QuickDelMActivity.this, "请填写扣除金额");
             return false;
-        } else if (Float.parseFloat(et_money.getText().toString()) <= 0) {
+        } else if (parseFloat(et_money.getText().toString()) <= 0) {
             isclick_pay = true;
             Utils.showToast(QuickDelMActivity.this, "所扣金额应大于0元");
             return false;
-        } else if (Float.parseFloat(et_money.getText().toString()) > maxMoney && maxMoney != 0) {
+        } else if (parseFloat(et_money.getText().toString()) > maxMoney && maxMoney != 0) {
             isclick_pay = true;
             Utils.showToast(QuickDelMActivity.this, "超出扣除最大范围，请修改扣除金额");
             return false;
@@ -849,9 +850,9 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
      * 计算
      */
     private void calculate() {
-        dx_jf = Float.parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_jf"));//几多积分抵现一元
-        dx_mr = Float.parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_mr")) * 0.01f;//默认抵现倍率
-        dx_max = Float.parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_max"));//最大抵现几多
+        dx_jf = parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_jf"));//几多积分抵现一元
+        dx_mr = parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_mr")) * 0.01f;//默认抵现倍率
+        dx_max = parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_max"));//最大抵现几多
         String str = SharedUtil.getSharedData(QuickDelMActivity.this, "maxmoney");
 
         if (TextUtils.isEmpty(str)) {
@@ -859,7 +860,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         } else if (str.equals("0")) {
             maxMoney = 999999;
         } else {
-            maxMoney = Float.parseFloat(str);
+            maxMoney = parseFloat(str);
         }
 
 
@@ -895,7 +896,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                 if (TextUtils.isEmpty(str)) {
                     delm = 0;
                 } else {
-                    delm = Float.parseFloat(str);
+                    delm = parseFloat(str);
                 }
                 if (delm > maxMoney) {
                     et_money.setText(Utils.getNumStr(maxMoney));
@@ -937,10 +938,10 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                             if (TextUtils.isEmpty(delMoney)) {
                                 del = 0;
                             } else {
-                                del = Float.parseFloat(delMoney);
+                                del = parseFloat(delMoney);
                             }
 
-                            float jf = Float.parseFloat(haveIntegral);
+                            float jf = parseFloat(haveIntegral);
                             if (dx_max >= del * dx_mr) {//否超过默认金额
                                 if (del * dx_mr * dx_jf <= jf) {//卡积分够
                                     et_gread_dx.setText(Utils.getNumStr(del * dx_mr * dx_jf));
@@ -967,9 +968,9 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                             et_money.setInputType(InputType.TYPE_NULL);
                             ll_dx.setVisibility(View.VISIBLE);
                         } else {
-                            dx_jf = Float.parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_jf"));//几多积分抵现一元
-                            dx_mr = Float.parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_mr")) * 0.01f;//默认抵现倍率
-                            dx_max = Float.parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_max"));//最大抵现几多
+                            dx_jf = parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_jf"));//几多积分抵现一元
+                            dx_mr = parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_mr")) * 0.01f;//默认抵现倍率
+                            dx_max = parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_max"));//最大抵现几多
                             temporaryNum = "";
                             temName = "";
                             et_gread_dx.setText("0");
@@ -1056,54 +1057,97 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                     et_gread_dx.setSelection(str.length());
                     float delm;
                     float del_jf;
-                    float have_jf = Float.parseFloat(haveIntegral);
+                    float have_jf = parseFloat(haveIntegral);
                     if (TextUtils.isEmpty(str2)) {
                         delm = 0;
                     } else {
-                        delm = Float.parseFloat(str2);
+                        delm = parseFloat(str2);
                     }
                     if (TextUtils.isEmpty(str)) {
                         del_jf = 0;
                     } else {
-                        del_jf = Float.parseFloat(str);
+                        del_jf = parseFloat(str);
                     }
-                    if (del_jf / dx_jf > delm) {//抵现金额大于消费金额
-                        if (del_jf > have_jf) {//抵现积分大于现有积分
-                            et_gread_dx.removeTextChangedListener(this);
-                            et_gread_dx.setText(Utils.getNumStr(have_jf));
-                            et_gread_dx.addTextChangedListener(this);
-                            et_gread_dx.setInputType(EditorInfo.TYPE_CLASS_PHONE);
-                            et_gread_dx.setSelection(et_gread_dx.getText().length());
-                            tv_money_dx.setText(Utils.getNumStr(have_jf * dx_jf));
-                            tv_pay.setText(Utils.getNumStr(delm - have_jf * dx_jf));
-                        } else {
-                            et_gread_dx.removeTextChangedListener(this);
-                            et_gread_dx.setText(Utils.getNumStr(delm * dx_jf));
-                            et_gread_dx.addTextChangedListener(this);
-                            et_gread_dx.setInputType(EditorInfo.TYPE_CLASS_PHONE);
-                            et_gread_dx.setSelection(et_gread_dx.getText().length());
-                            tv_money_dx.setText(str2);
-                            //  tv_pay.setText("0");
-                        }
-                    } else {
-                        if (del_jf > have_jf) {//抵现积分大于现有积分
-                            et_gread_dx.removeTextChangedListener(this);
-                            et_gread_dx.setText(Utils.getNumStr(have_jf));
-                            et_gread_dx.addTextChangedListener(this);
-                            et_gread_dx.setInputType(EditorInfo.TYPE_CLASS_PHONE);
-                            et_gread_dx.setSelection(et_gread_dx.getText().length());
-                            tv_money_dx.setText(Utils.getNumStr(have_jf / dx_jf));
-                            tv_pay.setText(Utils.getNumStr(delm - have_jf / dx_jf));
-                        } else {
-                            et_gread_dx.removeTextChangedListener(this);
-                            et_gread_dx.setText(str);
-                            et_gread_dx.addTextChangedListener(this);
-                            et_gread_dx.setInputType(EditorInfo.TYPE_CLASS_PHONE);
-                            et_gread_dx.setSelection(et_gread_dx.getText().length());
-                            tv_money_dx.setText(Utils.getNumStr(del_jf / dx_jf));
-                            tv_pay.setText(Utils.getNumStr(delm - del_jf / dx_jf));
+
+
+                    //如果默认积分 比 会员积分多 （会员积分不足） 则使用会员积分
+                    int i = 1;
+                    if(del_jf > have_jf){
+                        del_jf = have_jf;
+                        i++ ;
+                    }
+                    if(dx_max != 0){
+                        if(del_jf / dx_jf > dx_max){
+                            del_jf = dx_max * dx_jf;
+                            i++ ;
                         }
                     }
+                        if(del_jf / dx_jf > delm){
+                        del_jf = delm * dx_jf;
+                        i++ ;
+                    }
+                    et_gread_dx.removeTextChangedListener(this);
+                    if(i == 1){
+                        et_gread_dx.setText(str);
+                    }else{
+                        et_gread_dx.setText(del_jf + "");
+                    }
+                    et_gread_dx.addTextChangedListener(this);
+                    et_gread_dx.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+                    et_gread_dx.setSelection(et_gread_dx.getText().length());
+                    tv_money_dx.setText(Utils.getNumStr(del_jf / dx_jf));
+                    tv_pay.setText(Utils.getNumStr(delm - del_jf / dx_jf));
+
+//                    if(del_jf/dx_jf>dx_max){
+//                        if(del_jf>have_jf){
+//                            et_gread_dx.removeTextChangedListener(this);
+//                            et_gread_dx.setText(Utils.getNumStr(have_jf));
+//                            et_gread_dx.addTextChangedListener(this);
+//                            et_gread_dx.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+//                            et_gread_dx.setSelection(et_gread_dx.getText().length());
+//                            tv_money_dx.setText(Utils.getNumStr(have_jf * dx_jf));
+//                            tv_pay.setText(Utils.getNumStr(delm - have_jf * dx_jf));
+//                        }
+//                    }
+
+                    ///
+//                    if (del_jf / dx_jf > delm) {//抵现金额大于消费金额
+//                        if (del_jf > have_jf) {//抵现积分大于现有积分
+//                            et_gread_dx.removeTextChangedListener(this);
+//                            et_gread_dx.setText(Utils.getNumStr(have_jf));
+//                            et_gread_dx.addTextChangedListener(this);
+//                            et_gread_dx.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+//                            et_gread_dx.setSelection(et_gread_dx.getText().length());
+//                            tv_money_dx.setText(Utils.getNumStr(have_jf * dx_jf));
+//                            tv_pay.setText(Utils.getNumStr(delm - have_jf * dx_jf));
+//                        } else {
+//                            et_gread_dx.removeTextChangedListener(this);
+//                            et_gread_dx.setText(Utils.getNumStr(delm * dx_jf));
+//                            et_gread_dx.addTextChangedListener(this);
+//                            et_gread_dx.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+//                            et_gread_dx.setSelection(et_gread_dx.getText().length());
+//                            tv_money_dx.setText(str2);
+//                            //  tv_pay.setText("0");
+//                        }
+//                    } else {
+//                        if (del_jf > have_jf) {//抵现积分大于现有积分
+//                            et_gread_dx.removeTextChangedListener(this);
+//                            et_gread_dx.setText(Utils.getNumStr(have_jf));
+//                            et_gread_dx.addTextChangedListener(this);
+//                            et_gread_dx.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+//                            et_gread_dx.setSelection(et_gread_dx.getText().length());
+//                            tv_money_dx.setText(Utils.getNumStr(have_jf / dx_jf));
+//                            tv_pay.setText(Utils.getNumStr(delm - have_jf / dx_jf));
+//                        } else {
+//                            et_gread_dx.removeTextChangedListener(this);
+//                            et_gread_dx.setText(str);
+//                            et_gread_dx.addTextChangedListener(this);
+//                            et_gread_dx.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+//                            et_gread_dx.setSelection(et_gread_dx.getText().length());
+//                            tv_money_dx.setText(Utils.getNumStr(del_jf / dx_jf));
+//                            tv_pay.setText(Utils.getNumStr(delm - del_jf / dx_jf));
+//                        }
+//                    }
                 }
             }
         });
@@ -1134,17 +1178,17 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
             Date date = new Date(System.currentTimeMillis());
             SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             orderte = simpleFormat.format(date);
-            float jf = Float.parseFloat(money) * vipIntegral * shopIntegral * shopi;
+            float jf = parseFloat(money) * vipIntegral * shopIntegral * shopi;
             if (isInfo) {
                 getIntegral = Utils.getNumStr(jf);
                 if (n == 4) {
-                    haveMoney = Utils.getNumStr(Float.parseFloat(money1) - Float.parseFloat(money));
+                    haveMoney = Utils.getNumStr(parseFloat(money1) - parseFloat(money));
                 }
                 delIntegral = et_gread_dx.getText().toString();//抵现的积分
                 if (delIntegral.equals("")) {
                     delIntegral = "0";
                 }
-                gread = Utils.getNumStr(Float.parseFloat(haveIntegral) + jf - Float.parseFloat(delIntegral));
+                gread = Utils.getNumStr(parseFloat(haveIntegral) + jf - parseFloat(delIntegral));
             }
             Map<String, String> map = new HashMap<>();
             map.put("costmoney", money);
@@ -1180,7 +1224,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
             map.put("userID", getSharedData(QuickDelMActivity.this, "userInfoId"));
             if (!TextUtils.isEmpty(et_cardNum.getText().toString()) && isInfo) {
                 boolean isvipcard = true;
-                if (n == 4 && Float.parseFloat(money1) < Float.parseFloat(money)) {
+                if (n == 4 && parseFloat(money1) < parseFloat(money)) {
                     isvipcard = false;
                 }
                 if (isvipcard) {
@@ -1333,9 +1377,9 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
     }
 
     private void reset() {
-        dx_jf = Float.parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_jf"));//几多积分抵现一元
-        dx_mr = Float.parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_mr")) * 0.01f;//默认抵现倍率
-        dx_max = Float.parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_max"));//最大抵现几多
+        dx_jf = parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_jf"));//几多积分抵现一元
+        dx_mr = parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_mr")) * 0.01f;//默认抵现倍率
+        dx_max = parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_max"));//最大抵现几多
         switch (robotType) {
             case 3:
             case 4:
@@ -1590,9 +1634,9 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
             }
         }
         openRead();
-        dx_jf = Float.parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_jf"));//几多积分抵现一元
-        dx_mr = Float.parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_mr")) * 0.01f;//默认抵现倍率
-        dx_max = Float.parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_max"));//最大抵现几多
+        dx_jf = parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_jf"));//几多积分抵现一元
+        dx_mr = parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_mr")) * 0.01f;//默认抵现倍率
+        dx_max = parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_max"));//最大抵现几多
         isclick_pay = true;
     }
 

@@ -103,6 +103,7 @@ public class RechargeSupplementActivity extends BaseSupplementActivity implement
             map.put("Supplement", "1");
             map.put("payShould", money + "");
             map.put("result_name",result_name);
+            map.put("paySend",upLoading.getPaySend());
             map.put("orderNo", upLoading.getOrderNo());
             map.put("n_GetIntegral",upLoading.getGetIntegral());
             map.put("EquipmentNum", upLoading.getEquipmentNum());

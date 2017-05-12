@@ -36,6 +36,15 @@ public class RechargeAgain extends DataSupport {
     private String equipmentNum;
     private String refernumber;
     private String uid;
+    private String paySend;
+
+    public String getPaySend() {
+        return paySend;
+    }
+
+    public void setPaySend(String paySend) {
+        this.paySend = paySend;
+    }
 
     public String getGetIntegral() {
         return GetIntegral;

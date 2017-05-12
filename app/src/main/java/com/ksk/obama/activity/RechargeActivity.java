@@ -106,7 +106,7 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
     private String temporaryNum;
     private boolean isTemporary;
     private boolean isflag;
-
+    private String paysend = "";
     private String key = "";
     private String result = "";
 
@@ -501,6 +501,13 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
             orderidScan = "";
         String m_is = et_paya.getText().toString();
         String m_sj = tv_pay.getText().toString();
+
+        if(et_pay_give.getText().toString().equals("")){
+            paysend = "0";
+        }else {
+            paysend = et_pay_give.getText().toString();
+        }
+
         if (TextUtils.isEmpty(m_is)) {
             isclick_pay = true;
             Utils.showToast(RechargeActivity.this, "请填写充值金额");
@@ -521,6 +528,7 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
             map.put("c_Billfrom", robotType + "");
             map.put("Supplement", "0");
             map.put("result_name", result);
+            map.put("paySend",paysend);
             map.put("n_GetIntegral", et_integral.getText().toString());
             switch (n) {
                 case 0:
@@ -615,6 +623,11 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
     private void setDBData() {
         float money = Float.parseFloat(tv_money.getText().toString());
         float integra = Float.parseFloat(et_integral.getText().toString());
+        if(et_pay_give.getText().toString().equals("")){
+            paysend = "0";
+        }else {
+            paysend = et_pay_give.getText().toString();
+        }
         newMoney = Utils.getNumStr(money + oldMoney);
         newintegra = Utils.getNumStr(integra + oldintegra);
         str1 = tv_money.getText().toString();
@@ -638,6 +651,7 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
         upLoading.setGread(oldintegra + "");
         upLoading.setOldMoney(oldMoney + "");
         upLoading.setOrderNo(orderNumber);
+        upLoading.setPaySend(paysend);
         upLoading.setGetIntegral(et_integral.getText().toString());
         upLoading.setShopName(SharedUtil.getSharedData(RechargeActivity.this, "shopname"));
         upLoading.setOrderTime(orderTime);
