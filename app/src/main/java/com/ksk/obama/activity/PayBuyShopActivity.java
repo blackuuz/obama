@@ -6,14 +6,18 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatCheckBox;
+import android.text.Editable;
 import android.text.InputFilter;
+import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -50,8 +54,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-import static com.ksk.obama.R.id.pay_shop_payau;
 import static com.ksk.obama.utils.SharedUtil.getSharedData;
+import static com.ksk.obama.utils.SharedUtil.getSharedInt;
+import static java.lang.Float.parseFloat;
 
 public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBack,
         IPrintSuccessCallback, IPrintErrorCallback, ICreateOrderNumber {
@@ -71,7 +76,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
     private TextView tv_should;
     private TextView tv_del;
     private TextView tv_del_kq;
-    private TextView tv_del_jf;
+    //private TextView tv_del_jf;
     private EditText et_payau;
     private EditText et_gread;
     private float integerValue = 0;
@@ -94,6 +99,19 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
     private String uid = "";
     private Unbinder unbinder = null;
     private boolean isCheck = false;
+    private String delMoney = "";
+
+    private String key = "";
+    private String result = "";
+
+    private float dx_jf;
+    private float dx_mr;
+    private float dx_max;
+    private String dx_integral = "";
+    private String dx_money = "";
+    private String temName = "";
+    private String temporaryNum = "";
+    private boolean isTemporary = false;
 
     @BindView(R.id.ll_jfdx)
     LinearLayout ll_jfdx;
@@ -101,16 +119,14 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
     Button btn_sjsk;
     @BindView(R.id.btn_hdjf)
     Button btn_hdjf;
-    @BindView(R.id.btn_modify_jf)
-    Button btn_modify_jf;
-    @BindView(R.id.btn_buqi)
-    Button btn_buqi;
+    @BindView(R.id.btn_dxjf)
+    Button btn_dxjf;
     @BindView(R.id.cb_ischeck_cpxf)
     AppCompatCheckBox db_isCheck;
     @BindView(R.id.tv_paymoney)
     TextView tv_paymoney;
     @BindView(R.id.tv_money_dx)
-    TextView tv_mondy_dx;
+    TextView tv_money_dx;
     @BindView(R.id.et_dx_jf)
     EditText et_dx_jf;
 
@@ -183,37 +199,51 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
 
     private void initView() {
 
+        dx_jf = parseFloat(SharedUtil.getSharedData(PayBuyShopActivity.this, "dx_jf"));//几多积分抵现一元
+        dx_mr = parseFloat(SharedUtil.getSharedData(PayBuyShopActivity.this, "dx_mr")) * 0.01f;//默认抵现倍率
+        dx_max = parseFloat(SharedUtil.getSharedData(PayBuyShopActivity.this, "dx_max"));//最大抵现几多
+
         tv_should = (TextView) findViewById(R.id.pay_shop_shuold);
         tv_del = (TextView) findViewById(R.id.pay_shop_del);
         tv_del_kq = (TextView) findViewById(R.id.pay_shop_del_kq);
-        tv_del_jf = (TextView) findViewById(R.id.pay_shop_del_jf);
-        et_payau = (EditText) findViewById(pay_shop_payau);
+        // tv_del_jf = (TextView) findViewById(R.id.pay_shop_del_jf);
+        et_payau = (EditText) findViewById(R.id.pay_shop_payau);
         et_gread = (EditText) findViewById(R.id.pay_shop_gread);
         InputFilter[] filters = {new MyTextFilter2()};
         et_payau.setFilters(filters);
         et_gread.setFilters(filters);
+        et_dx_jf.setFilters(filters);
         // TODO: 2017/5/11 下个版本添加
-//        et_payau.setInputType(InputType.TYPE_NULL);
-//        et_gread.setInputType(InputType.TYPE_NULL);
-//        ////// TextView tv_kq = (TextView) findViewById(R.id.tv_pay_kq);
-//        if(SharedUtil.getSharedBData(PayBuyShopActivity.this, "cxsj")){
-//            btn_sjsk.setVisibility(View.GONE);
-//            et_payau.setClickable(true);
-//            et_payau.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
-//        }
-//        if(SharedUtil.getSharedBData(PayBuyShopActivity.this, "cxjf")){
-//            btn_hdjf.setVisibility(View.GONE);
-//            et_gread.setClickable(true);
-//            et_gread.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
-//        }
-
+        et_payau.setInputType(InputType.TYPE_NULL);
+        et_gread.setInputType(InputType.TYPE_NULL);
+        et_dx_jf.setInputType(InputType.TYPE_NULL);
+        ////// TextView tv_kq = (TextView) findViewById(R.id.tv_pay_kq);
+        if (SharedUtil.getSharedBData(PayBuyShopActivity.this, "cxsj")) {
+            btn_sjsk.setVisibility(View.GONE);
+            et_payau.setFocusableInTouchMode(true);
+            et_payau.setFocusable(true);
+            et_payau.requestFocus();
+            et_payau.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        }
+        if (SharedUtil.getSharedBData(PayBuyShopActivity.this, "cxjf")) {
+            btn_hdjf.setVisibility(View.GONE);
+            et_gread.setFocusableInTouchMode(true);
+            et_gread.setFocusable(true);
+            et_gread.requestFocus();
+            et_gread.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        }
+        if (SharedUtil.getSharedBData(PayBuyShopActivity.this, "cxdx")) {
+            btn_dxjf.setVisibility(View.GONE);
+            et_dx_jf.setFocusableInTouchMode(true);
+            et_dx_jf.setFocusable(true);
+            et_dx_jf.requestFocus();
+            et_dx_jf.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        }
 
         tv_jf = (TextView) findViewById(R.id.tv_pay_jf);
         if (!SharedUtil.getSharedBData(PayBuyShopActivity.this, "GX")) {
             pay_xj.setVisibility(View.GONE);
         }
-
-        Log.d("10086", SharedUtil.getSharedBData(PayBuyShopActivity.this, "GW")+"------"+SharedUtil.getSharedBData(PayBuyShopActivity.this, "GA"));
         switch (robotType) {
             case 1:
                 ll_w_a.setVisibility(View.GONE);
@@ -222,7 +252,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                 } else {
                     pay_sm.setVisibility(View.GONE);
                 }
-                if(!SharedUtil.getSharedBData(PayBuyShopActivity.this,"GY")){
+                if (!SharedUtil.getSharedBData(PayBuyShopActivity.this, "GY")) {
                     pay_yl.setVisibility(View.GONE);
                 }
                 break;
@@ -238,47 +268,169 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                 }
                 break;
         }
-// TODO: 2017/5/8 建立并更改 下个版本添加
-//        db_isCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+        db_isCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isVip) {
+                    isCheck = isChecked;
+                    if (isChecked) {
+                        float del;
+                        delMoney = et_payau.getText().toString();
+                        if (TextUtils.isEmpty(delMoney)) {
+                            del = 0;
+                        } else {
+                            del = parseFloat(delMoney);
+                        }
+
+                        float jf = inteCount;
+                        if (dx_max >= del * dx_mr) {//否超过默认金额
+                            if (del * dx_mr * dx_jf <= jf) {//卡积分够
+                                et_dx_jf.setText(Utils.getNumStr(del * dx_mr * dx_jf));
+                                tv_money_dx.setText(Utils.getNumStr(del * dx_mr));
+                                tv_paymoney.setText(Utils.getNumStr(del - del * dx_mr));
+
+                            } else {
+                                et_dx_jf.setText(inteCount + "");
+                                tv_money_dx.setText(Utils.getNumStr(jf / dx_jf));
+                                tv_paymoney.setText(Utils.getNumStr(del - jf / dx_jf));
+                            }
+                        } else {
+                            if (dx_max * dx_mr * dx_jf <= jf) {//卡积分够
+                                et_dx_jf.setText(Utils.getNumStr(dx_max * dx_jf));
+                                tv_money_dx.setText(Utils.getNumStr(dx_max));
+                                tv_paymoney.setText(Utils.getNumStr(del - dx_max));
+                            } else {
+                                et_dx_jf.setText(inteCount + "");
+                                tv_money_dx.setText(Utils.getNumStr(jf / dx_jf));
+                                tv_paymoney.setText(Utils.getNumStr(del - jf / dx_jf));
+                            }
+                        }
+                        btn_dxjf.setEnabled(true);
+                        et_payau.setInputType(InputType.TYPE_NULL);
+                        et_gread.setInputType(InputType.TYPE_NULL);
+                        ll_jfdx.setVisibility(View.VISIBLE);
+
+                    } else {
+                        dx_jf = parseFloat(SharedUtil.getSharedData(PayBuyShopActivity.this, "dx_jf"));//几多积分抵现一元
+                        dx_mr = parseFloat(SharedUtil.getSharedData(PayBuyShopActivity.this, "dx_mr")) * 0.01f;//默认抵现倍率
+                        dx_max = parseFloat(SharedUtil.getSharedData(PayBuyShopActivity.this, "dx_max"));//最大抵现几多
+                        temporaryNum = "";
+                        temName = "";
+                        et_dx_jf.setText("0");
+                        tv_money_dx.setText("0");
+                        tv_paymoney.setText("0");
+                        btn_dxjf.setEnabled(false);
+                        isTemporary = false;
+                        et_dx_jf.setInputType(InputType.TYPE_NULL);
+
+                        if (SharedUtil.getSharedBData(PayBuyShopActivity.this, "cxsj")) {
+                            et_payau.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                        } else {
+                            et_payau.setInputType(InputType.TYPE_NULL);
+
+                        }
+                        if (SharedUtil.getSharedBData(PayBuyShopActivity.this, "cxjf")) {
+                            et_gread.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                        } else {
+                            et_gread.setInputType(InputType.TYPE_NULL);
+                        }
+
+                        ll_jfdx.setVisibility(View.GONE);
+                    }
+
+
+                } else {
+                    db_isCheck.setChecked(false);
+                    Utils.showToast(PayBuyShopActivity.this, "您不是会员，无法使用积分");
+                    ll_jfdx.setVisibility(View.GONE);
+                }
+            }
+        });
+
+//        et_payau.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 //            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if (isVip) {
-//                    isCheck = isChecked;
-//                    if (isChecked) {
-//                        ll_jfdx.setVisibility(View.VISIBLE);
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if (hasFocus) {
+//                    //  et_payau.setText("");
+//                }
+//            }
+//        });
 //
-//                    } else {
-//                        ll_jfdx.setVisibility(View.GONE);
-//                    }
-//
-//
-//                } else {
-//                    db_isCheck.setChecked(false);
-//                    Utils.showToast(PayBuyShopActivity.this, "您不是会员，无法使用积分");
-//                    ll_jfdx.setVisibility(View.GONE);
+//        et_gread.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if (hasFocus) {
+//                    // et_gread.setText("");
 //                }
 //            }
 //        });
 
-        et_payau.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        et_dx_jf.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    et_payau.setText("");
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                String e = et_dx_jf.getText().toString();
+                if (e.equals(0) || e.equals("0") || e.equals("0.")) {
+                    et_dx_jf.setText("");
+                }
+                if (isTemporary || SharedUtil.getSharedBData(PayBuyShopActivity.this, "cxdx")) {
+                    String str = et_dx_jf.getText().toString();
+                    String str2 = et_payau.getText().toString();
+                    et_dx_jf.setSelection(str.length());
+                    float delm;
+                    float del_jf;
+                    float have_jf = inteCount;
+                    if (TextUtils.isEmpty(str2)) {
+                        delm = 0;
+                    } else {
+                        delm = parseFloat(str2);
+                    }
+                    if (TextUtils.isEmpty(str)) {
+                        del_jf = 0;
+                    } else {
+                        del_jf = parseFloat(str);
+                    }
+                    //如果默认积分 比 会员积分多 （会员积分不足） 则使用会员积分
+                    int i = 1;
+                    if (del_jf > have_jf) {
+                        del_jf = have_jf;
+                        i++;
+                    }
+                    if (dx_max != 0) {
+                        if (del_jf / dx_jf > dx_max) {
+                            del_jf = dx_max * dx_jf;
+                            i++;
+                        }
+                    }
+                    if (del_jf / dx_jf > delm) {
+                        del_jf = delm * dx_jf;
+                        i++;
+                    }
+                    et_dx_jf.removeTextChangedListener(this);
+                    if (i == 1) {
+                        et_dx_jf.setText(str);
+                    } else {
+                        et_dx_jf.setText(del_jf + "");
+                    }
+                    et_dx_jf.addTextChangedListener(this);
+                    et_dx_jf.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+                    et_dx_jf.setSelection(et_dx_jf.getText().length());
+                    tv_money_dx.setText(Utils.getNumStr(del_jf / dx_jf));
+                    tv_paymoney.setText(Utils.getNumStr(delm - del_jf / dx_jf));
+
                 }
             }
+
         });
-
-        et_gread.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    et_gread.setText("");
-                }
-            }
-        });
-
-
     }
 
     private void initData() {
@@ -298,7 +450,6 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                 oldm = Float.parseFloat(intent.getStringExtra("old"));
                 integerValue = Float.parseFloat(intent.getStringExtra("integ"));
                 inteCount = Float.parseFloat(intent.getStringExtra("intecount"));
-
                 payAu = Float.parseFloat(intent.getStringExtra("payau"));
                 del = intent.getStringExtra("del");
                 et_payau.setText(payAu + "");
@@ -313,7 +464,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
             tv_should.setText("总价:￥" + should);
             tv_del.setText("折扣优惠:￥" + del);
             tv_del_kq.setText("卡券优惠:￥" + delmoney_kq);
-            tv_del_jf.setText("积分抵用:￥" + del_jf);
+            // tv_del_jf.setText("积分抵用:￥" + del_jf);
 
         }
     }
@@ -321,10 +472,23 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
     //支付的点击监听
     @OnClick({R.id.tv_pay_xj, R.id.tv_pay_sm, R.id.tv_pay_hy, R.id.tv_pay_yl, R.id.tv_pay_wx, R.id.tv_pay_zfb, R.id.tv_pay_kq, R.id.tv_pay_jf})
     public void pay(TextView view) {
+        dx_integral = et_dx_jf.getText().toString();
+        dx_money = tv_money_dx.getText().toString();
+        if (dx_integral.equals("")) {
+            dx_integral = "0";
+        }
+        if (dx_money.equals("")) {
+            dx_money = "0";
+        }
         if (TextUtils.isEmpty(et_payau.getText().toString())) {
             payau = 0;
         } else {
             payau = Float.parseFloat(et_payau.getText().toString());
+        }
+        if (db_isCheck.isChecked()) {
+            payau = Float.parseFloat(tv_paymoney.getText().toString());
+        } else {
+
         }
         gread = et_gread.getText().toString();
         if (TextUtils.isEmpty(gread)) {
@@ -490,6 +654,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
 
 
     private void sendData(String orderidScan) {
+
         if (TextUtils.isEmpty(orderidScan))
             orderidScan = "";
         Map<String, String> map = new HashMap<>();
@@ -497,6 +662,8 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
             map.put("integral", integral);
             map.put("get_integral", gread);
             map.put("Member_Id", memid);
+            map.put("payDecIntegral", dx_integral);//抵现的积分
+            map.put("payIntegral", dx_money);//抵现的金额
         }
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -533,8 +700,9 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
             case 4:
                 map.put("payCard", payau + "");
                 break;
-
         }
+        map.put("temporary_num", temporaryNum);
+        map.put("result_name", temName);
         postToHttp(NetworkUrl.BUYSHOP, map, new IHttpCallBack() {
             @Override
             public void OnSucess(String jsonText) {
@@ -577,7 +745,6 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                 integral += list_buy.get(i).getMoneyin() * list_buy.get(i).getJifen() * (isVip ? integerValue : 0) * shopIntegral + ",";
             }
         }
-
         gread = integralCount + "";
         et_gread.setText(Utils.getNumStr(integralCount));
     }
@@ -653,6 +820,33 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
             list_son.add(page);
         }
         List<String> listp = new ArrayList<>();
+        if (SharedUtil.getSharedBData(PayBuyShopActivity.this, "bluetooth")) {
+            int nn = getSharedInt(PayBuyShopActivity.this, "num");
+            String str = SharedUtil.getSharedData(PayBuyShopActivity.this, "day");
+            Date date = new Date(System.currentTimeMillis());
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String time = simpleDateFormat.format(date);
+            if (!str.equals(time.substring(8, 10))) {
+                nn = 0;
+                SharedUtil.setSharedData(PayBuyShopActivity.this, "day", time.substring(8, 10));
+            }
+//            int nn_ = SharedUtil.getSharedInt(PayBuyShopActivity.this, "nn");
+//            if ((nn+1) == nn_) {
+//                Utils.showToast(PayBuyShopActivity.this, "蓝牙未连接");
+//                SharedUtil.setSharedInt(PayBuyShopActivity.this, "num", nn+1);
+//            }
+            nn += 1;
+//            SharedUtil.setSharedInt(PayBuyShopActivity.this, "nn", nn);
+            String num = "";
+            if (nn < 10) {
+                num = terminalSn.substring(terminalSn.length() - 2) + "00" + nn;
+            } else if (nn < 100) {
+                num = terminalSn.substring(terminalSn.length() - 2) + "0" + nn;
+            } else {
+                num = terminalSn.substring(terminalSn.length() - 2) + nn;
+            }
+            listp.add("序号:" + num);
+        }
         listp.add((flag ? "时间:" : "订单生成时间") + orderTime);
         listp.add("订单号:" + orderNumber);
         listp.add("会员卡号:" + cardNum);
@@ -787,6 +981,8 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
         buyShopDb.setUid(uid);
         buyShopDb.setMoney(moneycount);
         buyShopDb.setIntegral(integral);
+        buyShopDb.setDx_Integral(dx_integral);
+        buyShopDb.setDx_Money(dx_money);
         buyShopDb.setGet_integral(gread);
         buyShopDb.setMember_Id(memid);
         buyShopDb.setUser_Id(SharedUtil.getSharedData(PayBuyShopActivity.this, "userInfoId"));
@@ -802,6 +998,8 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
         buyShopDb.setOrder_again(order_again);
         buyShopDb.setName(name);
         buyShopDb.setYouhui(del);
+        buyShopDb.setTemName(temName);
+        buyShopDb.setTemporaryNum(temporaryNum);
         if (n == 4) {
             buyShopDb.setOldMoney(Utils.getNumStr(oldm - payAu));
         } else {
@@ -883,7 +1081,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
         et_payau.setText(Utils.getNumStr(payau));
         tv_del.setText("折扣优惠:￥" + del);
         tv_del_kq.setText("卡券优惠:￥" + delmoney_kq);
-        tv_del_jf.setText("积分抵用:￥" + delmoney_jf);
+        // tv_del_jf.setText("积分抵用:￥" + delmoney_jf);
     }
 
     @Override
@@ -955,5 +1153,155 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
             postToHttp(NetworkUrl.DELPAYQRCODE, map, null);
         }
         getOrderNum("SY");
+    }
+
+
+    @OnClick({R.id.btn_sjsk, R.id.btn_hdjf, R.id.btn_dxjf})
+    public void temporary(View v) {
+        switch (v.getId()) {
+            case R.id.btn_sjsk:
+                if (!db_isCheck.isChecked()) {
+                    key = "je";
+                    Arrived();
+                } else {
+                    Utils.showToast(PayBuyShopActivity.this, "该状态下不能修改“实际收款”");
+                }
+
+                break;
+            case R.id.btn_hdjf:
+                if (!db_isCheck.isChecked()) {
+                    key = "jf";
+                    Arrived();
+                } else {
+                    Utils.showToast(PayBuyShopActivity.this, "该状态下不能修改“获得积分”");
+                }
+                break;
+            case R.id.btn_dxjf:
+                key = "dx";
+                Arrived();
+                break;
+        }
+    }
+
+    private void Arrived() {
+        final PopupWindow window = new PopupWindow();
+        View contentView = LayoutInflater.from(PayBuyShopActivity.this).inflate(R.layout.pop_temporary, null);
+        final EditText et_num = (EditText) contentView.findViewById(R.id.et_num);
+        final EditText et_pwd = (EditText) contentView.findViewById(R.id.et_pwd);
+        ImageView back = (ImageView) contentView.findViewById(R.id.iv_back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                window.dismiss();
+            }
+        });
+
+        contentView.findViewById(R.id.btn_yes).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String str1 = et_num.getText().toString();
+                String str2 = et_pwd.getText().toString();
+                if (TextUtils.isEmpty(str1)) {
+                    Utils.showToast(PayBuyShopActivity.this, "请输入工号");
+                } //else if (TextUtils.isEmpty(str2)) {
+//                    Utils.showToast(RechargeActivity.this, "请输入密码");
+                else {
+                    getTemporary(str1, str2);
+                    window.dismiss();
+                }
+            }
+        });
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int w = dm.widthPixels;
+        int h = dm.heightPixels;
+        window.setContentView(contentView);
+        window.setWidth((int) (w * 0.8));
+        window.setHeight((int) (h * 0.4));
+        window.setFocusable(true);
+        window.setOutsideTouchable(false);
+        window.update();
+        ColorDrawable dw = new ColorDrawable();
+        window.setBackgroundDrawable(dw);
+        window.showAtLocation(findViewById(R.id.activity_pay_buy_shop), Gravity.CENTER, 0, 0);
+    }
+
+
+    private void getTemporary(final String num, String pwd) {
+        Map<String, String> map = new HashMap<>();
+        map.put("c_JobNumber", num);
+        map.put("Password", pwd);
+        map.put("dbName", getSharedData(PayBuyShopActivity.this, "dbname"));
+        postToHttp(NetworkUrl.TEMPORARY, map, new IHttpCallBack() {
+            @Override
+            public void OnSucess(String jsonText) {
+                Logger.e(jsonText);
+
+                try {
+                    JSONObject j = new JSONObject(jsonText);
+                    String s = j.getString("result_data");
+                    result = j.getString("result_name");
+
+                    int ssje = s.indexOf("POS:产销实收金额修改");
+                    int zsjf = s.indexOf("POS:产销获得积分修改");
+                    int jfdx = s.indexOf("POS:产销积分抵现修改");
+                    Logger.e("" + ssje + "---" + zsjf + "---" + jfdx);
+                    if (key.equals("je")) {
+                        if (jfdx > 0) {
+                            Utils.showToast(PayBuyShopActivity.this, "授权成功");
+                            // isTemporary = true;
+                            temporaryNum = num;
+                            temName = j.getString("result_name") + " ";
+                            et_payau.setFocusableInTouchMode(true);
+                            et_payau.setFocusable(true);
+                            et_payau.requestFocus();
+                            et_payau.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                        } else {
+                            Utils.showToast(PayBuyShopActivity.this, "您没有权限或密码错误");
+                        }
+                    }
+                    if (key.equals("jf")) {
+                        if (zsjf > 0) {
+                            Utils.showToast(PayBuyShopActivity.this, "授权成功");
+
+                            temporaryNum = num;
+                            temName = j.getString("result_name") + "";
+                            et_gread.setFocusableInTouchMode(true);
+                            et_gread.setFocusable(true);
+                            et_gread.requestFocus();
+                            et_gread.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
+                        } else {
+                            Utils.showToast(PayBuyShopActivity.this, "您没有权限或密码错误");
+                        }
+                    }
+                    if (key.equals("dx")) {
+                        if (ssje > 0) {
+                            Utils.showToast(PayBuyShopActivity.this, "授权成功");
+                            isTemporary = true;
+                            temporaryNum = num;
+                            temName = j.getString("result_name") + "";
+                            et_dx_jf.setFocusableInTouchMode(true);
+                            et_dx_jf.setFocusable(true);
+                            et_dx_jf.requestFocus();
+                            et_dx_jf.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
+                        } else {
+                            Utils.showToast(PayBuyShopActivity.this, "您没有权限或密码错误");
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Utils.showToast(PayBuyShopActivity.this, "服务器异常");
+                }
+            }
+
+            @Override
+            public void OnFail(String message) {
+                Utils.showToast(PayBuyShopActivity.this, "临时授权失败");
+            }
+
+        });
     }
 }

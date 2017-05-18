@@ -5,13 +5,20 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatCheckBox;
+import android.text.Editable;
 import android.text.InputFilter;
+import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -45,15 +52,23 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
+import static com.ksk.obama.R.id.btn_dxjf;
+import static com.ksk.obama.R.id.btn_hdjf;
+import static com.ksk.obama.R.id.btn_sjsk;
+import static com.ksk.obama.R.id.et_dx_jf;
+import static com.ksk.obama.R.id.ll_jfdx;
+import static com.ksk.obama.R.id.tv_money_dx;
 import static com.ksk.obama.utils.SharedUtil.getSharedData;
+import static java.lang.Float.parseFloat;
 
 public class PayBuyCountActivity extends BasePrintActivity implements View.OnClickListener, IPayCallBack,
         IPrintSuccessCallback, IPrintErrorCallback, ICreateOrderNumber {
+
+
     private boolean isPay = false;
-    private EditText et_money;
-    private EditText et_gread;
     private String memid;
     private String cardNum;
     private String name;
@@ -78,7 +93,47 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
     private boolean flag = false;
     private String orderTime = "";
     private String uid;
+
+    private float inteCount = 0f;
+    private boolean isCheck = false;
+    private boolean isTemporary = false;
+    private String delMoney = "";
+    private String key = "";
+    private String result = "";
+    private String temName = "";
+    private String temporaryNum = "";
+    private String dx_integral = "";
+    private String dx_money = "";
+    private float dx_jf;
+    private float dx_mr;
+    private float dx_max;
+
     private Unbinder unbinder;
+
+    @BindView(R.id.pay_shop_shuold)
+    TextView payShuold;
+    @BindView(R.id.pay_shop_del)
+    TextView payDel;
+    @BindView(R.id.tv_paymoney)
+    TextView tv_paymoney;
+    @BindView(R.id.pay_shop_payau)
+    EditText et_money;
+    @BindView(btn_sjsk)
+    Button btnSjsk;
+    @BindView(R.id.pay_shop_gread)
+    EditText et_gread;
+    @BindView(btn_hdjf)
+    Button btnHdjf;
+    @BindView(et_dx_jf)
+    EditText etDxJf;
+    @BindView(tv_money_dx)
+    TextView tvMoneyDx;
+    @BindView(btn_dxjf)
+    Button btnDxjf;
+    @BindView(ll_jfdx)
+    LinearLayout llJfdx;
+    @BindView(R.id.cb_ischeck_cpxf)
+    AppCompatCheckBox db_isCheck;
 
     @BindView(R.id.tv_pay_xj)
     TextView pay_xj;
@@ -146,14 +201,39 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
     }
 
     private void initView() {
-        et_money = (EditText) findViewById(R.id.et_pay_money);
-        et_gread = (EditText) findViewById(R.id.et_pay_gread);
+        dx_jf = parseFloat(SharedUtil.getSharedData(PayBuyCountActivity.this, "dx_jf"));//几多积分抵现一元
+        dx_mr = parseFloat(SharedUtil.getSharedData(PayBuyCountActivity.this, "dx_mr")) * 0.01f;//默认抵现倍率
+        dx_max = parseFloat(SharedUtil.getSharedData(PayBuyCountActivity.this, "dx_max"));//最大抵现几多
+
+        if (SharedUtil.getSharedBData(PayBuyCountActivity.this, "gcsj")) {
+            btnSjsk.setVisibility(View.GONE);
+            et_money.setFocusableInTouchMode(true);
+            et_money.setFocusable(true);
+            et_money.requestFocus();
+            et_money.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        }
+        if (SharedUtil.getSharedBData(PayBuyCountActivity.this, "gcjf")) {
+            btnHdjf.setVisibility(View.GONE);
+            et_gread.setFocusableInTouchMode(true);
+            et_gread.setFocusable(true);
+            et_gread.requestFocus();
+            et_gread.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        }
+        if (SharedUtil.getSharedBData(PayBuyCountActivity.this, "gcdx")) {
+            btnDxjf.setVisibility(View.GONE);
+            etDxJf.setFocusableInTouchMode(true);
+            etDxJf.setFocusable(true);
+            etDxJf.requestFocus();
+            etDxJf.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        }
+
+
         ll_pay = (LinearLayout) findViewById(R.id.ll_pay);
         if (!SharedUtil.getSharedBData(PayBuyCountActivity.this, "PX")) {
             pay_xj.setVisibility(View.GONE);
         }
 
-        Log.d("10086", SharedUtil.getSharedBData(PayBuyCountActivity.this, "PW")+"------"+SharedUtil.getSharedBData(PayBuyCountActivity.this, "PA"));
+        Log.d("10086", SharedUtil.getSharedBData(PayBuyCountActivity.this, "PW") + "------" + SharedUtil.getSharedBData(PayBuyCountActivity.this, "PA"));
         switch (robotType) {
             case 1:
                 ll_w_a.setVisibility(View.GONE);
@@ -162,7 +242,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
                 } else {
                     pay_sm.setVisibility(View.GONE);
                 }
-                if(!SharedUtil.getSharedBData(PayBuyCountActivity.this,"PY")){
+                if (!SharedUtil.getSharedBData(PayBuyCountActivity.this, "PY")) {
                     pay_yl.setVisibility(View.GONE);
                 }
                 break;
@@ -182,6 +262,146 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
         InputFilter[] filters = {new MyTextFilter()};
         et_money.setFilters(filters);
         et_gread.setFilters(filters);
+        etDxJf.setFilters(filters);
+
+        db_isCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isCheck = isChecked;
+                if (isChecked) {
+                    float del;
+                    delMoney = et_money.getText().toString();
+                    if (TextUtils.isEmpty(delMoney)) {
+                        del = 0;
+                    } else {
+                        del = parseFloat(delMoney);
+                    }
+
+                    float jf = inteCount;
+                    if (dx_max >= del * dx_mr) {//否超过默认金额
+                        if (del * dx_mr * dx_jf <= jf) {//卡积分够
+                            etDxJf.setText(Utils.getNumStr(del * dx_mr * dx_jf));
+                            tvMoneyDx.setText(Utils.getNumStr(del * dx_mr));
+                            tv_paymoney.setText(Utils.getNumStr(del - del * dx_mr));
+
+                        } else {
+                            etDxJf.setText(inteCount + "");
+                            tvMoneyDx.setText(Utils.getNumStr(jf / dx_jf));
+                            tv_paymoney.setText(Utils.getNumStr(del - jf / dx_jf));
+                        }
+                    } else {
+                        if (dx_max * dx_mr * dx_jf <= jf) {//卡积分够
+                            etDxJf.setText(Utils.getNumStr(dx_max * dx_jf));
+                            tvMoneyDx.setText(Utils.getNumStr(dx_max));
+                            tv_paymoney.setText(Utils.getNumStr(del - dx_max));
+                        } else {
+                            etDxJf.setText(inteCount + "");
+                            tvMoneyDx.setText(Utils.getNumStr(jf / dx_jf));
+                            tv_paymoney.setText(Utils.getNumStr(del - jf / dx_jf));
+                        }
+                    }
+                    btnDxjf.setEnabled(true);
+                    et_money.setInputType(InputType.TYPE_NULL);
+                    et_gread.setInputType(InputType.TYPE_NULL);
+                    llJfdx.setVisibility(View.VISIBLE);
+
+                } else {
+                    dx_jf = parseFloat(SharedUtil.getSharedData(PayBuyCountActivity.this, "dx_jf"));//几多积分抵现一元
+                    dx_mr = parseFloat(SharedUtil.getSharedData(PayBuyCountActivity.this, "dx_mr")) * 0.01f;//默认抵现倍率
+                    dx_max = parseFloat(SharedUtil.getSharedData(PayBuyCountActivity.this, "dx_max"));//最大抵现几多
+                    temporaryNum = "";
+                    temName = "";
+                    etDxJf.setText("0");
+                    tvMoneyDx.setText("0");
+                    tv_paymoney.setText("0");
+                    btnDxjf.setEnabled(false);
+                    isTemporary = false;
+                    etDxJf.setInputType(InputType.TYPE_NULL);
+
+                    if (SharedUtil.getSharedBData(PayBuyCountActivity.this, "cxsj")) {
+                        et_money.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                    } else {
+                        et_money.setInputType(InputType.TYPE_NULL);
+
+                    }
+                    if (SharedUtil.getSharedBData(PayBuyCountActivity.this, "cxjf")) {
+                        et_gread.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                    } else {
+                        et_gread.setInputType(InputType.TYPE_NULL);
+                    }
+
+                    llJfdx.setVisibility(View.GONE);
+                }
+
+            }
+        });
+        etDxJf.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                String e = etDxJf.getText().toString();
+                if (e.equals(0) || e.equals("0") || e.equals("0.")) {
+                    etDxJf.setText("");
+                }
+                if (isTemporary || SharedUtil.getSharedBData(PayBuyCountActivity.this, "cxdx")) {
+                    String str = etDxJf.getText().toString();
+                    String str2 = et_money.getText().toString();
+                    etDxJf.setSelection(str.length());
+                    float delm;
+                    float del_jf;
+                    float have_jf = inteCount;
+                    if (TextUtils.isEmpty(str2)) {
+                        delm = 0;
+                    } else {
+                        delm = parseFloat(str2);
+                    }
+                    if (TextUtils.isEmpty(str)) {
+                        del_jf = 0;
+                    } else {
+                        del_jf = parseFloat(str);
+                    }
+                    //如果默认积分 比 会员积分多 （会员积分不足） 则使用会员积分
+                    int i = 1;
+                    if (del_jf > have_jf) {
+                        del_jf = have_jf;
+                        i++;
+                    }
+                    if (dx_max != 0) {
+                        if (del_jf / dx_jf > dx_max) {
+                            del_jf = dx_max * dx_jf;
+                            i++;
+                        }
+                    }
+                    if (del_jf / dx_jf > delm) {
+                        del_jf = delm * dx_jf;
+                        i++;
+                    }
+                    etDxJf.removeTextChangedListener(this);
+                    if (i == 1) {
+                        etDxJf.setText(str);
+                    } else {
+                        etDxJf.setText(del_jf + "");
+                    }
+                    etDxJf.addTextChangedListener(this);
+                    etDxJf.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+                    etDxJf.setSelection(etDxJf.getText().length());
+                    tvMoneyDx.setText(Utils.getNumStr(del_jf / dx_jf));
+                    tv_paymoney.setText(Utils.getNumStr(delm - del_jf / dx_jf));
+
+                }
+            }
+
+        });
+
+
         pay_xj.setOnClickListener(this);
         pay_hy.setOnClickListener(this);
         pay_sm.setOnClickListener(this);
@@ -190,23 +410,23 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
         pay_zfb.setOnClickListener(this);
 
 
-        et_money.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    et_money.setText("");
-                }
-            }
-        });
-
-        et_gread.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    et_gread.setText("");
-                }
-            }
-        });
+//        et_money.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if (hasFocus) {
+//                    et_money.setText("");
+//                }
+//            }
+//        });
+//
+//        et_gread.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if (hasFocus) {
+//                    et_gread.setText("");
+//                }
+//            }
+//        });
 
     }
 
@@ -229,6 +449,9 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
             payau = pay;
             et_money.setText(pay);
             et_gread.setText(gread);
+            payShuold.setText("总价:￥" + should);
+            payDel.setText("折扣优惠:￥" + del);
+            inteCount = Float.parseFloat(oldIntegral);
         }
     }
 
@@ -236,6 +459,23 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
     public void onClick(View v) {
         payau = et_money.getText().toString();
         gread = et_gread.getText().toString();
+        dx_integral = etDxJf.getText().toString();
+        dx_money = tvMoneyDx.getText().toString();
+        if (dx_integral.equals("")) {
+            dx_integral = "0";
+        }
+        if (dx_money.equals("")) {
+            dx_money = "0";
+        }
+        if (TextUtils.isEmpty(et_money.getText().toString())) {
+            payau = "0";
+        } else {
+            payau = et_money.getText().toString();
+        }
+        if (db_isCheck.isChecked()) {
+            payau =tv_paymoney.getText().toString();
+        }
+
         del = Utils.getNumStr(Float.parseFloat(should) - Float.parseFloat(payau));
         if (isclick_pay) {
             isclick_pay = false;
@@ -418,7 +658,10 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
         map.put("CardCode", uid);
         map.put("c_Billfrom", robotType + "");
         map.put("Supplement", "0");
-
+        map.put("payDecIntegral", dx_integral);//抵现的积分
+        map.put("payIntegral", dx_money);//抵现的金额
+        map.put("temporary_num", temporaryNum);
+        map.put("result_name", temName);
         switch (n) {
             case 0:
                 map.put("payCash", payau);
@@ -484,7 +727,6 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
                 String msg = object.getString("result_errmsg");
                 Utils.showToast(PayBuyCountActivity.this, msg);
             } else {
-
                 if (robotType != 1 || (n != 1 && n != 3)) {
                     String msg = object.getString("result_errmsg");
                     Utils.showToast(PayBuyCountActivity.this, msg);
@@ -663,6 +905,10 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
         buyCountDb.setRefernumber(order_again);
         buyCountDb.setValidTimes(validTimes);
         buyCountDb.setGetIntegral(gread);
+        buyCountDb.setDx_Money(dx_money);
+        buyCountDb.setDx_Integral(dx_integral);
+        buyCountDb.setTemporaryNum(temporaryNum);
+        buyCountDb.setTemName(temName);
         if (n == 4) {
             buyCountDb.setHaveMoney(Utils.getNumStr(oldMoney - Float.parseFloat(payau)));
         } else {
@@ -782,5 +1028,154 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
             map.put("dbName", getSharedData(PayBuyCountActivity.this, "dbname"));
             postToHttp(NetworkUrl.DELPAYQRCODE, map, null);
         }
+    }
+
+    @OnClick({R.id.btn_sjsk, R.id.btn_hdjf, R.id.btn_dxjf})
+    public void temporary(View v) {
+        switch (v.getId()) {
+            case R.id.btn_sjsk:
+                if (!db_isCheck.isChecked()) {
+                    key = "je";
+                    Arrived();
+                } else {
+                    Utils.showToast(PayBuyCountActivity.this, "该状态下不能修改“实际收款”");
+                }
+
+                break;
+            case R.id.btn_hdjf:
+                if (!db_isCheck.isChecked()) {
+                    key = "jf";
+                    Arrived();
+                } else {
+                    Utils.showToast(PayBuyCountActivity.this, "该状态下不能修改“获得积分”");
+                }
+                break;
+            case R.id.btn_dxjf:
+                key = "dx";
+                Arrived();
+                break;
+        }
+    }
+
+    private void Arrived() {
+        final PopupWindow window = new PopupWindow();
+        View contentView = LayoutInflater.from(PayBuyCountActivity.this).inflate(R.layout.pop_temporary, null);
+        final EditText et_num = (EditText) contentView.findViewById(R.id.et_num);
+        final EditText et_pwd = (EditText) contentView.findViewById(R.id.et_pwd);
+        ImageView back = (ImageView) contentView.findViewById(R.id.iv_back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                window.dismiss();
+            }
+        });
+
+        contentView.findViewById(R.id.btn_yes).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String str1 = et_num.getText().toString();
+                String str2 = et_pwd.getText().toString();
+                if (TextUtils.isEmpty(str1)) {
+                    Utils.showToast(PayBuyCountActivity.this, "请输入工号");
+                } //else if (TextUtils.isEmpty(str2)) {
+//                    Utils.showToast(RechargeActivity.this, "请输入密码");
+                else {
+                    getTemporary(str1, str2);
+                    window.dismiss();
+                }
+            }
+        });
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int w = dm.widthPixels;
+        int h = dm.heightPixels;
+        window.setContentView(contentView);
+        window.setWidth((int) (w * 0.8));
+        window.setHeight((int) (h * 0.4));
+        window.setFocusable(true);
+        window.setOutsideTouchable(false);
+        window.update();
+        ColorDrawable dw = new ColorDrawable();
+        window.setBackgroundDrawable(dw);
+        window.showAtLocation(findViewById(R.id.activity_pay_buy_shop), Gravity.CENTER, 0, 0);
+    }
+
+
+    private void getTemporary(final String num, String pwd) {
+        Map<String, String> map = new HashMap<>();
+        map.put("c_JobNumber", num);
+        map.put("Password", pwd);
+        map.put("dbName", getSharedData(PayBuyCountActivity.this, "dbname"));
+        postToHttp(NetworkUrl.TEMPORARY, map, new IHttpCallBack() {
+            @Override
+            public void OnSucess(String jsonText) {
+                Logger.e(jsonText);
+
+                try {
+                    JSONObject j = new JSONObject(jsonText);
+                    String s = j.getString("result_data");
+                    result = j.getString("result_name");
+
+                    int ssje = s.indexOf("POS:购次实收金额修改");
+                    int zsjf = s.indexOf("POS:购次获得积分修改");
+                    int jfdx = s.indexOf("POS:购次积分抵现修改");
+                    Logger.e("" + ssje + "---" + zsjf + "---" + jfdx);
+                    if (key.equals("je")) {
+                        if (jfdx > 0) {
+                            Utils.showToast(PayBuyCountActivity.this, "授权成功");
+                            // isTemporary = true;
+                            temporaryNum = num;
+                            temName = j.getString("result_name") + " ";
+                            et_money.setFocusableInTouchMode(true);
+                            et_money.setFocusable(true);
+                            et_money.requestFocus();
+                            et_money.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                        } else {
+                            Utils.showToast(PayBuyCountActivity.this, "您没有权限或密码错误");
+                        }
+                    }
+                    if (key.equals("jf")) {
+                        if (zsjf > 0) {
+                            Utils.showToast(PayBuyCountActivity.this, "授权成功");
+
+                            temporaryNum = num;
+                            temName = j.getString("result_name") + "";
+                            et_gread.setFocusableInTouchMode(true);
+                            et_gread.setFocusable(true);
+                            et_gread.requestFocus();
+                            et_gread.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
+                        } else {
+                            Utils.showToast(PayBuyCountActivity.this, "您没有权限或密码错误");
+                        }
+                    }
+                    if (key.equals("dx")) {
+                        if (ssje > 0) {
+                            Utils.showToast(PayBuyCountActivity.this, "授权成功");
+                            isTemporary = true;
+                            temporaryNum = num;
+                            temName = j.getString("result_name") + "";
+                            etDxJf.setFocusableInTouchMode(true);
+                            etDxJf.setFocusable(true);
+                            etDxJf.requestFocus();
+                            etDxJf.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
+                        } else {
+                            Utils.showToast(PayBuyCountActivity.this, "您没有权限或密码错误");
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Utils.showToast(PayBuyCountActivity.this, "服务器异常");
+                }
+            }
+
+            @Override
+            public void OnFail(String message) {
+                Utils.showToast(PayBuyCountActivity.this, "临时授权失败");
+            }
+
+        });
     }
 }

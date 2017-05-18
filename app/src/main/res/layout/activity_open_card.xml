@@ -138,6 +138,7 @@
                 <EditText
                     android:id="@+id/et_open_ss"
                     style="@style/edit_open"
+                    android:focusable="false"
                     android:layout_width="100dp"
                     android:gravity="center"
                     android:inputType="numberDecimal"

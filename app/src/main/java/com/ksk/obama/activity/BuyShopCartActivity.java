@@ -436,6 +436,7 @@ public class BuyShopCartActivity extends BuyShopReadActivity implements IReadCar
                                     * num);
                         }
                     }
+                    adapter.notifyDataSetChanged();
                     upListData();
                     window.dismiss();
                 } else {

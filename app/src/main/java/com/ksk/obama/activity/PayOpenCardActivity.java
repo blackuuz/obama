@@ -5,11 +5,16 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.text.InputFilter;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -22,6 +27,7 @@ import com.ksk.obama.callback.IPayCallBack;
 import com.ksk.obama.callback.IPrintErrorCallback;
 import com.ksk.obama.callback.IPrintSuccessCallback;
 import com.ksk.obama.model.OpenCardInfo;
+import com.ksk.obama.utils.MyTextFilter;
 import com.ksk.obama.utils.NetworkUrl;
 import com.ksk.obama.utils.SharedUtil;
 import com.ksk.obama.utils.Utils;
@@ -40,12 +46,15 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
+
+import static com.ksk.obama.utils.SharedUtil.getSharedData;
 
 public class PayOpenCardActivity extends BasePrintActivity implements View.OnClickListener, IPayCallBack,
         IPrintSuccessCallback, IPrintErrorCallback {
 
-    private TextView tv_money;
+
     private int n = -1;
     private OpenCardInfo cardInfo;
     private String orderno = "";
@@ -53,6 +62,10 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
     private String orderTime = "";
     private boolean flag = false;
     private boolean isPay = false;
+    private String actualMoney = "";
+    private boolean isTemporary = false;
+    private String temName = "";
+    private String temporaryNum = "";
     private Unbinder unbinder;
 
     @BindView(R.id.tv_pay_xj)
@@ -73,6 +86,12 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
     @BindView(R.id.ll_w_a)
     LinearLayout ll_w_a;
 
+    @BindView(R.id.tv_pay_open_money)
+    TextView tv_money;
+    @BindView(R.id.btn_sjsk)
+    Button btn_sjsk;
+    @BindView(R.id.et_pay)
+    EditText et_pay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +106,8 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
         initView();
         if (getIntent() != null) {
             cardInfo = getIntent().getExtras().getParcelable("info");
-            tv_money.setText("实际收款:" + cardInfo.getPaymoney() + "元");
+            tv_money.setText("应收款:" + cardInfo.getPaymoney() + "元");
+            et_pay.setText(cardInfo.getPaymoney());
         }
     }
 
@@ -118,7 +138,17 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
     }
 
     private void initView() {
-        tv_money = (TextView) findViewById(R.id.tv_pay_open_money);
+
+        InputFilter[] filters = {new MyTextFilter()};
+        et_pay.setFilters(filters);
+        if (SharedUtil.getSharedBData(PayOpenCardActivity.this, "opencard")) {
+            btn_sjsk.setVisibility(View.GONE);
+            et_pay.setFocusableInTouchMode(true);
+            et_pay.setFocusable(true);
+            et_pay.requestFocus();
+            et_pay.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        }
+        //  tv_money = (TextView) findViewById(R.id.tv_pay_open_money);
         if (!SharedUtil.getSharedBData(PayOpenCardActivity.this, "RX")) {
             pay_xj.setVisibility(View.GONE);
             pay_xj1.setVisibility(View.GONE);
@@ -157,7 +187,10 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
         this.setOnPayCallBack(this);
     }
 
-    private void sendData() {
+    private void sendData(String orderno) {//*
+        if (TextUtils.isEmpty(orderno)){//*
+            orderno = "";//*
+        }
         isPay = true;
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -180,24 +213,29 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
         map.put("Supplement", "0");
         map.put("classID", cardInfo.getGoodsId() + "");
         map.put("userID", SharedUtil.getSharedData(PayOpenCardActivity.this, "userInfoId"));
-        map.put("payActual", cardInfo.getPaymoney());
+        map.put("payActual",actualMoney);//实际付款
+        map.put("payShould",cardInfo.getPayshould());//应付款
         map.put("orderNo", orderNumber);
         map.put("CardCode", cardInfo.getUid());
         map.put("c_Billfrom", robotType + "");
+        if (isTemporary) {
+            map.put("temporary_num", temporaryNum);
+            map.put("result_name", temName);
+        }
         switch (n) {
             case 0:
-                map.put("payCash", cardInfo.getPaymoney());
+                map.put("payCash", actualMoney);
                 break;
             case 1:
-                map.put("payWeChat", cardInfo.getPaymoney());
+                map.put("payWeChat", actualMoney);
                 map.put("refernumber", orderno);
                 break;
             case 2:
-                map.put("payAli", cardInfo.getPaymoney());
+                map.put("payAli", actualMoney);
                 map.put("refernumber", orderno);
                 break;
             case 3:
-                map.put("payBank", cardInfo.getPaymoney());
+                map.put("payBank", actualMoney);
                 map.put("refernumber", orderno);
                 break;
         }
@@ -226,16 +264,22 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
             JSONObject object = new JSONObject(json);
             String tag = object.getString("result_stadus");
             if (tag.equals("SUCCESS")) {
-                flag = true;
-                tv_print.setVisibility(View.VISIBLE);
-                tv_print.setEnabled(true);
-                pay_xj.setVisibility(View.GONE);
-                pay_sm.setVisibility(View.GONE);
-                pay_yl.setVisibility(View.GONE);
-                String msg = object.getString("result_msg");
-                Utils.showToast(PayOpenCardActivity.this, msg);
-                payHint(true);
-                printInfo(true);
+                if ((robotType == 1 && n == 1) || (robotType == 1 && n == 3)) {
+                    payMoney(n, actualMoney + "", orderNumber, "开卡");
+                } else {
+                    reSet();
+                }
+             //   String msg = object.getString("result_msg");*
+              //  Utils.showToast(PayOpenCardActivity.this, msg);
+//                flag = true;
+//                tv_print.setVisibility(View.VISIBLE);
+//                tv_print.setEnabled(true);
+//                pay_xj.setVisibility(View.GONE);
+//                pay_sm.setVisibility(View.GONE);
+//                pay_yl.setVisibility(View.GONE);
+
+//                payHint(true);
+//                printInfo(true);
                 switch (robotType) {
                     case 3:
                     case 4:
@@ -268,12 +312,18 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
     public void onClick(View v) {
         if (isclick_pay) {
             isclick_pay = false;
+            actualMoney =  et_pay.getText().toString();
+            if(actualMoney.equals("")){
+                actualMoney = "0";
+            }
+
+
             switch (v.getId()) {
                 case R.id.tv_pay_xj:
                 case R.id.tv_pay_xj1:
                     if (isXJ) {
                         n = 0;
-                        sendData();
+                        sendData("");
                     } else {
                         isclick_pay = true;
                         Utils.showToast(PayOpenCardActivity.this, "没有开通此功能");
@@ -281,17 +331,20 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
 
                     break;
                 case R.id.tv_pay_sm:
+                    n = 1;//
+                    sendData("");//
                 case R.id.tv_pay_wx:
                     n = 1;
-                    payMoney(1, cardInfo.getPaymoney(), orderNumber, "开卡");
+                    payMoney(1, actualMoney, orderNumber, "开卡");
                     break;
                 case R.id.tv_pay_zfb:
                     n = 2;
-                    payMoney(2, cardInfo.getPaymoney(), orderNumber, "开卡");
+                    payMoney(2, actualMoney, orderNumber, "开卡");
                     break;
                 case R.id.tv_pay_yl:
                     n = 3;
-                    payMoney(3, cardInfo.getPaymoney(), orderNumber, "开卡");
+                    sendData("");//
+                   // payMoney(3, actualMoney, orderNumber, "开卡");
                     break;
             }
         }
@@ -319,7 +372,6 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
         }
         openCardDb.setClassID(cardInfo.getGoodsId());
         openCardDb.setUserID(SharedUtil.getSharedData(PayOpenCardActivity.this, "userInfoId"));
-        openCardDb.setPayActual(cardInfo.getPaymoney());
         openCardDb.setEquipmentNum(terminalSn);
         openCardDb.setDbName(SharedUtil.getSharedData(PayOpenCardActivity.this, "dbname"));
         openCardDb.setUserName(SharedUtil.getSharedData(PayOpenCardActivity.this, "username"));
@@ -330,6 +382,12 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
         openCardDb.setChushijf(cardInfo.getStr1());
         openCardDb.setAddId(cardInfo.getAddId());
         openCardDb.setAddName(cardInfo.getAddPerson());
+        openCardDb.setPayActual(actualMoney);
+        openCardDb.setPayShould(cardInfo.getPayshould());
+        openCardDb.setTem(isTemporary);
+        openCardDb.setTemporaryNum(temporaryNum);
+        openCardDb.setTemName(temName);
+
         if (TextUtils.isEmpty(cardInfo.getPrice())) {
             openCardDb.setCardMoney("0");
         } else {
@@ -373,7 +431,11 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 alert_flag = false;
-                sendData();
+                if ((robotType == 1 && n == 1) || (robotType == 1 && n == 2) || (robotType == 1 && n == 3)) {//*
+                    LKLPay(orderno);//*
+                } else {
+                    sendData(orderno);
+                }
             }
         });
         dialog.create().show();
@@ -401,9 +463,19 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
         }
         String str2 = cardInfo.getPaymoney();
         if (TextUtils.isEmpty(str2)) {
-            listp.add("实收金额:0");
+            listp.add("金额:0");
         } else {
-            listp.add("实收金额:" + Utils.getNumStr(Float.parseFloat(str2)));
+            listp.add("金额:" + Utils.getNumStr(Float.parseFloat(str2)));
+        }
+        if(actualMoney.equals("")){
+            listp.add("实收金额:0");
+        }else {
+            listp.add("实收金额:"+Utils.getNumStr(Float.parseFloat(actualMoney)));
+        }
+
+
+        if (isTemporary) {
+            listp.add("授权工号:" + temporaryNum);
         }
         switch (n) {
             case 0:
@@ -437,9 +509,67 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
     public void OnPaySucess(String orderNum, int payMode) {
         orderno = orderNum;
         n = payMode;
-        sendData();
-        loadingDialog.show();
+        if ((robotType == 1 && n == 1) || (robotType == 1 && n == 2) || (robotType == 1 && n == 3)) {//*
+            LKLPay(orderNum);//*
+        } else {//*
+            sendData(orderNum);
+            loadingDialog.show();
+        }
     }
+
+    private void LKLPay(String order) {// TODO: 2017/5/18 ___
+        Map<String, String> map = new HashMap<>();
+        map.put("refernumber", order);
+        map.put("orderNo", orderNumber);
+        map.put("dbName", getSharedData(PayOpenCardActivity.this, "dbname"));
+        switch (n) {
+            case 1:
+                map.put("payWeChat", actualMoney);
+                break;
+            case 2:
+                map.put("payAli", actualMoney);
+                break;
+            case 3:
+                map.put("payBank", actualMoney);
+                break;
+        }
+        postToHttp(NetworkUrl.ADDMEMBER, map, new IHttpCallBack() {
+                    @Override
+                    public void OnSucess(String jsonText) {
+                        Logger.e(jsonText);
+                        try {
+                            JSONObject object = new JSONObject(jsonText);
+                            String tag = object.getString("result_stadus");
+                            if (tag.equals("SUCCESS")) {
+                                reSet();
+                            } else {
+                                showAlert();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                    @Override
+                    public void OnFail(String message) {
+                        showAlert();
+                    }
+                }
+
+        );
+    }
+    private void reSet() {
+        flag = true;
+        tv_print.setVisibility(View.VISIBLE);
+        tv_print.setEnabled(true);
+        pay_xj.setVisibility(View.GONE);
+        pay_sm.setVisibility(View.GONE);
+        pay_yl.setVisibility(View.GONE);
+        payHint(true);
+        printInfo(true);
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -518,5 +648,93 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
         if(unbinder!=null){
             unbinder.unbind();
         }
+    }
+
+
+
+    @OnClick(R.id.btn_sjsk)
+    public void sjsk(View view){
+      Arrived();
+    }
+
+
+    private void Arrived() {
+        final PopupWindow window = new PopupWindow();
+        View contentView = LayoutInflater.from(PayOpenCardActivity.this).inflate(R.layout.pop_temporary, null);
+        final EditText et_num = (EditText) contentView.findViewById(R.id.et_num);
+        final EditText et_pwd = (EditText) contentView.findViewById(R.id.et_pwd);
+        ImageView back = (ImageView) contentView.findViewById(R.id.iv_back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                window.dismiss();
+            }
+        });
+
+
+        contentView.findViewById(R.id.btn_yes).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String str1 = et_num.getText().toString();
+                String str2 = et_pwd.getText().toString();
+                if (TextUtils.isEmpty(str1)) {
+                    Utils.showToast(PayOpenCardActivity.this, "请输入工号");
+                } else {
+                    window.dismiss();
+                    getTemporary(str1, str2);
+                }
+            }
+        });
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int w = dm.widthPixels;
+        int h = dm.heightPixels;
+        window.setContentView(contentView);
+        window.setWidth((int) (w * 0.8));
+        window.setHeight((int) (h * 0.4));
+        window.setFocusable(true);
+        window.setOutsideTouchable(false);
+        window.update();
+        ColorDrawable dw = new ColorDrawable();
+        window.setBackgroundDrawable(dw);
+        window.showAtLocation(findViewById(R.id.activity_pay), Gravity.CENTER, 0, 0);
+    }
+
+    private void getTemporary(final String num, String pwd) {
+        Map<String, String> map = new HashMap<>();
+        map.put("c_JobNumber", num);
+        map.put("Password", pwd);
+        map.put("dbName", getSharedData(PayOpenCardActivity.this, "dbname"));
+        postToHttp(NetworkUrl.TEMPORARY, map, new IHttpCallBack() {
+            @Override
+            public void OnSucess(String jsonText) {
+                try {
+                    JSONObject j = new JSONObject(jsonText);
+                    String s = j.getString("result_data");
+                    int ocard = s.indexOf("POS:开卡实收金额修改");
+                    if (ocard > 0) {
+                        Utils.showToast(PayOpenCardActivity.this, "临时授权成功");
+                        temName = j.getString("result_name");
+                        temporaryNum = num;
+                        isTemporary = true;
+                        et_pay.setFocusableInTouchMode(true);
+                        et_pay.setFocusable(true);
+                        et_pay.requestFocus();
+                        et_pay.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                        et_pay.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+                    } else {
+                        Utils.showToast(PayOpenCardActivity.this, "您没有权限");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void OnFail(String message) {
+
+            }
+        });
     }
 }

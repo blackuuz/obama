@@ -6,7 +6,7 @@ package com.ksk.obama.utils;
 public class NetworkUrl {
     private static final String IP = "http://123.207.146.244/";
     private static final String IP2 = "yideweb";//测试
-    //private static final String IP2 = "yidesoft";//正式
+   // private static final String IP2 = "yidesoft";//正式
     private static final String URL_1 = IP + IP2 + "/index.php/";
     private static final String URL = IP + IP2 + "/App/Business/";
     private static final String URL_2 = IP + IP2 + "/App/";
@@ -29,7 +29,7 @@ public class NetworkUrl {
     public static final String ORDERG = URL_1 + "App/Business/saverecordmemo";//挂单
     public static final String ORDERGGET = URL_1 + "App/Business/getrecordmemo";//取单
     public static final String ORDERGDEL = URL_1 + "App/Business/deleterecordmemo";//删单
-    public static final String SENDBUYCOUNT = URL_1 + "App/Business/save_times";//购买次数列表
+    public static final String SENDBUYCOUNT = URL_1 + "App/Business/save_times";//购买次数列表//
     public static final String INTEGRALLIST = URL + "InitIntegralgift";//积分商品列表
     public static final String BUYINTEGRAL = URL + "save_InitIntegralgift";//积分商品
     public static final String BUYSHOPLIST = URL_1 + "App/Business/buy_goods";//购买商品列表

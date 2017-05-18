@@ -215,9 +215,9 @@ public class LoginActivity extends BaseTypeActivity {
         SharedUtil.setSharedBData(LoginActivity.this, "paywx", true);
         SharedUtil.setSharedBData(LoginActivity.this, "payal", true);
         SharedUtil.setSharedBData(LoginActivity.this, "paycode", true);
-        SharedUtil.setSharedBData(LoginActivity.this, "nfc", true);
-        SharedUtil.setSharedBData(LoginActivity.this, "citiao", true);
-        SharedUtil.setSharedBData(LoginActivity.this, "saoma", true);
+        SharedUtil.setSharedBData(LoginActivity.this, "nfc", false);
+        SharedUtil.setSharedBData(LoginActivity.this, "citiao", false);
+        SharedUtil.setSharedBData(LoginActivity.this, "saoma", false);
         SharedUtil.setSharedBData(LoginActivity.this, "quicki", true);
         SharedUtil.setSharedBData(LoginActivity.this, "fast_recharge", false);
 
@@ -227,7 +227,7 @@ public class LoginActivity extends BaseTypeActivity {
         SharedUtil.setSharedBData(LoginActivity.this, "vip3", false);
         SharedUtil.setSharedBData(LoginActivity.this, "vip4", false);
         SharedUtil.setSharedBData(LoginActivity.this, "vip5", false);
-        SharedUtil.setSharedBData(LoginActivity.this, "qdx", false);
+
         SharedUtil.setSharedBData(LoginActivity.this, "bluetooth", false);
 
         SharedUtil.setSharedBData(LoginActivity.this, "FW", false);
@@ -251,11 +251,17 @@ public class LoginActivity extends BaseTypeActivity {
         SharedUtil.setSharedBData(LoginActivity.this, "PX", false);
         SharedUtil.setSharedBData(LoginActivity.this, "PY", false);
 
+        SharedUtil.setSharedBData(LoginActivity.this, "qdx", false);
         SharedUtil.setSharedBData(LoginActivity.this, "ssje", false);
         SharedUtil.setSharedBData(LoginActivity.this, "zsjf", false);
         SharedUtil.setSharedBData(LoginActivity.this, "zsje", false);
         SharedUtil.setSharedBData(LoginActivity.this, "cxsj", false);
         SharedUtil.setSharedBData(LoginActivity.this, "cxjf", false);
+        SharedUtil.setSharedBData(LoginActivity.this, "cxdx", false);
+        SharedUtil.setSharedBData(LoginActivity.this, "gcjf", false);
+        SharedUtil.setSharedBData(LoginActivity.this, "gcdx", false);
+        SharedUtil.setSharedBData(LoginActivity.this, "gcsj", false);
+        SharedUtil.setSharedBData(LoginActivity.this, "opencard", false);
     }
 
     private void setting() {
@@ -325,19 +331,35 @@ public class LoginActivity extends BaseTypeActivity {
                     SharedUtil.setSharedBData(LoginActivity.this, "vip4", true);
                 } else if (str.equals("POS:会员到店:微信解绑")) {
                     SharedUtil.setSharedBData(LoginActivity.this, "vip5", true);
+
                 } else if (str.equals("POS:快消积分抵现修改")) {
                     SharedUtil.setSharedBData(LoginActivity.this, "qdx", true);
+
+                } else if (str.equals("POS:产销实收金额修改")) {
+                    SharedUtil.setSharedBData(LoginActivity.this, "cxsj", true);
+                } else if (str.equals("POS:产销获得积分修改")) {
+                    SharedUtil.setSharedBData(LoginActivity.this, "cxjf", true);
+                } else if (str.equals("POS:产销积分抵现修改")) {
+                    SharedUtil.setSharedBData(LoginActivity.this, "cxdx", true);//
+
+                } else if (str.equals("POS:购次实收金额修改")) {
+                    SharedUtil.setSharedBData(LoginActivity.this, "gcsj", true);//
+                } else if (str.equals("POS:购次获得积分修改")) {
+                    SharedUtil.setSharedBData(LoginActivity.this, "gcjf", true);//
+                } else if (str.equals("POS:购次积分抵现修改")) {
+                    SharedUtil.setSharedBData(LoginActivity.this, "gcdx", true);//
+
                 } else if (str.equals("POS:充值实收金额修改")) {
                     SharedUtil.setSharedBData(LoginActivity.this, "ssje", true);
                 } else if (str.equals("POS:充值赠送积分修改")) {
                     SharedUtil.setSharedBData(LoginActivity.this, "zsjf", true);
                 } else if (str.equals("POS:充值赠送金额修改")) {
                     SharedUtil.setSharedBData(LoginActivity.this, "zsje", true);
-                } else if(str.equals("POS:产销实收金额修改")){
-                    SharedUtil.setSharedBData(LoginActivity.this, "cxsj", true);
-                }else if(str.equals("POS:产销获得积分修改")){
-                    SharedUtil.setSharedBData(LoginActivity.this, "cxjf",true);
+
+                } else if (str.equals("POS:开卡实收金额修改")) {
+                    SharedUtil.setSharedBData(LoginActivity.this, "opencard", true);//
                 }
+
             }
         }
         if (loginData.getSetPays() != null) {

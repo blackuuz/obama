@@ -22,170 +22,170 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-
-            <TextView
-                android:id="@+id/pay_shop_shuold"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginTop="20dp"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp"
-                android:text="总价:"
-                android:textColor="@color/text_black3"
-                android:textSize="20sp" />
-
-
-            <TextView
-                android:id="@+id/pay_shop_del"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp"
-                android:text="折扣优惠:"
-                android:textColor="@color/text_black3"
-                android:textSize="20sp" />
-
-
-            <TextView
-                android:id="@+id/pay_shop_del_kq"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginTop="10dp"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp"
-                android:text="卡券优惠:"
-                android:textColor="@color/text_black3"
-                android:textSize="20sp" />
-
-
-            <TextView
-                android:id="@+id/pay_shop_del_jf"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="10dp"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp"
-                android:text="积分抵用:"
-                android:textColor="@color/text_black3"
-                android:textSize="20sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp">
+                android:layout_height="93dp">
 
                 <TextView
+                    android:id="@+id/pay_shop_shuold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="实际收款:￥"
-                    android:textColor="@color/text_black3"
+                    android:layout_marginLeft="26dp"
+                    android:layout_marginTop="19dp"
+                    android:text="总价:"
+                    android:textColor="#2b2b2b"
                     android:textSize="20sp" />
 
-                <EditText
-                    android:id="@+id/pay_shop_payau"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@mipmap/edit_text_1"
-                    android:gravity="center"
-                    android:inputType="numberDecimal"
-                    android:selectAllOnFocus="true"
-                    android:text="000000"
-                    android:textColor="#ff0000"
-                    android:textSize="25sp" />
 
                 <TextView
+                    android:id="@+id/pay_shop_del"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="元"
-                    android:textColor="#ff0000"
-                    android:textSize="20sp" />
+                    android:layout_marginLeft="26dp"
+                    android:layout_marginTop="60dp"
+                    android:text="折扣优惠:"
+                    android:textColor="#2b2b2b"
+                    android:textSize="15sp" />
 
-                <Button
-                    android:id="@+id/btn_sjsk"
-                    android:visibility="gone"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="23dp"
-                    android:background="@drawable/select_button_r"
-                    android:text="点击修改"
-                    android:textColor="@color/white"
-                    android:textSize="18sp" />
-            </LinearLayout>
 
-            <LinearLayout
+                <TextView
+                    android:id="@+id/pay_shop_del_kq"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="205dp"
+                    android:layout_marginTop="60dp"
+                    android:text="卡券优惠:"
+                    android:textColor="#2b2b2b"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp">
+                android:layout_height="5dp"
+                android:background="#e8e8e8" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="获得积分:"
-                    android:textColor="@color/text_black3"
-                    android:textSize="20sp" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
 
-                <EditText
-                    android:id="@+id/pay_shop_gread"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@mipmap/edit_text_1"
-                    android:gravity="center"
-                    android:inputType="numberDecimal"
-                    android:selectAllOnFocus="true"
-                    android:text="000000"
-                    android:textSize="25sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/btn_hdjf"
-                    android:visibility="gone"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="23dp"
-                    android:background="@drawable/select_button_r"
-                    android:text="点击修改"
-                    android:textColor="@color/white"
-                    android:textSize="18sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="元"
-                    android:textColor="#ff0000"
-                    android:textSize="20sp"
-                    android:visibility="invisible" />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/textView15"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="26dp"
+                        android:text="实际收款 :"
+                        android:textColor="#2b2b2b"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/pay_shop_payau"
+                        android:layout_width="75dp"
+                        android:layout_height="30dp"
+                        android:background="@mipmap/edit_bg"
+                        android:focusable="false"
+                        android:gravity="center"
+                        android:inputType="numberDecimal"
+                        android:selectAllOnFocus="true"
+                        android:text="000000"
+                        android:textColor="#ff0000"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/textView14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="元"
+                        android:textColor="#2b2b2b"
+                        android:textSize="15sp" />
+
+                    <Button
+                        android:id="@+id/btn_sjsk"
+                        android:layout_width="85dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="23dp"
+                        android:background="@drawable/select_button_r"
+                        android:text="点击修改"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:visibility="visible" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="55dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="26dp"
+                        android:text="获得积分 :"
+                        android:textColor="@color/text_black3"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/pay_shop_gread"
+                        android:layout_width="75dp"
+                        android:layout_height="30dp"
+                        android:background="@mipmap/edit_bg"
+                        android:focusable="false"
+                        android:gravity="center"
+                        android:inputType="numberDecimal"
+                        android:selectAllOnFocus="true"
+                        android:text="000000"
+                        android:textColor="@color/text_red"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="分"
+                        android:textColor="#2b2b2b"
+                        android:textSize="15sp" />
+
+                    <Button
+                        android:id="@+id/btn_hdjf"
+                        android:layout_width="85dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="23dp"
+                        android:background="@drawable/select_button_r"
+                        android:text="点击修改"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:visibility="visible" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="#e8e8e8" />
+
 
             <!--添加的功能一会改名字-->
             <android.support.v7.widget.AppCompatCheckBox
-                android:visibility="gone"
                 android:id="@+id/cb_ischeck_cpxf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="积分抵现"
                 android:textColor="@color/text_black4"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
 
             <LinearLayout
                 android:id="@+id/ll_jfdx"
@@ -194,8 +194,8 @@
                 android:layout_marginBottom="15dp"
                 android:layout_marginTop="15dp"
                 android:orientation="vertical"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:visibility="gone">
 
                 <LinearLayout
@@ -206,22 +206,22 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:text="使用"
+                        android:text="使用:"
+                        android:layout_marginLeft="26dp"
                         android:textColor="@color/text_black2"
-                        android:textSize="18sp" />
+                        android:textSize="14sp" />
 
                     <EditText
                         android:id="@+id/et_dx_jf"
-                        android:layout_width="0dp"
-                        android:layout_height="35dp"
-                        android:layout_weight="1"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
                         android:background="@mipmap/sign"
                         android:digits="1234567890."
+                        android:focusable="false"
                         android:gravity="center"
                         android:text="0"
                         android:textColor="@color/text_black4"
-                        android:textSize="20sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -230,37 +230,27 @@
                         android:layout_marginRight="10dp"
                         android:text="分，抵扣"
                         android:textColor="@color/text_black2"
-                        android:textSize="18sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/tv_money_dx"
-                        android:layout_width="0dp"
-                        android:layout_height="35dp"
-                        android:layout_weight="1"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
                         android:background="@mipmap/edit_bg"
                         android:gravity="center"
                         android:text="0"
                         android:textColor="@color/text_black4"
-                        android:textSize="20sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="5dp"
                         android:text="元"
                         android:textColor="@color/text_black2"
-                        android:textSize="18sp" />
+                        android:textSize="14sp" />
 
-                    <Button
-                        android:id="@+id/btn_modify_jf"
-                        android:layout_width="100dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="23dp"
-                        android:background="@drawable/select_button_r"
-                        android:text="修改"
-                        android:textColor="@color/white"
-                        android:textSize="18sp" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -274,8 +264,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="实收金额:"
+                        android:layout_marginLeft="26dp"
                         android:textColor="@color/text_black2"
-                        android:textSize="18sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/tv_paymoney"
@@ -293,17 +284,17 @@
                         android:layout_marginRight="10dp"
                         android:text="元"
                         android:textColor="@color/text_black2"
-                        android:textSize="18sp" />
-
+                        android:textSize="14sp" />
                     <Button
-                        android:id="@+id/btn_buqi"
-                        android:layout_width="100dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="20dp"
-                        android:background="@drawable/select_pw_yes"
-                        android:text="补齐"
+                        android:id="@+id/btn_dxjf"
+                        android:layout_width="60dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/select_button_r"
+                        android:text="修改"
                         android:textColor="@color/white"
-                        android:textSize="18sp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
             <!--添加的功能一会改名字-->

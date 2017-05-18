@@ -315,7 +315,6 @@ public class BasePrintActivity extends BaseTypeActivity {
                     add(new PrintItemObj(SharedUtil.getSharedData(BasePrintActivity.this, "name4"), 23, true, PrintItemObj.ALIGN.CENTER));
                     add(new PrintItemObj("                            ", 24));
                     add(new PrintItemObj("                            ", 24));
-
                 }
             }, new AidlPrinterListener.Stub() {
 

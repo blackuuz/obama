@@ -113,8 +113,9 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
     private String delIntegral = "";
     private String temporaryNum = "";
     private boolean isTemporary = false;
-    //private boolean isQrSure = false;//二维码支付确认
     private String temName = "";
+    //private boolean isQrSure = false;//二维码支付确认
+
     private Unbinder unbinder;
 
 
@@ -1068,8 +1069,6 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                     } else {
                         del_jf = parseFloat(str);
                     }
-
-
                     //如果默认积分 比 会员积分多 （会员积分不足） 则使用会员积分
                     int i = 1;
                     if(del_jf > have_jf){

@@ -112,6 +112,10 @@ public class BuyCountSupplementActivity extends BaseSupplementActivity implement
             map.put("EquipmentNum", upLoading.getEquipmentNum());
             map.put("Supplement", "1");
             map.put("CardCode", upLoading.getUid());
+            map.put("temporary_num",upLoading.getTemporaryNum());
+            map.put("result_name",upLoading.getTemName());
+            map.put("payIntegral",upLoading.getDx_Money());
+            map.put("payDecIntegral",upLoading.getDx_Integral());
             switch (payMode) {
                 case 0:
                     map.put("payCash", m_is);

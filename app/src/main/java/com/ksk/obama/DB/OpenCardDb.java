@@ -37,6 +37,47 @@ public class OpenCardDb extends DataSupport {
     private String addId;
     private String addName;
 
+    private String payShould;
+    private boolean isTem;
+    private String temporaryNum;
+    private String temName;
+
+
+
+
+    public boolean isTem() {
+        return isTem;
+    }
+
+    public void setTem(boolean tem) {
+        isTem = tem;
+    }
+    public String getPayShould() {
+        return payShould;
+    }
+
+    public void setPayShould(String payShould) {
+        this.payShould = payShould;
+    }
+
+    public String getTemporaryNum() {
+        return temporaryNum;
+    }
+
+    public void setTemporaryNum(String temporaryNum) {
+        this.temporaryNum = temporaryNum;
+    }
+
+    public String getTemName() {
+        return temName;
+    }
+
+    public void setTemName(String temName) {
+        this.temName = temName;
+    }
+
+
+
     public String getUid() {
         return uid;
     }

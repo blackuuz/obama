@@ -100,6 +100,7 @@ public class OpenCardSupplementActivity extends BaseSupplementActivity implement
             map.put("classID", upLoading.getClassID());
             map.put("userID", upLoading.getUserID());
             map.put("payActual", upLoading.getPayActual());
+            map.put("payShould",upLoading.getPayShould());
             map.put("EquipmentNum", upLoading.getEquipmentNum());
             map.put("C_ServiceEmployee", upLoading.getAddName());
             map.put("memid", upLoading.getAddId());
@@ -108,6 +109,10 @@ public class OpenCardSupplementActivity extends BaseSupplementActivity implement
 //            map.put("Remark", upLoading.getRemark());
             map.put("dbName", upLoading.getDbName());
             map.put("Supplement", "1");
+            if (upLoading.isTem()) {
+                map.put("temporary_num", upLoading.getTemporaryNum());//临时权限
+                map.put("result_name", upLoading.getTemName());
+            }
             switch (payMode) {
                 case 0:
                     map.put("payCash", m_is);

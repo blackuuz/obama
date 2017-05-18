@@ -37,6 +37,44 @@ public class BuyCountDb extends DataSupport {
     private String PayDiscounted;
     private String validTimes;
     private String uid;
+    private String dx_Integral;
+    private String dx_Money;
+
+    private String temporaryNum;
+    private String temName;
+
+    public String getDx_Integral() {
+        return dx_Integral;
+    }
+
+    public void setDx_Integral(String dx_Integral) {
+        this.dx_Integral = dx_Integral;
+    }
+
+    public String getDx_Money() {
+        return dx_Money;
+    }
+
+    public void setDx_Money(String dx_Money) {
+        this.dx_Money = dx_Money;
+    }
+
+    public String getTemName() {
+        return temName;
+    }
+
+    public void setTemName(String temName) {
+        this.temName = temName;
+    }
+
+    public String getTemporaryNum() {
+        return temporaryNum;
+    }
+
+    public void setTemporaryNum(String temporaryNum) {
+        this.temporaryNum = temporaryNum;
+    }
+
     private List<BuyCount> dataList=new ArrayList<>();
 
     public String getUid() {

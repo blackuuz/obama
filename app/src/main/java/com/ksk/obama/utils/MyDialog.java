@@ -37,11 +37,11 @@ public class MyDialog extends Dialog {
         super(context, themeResId);
         initView(context);
     }
-
     private void initView(Context context) {
+      //  LinearLayout ll = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.loading_dialog_view,null);
         // 首先得到整个View
         View view = LayoutInflater.from(context).inflate(
-                R.layout.loading_dialog_view, null);
+                R.layout.loading_dialog_view,null);
         // 获取整个布局
         LinearLayout layout = (LinearLayout) view
                 .findViewById(R.id.dialog_view);

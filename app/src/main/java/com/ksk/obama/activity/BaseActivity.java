@@ -58,6 +58,8 @@ import static com.ksk.obama.utils.SharedUtil.getSharedBData;
 
 
 /**
+ * AutoLayoutActivity : 屏幕适配类
+ *
  * Created by Administrator on 2016/7/27.
  */
 public class BaseActivity extends AppCompatActivity {

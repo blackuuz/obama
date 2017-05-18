@@ -97,6 +97,8 @@ public class BuyShopSupplementActivity extends BaseSupplementActivity implements
             map.put("num", upLoading.getNum());
             map.put("money", upLoading.getMoney());
             map.put("integral", upLoading.getIntegral());
+            map.put("payIntegral",upLoading.getDx_Money());
+            map.put("payDecIntegral",upLoading.getDx_Integral());
             map.put("Member_Id", upLoading.getMember_Id());
             map.put("get_integral", upLoading.getGet_integral());
             map.put("EquipmentNum", upLoading.getEquipmentNum());
@@ -110,6 +112,8 @@ public class BuyShopSupplementActivity extends BaseSupplementActivity implements
             map.put("orderNo", upLoading.getOrderNo());
             map.put("EquipmentNum", upLoading.getEquipmentNum());
             map.put("Supplement", "1");
+            map.put("temporary_num",upLoading.getTemporaryNum());
+            map.put("result_name",upLoading.getTemName());
             switch (payMode) {
                 case 0:
                     map.put("payCash", m_is);

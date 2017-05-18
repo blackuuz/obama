@@ -21,6 +21,7 @@ import com.ksk.obama.utils.NetworkUrl;
 import com.ksk.obama.utils.SharedUtil;
 import com.ksk.obama.utils.Utils;
 import com.lkl.cloudpos.aidl.AidlDeviceService;
+import com.lkl.cloudpos.aidl.iccard.AidlICCard;
 import com.lkl.cloudpos.aidl.magcard.AidlMagCard;
 import com.lkl.cloudpos.aidl.magcard.MagCardListener;
 import com.lkl.cloudpos.aidl.magcard.TrackData;
@@ -162,6 +163,7 @@ public class BaseReadCardActivity extends BaseTypeActivity {
     private AidlRFCard rfcard = null;// 射频卡 rf卡
     private AidlMagCard magCardDev = null; // 磁条卡设备
     protected AidlPrinter printerDev = null;
+    private AidlICCard iccard = null;//触式ic卡
     private Handler handler = new Handler();
 
     /*磁条卡设备
@@ -244,6 +246,25 @@ public class BaseReadCardActivity extends BaseTypeActivity {
                 e.printStackTrace();
             }
         }
+        //触式ic卡读取
+        if (false) {
+            try {
+                if (rfcard != null) {
+                    boolean flag = iccard.open();
+                    if (flag) {
+                        Logger.e("打开IC卡设备成功");
+                        isExists();
+                    } else {
+                        Logger.e("打开IC卡设备失败");
+                    }
+                }
+            } catch (RemoteException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
+
     }
 
     private Runnable runnable = new Runnable() {
@@ -269,6 +290,24 @@ public class BaseReadCardActivity extends BaseTypeActivity {
             e.printStackTrace();
         }
     }
+    //检测ic卡是否在位
+    public void isExists() {
+        try {
+            boolean flag = iccard.isExist();
+            if (flag) {
+                Utils.showToast(BaseReadCardActivity.this,"卡片已插入");
+                Logger.d("卡片已插入");
+                apduComm();
+            } else {
+                handler.postDelayed(runnable, 2000);
+                Logger.d("未检测到卡片");
+            }
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
 
     // 认证
     private void LKLauth() {
@@ -287,6 +326,56 @@ public class BaseReadCardActivity extends BaseTypeActivity {
                 LKLisExists();
             }
         } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //apdu通讯 触式ic
+    public void apduComm() {
+        byte[] apdu = HexUtil.hexStringToByte("00A404000E315041592E5359532E4444463031");
+        try {
+            byte[] data = iccard.apduComm(apdu);
+            if (null != data) {
+                Logger.e("选择主目录结果" + HexUtil.bcd2str(data));
+                final String str = HexUtil.bcd2str(data);
+                String str2 = str.substring(0, 32);
+                Logger.e(str2);
+                int i = 0;
+                int j = 2;
+                List<String> list = new ArrayList<String>();
+                while (str2.length() >= j) {
+                    list.add(str2.substring(i, j));
+                    i = j;
+                    j += 2;
+                }
+                String cardNum = "";
+                for (int n = 0; n < list.size(); n++) {
+                    String str3 = list.get(n);
+                    cardNum += (char) Integer.parseInt(str3, 16);
+                }
+                String uid = getUID();
+                if (uid == null) {
+                    uid = "";
+                }
+                close();
+                final String Num = cardNum.trim();
+                final String finalUid = uid;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mIReadCardId != null) {
+                            mIReadCardId.readCardNo(Num, finalUid);
+                            playSound();
+                        } else {
+                            Log.e("djy", "请实现mIReadCardId接口");
+                        }
+                    }
+                });
+            } else {
+                Logger.e("APDU数据交互失败");
+            }
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -362,7 +451,7 @@ public class BaseReadCardActivity extends BaseTypeActivity {
                         .asInterface(serviceManager.getRFIDReader());
                 magCardDev = AidlMagCard.Stub.asInterface(serviceManager
                         .getMagCardReader());
-
+                iccard = AidlICCard.Stub.asInterface(serviceManager.getInsertCardReader());
                 printerDev = AidlPrinter.Stub.asInterface(serviceManager.getPrinter());
                 openRead();
             } catch (RemoteException e) {
@@ -552,7 +641,7 @@ public class BaseReadCardActivity extends BaseTypeActivity {
 
         @Override
         public void onError(String error) {
-            Logger.e("error:"+error);
+            Logger.e("error:" + error);
             getCardUID(error);
         }
 

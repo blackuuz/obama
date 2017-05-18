@@ -211,6 +211,9 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
                             for (int j = 0; j < list_buy.size(); j++) {
                                 if (list.get(i).getId().equals(list_buy.get(j).getId())) {
                                     list.get(i).setNum(list_buy.get(j).getNum());
+                                    if(list.get(i).getNum() == 0){
+                                        list.remove(i);
+                                    }
                                     break;
                                 }
                             }
@@ -429,7 +432,7 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
                 if (!TextUtils.isEmpty(editText.getText().toString())) {
                     boolean flag = true;
                     float num = Float.parseFloat(editText.getText().toString());
-                    if (num > 0) {
+                    if (num >= 0) {
                         BuyCount buyCount = new BuyCount();
                         for (int j = 0; j < list_buy.size(); j++) {
                             if (list_buy.get(j).getId().equals(list.get(i).getId())) {
@@ -462,6 +465,7 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
                             list_buy.add(buyCount);
                         }
                         list.get(i).setNum(num);
+
                         adapter.notifyDataSetChanged();
                     }
 

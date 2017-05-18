@@ -184,8 +184,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         list_line.add(line_0);
         list_line.add(line_1);
         list_line.add(line_2);
-
-        tv_shop_name.setText(getSharedData(MainActivity.this, "shopname"));
+        String str = getSharedData(MainActivity.this,"shopname");
+        if(str.length()>5){
+            str = str.substring(0,5)+"…";
+        }
+        tv_shop_name.setText(str);
         tv_vip_name.setText(getSharedData(MainActivity.this, "username"));
 
         findViewById(R.id.tv_help_order).setOnClickListener(new View.OnClickListener() {

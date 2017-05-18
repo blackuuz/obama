@@ -47,7 +47,7 @@ public class HttpTools {
         for (Iterator<String> iter = keySet.iterator(); iter.hasNext(); ) {
             String key = iter.next();
             String value = map.get(key);
-            Log.d("djy", key + "*=" + value);
+            Log.d("djy", key + "=" + value);
             builder.add(key, value);
         }
         RequestBody body = builder.build();

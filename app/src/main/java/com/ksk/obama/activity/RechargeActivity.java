@@ -1056,13 +1056,6 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
             }
         });
 
-//        contentView.findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                window.dismiss();
-//            }
-//        });
-
         contentView.findViewById(R.id.btn_yes).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1151,19 +1144,6 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
                     Utils.showToast(RechargeActivity.this, "服务器异常");
                 }
 
-
-//                    if (str.equals("1")) {
-//                        Utils.showToast(RechargeActivity.this, "临时授权成功");
-//                        temName = object.getString("result_name");
-//                        temporaryNum = num;
-//                        isTemporary = true;
-//                        et_pay_give.setFocusable(isTemporary);
-//                        et_pay_give.setClickable(true);
-//                        et_pay_give.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
-//                    } else {
-//                        Utils.showToast(RechargeActivity.this, "您没有权限");
-//                        Logger.e(""+jsonText);
-//
             }
 
             @Override
