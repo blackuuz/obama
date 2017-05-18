@@ -187,10 +187,7 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
         this.setOnPayCallBack(this);
     }
 
-    private void sendData(String orderno) {//*
-        if (TextUtils.isEmpty(orderno)){//*
-            orderno = "";//*
-        }
+    private void sendData() {
         isPay = true;
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -264,22 +261,16 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
             JSONObject object = new JSONObject(json);
             String tag = object.getString("result_stadus");
             if (tag.equals("SUCCESS")) {
-                if ((robotType == 1 && n == 1) || (robotType == 1 && n == 3)) {
-                    payMoney(n, actualMoney + "", orderNumber, "开卡");
-                } else {
-                    reSet();
-                }
-             //   String msg = object.getString("result_msg");*
-              //  Utils.showToast(PayOpenCardActivity.this, msg);
-//                flag = true;
-//                tv_print.setVisibility(View.VISIBLE);
-//                tv_print.setEnabled(true);
-//                pay_xj.setVisibility(View.GONE);
-//                pay_sm.setVisibility(View.GONE);
-//                pay_yl.setVisibility(View.GONE);
-
-//                payHint(true);
-//                printInfo(true);
+                flag = true;
+                tv_print.setVisibility(View.VISIBLE);
+                tv_print.setEnabled(true);
+                pay_xj.setVisibility(View.GONE);
+                pay_sm.setVisibility(View.GONE);
+                pay_yl.setVisibility(View.GONE);
+                String msg = object.getString("result_msg");
+                Utils.showToast(PayOpenCardActivity.this, msg);
+                payHint(true);
+                printInfo(true);
                 switch (robotType) {
                     case 3:
                     case 4:
@@ -323,7 +314,7 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
                 case R.id.tv_pay_xj1:
                     if (isXJ) {
                         n = 0;
-                        sendData("");
+                        sendData();
                     } else {
                         isclick_pay = true;
                         Utils.showToast(PayOpenCardActivity.this, "没有开通此功能");
@@ -331,8 +322,8 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
 
                     break;
                 case R.id.tv_pay_sm:
-                    n = 1;//
-                    sendData("");//
+                    n = 1;//z
+                    sendData();//
                 case R.id.tv_pay_wx:
                     n = 1;
                     payMoney(1, actualMoney, orderNumber, "开卡");
@@ -343,8 +334,7 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
                     break;
                 case R.id.tv_pay_yl:
                     n = 3;
-                    sendData("");//
-                   // payMoney(3, actualMoney, orderNumber, "开卡");
+                    payMoney(3, actualMoney, orderNumber, "开卡");
                     break;
             }
         }
@@ -431,11 +421,7 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 alert_flag = false;
-                if ((robotType == 1 && n == 1) || (robotType == 1 && n == 2) || (robotType == 1 && n == 3)) {//*
-                    LKLPay(orderno);//*
-                } else {
-                    sendData(orderno);
-                }
+                sendData();
             }
         });
         dialog.create().show();
@@ -509,67 +495,9 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
     public void OnPaySucess(String orderNum, int payMode) {
         orderno = orderNum;
         n = payMode;
-        if ((robotType == 1 && n == 1) || (robotType == 1 && n == 2) || (robotType == 1 && n == 3)) {//*
-            LKLPay(orderNum);//*
-        } else {//*
-            sendData(orderNum);
-            loadingDialog.show();
-        }
+        sendData();
+        loadingDialog.show();
     }
-
-    private void LKLPay(String order) {// TODO: 2017/5/18 ___
-        Map<String, String> map = new HashMap<>();
-        map.put("refernumber", order);
-        map.put("orderNo", orderNumber);
-        map.put("dbName", getSharedData(PayOpenCardActivity.this, "dbname"));
-        switch (n) {
-            case 1:
-                map.put("payWeChat", actualMoney);
-                break;
-            case 2:
-                map.put("payAli", actualMoney);
-                break;
-            case 3:
-                map.put("payBank", actualMoney);
-                break;
-        }
-        postToHttp(NetworkUrl.ADDMEMBER, map, new IHttpCallBack() {
-                    @Override
-                    public void OnSucess(String jsonText) {
-                        Logger.e(jsonText);
-                        try {
-                            JSONObject object = new JSONObject(jsonText);
-                            String tag = object.getString("result_stadus");
-                            if (tag.equals("SUCCESS")) {
-                                reSet();
-                            } else {
-                                showAlert();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-
-                    @Override
-                    public void OnFail(String message) {
-                        showAlert();
-                    }
-                }
-
-        );
-    }
-    private void reSet() {
-        flag = true;
-        tv_print.setVisibility(View.VISIBLE);
-        tv_print.setEnabled(true);
-        pay_xj.setVisibility(View.GONE);
-        pay_sm.setVisibility(View.GONE);
-        pay_yl.setVisibility(View.GONE);
-        payHint(true);
-        printInfo(true);
-    }
-
 
     @Override
     public void onBackPressed() {
@@ -654,7 +582,7 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
 
     @OnClick(R.id.btn_sjsk)
     public void sjsk(View view){
-      Arrived();
+        Arrived();
     }
 
 
