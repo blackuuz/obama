@@ -322,8 +322,6 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
 
                     break;
                 case R.id.tv_pay_sm:
-                    n = 1;//z
-                    sendData();//
                 case R.id.tv_pay_wx:
                     n = 1;
                     payMoney(1, actualMoney, orderNumber, "开卡");
