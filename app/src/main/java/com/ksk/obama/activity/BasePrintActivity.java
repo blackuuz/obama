@@ -307,7 +307,12 @@ public class BasePrintActivity extends BaseTypeActivity {
                                 }
                             }
                         } else {
-                            add(new PrintItemObj(list.get(i) + ""));
+                            if(list.get(i).substring(0,3).equals("序号-")){
+                                add(new PrintItemObj(list.get(i),16, true, PrintItemObj.ALIGN.LEFT));
+                            }else {
+                                add(new PrintItemObj(list.get(i) + ""));
+                            }
+
                         }
                     }
                     add(new PrintItemObj(SharedUtil.getSharedData(BasePrintActivity.this, "name2"), 23, true, PrintItemObj.ALIGN.CENTER));
@@ -437,13 +442,15 @@ public class BasePrintActivity extends BaseTypeActivity {
                 mOutputStream.write(FS_FONT_DOUBLE);
                 mOutputStream.write(ESC_ALIGN_CENTER);
                 mOutputStream.write(("后厨\n").getBytes("GBK"));
+                mOutputStream.write(FS_FONT_DOUBLE);
+                mOutputStream.write(ESC_ALIGN_LEFT);
+                mOutputStream.write(("序号 :" + num + "\n").getBytes("GBK"));
                 mOutputStream.write(FS_FONT_ALIGN);
                 mOutputStream.write(ESC_ALIGN_LEFT);
                 mOutputStream.write(("时间: " + time + "\n").getBytes("GBK"));
                 mOutputStream.write(("手持序列号:" + terminalSn + "\n").getBytes("GBK"));
                 mOutputStream.write(("操作员 :" + SharedUtil.getSharedData(BasePrintActivity.this, "username") + "\n").getBytes("GBK"));
                 mOutputStream.write(("订单号 :" + ordernum + "\n").getBytes("GBK"));
-                mOutputStream.write(("序号 :" + num + "\n").getBytes("GBK"));
                 mOutputStream.write(ESC_ALIGN_CENTER);
                 mOutputStream.write("--------------------------\n".getBytes());
                 mOutputStream.write("菜品              数量\n".getBytes("GBK"));

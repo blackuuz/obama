@@ -830,13 +830,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                 nn = 0;
                 SharedUtil.setSharedData(PayBuyShopActivity.this, "day", time.substring(8, 10));
             }
-//            int nn_ = SharedUtil.getSharedInt(PayBuyShopActivity.this, "nn");
-//            if ((nn+1) == nn_) {
-//                Utils.showToast(PayBuyShopActivity.this, "蓝牙未连接");
-//                SharedUtil.setSharedInt(PayBuyShopActivity.this, "num", nn+1);
-//            }
             nn += 1;
-//            SharedUtil.setSharedInt(PayBuyShopActivity.this, "nn", nn);
             String num = "";
             if (nn < 10) {
                 num = terminalSn.substring(terminalSn.length() - 2) + "00" + nn;
@@ -845,7 +839,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
             } else {
                 num = terminalSn.substring(terminalSn.length() - 2) + nn;
             }
-            listp.add("序号:" + num);
+            listp.add("序号-:" + num);
         }
         listp.add((flag ? "时间:" : "订单生成时间") + orderTime);
         listp.add("订单号:" + orderNumber);

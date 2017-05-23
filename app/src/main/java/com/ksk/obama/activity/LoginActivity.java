@@ -262,6 +262,7 @@ public class LoginActivity extends BaseTypeActivity {
         SharedUtil.setSharedBData(LoginActivity.this, "gcdx", false);
         SharedUtil.setSharedBData(LoginActivity.this, "gcsj", false);
         SharedUtil.setSharedBData(LoginActivity.this, "opencard", false);
+        SharedUtil.setSharedBData(LoginActivity.this,"giveInte",false);
     }
 
     private void setting() {
@@ -358,6 +359,8 @@ public class LoginActivity extends BaseTypeActivity {
 
                 } else if (str.equals("POS:开卡实收金额修改")) {
                     SharedUtil.setSharedBData(LoginActivity.this, "opencard", true);//
+                }else if(str.equals("POS:赠送积分")){
+                    SharedUtil.setSharedBData(LoginActivity.this,"giveInte",true);
                 }
 
             }

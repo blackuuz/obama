@@ -47,6 +47,7 @@ public class GiveDelIntegralActivity extends BasePrintActivity implements IPrint
     private String ordernb = "";
     private String orderte = "";
     private String uid;
+    private boolean isJurisdiction = false;//是否拥有权限
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +100,11 @@ public class GiveDelIntegralActivity extends BasePrintActivity implements IPrint
     }
 
     private void initView() {
+        if (SharedUtil.getSharedBData(GiveDelIntegralActivity.this, "giveInte")) {
+            isJurisdiction = true;
+        } else {
+            findViewById(R.id.btn_give).setVisibility(View.INVISIBLE);
+        }
         et_integral = (EditText) findViewById(R.id.et_g_d_integral);
         TextView tv0 = (TextView) findViewById(R.id.tv_exit_str0);
         TextView tv1 = (TextView) findViewById(R.id.tv_exit_str1);
@@ -116,6 +122,7 @@ public class GiveDelIntegralActivity extends BasePrintActivity implements IPrint
                     isclick_pay = false;
                     n = 0;
                     sendIntegral();
+
                 }
             }
         });
@@ -161,6 +168,7 @@ public class GiveDelIntegralActivity extends BasePrintActivity implements IPrint
             if (n == 0) {
                 map.put("type", "add");
             }
+
             postToHttp(NetworkUrl.FAST_EXCHANGE, map, new IHttpCallBack() {
                 @Override
                 public void OnSucess(String jsonText) {
@@ -240,6 +248,7 @@ public class GiveDelIntegralActivity extends BasePrintActivity implements IPrint
     }
 
     private boolean isclick;
+
     private void printError(int id) {
         isclick = true;
         final PopupWindow window = new PopupWindow(this);
@@ -282,4 +291,6 @@ public class GiveDelIntegralActivity extends BasePrintActivity implements IPrint
         et_integral.setText("");
         isclick_pay = true;
     }
+
+
 }

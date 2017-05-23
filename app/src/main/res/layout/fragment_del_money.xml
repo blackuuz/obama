@@ -93,6 +93,8 @@
                         android:textSize="18sp" />
 
                     <EditText
+                        android:focusable="false"
+                        android:selectAllOnFocus="true"
                         android:id="@+id/et_money"
                         android:layout_width="0dp"
                         android:layout_height="35dp"

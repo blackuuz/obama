@@ -206,18 +206,27 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
 
         if (SharedUtil.getSharedBData(RechargeActivity.this, "zsje")) {
             btn_modify0.setVisibility(View.GONE);
-            et_pay_give.setClickable(true);
+            //et_pay_give.setClickable(true);
+            et_pay_give.setFocusableInTouchMode(true);
+            et_pay_give.setFocusable(true);
+            et_pay_give.requestFocus();
             et_pay_give.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
         }
         if (SharedUtil.getSharedBData(RechargeActivity.this, "zsjf")) {
             btn_modify1.setVisibility(View.GONE);
-            et_integral.setClickable(true);
+            et_integral.setFocusableInTouchMode(true);
+            et_integral.setFocusable(true);
+            et_integral.requestFocus();
+           // et_integral.setClickable(true);
             et_integral.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
         }
         if (SharedUtil.getSharedBData(RechargeActivity.this, "ssje")) {
             btn_modify2.setVisibility(View.GONE);
-            tv_pay.setClickable(true);
+            tv_pay.setFocusableInTouchMode(true);
+            tv_pay.setFocusable(true);
+            tv_pay.requestFocus();
+            //tv_pay.setClickable(true);
             tv_pay.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
         }
@@ -1110,6 +1119,9 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
                         if (zsjf > 0) {
                             Utils.showToast(RechargeActivity.this, "授权成功");
                             et_integral.setClickable(true);
+                            et_integral.setFocusableInTouchMode(true);
+                            et_integral.setFocusable(true);
+                            et_integral.requestFocus();
                             et_integral.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
                         } else {
@@ -1121,6 +1133,9 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
                         if (zsje > 0) {
                             Utils.showToast(RechargeActivity.this, "授权成功");
                             et_pay_give.setClickable(true);
+                            et_pay_give.setFocusableInTouchMode(true);
+                            et_pay_give.setFocusable(true);
+                            et_pay_give.requestFocus();
                             et_pay_give.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
                         } else {
                             Utils.showToast(RechargeActivity.this, "您没有权限");
@@ -1130,7 +1145,10 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
                     if (key.equals("ss")) {
                         if (ssje > 0) {
                             Utils.showToast(RechargeActivity.this, "授权成功");
-                            tv_pay.setClickable(true);
+                            //tv_pay.setClickable(true);
+                            tv_pay.setFocusableInTouchMode(true);
+                            tv_pay.setFocusable(true);
+                            tv_pay.requestFocus();
                             tv_pay.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
                         } else {

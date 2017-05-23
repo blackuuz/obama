@@ -145,7 +145,7 @@ public class AddPersonActivity extends BaseActivity {
                         name = list_Person.get(position).getC_Name();
                         break;
                     case 2:
-                        uid = list_Person_v.get(position).getId();
+                        uid = list_Person_v.get(position).getId();// TODO: 2017/5/19
                         name = list_Person_v.get(position).getC_Name();
                         break;
                 }

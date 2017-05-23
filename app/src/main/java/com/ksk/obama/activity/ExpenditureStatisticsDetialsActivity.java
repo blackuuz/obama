@@ -27,10 +27,14 @@ import com.orhanobut.logger.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.ksk.obama.utils.SharedUtil.getSharedInt;
 
 public class ExpenditureStatisticsDetialsActivity extends BasePrintActivity implements IPrintErrorCallback {
     private DetialsListView lv;
@@ -49,6 +53,7 @@ public class ExpenditureStatisticsDetialsActivity extends BasePrintActivity impl
     private TextView tv9;
     private TextView tv10;
     private TextView tv11;
+    private boolean isPrint = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +85,7 @@ public class ExpenditureStatisticsDetialsActivity extends BasePrintActivity impl
                     view.findViewById(R.id.btn_print_again).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            isPrint = true;
                             bluetoothPrint(listson,tv6.getText().toString());
                             printInfo();
                             window.dismiss();
@@ -89,7 +95,9 @@ public class ExpenditureStatisticsDetialsActivity extends BasePrintActivity impl
                     view.findViewById(R.id.btn_print_again_n).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            isPrint = false;
                             printInfo();
+
                             window.dismiss();
                         }
                     });
@@ -203,7 +211,26 @@ public class ExpenditureStatisticsDetialsActivity extends BasePrintActivity impl
 
     private void printInfo() {
         List<String> listp = new ArrayList<>();
-
+        if (SharedUtil.getSharedBData(ExpenditureStatisticsDetialsActivity.this, "bluetooth")&&isPrint) {
+            int nn = getSharedInt(ExpenditureStatisticsDetialsActivity.this, "num");
+            String str = SharedUtil.getSharedData(ExpenditureStatisticsDetialsActivity.this, "day");
+            Date date = new Date(System.currentTimeMillis());
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String time = simpleDateFormat.format(date);
+            if (!str.equals(time.substring(8, 10))) {
+                nn = 0;
+                SharedUtil.setSharedData(ExpenditureStatisticsDetialsActivity.this, "day", time.substring(8, 10));
+            }
+            String num = "";
+            if (nn < 10) {
+                num = terminalSn.substring(terminalSn.length() - 2) + "00" + nn;
+            } else if (nn < 100) {
+                num = terminalSn.substring(terminalSn.length() - 2) + "0" + nn;
+            } else {
+                num = terminalSn.substring(terminalSn.length() - 2) + nn;
+            }
+            listp.add("序号-:" + num);
+        }
         listp.add("消费金额:" + tv0.getText().toString());
         listp.add("卡号:" + tv1.getText().toString());
         listp.add("姓名:" + tv2.getText().toString());

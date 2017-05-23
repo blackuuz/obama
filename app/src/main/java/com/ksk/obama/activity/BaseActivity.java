@@ -302,7 +302,6 @@ public class BaseActivity extends AppCompatActivity {
             intent.putExtra("goods", title);
             intent.putExtra("money", money);
             intent.putExtra("order", orderNo);
-
             startActivityForResult(intent, 10087);
         } else {
             isclick_pay = true;

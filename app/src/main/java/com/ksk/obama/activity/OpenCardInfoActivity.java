@@ -33,8 +33,10 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class OpenCardInfoActivity extends BaseActivity implements View.OnClickListener {
+public class
 
+
+OpenCardInfoActivity extends BaseActivity implements View.OnClickListener {
     private ImageView iv1;
     private ImageView iv2;
     private ImageView iv3;
@@ -62,6 +64,8 @@ public class OpenCardInfoActivity extends BaseActivity implements View.OnClickLi
     private int n = 2;
     private String addId = "";
     private String addName = "";
+    private String vipAddId = "";
+    private String vipAddName = "";
 
     private Handler mHandler = new Handler() {
         @Override
@@ -194,7 +198,9 @@ public class OpenCardInfoActivity extends BaseActivity implements View.OnClickLi
             cardInfo.setBirthday(tv_birthday.getText().toString());
             cardInfo.setPassword(et_pw1.getText().toString());
             cardInfo.setAddId(addId);
-            cardInfo.setAddPerson(addName);
+            cardInfo.setAddPerson(addName);//推荐员工
+            cardInfo.setVipAddId(vipAddId);
+            cardInfo.setVipAddPerson(vipAddName);//推荐会员
             Bundle bundle = new Bundle();
             bundle.putParcelable("info", cardInfo);
             Intent intent = new Intent(OpenCardInfoActivity.this, PayOpenCardActivity.class);
@@ -256,20 +262,29 @@ public class OpenCardInfoActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        String name= "";
         if (resultCode == RESULT_OK) {
             if (data != null) {
-                addId = data.getStringExtra("id");
-                addName = data.getStringExtra("name");
+//                addId = data.getStringExtra("id");
+                 name = data.getStringExtra("name");
             }
             switch (requestCode) {
                 case 100:
-                    btn_add_shop.setText("推荐员工:" + addName);
-                    btn_add_vip.setText("点击选择推荐会员");
+                    btn_add_shop.setText("推荐员工:" + name);
+                    if (data != null) {
+                        addId = data.getStringExtra("id");
+                        addName = data.getStringExtra("name");
+                    }
+                   //btn_add_vip.setText("点击选择推荐会员");
                     break;
-
                 case 101:
-                    btn_add_vip.setText("推荐会员:" + addName);
-                    btn_add_shop.setText("点击选择推荐员工");
+                    btn_add_vip.setText("推荐会员:" + name);
+                    //btn_add_shop.setText("点击选择推荐员工");
+
+                    if (data != null) {
+                        vipAddId = data.getStringExtra("id");
+                        vipAddName = data.getStringExtra("name");
+                    }
                     break;
             }
         }

@@ -267,6 +267,8 @@
 
                 <EditText
                     android:id="@+id/et_rech_pay_give"
+                    android:focusable="false"
+                    android:selectAllOnFocus="true"
                     android:layout_width="75dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center_vertical"
@@ -319,6 +321,8 @@
 
                 <EditText
                     android:id="@+id/et_rech_integral"
+                    android:focusable="false"
+                    android:selectAllOnFocus="true"
                     android:layout_width="75dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center_vertical"
@@ -406,6 +410,8 @@
 
                 <EditText
                     android:id="@+id/tv_rech_pay"
+                    android:focusable="false"
+                    android:selectAllOnFocus="true"
                     android:layout_width="75dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center_vertical"

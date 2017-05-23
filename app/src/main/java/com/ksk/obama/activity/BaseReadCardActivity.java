@@ -247,22 +247,22 @@ public class BaseReadCardActivity extends BaseTypeActivity {
             }
         }
         //触式ic卡读取
-        if (false) {
-            try {
-                if (rfcard != null) {
-                    boolean flag = iccard.open();
-                    if (flag) {
-                        Logger.e("打开IC卡设备成功");
-                        isExists();
-                    } else {
-                        Logger.e("打开IC卡设备失败");
-                    }
-                }
-            } catch (RemoteException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
+//        if (false) {
+//            try {
+//                if (rfcard != null) {
+//                    boolean flag = iccard.open();
+//                    if (flag) {
+//                        Logger.e("打开IC卡设备成功");
+//                        isExists();
+//                    } else {
+//                        Logger.e("打开IC卡设备失败");
+//                    }
+//                }
+//            } catch (RemoteException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//        }
 
 
     }

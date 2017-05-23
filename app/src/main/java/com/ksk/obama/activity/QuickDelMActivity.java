@@ -509,7 +509,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                             public void onClick(DialogInterface dialog, int which) {
                                 if (isclick_pay) {
                                     if (payau.equals("") || payau.equals("0") || payau.equals("0.")) {
-                                        Utils.showToast(QuickDelMActivity.this, "该方式实际消费金额不能为0");
+                                        Utils.showToast(QuickDelMActivity.this, "实际消费金额不能为0");
                                     } else {
                                         showCodeSure();
                                     }
@@ -881,6 +881,9 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         et_money = (EditText) findViewById(R.id.et_money);//消费金额
         InputFilter[] filters = {new MyTextFilter()};
         et_money.setFilters(filters);
+        et_money.setFocusableInTouchMode(true);
+        et_money.setFocusable(true);
+        et_money.requestFocus();
         et_money.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -966,6 +969,8 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                                 }
                             }
                             btn_change.setEnabled(true);
+                            et_money.setFocusable(false);
+                            et_money.setFocusableInTouchMode(false);
                             et_money.setInputType(InputType.TYPE_NULL);
                             ll_dx.setVisibility(View.VISIBLE);
                         } else {
@@ -980,6 +985,9 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                             btn_change.setEnabled(false);
                             isTemporary = false;
                             et_gread_dx.setInputType(InputType.TYPE_NULL);
+                            et_money.setFocusableInTouchMode(true);
+                            et_money.setFocusable(true);
+                            et_money.requestFocus();
                             et_money.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
                             ll_dx.setVisibility(View.GONE);
                         }
@@ -1341,6 +1349,11 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         flag = true;
         et_cardNum.setText("");
         et_money.setText("");
+        et_money.setFocusableInTouchMode(true);
+        et_money.setFocusable(true);
+        et_money.requestFocus();
+
+
         tv_name.setText("会员姓名:");
         tv_m.setText("当前储值:");
         tv_i.setText("当前积分:");
@@ -1358,6 +1371,9 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         money1 = "0";
         et_cardNum.setText("");
         et_money.setText("");
+        et_money.setFocusableInTouchMode(true);
+        et_money.setFocusable(true);
+        et_money.requestFocus();
         tv_name.setText("会员姓名:");
         tv_m.setText("当前储值:");
         tv_i.setText("当前积分:");

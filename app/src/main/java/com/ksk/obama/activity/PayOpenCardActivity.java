@@ -237,8 +237,8 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
                 break;
         }
         map.put("EquipmentNum", terminalSn);
-        map.put("C_ServiceEmployee", cardInfo.getAddPerson());
-        map.put("memid", cardInfo.getAddId());
+        map.put("C_ServiceEmployee", cardInfo.getAddId());//推荐员工的名字
+        map.put("memid", cardInfo.getVipAddId());//
         map.put("password", cardInfo.getPassword());
         map.put("dbName", SharedUtil.getSharedData(PayOpenCardActivity.this, "dbname"));
 
@@ -433,7 +433,8 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
         listp.add("手持序列号:" + terminalSn);
         listp.add((flag ? "订单时间:" : "订单生成时间") + orderTime);
         listp.add("订单号:" + orderNumber);
-        listp.add("推荐人:" + cardInfo.getAddPerson());
+        listp.add("责任员工:" + cardInfo.getAddPerson());
+        listp.add("推荐会员:" + cardInfo.getVipAddPerson());
         listp.add("会员卡号:" + cardInfo.getCardnum());
         listp.add("会员姓名:" + cardInfo.getName());
         listp.add("卡类型:" + cardInfo.getCardName());

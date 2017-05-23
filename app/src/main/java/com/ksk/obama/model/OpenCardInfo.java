@@ -25,8 +25,29 @@ public class OpenCardInfo implements Parcelable{
     private String cardName;
     private String price;
     private String uid;
+
+    private String vipAddId;
+    private String vipAddPerson;
     private String addId;
     private String addPerson;
+
+    public String getVipAddPerson() {
+        return vipAddPerson;
+    }
+
+    public void setVipAddPerson(String vipAddPerson) {
+        this.vipAddPerson = vipAddPerson;
+    }
+
+    public String getVipAddId() {
+        return vipAddId;
+    }
+
+    public void setVipAddId(String vipAddId) {
+        this.vipAddId = vipAddId;
+    }
+
+
 
     public String getUid() {
         return uid;
@@ -95,6 +116,8 @@ public class OpenCardInfo implements Parcelable{
         uid = in.readString();
         addId = in.readString();
         addPerson = in.readString();
+        vipAddId = in.readString();
+        vipAddPerson = in.readString();
     }
 
     public static final Creator<OpenCardInfo> CREATOR = new Creator<OpenCardInfo>() {
@@ -247,5 +270,7 @@ public class OpenCardInfo implements Parcelable{
         dest.writeString(uid);
         dest.writeString(addId);
         dest.writeString(addPerson);
+        dest.writeString(vipAddId);
+        dest.writeString(vipAddPerson);
     }
 }
