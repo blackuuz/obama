@@ -20,52 +20,52 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="25dp">
+            android:padding="50px">
 
             <EditText
                 android:id="@+id/et_use_coupon_number"
                 android:layout_width="0dp"
-                android:layout_height="30dp"
+                android:layout_height="60px"
                 android:layout_weight="1"
                 android:background="@mipmap/edit_bg"
                 android:gravity="center"
                 android:hint="请输入卡券编码"
                 android:textColor="@color/text_black2"
-                android:textSize="15sp" />
+                android:textSize="30px" />
 
             <Button
                 android:id="@+id/btn_use_coupon_qrCode"
                 android:layout_width="60dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="30dp"
+                android:layout_height="60px"
+                android:layout_marginLeft="60px"
                 android:background="@drawable/select_pw_yes"
                 android:text="扫码"
                 android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:textSize="30px" />
         </LinearLayout>
 
         <Button
             android:id="@+id/btn_use_coupon_query"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
+            android:layout_height="70px"
+            android:layout_marginLeft="50px"
+            android:layout_marginRight="50px"
             android:background="@drawable/select_long"
             android:text="确定"
             android:textColor="@color/white"
-            android:textSize="15sp" />
+            android:textSize="30px" />
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:layout_marginTop="20dp"
+            android:layout_height="10px"
+            android:layout_marginTop="40px"
             android:background="@color/main_bg" />
 
         <ListView
             android:id="@+id/lv_use_coupon_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_margin="25dp"
+            android:layout_margin="50px"
             android:layout_weight="1"
             android:background="@drawable/coupon_list_bg"></ListView>
 
@@ -73,46 +73,46 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp">
+            android:paddingLeft="50px"
+            android:paddingRight="50px">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="卡券数量:"
                 android:textColor="@color/text_black4"
-                android:textSize="15sp" />
+                android:textSize="30px" />
 
             <TextView
                 android:id="@+id/tv_use_coupon_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_black4"
-                android:textSize="15sp" />
+                android:textSize="30px" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginBottom="40px"
+            android:layout_marginTop="10px"
             android:orientation="horizontal"
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp">
+            android:paddingLeft="50px"
+            android:paddingRight="50px">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="抵现金额:"
                 android:textColor="@color/text_black4"
-                android:textSize="15sp" />
+                android:textSize="30px" />
 
             <TextView
                 android:id="@+id/tv_use_coupon_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/holo_red_light"
-                android:textSize="15sp" />
+                android:textSize="30px" />
         </LinearLayout>
 
     </LinearLayout>

@@ -2,6 +2,7 @@ package com.ksk.obama.utils;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.DisplayMetrics;
@@ -22,6 +23,7 @@ import com.ksk.obama.R;
  */
 
 public class MyDialog extends Dialog {
+    public Context context;
 
     private Handler handler = new Handler() {
         @Override
@@ -35,13 +37,51 @@ public class MyDialog extends Dialog {
 
     public MyDialog(Context context, int themeResId) {
         super(context, themeResId);
-        initView(context);
+        this.context = context;
+        //  initView(context);
     }
+
+    protected MyDialog(Context context) {
+        super(context);
+        this.context = context;
+    }
+
+    public MyDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
+        super(context, cancelable, cancelListener);
+        this.context = context;
+    }
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        View view = View.inflate(context, R.layout.loading_dialog_view, null);
+        setContentView(view);
+        setCanceledOnTouchOutside(false);
+        ImageView img = (ImageView) view.findViewById(R.id.img);
+        TextView tipText = (TextView) view.findViewById(R.id.tipTextView);
+        Animation animation = AnimationUtils.loadAnimation(context, R.anim.dialog_load_animation);
+        img.startAnimation(animation);
+        // 显示文本
+        tipText.setText("正在加载...");
+        setCancelable(true);
+        DisplayMetrics dm = new DisplayMetrics();
+        Window dialogWindow = getWindow();
+        dialogWindow.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int w = dm.widthPixels;
+        WindowManager.LayoutParams p = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+        p.width = (int) (w * 0.5); // 宽度设置为屏幕的0.65，根据实际情况调整
+        p.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        dialogWindow.setAttributes(p);
+
+
+    }
+
     private void initView(Context context) {
-      //  LinearLayout ll = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.loading_dialog_view,null);
+        //  LinearLayout ll = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.loading_dialog_view,null);
         // 首先得到整个View
         View view = LayoutInflater.from(context).inflate(
-                R.layout.loading_dialog_view,null);
+                R.layout.loading_dialog_view, null);
         // 获取整个布局
         LinearLayout layout = (LinearLayout) view
                 .findViewById(R.id.dialog_view);

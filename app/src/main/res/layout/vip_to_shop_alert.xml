@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="250dp"
-    android:layout_height="185dp"
+    android:layout_width="500px"
+    android:layout_height="370px"
     android:background="@mipmap/pop_up_01"
     android:orientation="vertical">
 
@@ -9,51 +9,51 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="30px"
         android:text="消费密码"
         android:textColor="@color/line_blue_h"
-        android:textSize="18sp" />
+        android:textSize="36px" />
 
     <EditText
         android:inputType="textPassword"
         android:id="@+id/vip_alert_pw"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="30px"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_height="88px"
+        android:layout_marginLeft="40px"
+        android:layout_marginRight="40px"
         android:background="@mipmap/edit_l_1"
         android:hint="请输入密码"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
+        android:paddingLeft="30px"
+        android:paddingRight="30px"
         android:textColorHint="@color/text_black2"
-        android:textSize="15sp" />
+        android:textSize="30px" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="15dp">
+        android:layout_marginLeft="40px"
+        android:layout_marginRight="40px"
+        android:layout_marginTop="30px">
 
 
         <Button
             android:id="@+id/btn_vip_back"
-            android:layout_width="90dp"
-            android:layout_height="36dp"
+            android:layout_width="180px"
+            android:layout_height="72px"
             android:layout_alignParentLeft="true"
             android:text="返回"
-            android:textSize="15sp"
+            android:textSize="30px"
             android:textColor="@color/white"
             android:background="@drawable/select_pw_no" />
 
         <Button
             android:id="@+id/btn_vip_yes"
-            android:layout_width="90dp"
-            android:layout_height="36dp"
+            android:layout_width="180px"
+            android:layout_height="72px"
             android:layout_alignParentRight="true"
             android:background="@drawable/select_pw_yes"
-            android:textSize="15sp"
+            android:textSize="30px"
             android:textColor="@color/white"
             android:text="确定" />
     </RelativeLayout>

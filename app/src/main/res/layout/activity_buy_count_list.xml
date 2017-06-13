@@ -21,14 +21,14 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="5dp"
+            android:layout_height="10px"
             android:background="@color/main_bg" />
 
         <include layout="@layout/buy_shop_1" />
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="5dp"
+            android:layout_height="10px"
             android:background="@color/main_bg" />
 
         <include layout="@layout/buy_shop_2" />

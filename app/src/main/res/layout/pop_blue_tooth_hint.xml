@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/pop_up_01"
-    android:padding="10dp">
+    android:padding="20px">
 
     <TextView
         android:id="@+id/tv1"
@@ -12,36 +12,36 @@
         android:layout_centerHorizontal="true"
         android:text="提示:"
         android:textColor="@color/text_red2"
-        android:textSize="25sp" />
+        android:textSize="50px" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv1"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20px"
         android:text="是否打印后厨小票？"
         android:textColor="@color/text_red2"
-        android:textSize="22sp" />
+        android:textSize="44px" />
 
     <Button
         android:id="@+id/btn_print_again_n"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
+        android:layout_width="200px"
+        android:layout_height="80px"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:background="@drawable/select_judy"
         android:text="不打印"
         android:textColor="@color/white"
-        android:textSize="22sp" />
+        android:textSize="44px" />
 
     <Button
         android:id="@+id/btn_print_again"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
+        android:layout_width="200px"
+        android:layout_height="80px"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:background="@drawable/select_judy"
         android:text="打印"
         android:textColor="@color/white"
-        android:textSize="22sp" />
+        android:textSize="44px" />
 </RelativeLayout>

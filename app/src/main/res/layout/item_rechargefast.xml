@@ -9,10 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingBottom="5dp"
-        android:paddingLeft="40dp"
-        android:paddingRight="20dp"
-        android:paddingTop="5dp">
+        android:paddingBottom="10px"
+        android:paddingLeft="80px"
+        android:paddingRight="40px"
+        android:paddingTop="10px">
 
 
 
@@ -24,7 +24,7 @@
             android:clickable="true"
             android:text="充"
             android:textColor="#000"
-            android:textSize="15sp" />
+            android:textSize="30px" />
 
         <TextView
             android:id="@+id/tv_recharge_name"
@@ -34,7 +34,7 @@
             android:gravity="center"
             android:textColor="#000"
             android:maxLines="1"
-            android:textSize="15sp" />
+            android:textSize="30px" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -43,7 +43,7 @@
             android:gravity="center"
             android:text="送"
             android:textColor="#000"
-            android:textSize="15sp" />
+            android:textSize="30px" />
 
         <TextView
             android:id="@+id/tv_give_name"
@@ -53,7 +53,7 @@
             android:maxLines="1"
             android:gravity="center|left"
             android:textColor="@color/text_red"
-            android:textSize="15sp" />
+            android:textSize="30px" />
 
         <TextView
             android:layout_width="0dp"
@@ -63,7 +63,7 @@
             android:text="充值"
             android:background="@drawable/select_button_r"
             android:textColor="#fff"
-            android:textSize="15sp" />
+            android:textSize="30px" />
 
 
 

@@ -52,6 +52,7 @@ public class BuyCountCartActivity extends BaseActivity implements View.OnClickLi
     private float getInte = 0;
     private String oldIntegral;
     private String uid="";
+    private int cType;
 
 
     @Override
@@ -122,11 +123,12 @@ public class BuyCountCartActivity extends BaseActivity implements View.OnClickLi
             inte = intent.getFloatExtra("integral", 0);
             net_url = intent.getStringExtra("url");
             oldIntegral = intent.getStringExtra("oldi");
+            cType = intent.getIntExtra("ctype",0);
             tv_cardNum.setText(cardNum);
             tv_name.setText(name);
             tv_oldMoney.setText(oldm);
         }
-        adapter = new BuyCountCartAdapter(BuyCountCartActivity.this, BuyCountListActivity.list_buy);
+        adapter = new BuyCountCartAdapter(BuyCountCartActivity.this, BuyCountListActivity.list_buy,cType);
         gv_project.setAdapter(adapter);
     }
 

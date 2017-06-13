@@ -46,6 +46,7 @@ import static com.ksk.obama.utils.SharedUtil.getSharedData;
 public class OpenCardActivity extends BaseReadCardActivity implements IReadCardId, IQrcodeCallBack {
     private EditText et_cardNum, et_name, et_pay;
     private TextView tv_cardType, tv_should, tv0, tv1, tv2, tv3, tv4;
+    private TextView tv_recharge_rate;//充值倍率
     private ImageView iv_cardType;
     private List<CardTypeSelect.ResultDataBean> list = new ArrayList<>();
     private ListView lv_card_type;
@@ -137,6 +138,7 @@ public class OpenCardActivity extends BaseReadCardActivity implements IReadCardI
         tv2 = (TextView) findViewById(R.id.tv_open2);
         tv3 = (TextView) findViewById(R.id.tv_open3);
         tv4 = (TextView) findViewById(R.id.tv_open4);
+        tv_recharge_rate = (TextView) findViewById(R.id.tv_integral_rate);
 
         tv4.setText(SharedUtil.getSharedData(OpenCardActivity.this, "shopname"));
 
@@ -245,6 +247,7 @@ public class OpenCardActivity extends BaseReadCardActivity implements IReadCardI
                 String str2 = tv2.getText().toString();
                 String str3 = tv3.getText().toString();
                 String str4 = tv4.getText().toString();
+                String str5 = tv_recharge_rate.getText().toString();
                 Intent intent = new Intent(OpenCardActivity.this, OpenCardInfoActivity.class);
                 OpenCardInfo cardInfo = new OpenCardInfo();
                 cardInfo.setCardnum(cardnum);
@@ -261,6 +264,7 @@ public class OpenCardActivity extends BaseReadCardActivity implements IReadCardI
                 cardInfo.setStr2(str2);
                 cardInfo.setStr3(str3);
                 cardInfo.setStr4(str4);
+
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("info", cardInfo);
                 intent.putExtras(bundle);
@@ -357,6 +361,7 @@ public class OpenCardActivity extends BaseReadCardActivity implements IReadCardI
                     tv1.setText(dataBean.getN_InitIntegral());
                     tv2.setText(dataBean.getN_DiscountValue());
                     tv3.setText(dataBean.getN_IntegralValue());
+                    tv_recharge_rate.setText(dataBean.getN_Recharge_Integral_Value());
                     dismiss();
                 }
             });

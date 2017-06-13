@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
+    android:layout_marginTop="20px"
     android:gravity="center_horizontal"
     android:orientation="horizontal">
 
@@ -14,16 +14,16 @@
 
         <ImageView
             android:id="@+id/iv_click_add_year"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="60px"
+            android:layout_height="60px"
             android:src="@drawable/select_shop_add" />
 
         <EditText
             android:id="@+id/et_time_year"
-            android:layout_width="70dp"
-            android:layout_height="30dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_width="140px"
+            android:layout_height="60px"
+            android:layout_marginBottom="10px"
+            android:layout_marginTop="10px"
             android:background="@mipmap/edit_bg"
             android:digits="0123456789"
             android:gravity="center"
@@ -31,12 +31,12 @@
             android:maxLength="4"
             android:selectAllOnFocus="true"
             android:textColor="@color/text_black3"
-            android:textSize="20sp" />
+            android:textSize="40px" />
 
         <ImageView
             android:id="@+id/iv_click_del_year"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="60px"
+            android:layout_height="60px"
             android:src="@drawable/select_shop_del" />
     </LinearLayout>
 
@@ -44,8 +44,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginLeft="10px"
+        android:layout_marginRight="10px"
         android:text="--" />
 
     <LinearLayout
@@ -56,16 +56,16 @@
 
         <ImageView
             android:id="@+id/iv_click_add_mouth"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="60px"
+            android:layout_height="60px"
             android:src="@drawable/select_shop_add" />
 
         <EditText
             android:id="@+id/et_time_mouth"
-            android:layout_width="70dp"
-            android:layout_height="30dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_width="140px"
+            android:layout_height="60px"
+            android:layout_marginBottom="10px"
+            android:layout_marginTop="10px"
             android:background="@mipmap/edit_bg"
             android:digits="0123456789"
             android:gravity="center"
@@ -73,12 +73,12 @@
             android:maxLength="2"
             android:selectAllOnFocus="true"
             android:textColor="@color/text_black3"
-            android:textSize="20sp" />
+            android:textSize="40px" />
 
         <ImageView
             android:id="@+id/iv_click_del_mouth"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="60px"
+            android:layout_height="60px"
             android:src="@drawable/select_shop_del" />
     </LinearLayout>
 
@@ -86,8 +86,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginLeft="10px"
+        android:layout_marginRight="10px"
         android:text="--" />
 
     <LinearLayout
@@ -98,16 +98,16 @@
 
         <ImageView
             android:id="@+id/iv_click_add_day"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="60px"
+            android:layout_height="60px"
             android:src="@drawable/select_shop_add" />
 
         <EditText
             android:id="@+id/et_time_day"
-            android:layout_width="70dp"
-            android:layout_height="30dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_width="140px"
+            android:layout_height="60px"
+            android:layout_marginBottom="10px"
+            android:layout_marginTop="10px"
             android:background="@mipmap/edit_bg"
             android:digits="0123456789"
             android:gravity="center"
@@ -115,12 +115,12 @@
             android:maxLength="2"
             android:selectAllOnFocus="true"
             android:textColor="@color/text_black3"
-            android:textSize="20sp" />
+            android:textSize="40px" />
 
         <ImageView
             android:id="@+id/iv_click_del_day"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="60px"
+            android:layout_height="60px"
             android:src="@drawable/select_shop_del" />
     </LinearLayout>
 </LinearLayout>

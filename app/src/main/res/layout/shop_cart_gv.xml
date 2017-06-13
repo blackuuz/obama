@@ -3,15 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="0dp"
     android:layout_weight="1"
-    android:layout_margin="20dp"
+    android:layout_margin="40px"
     android:background="@drawable/list_bg">
 
     <GridView
-        android:layout_margin="1dp"
+        android:layout_margin="2px"
         android:id="@+id/gv_shop_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:horizontalSpacing="5dp"
+        android:horizontalSpacing="10px"
         android:numColumns="2"
-        android:verticalSpacing="5dp"></GridView>
+        android:verticalSpacing="10px"></GridView>
 </RelativeLayout>

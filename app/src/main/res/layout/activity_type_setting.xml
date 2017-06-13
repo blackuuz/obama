@@ -16,107 +16,107 @@ android:orientation="vertical">
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="2px"
+        android:layout_marginTop="40px"
         android:background="#ebebeb" />
 
     <android.support.v7.widget.SwitchCompat
         android:id="@+id/switch_lkl"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="26dp"
-        android:layout_marginRight="26dp"
+        android:layout_height="100px"
+        android:layout_marginLeft="52px"
+        android:layout_marginRight="52px"
         android:text="拉卡拉POS"
         android:textColor="#323232"
-        android:textSize="18sp" />
+        android:textSize="36px" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="2px"
         android:background="#ebebeb" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="2px"
+        android:layout_marginTop="20px"
         android:background="#ebebeb" />
 
     <android.support.v7.widget.SwitchCompat
         android:id="@+id/switch_sm"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="26dp"
-        android:layout_marginRight="26dp"
+        android:layout_height="100px"
+        android:layout_marginLeft="52px"
+        android:layout_marginRight="52px"
         android:text="商米POS:p1"
         android:textColor="#323232"
-        android:textSize="18sp" />
+        android:textSize="36px" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="2px"
         android:background="#ebebeb" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="2px"
+        android:layout_marginTop="20px"
         android:background="#ebebeb" />
 
     <android.support.v7.widget.SwitchCompat
         android:id="@+id/switch_sm_v1"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="26dp"
-        android:layout_marginRight="26dp"
+        android:layout_height="100px"
+        android:layout_marginLeft="52px"
+        android:layout_marginRight="52px"
         android:text="商米POS:v1"
         android:textColor="#323232"
-        android:textSize="18sp" />
+        android:textSize="36px" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="2px"
         android:background="#ebebeb" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="2px"
+        android:layout_marginTop="20px"
         android:background="#ebebeb" />
 
     <android.support.v7.widget.SwitchCompat
         android:id="@+id/switch_phone"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="26dp"
-        android:layout_marginRight="26dp"
+        android:layout_height="100px"
+        android:layout_marginLeft="52px"
+        android:layout_marginRight="52px"
         android:text="手机"
         android:textColor="#323232"
-        android:textSize="18sp" />
+        android:textSize="36px" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="2px"
         android:background="#ebebeb" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="2px"
+        android:layout_marginTop="20px"
         android:background="#ebebeb" />
 
     <android.support.v7.widget.SwitchCompat
         android:id="@+id/switch_wang_pos"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="26dp"
-        android:layout_marginRight="26dp"
+        android:layout_height="100px"
+        android:layout_marginLeft="52px"
+        android:layout_marginRight="52px"
         android:text="旺POS"
         android:textColor="#323232"
-        android:textSize="18sp" />
+        android:textSize="36px" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="2px"
         android:background="#ebebeb" />
 </LinearLayout>
 

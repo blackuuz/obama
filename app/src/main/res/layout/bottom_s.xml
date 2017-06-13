@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="48dp"
+    android:layout_height="96px"
     android:background="@color/white"
     android:orientation="horizontal">
 
@@ -13,7 +13,7 @@
         android:background="@drawable/select_bottoms_y"
         android:gravity="center"
         android:textColor="@color/white"
-        android:textSize="20sp" />
+        android:textSize="40px" />
 
 
     <TextView
@@ -25,6 +25,6 @@
         android:gravity="center"
         android:text="返    回"
         android:textColor="#31302f"
-        android:textSize="20sp" />
+        android:textSize="40px" />
 
 </LinearLayout>

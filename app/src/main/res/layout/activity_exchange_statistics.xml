@@ -18,7 +18,7 @@
         <include layout="@layout/statistics_top" />
 
         <include layout="@layout/statistics_bottom" />
-
+ 
     </LinearLayout>
 
 

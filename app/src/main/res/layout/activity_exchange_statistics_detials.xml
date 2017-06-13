@@ -21,7 +21,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp">
+                android:layout_height="120px">
 
                 <TextView
                     style="@style/text_statistics_del_l"
@@ -34,18 +34,18 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="14dp"
+                android:layout_height="28px"
                 android:background="@color/main_bg" />
 
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="2px"
                 android:background="@color/main_bg" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp">
+                android:layout_height="60px">
 
                 <TextView
                     style="@style/text_statistics_del_l"
@@ -59,7 +59,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp">
+                android:layout_height="60px">
 
                 <TextView
                     style="@style/text_statistics_del_l"
@@ -73,13 +73,13 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="14dp"
+                android:layout_height="28px"
                 android:background="@color/main_bg" />
 
             <LinearLayout
                 android:id="@+id/detials_title"
                 android:layout_width="match_parent"
-                android:layout_height="46dp"
+                android:layout_height="92px"
                 android:background="@color/white"
                 android:orientation="horizontal">
 
@@ -117,12 +117,12 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="14dp"
+                android:layout_height="28px"
                 android:background="@color/main_bg" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp">
+                android:layout_height="60px">
 
                 <TextView
                     style="@style/text_statistics_del_l"
@@ -136,7 +136,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp">
+                android:layout_height="60px">
 
                 <TextView
                     style="@style/text_statistics_del_l"
@@ -150,7 +150,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp">
+                android:layout_height="60px">
 
                 <TextView
                     style="@style/text_statistics_del_l"
@@ -164,7 +164,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp">
+                android:layout_height="60px">
 
                 <TextView
                     style="@style/text_statistics_del_l"
@@ -178,12 +178,12 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="14dp"
+                android:layout_height="28px"
                 android:background="@color/main_bg" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp">
+                android:layout_height="60px">
 
                 <TextView
                     android:id="@+id/tv_open_start_money"
@@ -195,13 +195,13 @@
                     style="@style/text_statistics_del_l"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginStart="26dp"
+                    android:layout_marginStart="52px"
                     android:text="剩余积分" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp">
+                android:layout_height="60px">
 
                 <TextView
                     style="@style/text_statistics_del_l"
@@ -215,12 +215,12 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="14dp"
+                android:layout_height="28px"
                 android:background="@color/main_bg" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp">
+                android:layout_height="60px">
 
                 <TextView
                     style="@style/text_statistics_del_l"
@@ -234,12 +234,12 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="2px"
                 android:background="@color/main_bg" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp">
+                android:layout_height="60px">
 
                 <TextView
                     style="@style/text_statistics_del_l"

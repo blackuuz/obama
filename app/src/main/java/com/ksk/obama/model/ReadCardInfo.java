@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/8/2.
  */
-public class ReadCardInfo{
+public class ReadCardInfo {
 
     /**
      * result_code : SUCCESS
@@ -52,6 +52,8 @@ public class ReadCardInfo{
      * i_Memberup : null
      * c_Memberpath : null
      * N_Recharge_Integral_Value: .00
+     * C_ServiceEmployee :""
+     * C_PriceClass :""
      * ROW_NUMBER : 1
      */
 
@@ -99,7 +101,7 @@ public class ReadCardInfo{
     }
 
 
-    public class PesultProject{
+    public class PesultProject {
         private String i_GoodsID;
 
         public String getI_GroupID() {
@@ -113,7 +115,7 @@ public class ReadCardInfo{
         private String c_GoodsName;
         private String n_Times;
         private String t_StopTime;
-        private boolean isSelect=false;
+        private boolean isSelect = false;
 
         public boolean isSelect() {
             return isSelect;
@@ -147,7 +149,8 @@ public class ReadCardInfo{
             this.t_StopTime = t_StopTime;
         }
     }
-    public static class ResultDataBean implements Parcelable{
+
+    public static class ResultDataBean implements Parcelable {
 
         private String id;
         private String i_GroupID;
@@ -182,6 +185,28 @@ public class ReadCardInfo{
         private String c_Memberpath;
         private String ROW_NUMBER;
         private String N_Recharge_Integral_Value;
+        private String C_ServiceEmployee;//服务员工
+        private String C_PriceClass;//会员商品打折类型
+
+
+
+
+
+        public String getC_ServiceEmployee() {
+            return C_ServiceEmployee;
+        }
+
+        public void setC_ServiceEmployee(String c_ServiceEmployee) {
+            C_ServiceEmployee = c_ServiceEmployee;
+        }
+
+        public String getC_PriceClass() {
+            return C_PriceClass;
+        }
+
+        public void setC_PriceClass(String c_PriceClass) {
+            C_PriceClass = c_PriceClass;
+        }
 
         public String getN_Recharge_Integral_Value() {
             return N_Recharge_Integral_Value;
@@ -190,41 +215,6 @@ public class ReadCardInfo{
         public void setN_Recharge_Integral_Value(String n_Recharge_Integral_Value) {
             N_Recharge_Integral_Value = n_Recharge_Integral_Value;
         }
-
-        protected ResultDataBean(Parcel in) {
-            id = in.readString();
-            i_GroupID = in.readString();
-            i_ShopID = in.readString();
-            c_ShopName = in.readString();
-            c_CardNO = in.readString();
-            c_Name = in.readString();
-            c_Sex = in.readString();
-            c_Mobile = in.readString();
-            c_IDCard = in.readString();
-            c_Car = in.readString();
-            c_Add = in.readString();
-            c_Password = in.readString();
-            c_BirthdayType = in.readString();
-            i_BirthdayYear = in.readString();
-            i_BirthdayMonth = in.readString();
-            i_BirthdayDay = in.readString();
-            i_ClassID = in.readString();
-            c_ClassName = in.readString();
-            n_IntegralValue = in.readString();
-            n_DiscountValue = in.readString();
-            n_AmountAvailable = in.readString();
-            n_IntegralAvailable = in.readString();
-            n_IntegralAccumulated = in.readString();
-            t_CreateTime = in.readString();
-            t_StopTime = in.readString();
-            t_LastTime = in.readString();
-            c_OpenID = in.readString();
-            c_Remark = in.readString();
-            c_Photo = in.readString();
-            N_Recharge_Integral_Value = in.readString();
-            ROW_NUMBER = in.readString();
-        }
-
         public static final Creator<ResultDataBean> CREATOR = new Creator<ResultDataBean>() {
             @Override
             public ResultDataBean createFromParcel(Parcel in) {
@@ -498,6 +488,42 @@ public class ReadCardInfo{
             return 0;
         }
 
+        protected ResultDataBean(Parcel in) {
+            id = in.readString();
+            i_GroupID = in.readString();
+            i_ShopID = in.readString();
+            c_ShopName = in.readString();
+            c_CardNO = in.readString();
+            c_Name = in.readString();
+            c_Sex = in.readString();
+            c_Mobile = in.readString();
+            c_IDCard = in.readString();
+            c_Car = in.readString();
+            c_Add = in.readString();
+            c_Password = in.readString();
+            c_BirthdayType = in.readString();
+            i_BirthdayYear = in.readString();
+            i_BirthdayMonth = in.readString();
+            i_BirthdayDay = in.readString();
+            i_ClassID = in.readString();
+            c_ClassName = in.readString();
+            n_IntegralValue = in.readString();
+            n_DiscountValue = in.readString();
+            n_AmountAvailable = in.readString();
+            n_IntegralAvailable = in.readString();
+            n_IntegralAccumulated = in.readString();
+            t_CreateTime = in.readString();
+            t_StopTime = in.readString();
+            t_LastTime = in.readString();
+            c_OpenID = in.readString();
+            c_Remark = in.readString();
+            c_Photo = in.readString();
+            N_Recharge_Integral_Value = in.readString();
+            ROW_NUMBER = in.readString();
+            C_ServiceEmployee = in.readString();
+            C_PriceClass = in.readString();
+        }
+
         @Override
         public void writeToParcel(Parcel dest, int flags) {
             dest.writeString(id);
@@ -531,6 +557,8 @@ public class ReadCardInfo{
             dest.writeString(c_Photo);
             dest.writeString(N_Recharge_Integral_Value);
             dest.writeString(ROW_NUMBER);
+            dest.writeString(C_ServiceEmployee);
+            dest.writeString(C_PriceClass);
         }
     }
 }

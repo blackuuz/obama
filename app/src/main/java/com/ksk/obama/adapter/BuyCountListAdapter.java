@@ -1,6 +1,7 @@
 package com.ksk.obama.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +17,20 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/8/31.
  */
-public class BuyCountListAdapter extends BaseAdapter {
+public class BuyCountListAdapter extends BaseAdapter {// implements VipTypeCallBack
     private Context context;
+    private int cardtype =  -1 ;
     private List<BuyCountList.GoodsListBean> list;
+//    private  VipTypeCallBack vipTypeCallBack;
+//    public void setVipTypeCallBack(VipTypeCallBack vipTypeCallBack) {
+//        this.vipTypeCallBack = vipTypeCallBack;
+//    }
 
-    public BuyCountListAdapter(Context context, List<BuyCountList.GoodsListBean> list) {
+
+    public BuyCountListAdapter(Context context, List<BuyCountList.GoodsListBean> list,int type) {
         this.context = context;
         this.list = list;
+        this.cardtype = type;
     }
 
     @Override
@@ -43,6 +51,7 @@ public class BuyCountListAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder holder = null;
+
         if (view == null) {
             holder = new ViewHolder();
             view = LayoutInflater.from(context).inflate(R.layout.item_list, null);
@@ -50,18 +59,42 @@ public class BuyCountListAdapter extends BaseAdapter {
             holder.tv_name = (TextView) view.findViewById(R.id.item_name);
             holder.tv_price = (TextView) view.findViewById(R.id.item_price);
             view.setTag(holder);
-        }else{
+        } else {
             holder = (ViewHolder) view.getTag();
         }
 
-        holder.tv_num.setText(list.get(i).getNum()+"");
+        holder.tv_num.setText(list.get(i).getNum() + "");
         holder.tv_name.setText(list.get(i).getC_GoodsName());
-        holder.tv_price.setText(list.get(i).getN_PriceRetail()+"");
-
+        Log.e("uuz", ":"+cardtype);
+//        switch (cardtype){
+//            case 0 :
+                holder.tv_price.setText(list.get(i).getN_PriceRetail() + "");
+//                break;
+//            case 1:
+//                holder.tv_price.setText(list.get(i).getN_PriceMemberA() + "");
+//                break;
+//            case 2:
+//                holder.tv_price.setText(list.get(i).getN_PriceMemberB() + "");
+//                break;
+//            case 3:
+//                holder.tv_price.setText(list.get(i).getN_PriceMemberC()+ "");
+//                break;
+//            case 4:
+//                holder.tv_price.setText(list.get(i).getN_PriceMemberD() + "");
+//                break;
+//            default:
+//                holder.tv_price.setText(list.get(i).getN_PriceRetail() + "");
+//                break;
+//        }
         return view;
     }
 
-    private class ViewHolder{
-        private TextView tv_num,tv_name, tv_price;
+//    @Override
+//    public void cardType(int type) {
+//        this.cardtype = type;
+//    }
+
+    private class ViewHolder {
+        private TextView tv_num, tv_name, tv_price;
     }
 }

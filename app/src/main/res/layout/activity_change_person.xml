@@ -25,23 +25,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="15dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginBottom="30px"
+                android:layout_marginTop="30px"
                 android:text="交班统计"
                 android:textColor="@color/text_black4"
-                android:textSize="20sp" />
+                android:textSize="40px" />
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
+                android:layout_height="10px"
                 android:background="@color/main_bg" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginBottom="30px"
+                android:layout_marginLeft="60px"
+                android:layout_marginTop="40px"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -52,7 +52,7 @@
                     android:layout_weight="1"
                     android:text="店面"
                     android:textColor="@color/text_black4"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
 
                 <TextView
                     android:id="@+id/tv_change_user_name"
@@ -61,48 +61,48 @@
                     android:layout_weight="1"
                     android:text="操作员"
                     android:textColor="@color/text_black4"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_change_xlh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="30dp"
+                android:layout_marginBottom="20px"
+                android:layout_marginLeft="60px"
                 android:text="序列号"
                 android:textColor="@color/text_black4"
-                android:textSize="14sp" />
+                android:textSize="28px" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="60px"
                 android:text="统计时间:"
                 android:textColor="@color/text_black4"
-                android:textSize="14sp" />
+                android:textSize="28px" />
 
             <TextView
                 android:id="@+id/tv_change_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginBottom="40px"
+                android:layout_marginLeft="60px"
+                android:layout_marginTop="10px"
                 android:textColor="@color/text_black4"
-                android:textSize="14sp" />
+                android:textSize="28px" />
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
+                android:layout_height="10px"
                 android:background="@color/main_bg" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20px"
+                android:layout_marginLeft="60px"
+                android:layout_marginTop="20px"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -111,27 +111,27 @@
                     android:layout_height="wrap_content"
                     android:text="收益统计 :￥"
                     android:textColor="@color/text_black4"
-                    android:textSize="20sp" />
+                    android:textSize="40px" />
 
                 <TextView
                     android:id="@+id/tv_change_count_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10px"
                     android:textColor="@color/text_blue"
-                    android:textSize="20sp" />
+                    android:textSize="40px" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
+                android:layout_height="10px"
                 android:background="@color/main_bg" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="60px"
+                android:layout_marginTop="20px"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -140,22 +140,22 @@
                     android:layout_height="wrap_content"
                     android:text="收款 :￥"
                     android:textColor="@color/text_black4"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
 
                 <TextView
                     android:id="@+id/tv_change_count_moneyin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10px"
                     android:textColor="@color/text_black2"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginLeft="60px"
+                android:layout_marginTop="40px"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -166,7 +166,7 @@
                     android:layout_weight="1"
                     android:text="银联收款"
                     android:textColor="@color/text_black4"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
 
                 <TextView
                     android:id="@+id/tv_change_pay0"
@@ -175,14 +175,14 @@
                     android:layout_weight="1"
                     android:text="现金收款"
                     android:textColor="@color/text_black4"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="60px"
+                android:layout_marginTop="20px"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -193,7 +193,7 @@
                     android:layout_weight="1"
                     android:text="微信收款"
                     android:textColor="@color/text_black4"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
 
                 <TextView
                     android:id="@+id/tv_change_pay2"
@@ -202,30 +202,30 @@
                     android:layout_weight="1"
                     android:text="支付宝收款"
                     android:textColor="@color/text_black4"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_change_pay4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="40px"
+                android:layout_marginLeft="60px"
+                android:layout_marginTop="20px"
                 android:text="会员卡收款"
                 android:textColor="@color/text_black4"
-                android:textSize="14sp" />
+                android:textSize="28px" />
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
+                android:layout_height="10px"
                 android:background="@color/main_bg" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="60px"
+                android:layout_marginTop="20px"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -234,22 +234,22 @@
                     android:layout_height="wrap_content"
                     android:text="退款(销户) :￥"
                     android:textColor="@color/text_black4"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
 
                 <TextView
                     android:id="@+id/tv_change_count_moneyin_t"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10px"
                     android:textColor="@color/text_black2"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginLeft="60px"
+                android:layout_marginTop="40px"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -260,7 +260,7 @@
                     android:layout_weight="1"
                     android:text="银联退款"
                     android:textColor="@color/text_black4"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
 
                 <TextView
                     android:id="@+id/tv_change_pay0_t"
@@ -269,14 +269,14 @@
                     android:layout_weight="1"
                     android:text="现金退款"
                     android:textColor="@color/text_black4"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="60px"
+                android:layout_marginTop="20px"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -287,7 +287,7 @@
                     android:layout_weight="1"
                     android:text="微信退款"
                     android:textColor="@color/text_black4"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
 
                 <TextView
                     android:id="@+id/tv_change_pay2_t"
@@ -296,20 +296,20 @@
                     android:layout_weight="1"
                     android:text="支付宝退款"
                     android:textColor="@color/text_black4"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="10px"
+                android:layout_marginTop="20px"
                 android:background="@color/main_bg" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="60px"
+                android:layout_marginTop="20px"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -318,22 +318,22 @@
                     android:layout_height="wrap_content"
                     android:text="会员开卡 :￥"
                     android:textColor="@color/text_black4"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
 
                 <TextView
                     android:id="@+id/tv_change_open_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10px"
                     android:textColor="@color/text_blue"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="60px"
+                android:layout_marginTop="20px"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -342,28 +342,28 @@
                     android:layout_height="wrap_content"
                     android:text="收款 :￥"
                     android:textColor="@color/text_black4"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
 
                 <TextView
                     android:id="@+id/tv_change_open_moneyin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10px"
                     android:textColor="@color/text_black2"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="10px"
+                android:layout_marginTop="20px"
                 android:background="@color/main_bg" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="60px"
+                android:layout_marginTop="20px"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -372,22 +372,22 @@
                     android:layout_height="wrap_content"
                     android:text="会员消费 :￥"
                     android:textColor="@color/text_black4"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
 
                 <TextView
                     android:id="@+id/tv_change_expenfiture_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10px"
                     android:textColor="@color/text_blue"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="60px"
+                android:layout_marginTop="20px"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -396,28 +396,28 @@
                     android:layout_height="wrap_content"
                     android:text="收款 :￥"
                     android:textColor="@color/text_black4"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
 
                 <TextView
                     android:id="@+id/tv_change_expenfiture_moneyin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10px"
                     android:textColor="@color/text_black2"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="10px"
+                android:layout_marginTop="20px"
                 android:background="@color/main_bg" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="60px"
+                android:layout_marginTop="20px"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -426,22 +426,22 @@
                     android:layout_height="wrap_content"
                     android:text="会员充值 :￥"
                     android:textColor="@color/text_black4"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
 
                 <TextView
                     android:id="@+id/tv_change_recharge_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10px"
                     android:textColor="@color/text_blue"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="60px"
+                android:layout_marginTop="20px"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -450,28 +450,28 @@
                     android:layout_height="wrap_content"
                     android:text="收款 :￥"
                     android:textColor="@color/text_black4"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
 
                 <TextView
                     android:id="@+id/tv_change_recharge_moneyin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10px"
                     android:textColor="@color/text_black2"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="10px"
+                android:layout_marginTop="20px"
                 android:background="@color/main_bg" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="60px"
+                android:layout_marginTop="20px"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -480,22 +480,22 @@
                     android:layout_height="wrap_content"
                     android:text="非会员消费 :￥"
                     android:textColor="@color/text_black4"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
 
                 <TextView
                     android:id="@+id/tv_change_novip_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10px"
                     android:textColor="@color/text_blue"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="60px"
+                android:layout_marginTop="20px"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -504,28 +504,28 @@
                     android:layout_height="wrap_content"
                     android:text="收款 :￥"
                     android:textColor="@color/text_black4"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
 
                 <TextView
                     android:id="@+id/tv_change_novip_moneyin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10px"
                     android:textColor="@color/text_black2"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="10px"
+                android:layout_marginTop="20px"
                 android:background="@color/main_bg" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="60px"
+                android:layout_marginTop="20px"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -534,22 +534,22 @@
                     android:layout_height="wrap_content"
                     android:text="购买次数 :￥"
                     android:textColor="@color/text_black4"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
 
                 <TextView
                     android:id="@+id/tv_change_buyc_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10px"
                     android:textColor="@color/text_blue"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="60px"
+                android:layout_marginTop="20px"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -558,28 +558,28 @@
                     android:layout_height="wrap_content"
                     android:text="收款 :￥"
                     android:textColor="@color/text_black4"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
 
                 <TextView
                     android:id="@+id/tv_change_buyc_moneyin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10px"
                     android:textColor="@color/text_black2"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="10px"
+                android:layout_marginTop="20px"
                 android:background="@color/main_bg" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="60px"
+                android:layout_marginTop="20px"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -588,22 +588,22 @@
                     android:layout_height="wrap_content"
                     android:text="合计积分 :"
                     android:textColor="@color/text_black4"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
 
                 <TextView
                     android:id="@+id/tv_change_jf_hj"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10px"
                     android:textColor="@color/text_blue"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="60px"
+                android:layout_marginTop="20px"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -612,22 +612,22 @@
                     android:layout_height="wrap_content"
                     android:text="积分兑换 :"
                     android:textColor="@color/text_black4"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
 
                 <TextView
                     android:id="@+id/tv_change_jf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10px"
                     android:textColor="@color/text_blue"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="60px"
+                android:layout_marginTop="20px"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -636,22 +636,22 @@
                     android:layout_height="wrap_content"
                     android:text="积分抵现 :"
                     android:textColor="@color/text_black4"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
 
                 <TextView
                     android:id="@+id/tv_change_jf_dx"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10px"
                     android:textColor="@color/text_blue"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="60px"
+                android:layout_marginTop="20px"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -660,22 +660,22 @@
                     android:layout_height="wrap_content"
                     android:text="赠送积分 :"
                     android:textColor="@color/text_black4"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
 
                 <TextView
                     android:id="@+id/tv_change_jf_give"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10px"
                     android:textColor="@color/text_blue"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="60px"
+                android:layout_marginTop="20px"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -684,21 +684,21 @@
                     android:layout_height="wrap_content"
                     android:text="扣除积分 :"
                     android:textColor="@color/text_black4"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
 
                 <TextView
                     android:id="@+id/tv_change_jf_del"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10px"
                     android:textColor="@color/text_blue"
-                    android:textSize="14sp" />
+                    android:textSize="28px" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="10px"
+                android:layout_marginTop="20px"
                 android:background="@color/main_bg" />
         </LinearLayout>
     </ScrollView>

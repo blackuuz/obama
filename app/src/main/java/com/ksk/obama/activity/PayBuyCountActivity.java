@@ -204,6 +204,9 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
         dx_jf = parseFloat(SharedUtil.getSharedData(PayBuyCountActivity.this, "dx_jf"));//几多积分抵现一元
         dx_mr = parseFloat(SharedUtil.getSharedData(PayBuyCountActivity.this, "dx_mr")) * 0.01f;//默认抵现倍率
         dx_max = parseFloat(SharedUtil.getSharedData(PayBuyCountActivity.this, "dx_max"));//最大抵现几多
+        if (Math.abs(dx_jf - 0.0) == 0) {
+            db_isCheck.setVisibility(View.GONE);
+        }
 
         if (SharedUtil.getSharedBData(PayBuyCountActivity.this, "gcsj")) {
             btnSjsk.setVisibility(View.GONE);
@@ -473,7 +476,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
             payau = et_money.getText().toString();
         }
         if (db_isCheck.isChecked()) {
-            payau =tv_paymoney.getText().toString();
+            payau = tv_paymoney.getText().toString();
         }
 
         del = Utils.getNumStr(Float.parseFloat(should) - Float.parseFloat(payau));
@@ -510,7 +513,8 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
                         Utils.showToast(PayBuyCountActivity.this, "请输入积分");
                     } else {
                         n = 1;
-                        payMoney(1, payau, orderNumber, "购买次数");
+                        sendData("");//*
+                        //payMoney(1, payau, orderNumber, "购买次数");
                     }
                     break;
                 case R.id.tv_pay_zfb:
@@ -519,12 +523,13 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
                         Utils.showToast(PayBuyCountActivity.this, "请输入积分");
                     } else {
                         n = 2;
-                        payMoney(2, payau, orderNumber, "购买次数");
-                        if (TextUtils.isEmpty(password)) {
-                            payMoney(2, payau, orderNumber, "购买次数");
-                        } else {
-                            getPassword();
-                        }
+                        sendData("");//*
+//                       payMoney(2, payau, orderNumber, "购买次数");
+//                        if (TextUtils.isEmpty(password)) {
+//                            payMoney(2, payau, orderNumber, "购买次数");
+//                        } else {
+//                            getPassword();
+//                        }
                     }
                     break;
                 case R.id.tv_pay_yl:
@@ -692,6 +697,9 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
                 Logger.e(jsonText);
                 isPay = true;
                 showHttpData(jsonText);
+//                if ((robotType == 4 && n == 2) || (robotType == 4 && n == 3)){
+//                    LKLPay(orderNum);
+//                }
             }
 
             @Override
@@ -712,12 +720,14 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
             if (tag.equals("SUCCESS")) {
                 if ((robotType == 1 && n == 1) || (robotType == 1 && n == 3)) {
                     payMoney(n, payau + "", orderNumber, "商品消费");
+                } else if ((robotType !=1 && n == 1) || (robotType !=1 && n == 2)) {
+                    payMoney(n, payau + "", orderNumber, "购买次数");
                 } else {
                     reSet();
                 }
                 switch (robotType) {
                     case 3:
-                    case 4:
+                        //case 4:
                         changeActivity();
                         break;
                 }
@@ -746,7 +756,9 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
 
     private void reSet() {
         flag = true;
-        ll_pay.setVisibility(View.GONE);
+        if(robotType == 1){
+            ll_pay.setVisibility(View.GONE);
+        }
         tv_print.setVisibility(View.VISIBLE);
         tv_print.setEnabled(true);
         payHint(true);
@@ -830,12 +842,14 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
         if ((robotType == 1 && n == 1) || (robotType == 1 && n == 2) || (robotType == 1 && n == 3)) {
             LKLPay(orderNum);
         } else {
-            sendData(orderNum);
+            // sendData(orderNum);
+            LKLPay(orderNum);
             loadingDialog.show();
         }
     }
 
-    private void LKLPay(String order) {
+    private void
+    LKLPay(String order) {
         Map<String, String> map = new HashMap<>();
         map.put("refernumber", order);
         map.put("orderNo", orderNumber);
@@ -1021,13 +1035,13 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
 
     @Override
     public void OnCreateOrderNumber(boolean isFail) {
-        getOrderNum("BT");
         if (isFail) {
             Map<String, String> map = new HashMap<>();
             map.put("orderNo", orderNumber);
             map.put("dbName", getSharedData(PayBuyCountActivity.this, "dbname"));
             postToHttp(NetworkUrl.DELPAYQRCODE, map, null);
         }
+        getOrderNum("BT");
     }
 
     @OnClick({R.id.btn_sjsk, R.id.btn_hdjf, R.id.btn_dxjf})

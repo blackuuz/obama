@@ -7,7 +7,7 @@
     <LinearLayout
         android:id="@+id/item_del_count_bg"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="90px"
         android:orientation="horizontal">
 
         <TextView
@@ -18,7 +18,7 @@
             android:gravity="center"
             android:text="sdfsdf"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="36px" />
 
         <TextView
             android:id="@+id/item_del_count_num"
@@ -27,7 +27,7 @@
             android:layout_weight="2"
             android:gravity="center"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="36px" />
 
         <TextView
             android:id="@+id/item_del_count_time"
@@ -36,7 +36,7 @@
             android:layout_weight="3"
             android:gravity="center"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="36px" />
     </LinearLayout>
 
 </LinearLayout>

@@ -123,6 +123,7 @@ public class VipToShopActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.ll_vip_set:
 //                if (SharedUtil.getSharedBData(VipToShopActivity.this, "vip2")) {
+
 //                } else {
 //                    Utils.showToast(VipToShopActivity.this, "您没有权限");
 //                }
@@ -135,7 +136,7 @@ public class VipToShopActivity extends BaseActivity implements View.OnClickListe
                         if (TextUtils.isEmpty(cardInfo.getC_OpenID())) {
                             changePwActivity(1111, ChangeWechatActivity.class);
                         } else {
-                            Utils.showToast(VipToShopActivity.this, "您已绑定微信");
+                            Utils.showToast(VipToShopActivity.this, "您已经绑定过微信");
                         }
                     }
                 } else {

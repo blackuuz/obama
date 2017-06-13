@@ -10,8 +10,8 @@ android {
         applicationId "com.ksk.obama"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 328
-        versionName "2.2.8"
+        versionCode 333
+        versionName "2.3.0"
     }
 //    defaultConfig {//测试版
 //        applicationId "com.ksk.obama"

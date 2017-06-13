@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="16dp">
+        android:padding="32px">
 
         <Button
             android:layout_width="0dp"
@@ -21,18 +21,18 @@
             android:onClick="printContent"
             android:text="打印测试"
             android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textSize="40px" />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="80px"
             android:layout_weight="1"
             android:background="@drawable/select_loss"
             android:onClick="add"
             android:text="添加设备"
             android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textSize="40px" />
     </LinearLayout>
 
     <ListView
@@ -40,8 +40,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:dividerHeight="2dp"
-        android:padding="16dp">
+        android:dividerHeight="4px"
+        android:padding="32px">
 
     </ListView>
 

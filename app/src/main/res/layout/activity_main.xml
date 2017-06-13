@@ -7,17 +7,17 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="96px"
         android:background="@color/main_title_bg">
 
         <TextView
             android:id="@+id/tv_help_order"
-            android:layout_width="50dp"
-            android:layout_height="40dp" />
+            android:layout_width="100px"
+            android:layout_height="80px" />
 
         <TextView
             android:id="@+id/tv_main_shop_name"
-            android:layout_width="200dp"
+            android:layout_width="400px"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
@@ -26,24 +26,24 @@
             android:singleLine="true"
             android:text="beyond"
             android:textColor="@color/white"
-            android:textSize="22sp" />
+            android:textSize="44px" />
 
         <ImageView
             android:id="@+id/iv_pop"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="80px"
+            android:layout_height="80px"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:padding="10dp"
+            android:padding="20px"
             android:src="@mipmap/setting" />
 
         <TextView
             android:id="@+id/tv_main_vip_name"
-            android:layout_width="150dp"
+            android:layout_width="300px"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/tv_help_order"
-            android:layout_marginEnd="32dp"
-            android:layout_marginRight="32dp"
+            android:layout_marginEnd="64px"
+            android:layout_marginRight="64px"
             android:layout_toLeftOf="@+id/iv_pop"
             android:layout_toStartOf="@+id/iv_pop"
             android:ellipsize="end"
@@ -51,12 +51,12 @@
             android:singleLine="true"
             android:text="黄家驹"
             android:textColor="@color/white"
-            android:textSize="22sp" />
+            android:textSize="44px" />
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="80px"
         android:background="@color/white"
         android:orientation="horizontal">
 
@@ -68,10 +68,10 @@
             android:gravity="center"
             android:text="日常业务"
             android:textColor="@color/text_blue"
-            android:textSize="15sp" />
+            android:textSize="30px" />
 
         <ImageView
-            android:layout_width="1dp"
+            android:layout_width="2px"
             android:layout_height="match_parent"
             android:src="@mipmap/cut_off_line_v" />
 
@@ -83,10 +83,10 @@
             android:gravity="center"
             android:text="会员管理"
             android:textColor="@color/text_black0"
-            android:textSize="15sp" />
+            android:textSize="30px" />
 
         <ImageView
-            android:layout_width="1dp"
+            android:layout_width="2px"
             android:layout_height="match_parent"
             android:src="@mipmap/cut_off_line_v" />
 
@@ -98,12 +98,12 @@
             android:gravity="center"
             android:text="查询统计"
             android:textColor="@color/text_black0"
-            android:textSize="15sp" />
+            android:textSize="30px" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="4px"
         android:background="@mipmap/cut_off_line_h"
         android:orientation="horizontal">
 
@@ -111,8 +111,8 @@
             android:id="@+id/tv_main_line_0"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="33dp"
-            android:layout_marginRight="33dp"
+            android:layout_marginLeft="66px"
+            android:layout_marginRight="66px"
             android:layout_weight="1"
             android:background="@color/line_blue_h"
             android:visibility="visible" />
@@ -121,8 +121,8 @@
             android:id="@+id/tv_main_line_1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="33dp"
-            android:layout_marginRight="33dp"
+            android:layout_marginLeft="66px"
+            android:layout_marginRight="66px"
             android:layout_weight="1"
             android:background="@color/line_blue_h"
             android:visibility="invisible" />
@@ -131,8 +131,8 @@
             android:id="@+id/tv_main_line_2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="33dp"
-            android:layout_marginRight="33dp"
+            android:layout_marginLeft="66px"
+            android:layout_marginRight="66px"
             android:layout_weight="1"
             android:background="@color/line_blue_h"
             android:visibility="invisible" />
@@ -142,7 +142,7 @@
         android:id="@+id/vp_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20px"
         android:background="@color/white"></android.support.v4.view.ViewPager>
 
 </LinearLayout>

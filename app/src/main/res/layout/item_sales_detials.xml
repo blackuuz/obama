@@ -5,10 +5,10 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
+        android:paddingLeft="30px"
+        android:paddingRight="30px"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="100px"
         android:background="@color/main_bg"
         android:orientation="horizontal">
 
@@ -19,7 +19,7 @@
             android:gravity="center_vertical|left"
             android:layout_weight="1"
             android:textColor="@color/text_black4"
-            android:textSize="18sp" />
+            android:textSize="36px" />
 
         <TextView
             android:id="@+id/item_money"
@@ -28,7 +28,7 @@
             android:gravity="center_vertical|left"
             android:layout_weight="1"
             android:textColor="@color/text_black4"
-            android:textSize="18sp" />
+            android:textSize="36px" />
 
         <TextView
             android:id="@+id/item_time"
@@ -37,7 +37,7 @@
             android:gravity="center_vertical|right"
             android:layout_weight="1"
             android:textColor="@color/text_black4"
-            android:textSize="18sp" />
+            android:textSize="36px" />
     </LinearLayout>
 
 </LinearLayout>

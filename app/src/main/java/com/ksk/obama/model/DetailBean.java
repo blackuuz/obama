@@ -17,6 +17,10 @@ public class DetailBean {
     private String c_GoodsNO;
     private String c_GoodsName;
     private float n_PriceRetail;
+    private float n_PriceMemberA;
+    private float n_PriceMemberB;
+    private float n_PriceMemberC;
+    private float n_PriceMemberD;
     private float n_Number;
     private float n_IntegralValueMember;
     private float n_DiscountValueMember;
@@ -29,7 +33,37 @@ public class DetailBean {
     private String i_MemberID;
     private String ROW_NUMBER;
     private boolean flag=false;
+    public float getN_PriceMemberA() {
+        return n_PriceMemberA;
+    }
 
+    public void setN_PriceMemberA(float n_PriceMemberA) {
+        this.n_PriceMemberA = n_PriceMemberA;
+    }
+
+    public float getN_PriceMemberB() {
+        return n_PriceMemberB;
+    }
+
+    public void setN_PriceMemberB(float n_PriceMemberB) {
+        this.n_PriceMemberB = n_PriceMemberB;
+    }
+
+    public float getN_PriceMemberC() {
+        return n_PriceMemberC;
+    }
+
+    public void setN_PriceMemberC(float n_PriceMemberC) {
+        this.n_PriceMemberC = n_PriceMemberC;
+    }
+
+    public float getN_PriceMemberD() {
+        return n_PriceMemberD;
+    }
+
+    public void setN_PriceMemberD(float n_PriceMemberD) {
+        this.n_PriceMemberD = n_PriceMemberD;
+    }
     public boolean isFlag() {
         return flag;
     }

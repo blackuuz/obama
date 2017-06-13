@@ -10,35 +10,35 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="1px"
+        android:layout_marginTop="20px"
         android:background="@mipmap/line_00" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="110px"
         android:background="#FFF"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingLeft="20dp">
+        android:paddingLeft="40px">
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="18dp"
+            android:layout_width="40px"
+            android:layout_height="36px"
             android:scaleType="fitXY"
             android:src="@mipmap/try_01" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="7dp"
+            android:layout_marginLeft="14px"
             android:text="姓名:"
             android:textColor="#4968ef"
-            android:textSize="17sp" />
+            android:textSize="34px" />
 
         <RelativeLayout
-            android:layout_width="6dp"
-            android:layout_height="18dp">
+            android:layout_width="12px"
+            android:layout_height="36px">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -49,17 +49,17 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="185dp"
-            android:layout_height="20dp"
-            android:layout_marginLeft="10dp">
+            android:layout_width="370px"
+            android:layout_height="40px"
+            android:layout_marginLeft="20px">
 
             <EditText
                 android:id="@+id/try_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@null"
-                android:paddingBottom="1dp"
-                android:textSize="15sp" />
+                android:paddingBottom="2px"
+                android:textSize="30px" />
 
             <ImageView
                 android:layout_width="match_parent"
@@ -73,40 +73,40 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="1px"
         android:background="@mipmap/line_00" />
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginTop="5dp"
+        android:layout_height="1px"
+        android:layout_marginTop="10px"
         android:background="@mipmap/line_00" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="110px"
         android:background="#FFF"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingLeft="20dp">
+        android:paddingLeft="40px">
 
         <ImageView
-            android:layout_width="16dp"
-            android:layout_height="21dp"
+            android:layout_width="32px"
+            android:layout_height="22px"
             android:scaleType="fitXY"
             android:src="@mipmap/try_04" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="7dp"
+            android:layout_marginLeft="14px"
             android:text="电话:"
             android:textColor="#4968ef"
-            android:textSize="17sp" />
+            android:textSize="34px" />
 
         <RelativeLayout
-            android:layout_width="6dp"
-            android:layout_height="18dp">
+            android:layout_width="12px"
+            android:layout_height="36px">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -117,9 +117,9 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="185dp"
-            android:layout_height="20dp"
-            android:layout_marginLeft="10dp">
+            android:layout_width="370px"
+            android:layout_height="40px"
+            android:layout_marginLeft="20px">
 
             <EditText
                 android:id="@+id/try_phone"
@@ -128,7 +128,7 @@
                 android:background="@null"
                 android:inputType="number"
                 android:maxLength="11"
-                android:paddingBottom="1dp" />
+                android:paddingBottom="2px" />
 
             <ImageView
                 android:layout_width="match_parent"
@@ -142,40 +142,40 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="1px"
         android:background="@mipmap/line_00" />
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginTop="5dp"
+        android:layout_height="1px"
+        android:layout_marginTop="10px"
         android:background="@mipmap/line_00" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="110px"
         android:background="#FFF"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingLeft="20dp">
+        android:paddingLeft="40px">
 
         <ImageView
-            android:layout_width="16dp"
-            android:layout_height="21dp"
+            android:layout_width="32px"
+            android:layout_height="22px"
             android:scaleType="fitXY"
             android:src="@mipmap/try_05" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="7dp"
+            android:layout_marginLeft="14px"
             android:text="验证码:"
             android:textColor="#4968ef"
-            android:textSize="17sp" />
+            android:textSize="34px" />
 
         <RelativeLayout
-            android:layout_width="6dp"
-            android:layout_height="18dp">
+            android:layout_width="12px"
+            android:layout_height="36px">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -186,9 +186,9 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="125dp"
-            android:layout_height="20dp"
-            android:layout_marginLeft="10dp">
+            android:layout_width="250px"
+            android:layout_height="40px"
+            android:layout_marginLeft="20px">
 
             <EditText
                 android:id="@+id/try_yzm"
@@ -197,7 +197,7 @@
                 android:background="@null"
                 android:inputType="number"
                 android:maxLength="6"
-                android:paddingBottom="1dp" />
+                android:paddingBottom="2px" />
 
             <ImageView
                 android:layout_width="match_parent"
@@ -208,61 +208,61 @@
 
         <Button
             android:id="@+id/try_btn_get"
-            android:layout_width="50dp"
-            android:layout_height="25dp"
-            android:layout_marginLeft="2dp"
+            android:layout_width="100px"
+            android:layout_height="50px"
+            android:layout_marginLeft="4px"
             android:background="@drawable/select_pw_yes"
             android:text="获取"
             android:textColor="#FFF"
-            android:textSize="12sp" />
+            android:textSize="24px" />
 
 
     </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="1px"
         android:background="@mipmap/line_00" />
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginTop="5dp"
+        android:layout_height="1px"
+        android:layout_marginTop="10px"
         android:background="@mipmap/line_00" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="110px"
         android:background="#FFF"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingLeft="20dp">
+        android:paddingLeft="40px">
 
         <ImageView
-            android:layout_width="22dp"
-            android:layout_height="23dp"
+            android:layout_width="44px"
+            android:layout_height="46px"
             android:scaleType="fitXY"
             android:src="@mipmap/try_07" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="7dp"
+            android:layout_marginLeft="14px"
             android:text="行业:"
             android:textColor="#4968ef"
-            android:textSize="17sp" />
+            android:textSize="34px" />
 
         <RelativeLayout
-            android:layout_width="185dp"
-            android:layout_height="20dp"
-            android:layout_marginLeft="10dp">
+            android:layout_width="370px"
+            android:layout_height="40px"
+            android:layout_marginLeft="20px">
 
             <EditText
                 android:id="@+id/try_shop"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@null"
-                android:paddingBottom="1dp" />
+                android:paddingBottom="2px" />
 
             <ImageView
                 android:layout_width="match_parent"
@@ -275,48 +275,48 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="1px"
         android:background="@mipmap/line_00" />
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginTop="5dp"
+        android:layout_height="1px"
+        android:layout_marginTop="10px"
         android:background="@mipmap/line_00" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="110px"
         android:background="#FFF"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingLeft="20dp">
+        android:paddingLeft="40px">
 
         <ImageView
-            android:layout_width="24dp"
-            android:layout_height="20dp"
+            android:layout_width="48px"
+            android:layout_height="40px"
             android:scaleType="fitXY"
             android:src="@mipmap/try_08" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="7dp"
+            android:layout_marginLeft="14px"
             android:text="企业名称:"
             android:textColor="#4968ef"
-            android:textSize="17sp" />
+            android:textSize="34px" />
 
         <RelativeLayout
-            android:layout_width="185dp"
-            android:layout_height="20dp"
-            android:layout_marginLeft="10dp">
+            android:layout_width="370px"
+            android:layout_height="40px"
+            android:layout_marginLeft="20px">
 
             <EditText
                 android:id="@+id/try_shop_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@null"
-                android:paddingBottom="1dp" />
+                android:paddingBottom="2px" />
 
             <ImageView
                 android:layout_width="match_parent"
@@ -329,19 +329,19 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="1px"
         android:background="@mipmap/line_00" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10px"
         android:gravity="center"
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="15dp"
-            android:layout_height="20dp"
+            android:layout_width="30px"
+            android:layout_height="40px"
             android:src="@mipmap/try_09" />
 
         <TextView
@@ -349,20 +349,20 @@
             android:layout_height="wrap_content"
             android:text="申请说明"
             android:textColor="#4968ef"
-            android:textSize="20sp" />
+            android:textSize="40px" />
     </LinearLayout>
 
     <EditText
         android:id="@+id/try_remark"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="10dp"
+        android:layout_margin="20px"
         android:layout_weight="1"
         android:background="@mipmap/try_10"
         android:gravity="top|left"
-        android:padding="15dp"
+        android:padding="30px"
         android:textColor="#80000000"
-        android:textSize="15sp" />
+        android:textSize="30px" />
 
     <include layout="@layout/bottom_s" />
 

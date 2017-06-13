@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="40dp"
+    android:layout_height="80px"
     android:background="@color/white"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp">
+    android:paddingLeft="40px"
+    android:paddingRight="40px">
 
     <TextView
         android:layout_width="0dp"
@@ -15,7 +15,7 @@
         android:gravity="center"
         android:text="名称"
         android:textColor="@color/text_blue"
-        android:textSize="20sp" />
+        android:textSize="40px" />
 
     <TextView
         android:layout_width="0dp"
@@ -24,7 +24,7 @@
         android:gravity="center"
         android:text="单价"
         android:textColor="@color/text_blue"
-        android:textSize="20sp" />
+        android:textSize="40px" />
 
     <TextView
         android:layout_width="0dp"
@@ -33,5 +33,5 @@
         android:gravity="center"
         android:text="数量"
         android:textColor="@color/text_blue"
-        android:textSize="20sp" />
+        android:textSize="40px" />
 </LinearLayout>

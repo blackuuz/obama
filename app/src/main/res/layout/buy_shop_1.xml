@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="120px"
     android:background="@color/white"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp">
+    android:paddingLeft="40px"
+    android:paddingRight="40px">
 
     <LinearLayout
         android:id="@+id/ll_shop_type"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
+        android:layout_width="200px"
+        android:layout_height="60px"
         android:background="@mipmap/edit_bg"
         android:orientation="horizontal">
 
@@ -22,10 +22,10 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textColor="@color/text_black4"
-            android:textSize="18sp" />
+            android:textSize="36px" />
 
         <ImageView
-            android:layout_width="26dp"
+            android:layout_width="52px"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
             android:src="@mipmap/xiala0" />
@@ -34,23 +34,23 @@
     <EditText
         android:id="@+id/et_shop_name"
         android:layout_width="0dp"
-        android:layout_height="31dp"
-        android:layout_marginLeft="10dp"
+        android:layout_height="62px"
+        android:layout_marginLeft="20px"
         android:layout_weight="1"
         android:background="@mipmap/edit_l_1"
         android:hint="商品名/编码"
-        android:paddingLeft="10dp"
+        android:paddingLeft="20px"
         android:textColor="@color/text_black4"
-        android:textSize="18sp" />
+        android:textSize="36px" />
 
     <Button
         android:id="@+id/btn_shop_query"
-        android:layout_width="60dp"
-        android:layout_height="31dp"
-        android:layout_marginLeft="10dp"
+        android:layout_width="120px"
+        android:layout_height="62px"
+        android:layout_marginLeft="20px"
         android:background="@drawable/select_loss"
         android:text="查询"
         android:textColor="@color/white"
-        android:textSize="15sp" />
+        android:textSize="30px" />
 
 </LinearLayout>

@@ -21,10 +21,12 @@ import java.util.List;
 public class BuyCountCartAdapter extends BaseAdapter {
     private BuyCountCartActivity activity;
     private List<BuyCount> list;
+    private int ctype ;
 
-    public BuyCountCartAdapter(BuyCountCartActivity activity, List<BuyCount> list) {
+    public BuyCountCartAdapter(BuyCountCartActivity activity, List<BuyCount> list,int ctype) {
         this.activity = activity;
         this.list = list;
+        this.ctype = ctype;
     }
 
     @Override
@@ -54,11 +56,16 @@ public class BuyCountCartAdapter extends BaseAdapter {
             holder.money = (TextView) convertView.findViewById(R.id.item_shop_money);
             holder.time = (TextView) convertView.findViewById(R.id.item_shop_time);
             holder.del = (ImageView) convertView.findViewById(R.id.item_shop_del);
+            holder.type = (TextView) convertView.findViewById(R.id.item_card_type);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
+        if(ctype!= 0 ){//判断是否显示优惠卡类型
+            holder.type.setText(list.get(position).getC_type()+" :");
+            holder.type.setTextColor(0xFFFF0000);
+            holder.price.setTextColor(0xFFFF0000);
+        }
         holder.name.setText(list.get(position).getName());
         holder.price.setText(list.get(position).getPrice() + "");
         holder.num.setText(list.get(position).getNum() + "");
@@ -71,11 +78,12 @@ public class BuyCountCartAdapter extends BaseAdapter {
             }
         });
 
+
         return convertView;
     }
 
     private class ViewHolder {
-        TextView name, price, num, money, time;
+        TextView name, price, num, money, time,type;
         ImageView del;
     }
 }

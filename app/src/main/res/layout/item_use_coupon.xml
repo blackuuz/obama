@@ -6,10 +6,10 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="60px"
         android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp">
+        android:paddingLeft="20px"
+        android:paddingRight="20px">
 
         <TextView
             android:id="@+id/tv_use_coupon_name"
@@ -18,7 +18,7 @@
             android:layout_alignParentLeft="true"
             android:text="优惠券"
             android:textColor="@color/text_black4"
-            android:textSize="15sp" />
+            android:textSize="30px" />
 
         <TextView
             android:id="@+id/tv_use_coupon_money"
@@ -27,7 +27,7 @@
             android:layout_alignParentRight="true"
             android:text="100"
             android:textColor="@color/text_black4"
-            android:textSize="15sp" />
+            android:textSize="30px" />
 
     </RelativeLayout>
 

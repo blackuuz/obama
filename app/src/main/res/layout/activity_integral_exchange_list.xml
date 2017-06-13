@@ -21,31 +21,31 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="5dp"
+            android:layout_height="10px"
             android:background="@color/main_bg" />
 
         <EditText
             android:id="@+id/et_change_integral_name"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_height="60px"
+            android:layout_marginLeft="40px"
+            android:layout_marginRight="40px"
+            android:layout_marginTop="20px"
             android:background="@mipmap/read_card_info_et"
             android:gravity="center"
             android:hint="请输入商品名/编码"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:paddingLeft="20px"
+            android:paddingRight="20px"
             android:textColor="@color/text_black0"
-            android:textSize="15sp" />
+            android:textSize="30px" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_height="80px"
+            android:layout_marginBottom="20px"
+            android:layout_marginLeft="40px"
+            android:layout_marginRight="40px"
+            android:layout_marginTop="20px"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -54,49 +54,49 @@
                 android:layout_height="wrap_content"
                 android:text="积分:"
                 android:textColor="@color/text_black3"
-                android:textSize="15sp" />
+                android:textSize="30px" />
 
             <EditText
                 android:id="@+id/et_change_integral_0"
-                android:layout_width="90dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="10dp"
+                android:layout_width="180px"
+                android:layout_height="60px"
+                android:layout_marginLeft="20px"
                 android:background="@mipmap/read_card_info_et"
                 android:gravity="center"
                 android:textColor="@color/text_black4"
-                android:textSize="15sp" />
+                android:textSize="30px" />
 
             <TextView
-                android:layout_width="10dp"
-                android:layout_height="1dp"
+                android:layout_width="20px"
+                android:layout_height="2px"
                 android:layout_gravity="center_vertical"
-                android:layout_margin="4dp"
+                android:layout_margin="8px"
                 android:background="#000" />
 
             <EditText
                 android:id="@+id/et_change_integral_1"
-                android:layout_width="90dp"
-                android:layout_height="30dp"
+                android:layout_width="180px"
+                android:layout_height="60px"
                 android:background="@mipmap/read_card_info_et"
                 android:gravity="center"
                 android:textColor="@color/text_black4"
-                android:textSize="15sp" />
+                android:textSize="30px" />
 
             <Button
                 android:id="@+id/et_change_integral_query"
                 android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="20dp"
+                android:layout_height="60px"
+                android:layout_marginLeft="40px"
                 android:layout_weight="1"
                 android:background="@drawable/select_loss"
                 android:text="查询"
                 android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:textSize="30px" />
         </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="5dp"
+            android:layout_height="10px"
             android:background="@color/main_bg" />
 
         <include layout="@layout/buy_shop_2" />

@@ -13,11 +13,11 @@
         android:gravity="center"
         android:text="意见反馈"
         android:textColor="@color/white"
-        android:textSize="20sp" />
+        android:textSize="40px" />
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="4px"
         android:background="@color/white" />
 
     <TextView
@@ -28,11 +28,11 @@
         android:gravity="center"
         android:text="系统设置"
         android:textColor="@color/white"
-        android:textSize="20sp" />
+        android:textSize="40px" />
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="4px"
         android:background="@color/white" />
 
     <TextView
@@ -43,7 +43,7 @@
         android:gravity="center"
         android:text="退出"
         android:textColor="@color/white"
-        android:textSize="20sp" />
+        android:textSize="40px" />
 
 
 </LinearLayout>

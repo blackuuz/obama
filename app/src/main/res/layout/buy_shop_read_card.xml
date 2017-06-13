@@ -8,13 +8,13 @@
 
     <Button
         android:id="@+id/btn_read_card"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_width="120dp"
-        android:layout_height="40dp"
+        android:layout_marginTop="20px"
+        android:layout_marginBottom="20px"
+        android:layout_width="240px"
+        android:layout_height="80px"
         android:background="@drawable/select_loss"
         android:text="刷卡"
         android:textColor="@color/white"
-        android:textSize="20sp" />
+        android:textSize="40px" />
 
 </LinearLayout>

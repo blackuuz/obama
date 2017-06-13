@@ -12,11 +12,11 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:padding="25dp">
+        android:padding="50px">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="260dp"
+            android:layout_height="520px"
             android:background="@mipmap/fankui_03"
             android:orientation="vertical">
 
@@ -28,26 +28,26 @@
                 android:background="@null"
                 android:gravity="top|left"
                 android:hint="请输入您的意见(500字以内)"
-                android:padding="15dp"
+                android:padding="30px"
                 android:textColor="#6f6f6f"
-                android:textSize="15sp" />
+                android:textSize="30px" />
 
             <TextView
                 android:id="@+id/set_hint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:layout_marginBottom="5dp"
-                android:layout_marginRight="15dp"
+                android:layout_marginBottom="10px"
+                android:layout_marginRight="30px"
                 android:text="0/500"
                 android:textColor="#6f6f6f"
-                android:textSize="15sp" />
+                android:textSize="30px" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="5dp"
+            android:layout_height="80px"
+            android:layout_marginTop="10px"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -56,24 +56,24 @@
                 android:layout_height="wrap_content"
                 android:text="联系电话:"
                 android:textColor="@color/text_black4"
-                android:textSize="18sp" />
+                android:textSize="36px" />
 
             <EditText
                 android:id="@+id/set_phone"
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:layout_marginLeft="5dp"
+                android:layout_height="64px"
+                android:layout_marginLeft="10px"
                 android:background="@mipmap/edit_bg"
                 android:gravity="center_vertical"
                 android:inputType="phone"
-                android:paddingLeft="5dp"
+                android:paddingLeft="10px"
                 android:textColor="@color/text_black4" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="5dp"
+            android:layout_height="80px"
+            android:layout_marginTop="10px"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -82,16 +82,16 @@
                 android:layout_height="wrap_content"
                 android:text="联  系  人:"
                 android:textColor="@color/text_black4"
-                android:textSize="18sp" />
+                android:textSize="36px" />
 
             <EditText
                 android:id="@+id/set_name"
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:layout_marginLeft="5dp"
+                android:layout_height="64px"
+                android:layout_marginLeft="10px"
                 android:background="@mipmap/edit_bg"
                 android:gravity="center_vertical"
-                android:paddingLeft="5dp"
+                android:paddingLeft="10px"
                 android:textColor="@color/text_black4" />
         </LinearLayout>
 
@@ -99,20 +99,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="40px"
             android:drawableLeft="@mipmap/fankui_11"
             android:text=" 联系客服:024-88648811"
             android:textColor="@color/text_black4"
-            android:textSize="15sp" />
+            android:textSize="30px" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10px"
             android:text=" (9:00 - 22:00)"
             android:textColor="@color/text_black4"
-            android:textSize="15sp" />
+            android:textSize="30px" />
     </LinearLayout>
 
     <include layout="@layout/bottom_s" />

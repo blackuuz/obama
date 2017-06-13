@@ -64,6 +64,7 @@ public class CardTypeSelect {
         private String n_InitAmount;
         private String n_InitIntegral;
         private String ROW_NUMBER;
+        private String N_Recharge_Integral_Value;
 
         public String getId() {
             return id;
@@ -143,6 +144,13 @@ public class CardTypeSelect {
 
         public void setROW_NUMBER(String ROW_NUMBER) {
             this.ROW_NUMBER = ROW_NUMBER;
+        }
+        public String getN_Recharge_Integral_Value() {
+            return N_Recharge_Integral_Value;
+        }
+
+        public void setN_Recharge_Integral_Value(String n_Recharge_Integral_Value) {
+            N_Recharge_Integral_Value = n_Recharge_Integral_Value;
         }
     }
 }

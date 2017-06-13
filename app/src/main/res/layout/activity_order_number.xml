@@ -16,8 +16,8 @@
             android:id="@+id/lv_order"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"></ListView>
+            android:layout_marginLeft="32px"
+            android:layout_marginRight="32px"></ListView>
 
         <ProgressBar
             android:id="@+id/pgb"
@@ -26,7 +26,7 @@
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:background="@color/viewfinder_mask"
-            android:padding="16dp"
+            android:padding="32px"
             android:visibility="gone" />
     </RelativeLayout>
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="40dp"
+    android:layout_height="80px"
     android:id="@+id/ll_buy_shop_info"
     android:background="@color/white"
     android:orientation="horizontal">
@@ -13,7 +13,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:textColor="@color/text_black4"
-        android:textSize="20sp" />
+        android:textSize="40px" />
 
     <TextView
         android:id="@+id/tv_shop_name"
@@ -22,7 +22,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:textColor="@color/text_black4"
-        android:textSize="20sp" />
+        android:textSize="40px" />
 
     <TextView
         android:id="@+id/tv_shop_money"
@@ -31,5 +31,5 @@
         android:layout_weight="1"
         android:gravity="center"
         android:textColor="@color/text_black4"
-        android:textSize="20sp" />
+        android:textSize="40px" />
 </LinearLayout>

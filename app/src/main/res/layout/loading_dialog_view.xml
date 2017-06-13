@@ -14,8 +14,8 @@
 
         <ImageView
             android:id="@+id/img"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="300px"
+            android:layout_height="300px"
             android:src="@mipmap/jiazai_04" />
 
     </FrameLayout>
@@ -23,10 +23,10 @@
 
     <TextView
         android:id="@+id/tipTextView"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="20px"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="40px"
         android:textColor="#acacac"
 
 

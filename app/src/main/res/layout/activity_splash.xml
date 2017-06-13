@@ -17,10 +17,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/iv"
-        android:layout_marginBottom="100dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="200px"
+        android:layout_marginTop="40px"
         android:text="会员云POS"
         android:textColor="#4b4b4b"
-        android:textSize="20sp" />
+        android:textSize="40px" />
 
 </LinearLayout>

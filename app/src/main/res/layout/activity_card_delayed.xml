@@ -18,114 +18,114 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="30dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginBottom="60px"
+            android:layout_marginTop="60px"
             android:text="会员信息"
             android:textColor="@color/text_black4"
-            android:textSize="22sp" />
+            android:textSize="44px" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp">
+            android:paddingLeft="50px"
+            android:paddingRight="50px">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="会员卡号:"
                 android:textColor="@color/text_black4"
-                android:textSize="20sp" />
+                android:textSize="40px" />
 
             <TextView
                 android:id="@+id/tv_card_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="20px"
                 android:textColor="@color/text_black2"
-                android:textSize="20sp" />
+                android:textSize="40px" />
         </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginTop="5dp"
+            android:layout_height="2px"
+            android:layout_marginBottom="10px"
+            android:layout_marginLeft="50px"
+            android:layout_marginRight="50px"
+            android:layout_marginTop="10px"
             android:background="@color/text_blue2" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp">
+            android:paddingLeft="50px"
+            android:paddingRight="50px">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="会员姓名:"
                 android:textColor="@color/text_black4"
-                android:textSize="20sp" />
+                android:textSize="40px" />
 
             <TextView
                 android:id="@+id/tv_card_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="20px"
                 android:textColor="@color/text_black2"
-                android:textSize="20sp" />
+                android:textSize="40px" />
         </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginTop="5dp"
+            android:layout_height="2px"
+            android:layout_marginBottom="10px"
+            android:layout_marginLeft="50px"
+            android:layout_marginRight="50px"
+            android:layout_marginTop="10px"
             android:background="@color/text_blue2" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp">
+            android:paddingLeft="50px"
+            android:paddingRight="50px">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="会员有效期:"
                 android:textColor="@color/text_black4"
-                android:textSize="20sp" />
+                android:textSize="40px" />
 
             <TextView
                 android:id="@+id/tv_card_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="20px"
                 android:textColor="@color/text_black2"
-                android:textSize="20sp" />
+                android:textSize="40px" />
         </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:layout_marginTop="10dp"
+            android:layout_height="10px"
+            android:layout_marginTop="20px"
             android:background="@color/main_bg" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginBottom="40px"
+            android:layout_marginTop="60px"
             android:text="有效期改为:"
             android:textColor="@color/line_blue_h"
-            android:textSize="20sp" />
+            android:textSize="40px" />
 
         <include layout="@layout/select_time" />
 

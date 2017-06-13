@@ -17,14 +17,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="40px"
             android:text="支付方式设置"
             android:textColor="@color/text_blue1"
-            android:textSize="16dp" />
+            android:textSize="32px" />
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="35dp">
+            android:layout_height="70px">
 
             <TextView
                 style="@style/text_statistics_del_l"
@@ -38,12 +38,12 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="2px"
             android:background="#ebebeb" />
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="35dp">
+            android:layout_height="70px">
 
             <TextView
                 style="@style/text_statistics_del_l"
@@ -57,12 +57,12 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="2px"
             android:background="#ebebeb" />
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="35dp">
+            android:layout_height="70px">
 
             <TextView
                 style="@style/text_statistics_del_l"
@@ -76,12 +76,12 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="2px"
             android:background="#ebebeb" />
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="35dp">
+            android:layout_height="70px">
 
             <TextView
                 style="@style/text_statistics_del_l"
@@ -95,21 +95,21 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="5dp"
+            android:layout_height="10px"
             android:background="#ebebeb" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="40px"
             android:text="刷卡方式设置"
             android:textColor="@color/text_blue1"
-            android:textSize="16sp" />
+            android:textSize="32px" />
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="35dp">
+            android:layout_height="70px">
 
             <TextView
                 style="@style/text_statistics_del_l"
@@ -123,12 +123,12 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="2px"
             android:background="#ebebeb" />
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="35dp">
+            android:layout_height="70px">
 
             <TextView
                 style="@style/text_statistics_del_l"
@@ -142,12 +142,12 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="2px"
             android:background="#ebebeb" />
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="35dp">
+            android:layout_height="70px">
 
             <TextView
                 style="@style/text_statistics_del_l"
@@ -161,18 +161,18 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="5dp"
+            android:layout_height="10px"
             android:background="#ebebeb" />
 
         <TextView
             android:id="@+id/tv_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="27dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginLeft="54px"
+            android:layout_marginTop="40px"
             android:text="版本:"
             android:textColor="@color/text_blue1"
-            android:textSize="18sp" />
+            android:textSize="36px" />
     </LinearLayout>
 
     <include layout="@layout/bottom_s" />

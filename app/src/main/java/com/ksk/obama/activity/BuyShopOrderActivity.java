@@ -183,7 +183,6 @@ public class BuyShopOrderActivity extends BaseActivity {
         map.put("dbName", SharedUtil.getSharedData(BuyShopOrderActivity.this, "dbname"));
         map.put("User_Id", SharedUtil.getSharedData(BuyShopOrderActivity.this, "userInfoId"));
         map.put("GroupID", SharedUtil.getSharedData(BuyShopOrderActivity.this, "groupid"));
-
         postToHttp(NetworkUrl.ORDERGGET, map, new IHttpCallBack() {
             @Override
             public void OnSucess(String jsonText) {
@@ -224,7 +223,10 @@ public class BuyShopOrderActivity extends BaseActivity {
             buyCount.setPrice(detailBean.getN_PriceRetail());
             buyCount.setMoney(detailBean.getN_PriceRetail() * detailBean.getN_Number());
             buyCount.setMoneyin(detailBean.getN_PayActual());
-
+            buyCount.setDis_price_a(detailBean.getN_PriceMemberA());
+            buyCount.setDis_price_b(detailBean.getN_PriceMemberB());
+            buyCount.setDis_price_c(detailBean.getN_PriceMemberC());
+            buyCount.setDis_price_d(detailBean.getN_PriceMemberD());
             buyCount.setDazhe(member != null ? detailBean.getN_DiscountValueGoods() : 0);
             buyCount.setJifen(member != null ? (detailBean.getN_IntegralValueGoods() == 1 ? detailBean.getN_IntegralValueGoods() : 0) : 0);
             buyCount.setDis(detailBean.getN_DiscountValueGoods());

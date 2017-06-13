@@ -12,17 +12,17 @@
     <style name="main_tv_item">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">140dp</item>
+        <item name="android:layout_marginLeft">280px</item>
         <item name="android:layout_centerVertical">true</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">40px</item>
         <item name="android:textColor">@color/text_black1</item>
     </style>
 
     <style name="main_iv_item">
-        <item name="android:layout_width">35dp</item>
-        <item name="android:layout_height">35dp</item>
+        <item name="android:layout_width">70px</item>
+        <item name="android:layout_height">70px</item>
         <item name="android:layout_centerVertical">true</item>
-        <item name="android:layout_marginLeft">90dp</item>
+        <item name="android:layout_marginLeft">180px</item>
     </style>
 
     <style name="quick_title">
@@ -30,37 +30,37 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">center</item>
-        <item name="android:textSize">17sp</item>
+        <item name="android:textSize">34px</item>
     </style>
 
     <style name="quick_title_linear">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">35dp</item>
-        <item name="android:layout_marginBottom">10dp</item>
-        <item name="android:layout_marginLeft">80dp</item>
-        <item name="android:layout_marginRight">80dp</item>
-        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_height">70px</item>
+        <item name="android:layout_marginBottom">20px</item>
+        <item name="android:layout_marginLeft">160px</item>
+        <item name="android:layout_marginRight">160px</item>
+        <item name="android:layout_marginTop">40px</item>
         <item name="android:orientation">horizontal</item>
     </style>
 
     <style name="text_statistics">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">17sp</item>
+        <item name="android:textSize">34px</item>
         <item name="android:textColor">@color/text_black3</item>
     </style>
 
     <style name="edit_statistice">
-        <item name="android:layout_width">90dp</item>
-        <item name="android:layout_height">30dp</item>
-        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_width">180px</item>
+        <item name="android:layout_height">60px</item>
+        <item name="android:layout_marginLeft">20px</item>
         <item name="android:background">@mipmap/edit_bg</item>
     </style>
 
     <style name="text_statistice_time">
-        <item name="android:layout_width">110dp</item>
-        <item name="android:layout_height">30dp</item>
-        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_width">220px</item>
+        <item name="android:layout_height">60px</item>
+        <item name="android:layout_marginLeft">20px</item>
         <item name="android:gravity">center</item>
         <item name="android:background">@mipmap/edit_bg</item>
     </style>
@@ -70,7 +70,7 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">center</item>
-        <item name="android:textSize">17sp</item>
+        <item name="android:textSize">34px</item>
         <item name="android:textColor">@color/text_blue1</item>
     </style>
 
@@ -78,16 +78,16 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:textSize">15sp</item>
-        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:textSize">30px</item>
+        <item name="android:layout_marginLeft">40px</item>
         <item name="android:textColor">@color/text_blue1</item>
     </style>
 
     <style name="text_statistics_open2">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">12sp</item>
-        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:textSize">24px</item>
+        <item name="android:layout_marginLeft">40px</item>
         <item name="android:textColor">@color/text_black3</item>
     </style>
 
@@ -101,53 +101,53 @@
 
     <style name="text_statistics_del_l">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_marginLeft">27dp</item>
+        <item name="android:layout_marginLeft">54px</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_alignParentLeft">true</item>
         <item name="android:gravity">center</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">32px</item>
         <item name="android:textColor">@color/text_black3</item>
     </style>
 
     <style name="text_statistics_del_r">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_marginRight">27dp</item>
+        <item name="android:layout_marginRight">54px</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:gravity">center</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">32px</item>
         <item name="android:textColor">@color/text_black4</item>
     </style>
 
     <style name="edit_open">
-        <item name="android:paddingLeft">10dp</item>
-        <item name="android:layout_width">200dp</item>
-        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:paddingLeft">20px</item>
+        <item name="android:layout_width">400px</item>
+        <item name="android:layout_marginLeft">40px</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">30px</item>
         <item name="android:background">@mipmap/edit_bg</item>
     </style>
 
     <style name="exit_text1">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">10dp</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:layout_marginLeft">20px</item>
+        <item name="android:textSize">30px</item>
         <item name="android:textColor">@color/text_black2</item>
     </style>
 
     <style name="exit_text2">
-        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginLeft">20px</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">28px</item>
         <item name="android:textColor">@color/text_black3</item>
     </style>
 
     <style name="main_f">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_height">120px</item>
         <item name="android:background">@drawable/select_main</item>
     </style>
 

@@ -40,14 +40,14 @@ public class HttpTools {
     }
 
     public static void postMethod(final Handler mHandler, String url, Map<String, String> map) {
-        Log.e("djy", url);
+        Log.e("uuz", url);
         OkHttpClient client = OKHttpSingleton.getInstance();
         FormBody.Builder builder = new FormBody.Builder();
         Set keySet = map.keySet();
         for (Iterator<String> iter = keySet.iterator(); iter.hasNext(); ) {
             String key = iter.next();
             String value = map.get(key);
-            Log.d("djy", key + "=" + value);
+            Log.d("uuz", key + "=" + value);
             builder.add(key, value);
         }
         RequestBody body = builder.build();
@@ -59,11 +59,13 @@ public class HttpTools {
         finaCall.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+
+
                 Message msg = Message.obtain();
                 msg.what = 0;
                 msg.obj = "服务器连接失败,请稍后重试";
                 mHandler.sendMessage(msg);
-                Log.d("httptool", "fali"+e);
+                Log.d("httptool", "fali"+e.getMessage()+"^^^"+e);
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
@@ -75,7 +77,7 @@ public class HttpTools {
                 } else {
                     msg.what = 0;
                     msg.obj = "服务器访问失败,请稍后重试";
-                    Log.e("djy", "successful!!!"+msg.obj);
+                    Log.e("uuz", "successful!!!"+msg.obj);
                 }
                 Log.d("httptool", "response ");
                 mHandler.sendMessage(msg);

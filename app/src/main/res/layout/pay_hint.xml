@@ -4,7 +4,7 @@
     android:visibility="gone"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="30dp"
+    android:layout_marginTop="60px"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -14,12 +14,12 @@
         android:layout_height="wrap_content"
         android:text="支付成功"
         android:textColor="@color/line_blue_h"
-        android:textSize="25sp" />
+        android:textSize="50px" />
 
     <ImageView
         android:id="@+id/iv_pay_hint"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="300px"
+        android:layout_height="300px"
+        android:layout_marginTop="20px"
         android:src="@drawable/pay_hint" />
 </LinearLayout>

@@ -202,7 +202,9 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
         dx_jf = parseFloat(SharedUtil.getSharedData(PayBuyShopActivity.this, "dx_jf"));//几多积分抵现一元
         dx_mr = parseFloat(SharedUtil.getSharedData(PayBuyShopActivity.this, "dx_mr")) * 0.01f;//默认抵现倍率
         dx_max = parseFloat(SharedUtil.getSharedData(PayBuyShopActivity.this, "dx_max"));//最大抵现几多
-
+        if(Math.abs(dx_jf-0.0)==0){
+            db_isCheck.setVisibility(View.GONE);
+        }
         tv_should = (TextView) findViewById(R.id.pay_shop_shuold);
         tv_del = (TextView) findViewById(R.id.pay_shop_del);
         tv_del_kq = (TextView) findViewById(R.id.pay_shop_del_kq);
@@ -555,7 +557,8 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                         Utils.showToast(PayBuyShopActivity.this, "请输入积分");
                     } else {
                         n = 1;
-                        payMoney(1, payau + "", orderNumber, "商品消费");
+                        sendData("");
+                       // payMoney(1, payau + "", orderNumber, "商品消费");
                     }
                     break;
                 case R.id.tv_pay_zfb:
@@ -564,7 +567,8 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                         Utils.showToast(PayBuyShopActivity.this, "请输入积分");
                     } else {
                         n = 2;
-                        payMoney(2, payau + "", orderNumber, "商品消费");
+                        sendData("");
+                       // payMoney(2, payau + "", orderNumber, "商品消费");
                     }
                     break;
                 case R.id.tv_pay_yl:
@@ -756,6 +760,9 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
             if (tag.equals("SUCCESS")) {
                 if ((robotType == 1 && n == 1) || (robotType == 1 && n == 3)) {
                     payMoney(n, payau + "", orderNumber, "商品消费");
+                }
+                else if((robotType != 1 && n == 1) || (robotType != 1 && n == 2)) {
+                    payMoney(n, payau + "", orderNumber, "商品消费");
                 } else {
                     reSet();
                 }
@@ -916,7 +923,8 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
         if ((robotType == 1 && n == 1) || (robotType == 1 && n == 2) || (robotType == 1 && n == 3)) {
             LKLPay(orderNum);
         } else {
-            sendData(orderNum);
+       //     sendData(orderNum);
+            LKLPay(orderNum);
             loadingDialog.show();
         }
     }
@@ -1036,7 +1044,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                 alert_flag = true;
             }
         });
-        dialog.setNegativeButton(R.string.dialog_warnning_no, new DialogInterface.OnClickListener() {
+        dialog.setNegativeButton(R.string.dialog_warnning_no,        new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 alert_flag = false;

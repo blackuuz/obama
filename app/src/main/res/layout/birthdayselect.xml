@@ -12,27 +12,27 @@
      <RelativeLayout
 
         android:layout_width="match_parent"
-        android:layout_height="60dp" >
+        android:layout_height="120px" >
 
          <Button
              android:id="@+id/btn_cancel"
-             android:layout_width="80dp"
-             android:layout_height="40dp"
+             android:layout_width="160px"
+             android:layout_height="80px"
              android:layout_alignBaseline="@+id/btn_sure"
              android:layout_alignBottom="@+id/btn_sure"
              android:layout_alignParentRight="true"
-             android:layout_marginRight="20dp"
+             android:layout_marginRight="40px"
              android:text="取消"
               android:textColor="#ffffff"
               android:background="#19B2FF"/>
 
          <Button
              android:id="@+id/btn_sure"
-             android:layout_width="80dp"
-             android:layout_height="40dp"
+             android:layout_width="160px"
+             android:layout_height="80px"
              android:layout_alignParentTop="true"
-             android:layout_marginLeft="20dp"
-             android:layout_marginTop="14dp"
+             android:layout_marginLeft="40px"
+             android:layout_marginTop="28px"
              android:layout_alignParentLeft="true"
              android:text="确定"
              android:textColor="#ffffff"

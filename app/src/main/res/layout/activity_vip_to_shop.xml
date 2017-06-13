@@ -19,112 +19,113 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20px"
             android:text="会员信息"
             android:textColor="@color/text_black4"
-            android:textSize="18sp" />
+            android:textSize="36px" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp">
+            android:paddingLeft="60px"
+            android:paddingRight="60px">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="会员卡号 :"
                 android:textColor="@color/text_black4"
-                android:textSize="18sp" />
+                android:textSize="36px" />
 
             <TextView
                 android:id="@+id/tv_vip_card_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="40px"
                 android:textColor="@color/line_blue_h"
-                android:textSize="18sp" />
+                android:textSize="36px" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10px"
             android:orientation="horizontal"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp">
+            android:paddingLeft="60px"
+            android:paddingRight="60px">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="会员姓名 :"
                 android:textColor="@color/text_black4"
-                android:textSize="18sp" />
+                android:textSize="36px" />
 
             <TextView
                 android:id="@+id/tv_vip_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="40px"
+                android:singleLine="true"
                 android:textColor="@color/line_blue_h"
-                android:textSize="18sp" />
+                android:textSize="36px" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10px"
             android:orientation="horizontal"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp">
+            android:paddingLeft="60px"
+            android:paddingRight="60px">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="会员卡类型 :"
                 android:textColor="@color/text_black4"
-                android:textSize="18sp" />
+                android:textSize="36px" />
 
             <TextView
                 android:id="@+id/tv_vip_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="40px"
                 android:textColor="@color/line_blue_h"
-                android:textSize="18sp" />
+                android:textSize="36px" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10px"
             android:orientation="horizontal"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp">
+            android:paddingLeft="60px"
+            android:paddingRight="60px">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="会员卡有效期 :"
                 android:textColor="@color/text_black4"
-                android:textSize="18sp" />
+                android:textSize="36px" />
 
             <TextView
                 android:id="@+id/tv_vip_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="40px"
                 android:textColor="@color/line_blue_h"
-                android:textSize="18sp" />
+                android:textSize="36px" />
         </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp">
+            android:layout_marginTop="10px"
+            android:paddingLeft="60px"
+            android:paddingRight="60px">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -137,52 +138,54 @@
                     android:layout_height="wrap_content"
                     android:text="当前储值 :"
                     android:textColor="@color/text_black4"
-                    android:textSize="18sp" />
+                    android:textSize="36px" />
 
                 <TextView
                     android:id="@+id/tv_vip_money"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="20px"
                     android:textColor="@color/line_blue_h"
-                    android:textSize="18sp" />
+                    android:textSize="36px" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10px"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="倍率 :"
+                    android:visibility="gone"
                     android:textColor="@color/text_black1"
-                    android:textSize="12sp" />
+                    android:textSize="24px" />
 
                 <TextView
                     android:id="@+id/tv_vip_zhekou"
-                    android:layout_width="45dp"
+                    android:layout_width="90px"
+                    android:visibility="gone"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="20px"
                     android:textColor="@color/text_black1"
-                    android:textSize="12sp" />
+                    android:textSize="24px" />
             </LinearLayout>
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp">
+            android:paddingLeft="60px"
+            android:paddingRight="60px">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10px"
                 android:orientation="horizontal">
 
                 <TextView
@@ -190,45 +193,47 @@
                     android:layout_height="wrap_content"
                     android:text="当前积分 :"
                     android:textColor="@color/text_black4"
-                    android:textSize="18sp" />
+                    android:textSize="36px" />
 
                 <TextView
                     android:id="@+id/tv_vip_gread"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="20px"
                     android:textColor="@color/line_blue_h"
-                    android:textSize="18sp" />
+                    android:textSize="36px" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10px"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="倍率 :"
+                    android:visibility="gone"
                     android:textColor="@color/text_black1"
-                    android:textSize="12sp" />
+                    android:textSize="24px" />
 
                 <TextView
                     android:id="@+id/tv_vip_jifen"
-                    android:layout_width="45dp"
+                    android:layout_width="90px"
+                    android:visibility="gone"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="20px"
                     android:textColor="@color/text_black1"
-                    android:textSize="12sp" />
+                    android:textSize="24px" />
             </LinearLayout>
         </RelativeLayout>
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_height="10px"
+            android:layout_marginTop="10px"
             android:background="@color/main_bg" />
 
         <LinearLayout
@@ -247,20 +252,20 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="80px"
+                    android:layout_height="80px"
                     android:src="@mipmap/vip_pw" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10px"
                     android:text="修改密码"
                     android:textColor="@color/text_black3" />
             </LinearLayout>
 
             <TextView
-                android:layout_width="1dp"
+                android:layout_width="2px"
                 android:layout_height="match_parent"
                 android:background="@color/main_bg" />
 
@@ -274,20 +279,20 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="80px"
+                    android:layout_height="80px"
                     android:src="@mipmap/vip_zl" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10px"
                     android:text="修改资料"
                     android:textColor="@color/text_black3" />
             </LinearLayout>
 
             <TextView
-                android:layout_width="1dp"
+                android:layout_width="2px"
                 android:layout_height="match_parent"
                 android:background="@color/main_bg" />
 
@@ -301,14 +306,14 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="80px"
+                    android:layout_height="80px"
                     android:src="@mipmap/vip_set" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10px"
                     android:text="通知设置"
                     android:textColor="@color/text_black3" />
             </LinearLayout>
@@ -316,7 +321,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="2px"
             android:background="@color/main_bg" />
 
         <LinearLayout
@@ -335,20 +340,20 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="80px"
+                    android:layout_height="80px"
                     android:src="@mipmap/vip_wechat_0" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10px"
                     android:text="微信绑定"
                     android:textColor="@color/text_black3" />
             </LinearLayout>
 
             <TextView
-                android:layout_width="1dp"
+                android:layout_width="2px"
                 android:layout_height="match_parent"
                 android:background="@color/main_bg" />
 
@@ -362,20 +367,20 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="80px"
+                    android:layout_height="80px"
                     android:src="@mipmap/vip_wechat_1" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10px"
                     android:text="微信更改"
                     android:textColor="@color/text_black3" />
             </LinearLayout>
 
             <TextView
-                android:layout_width="1dp"
+                android:layout_width="2px"
                 android:layout_height="match_parent"
                 android:background="@color/main_bg" />
 
@@ -389,14 +394,14 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="80px"
+                    android:layout_height="80px"
                     android:src="@mipmap/vip_wechat_2" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10px"
                     android:text="微信解绑"
                     android:textColor="@color/text_black3" />
             </LinearLayout>
@@ -404,7 +409,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="2px"
             android:background="@color/main_bg" />
 
         <LinearLayout
@@ -424,20 +429,20 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="80px"
+                    android:layout_height="80px"
                     android:src="@mipmap/vip_phone_0" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10px"
                     android:text="手机绑定"
                     android:textColor="@color/text_black3" />
             </LinearLayout>
 
             <TextView
-                android:layout_width="1dp"
+                android:layout_width="2px"
                 android:layout_height="match_parent"
                 android:background="@color/main_bg" />
 
@@ -451,20 +456,20 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="80px"
+                    android:layout_height="80px"
                     android:src="@mipmap/vip_phone_1" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10px"
                     android:text="手机更改"
                     android:textColor="@color/text_black3" />
             </LinearLayout>
 
             <TextView
-                android:layout_width="1dp"
+                android:layout_width="2px"
                 android:layout_height="match_parent"
                 android:background="@color/main_bg" />
 
@@ -478,14 +483,14 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="80px"
+                    android:layout_height="80px"
                     android:src="@mipmap/vip_phone_2" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10px"
                     android:text="手机解绑"
                     android:textColor="@color/text_black3" />
             </LinearLayout>
@@ -494,7 +499,7 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="2px"
         android:background="@color/main_bg" />
 
     <include layout="@layout/bottom_s" />

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="200px"
     android:background="#ffffff">
 
     <LinearLayout
@@ -17,32 +17,32 @@
             android:gravity="center"
             android:text="0"
             android:textColor="#000000"
-            android:textSize="20sp" />
+            android:textSize="40px" />
 
         <TextView
             android:id="@+id/item_delete"
-            android:layout_width="100dp"
+            android:layout_width="200px"
             android:layout_height="match_parent"
             android:background="#88ff0000"
             android:gravity="center"
             android:text="删除"
             android:textColor="#ffffff"
-            android:textSize="20sp" />
+            android:textSize="40px" />
 
         <TextView
             android:id="@+id/item_add"
-            android:layout_width="100dp"
+            android:layout_width="200px"
             android:layout_height="match_parent"
             android:background="#880000aa"
             android:gravity="center"
             android:text="添加"
             android:textColor="#ffffff"
-            android:textSize="20sp" />
+            android:textSize="40px" />
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="2px"
         android:layout_alignParentBottom="true"
         android:background="#55000000" />
 

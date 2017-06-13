@@ -86,7 +86,7 @@ public class ExpenditureQuickStatisticsDetialsActivity extends BasePrintActivity
         Intent intent = getIntent();
         String id = intent.getStringExtra("id");
         String type = intent.getStringExtra("type");
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> map  = new HashMap<>();
         map.put("dbName", SharedUtil.getSharedData(ExpenditureQuickStatisticsDetialsActivity.this, "dbname"));
         map.put("id", id);
         map.put("BillType", type);

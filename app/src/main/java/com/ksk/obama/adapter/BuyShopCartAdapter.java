@@ -21,10 +21,18 @@ import java.util.List;
 public class BuyShopCartAdapter extends BaseAdapter {
     private BuyShopCartActivity activity;
     private List<BuyCount> list;
+    private int ctype;
+    private float disPrice;
+    private String type_s;
 
-    public BuyShopCartAdapter(BuyShopCartActivity activity, List<BuyCount> list) {
+    public void setCtype(int ctype) {
+        this.ctype = ctype;
+    }
+
+    public BuyShopCartAdapter(BuyShopCartActivity activity, List<BuyCount> list, int ctype) {
         this.activity = activity;
         this.list = list;
+        this.ctype = ctype;
     }
 
     @Override
@@ -53,13 +61,41 @@ public class BuyShopCartAdapter extends BaseAdapter {
             holder.num = (TextView) convertView.findViewById(R.id.item_shop_num);
             holder.money = (TextView) convertView.findViewById(R.id.item_shop_money);
             holder.del = (ImageView) convertView.findViewById(R.id.item_shop_del);
+            holder.type = (TextView) convertView.findViewById(R.id.item_card_type);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
+        if (ctype > 0) {//判断是否显示优惠卡类型
+            switch (ctype) {
+                case 1:
+                    type_s = "会员价A";
+                    disPrice = list.get(position).getDis_price_a();
+                    break;
+                case 2:
+                    type_s = "会员价B";
+                    disPrice = list.get(position).getDis_price_b();
+                    break;
+                case 3:
+                    type_s = "会员价C";
+                    disPrice = list.get(position).getDis_price_c();
+                    break;
+                case 4:
+                    type_s = "会员价D";
+                    disPrice = list.get(position).getDis_price_d();
+                    break;
+            }
+            holder.type.setText(type_s + " :");
+            holder.type.setTextColor(0xFFFF0000);
+            holder.price.setTextColor(0xFFFF0000);
+            holder.price.setText(disPrice + "");
+        } else {
+            holder.type.setText("单价 :");
+            holder.type.setTextColor(0xFF000000);
+            holder.price.setTextColor(0xFF000000);
+            holder.price.setText(list.get(position).getPrice() + "");
+        }
         holder.name.setText(list.get(position).getName());
-        holder.price.setText(list.get(position).getPrice() + "");
         holder.num.setText(list.get(position).getNum() + "");
         holder.money.setText(Utils.getNumStrE(list.get(position).getMoney() + ""));
         holder.del.setOnClickListener(new View.OnClickListener() {
@@ -68,12 +104,11 @@ public class BuyShopCartAdapter extends BaseAdapter {
                 activity.delProject(position);
             }
         });
-
         return convertView;
     }
 
     private class ViewHolder {
-        TextView name, price, num, money;
+        TextView name, price, num, money, type;
         ImageView del;
     }
 }

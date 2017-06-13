@@ -24,55 +24,55 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="93dp">
+                android:layout_height="180px">
 
                 <TextView
                     android:id="@+id/pay_shop_shuold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="26dp"
-                    android:layout_marginTop="19dp"
+                    android:layout_marginLeft="52px"
+                    android:layout_marginTop="38px"
                     android:text="总价:"
                     android:textColor="#2b2b2b"
-                    android:textSize="20sp" />
+                    android:textSize="40px" />
 
 
                 <TextView
                     android:id="@+id/pay_shop_del"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="26dp"
-                    android:layout_marginTop="60dp"
+                    android:layout_marginLeft="52px"
+                    android:layout_marginTop="120px"
                     android:text="折扣优惠:"
                     android:textColor="#2b2b2b"
-                    android:textSize="15sp" />
+                    android:textSize="30px" />
 
 
                 <TextView
                     android:id="@+id/pay_shop_del_kq"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="205dp"
-                    android:layout_marginTop="60dp"
+                    android:layout_marginLeft="410px"
+                    android:layout_marginTop="120px"
                     android:text="卡券优惠:"
                     android:textColor="#2b2b2b"
-                    android:textSize="15sp" />
+                    android:textSize="30px" />
 
             </RelativeLayout>
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
+                android:layout_height="10px"
                 android:background="#e8e8e8" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp">
+                android:layout_height="200px">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_height="60px"
+                    android:layout_marginTop="20px"
                     android:orientation="horizontal">
 
 
@@ -81,15 +81,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="26dp"
+                        android:layout_marginLeft="52px"
                         android:text="实际收款 :"
                         android:textColor="#2b2b2b"
-                        android:textSize="15sp" />
+                        android:textSize="30px" />
 
                     <EditText
                         android:id="@+id/pay_shop_payau"
-                        android:layout_width="75dp"
-                        android:layout_height="30dp"
+                        android:layout_width="150px"
+                        android:layout_height="60px"
                         android:background="@mipmap/edit_bg"
                         android:focusable="false"
                         android:gravity="center"
@@ -97,7 +97,7 @@
                         android:selectAllOnFocus="true"
                         android:text="000000"
                         android:textColor="#ff0000"
-                        android:textSize="15sp" />
+                        android:textSize="30px" />
 
                     <TextView
                         android:id="@+id/textView14"
@@ -106,41 +106,41 @@
                         android:layout_gravity="center_vertical"
                         android:text="元"
                         android:textColor="#2b2b2b"
-                        android:textSize="15sp" />
+                        android:textSize="30px" />
 
                     <Button
                         android:id="@+id/btn_sjsk"
-                        android:layout_width="85dp"
-                        android:layout_height="30dp"
+                        android:layout_width="170px"
+                        android:layout_height="60px"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="23dp"
+                        android:layout_marginLeft="46px"
                         android:background="@drawable/select_button_r"
                         android:text="点击修改"
                         android:textColor="@color/white"
-                        android:textSize="14sp"
+                        android:textSize="28px"
                         android:visibility="visible" />
                 </LinearLayout>
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="55dp"
+                    android:layout_height="60px"
+                    android:layout_marginTop="110px"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="26dp"
+                        android:layout_marginLeft="52px"
                         android:text="获得积分 :"
                         android:textColor="@color/text_black3"
-                        android:textSize="15sp" />
+                        android:textSize="30px" />
 
                     <EditText
                         android:id="@+id/pay_shop_gread"
-                        android:layout_width="75dp"
-                        android:layout_height="30dp"
+                        android:layout_width="150px"
+                        android:layout_height="60px"
                         android:background="@mipmap/edit_bg"
                         android:focusable="false"
                         android:gravity="center"
@@ -148,32 +148,32 @@
                         android:selectAllOnFocus="true"
                         android:text="000000"
                         android:textColor="@color/text_red"
-                        android:textSize="15sp" />
+                        android:textSize="30px" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="分"
                         android:textColor="#2b2b2b"
-                        android:textSize="15sp" />
+                        android:textSize="30px" />
 
                     <Button
                         android:id="@+id/btn_hdjf"
-                        android:layout_width="85dp"
-                        android:layout_height="30dp"
+                        android:layout_width="170px"
+                        android:layout_height="60px"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="23dp"
+                        android:layout_marginLeft="46px"
                         android:background="@drawable/select_button_r"
                         android:text="点击修改"
                         android:textColor="@color/white"
-                        android:textSize="14sp"
+                        android:textSize="28px"
                         android:visibility="visible" />
                 </LinearLayout>
             </RelativeLayout>
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
+                android:layout_height="10px"
                 android:background="#e8e8e8" />
 
 
@@ -185,17 +185,17 @@
                 android:layout_gravity="center_horizontal"
                 android:text="积分抵现"
                 android:textColor="@color/text_black4"
-                android:textSize="20sp" />
+                android:textSize="40px" />
 
             <LinearLayout
                 android:id="@+id/ll_jfdx"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginBottom="30px"
+                android:layout_marginTop="30px"
                 android:orientation="vertical"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:paddingLeft="20px"
+                android:paddingRight="20px"
                 android:visibility="gone">
 
                 <LinearLayout
@@ -207,56 +207,56 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="使用:"
-                        android:layout_marginLeft="26dp"
+                        android:layout_marginLeft="52px"
                         android:textColor="@color/text_black2"
-                        android:textSize="14sp" />
+                        android:textSize="28px" />
 
                     <EditText
                         android:id="@+id/et_dx_jf"
-                        android:layout_width="80dp"
-                        android:layout_height="30dp"
+                        android:layout_width="160px"
+                        android:layout_height="60px"
                         android:background="@mipmap/sign"
                         android:digits="1234567890."
                         android:focusable="false"
                         android:gravity="center"
                         android:text="0"
                         android:textColor="@color/text_black4"
-                        android:textSize="18sp" />
+                        android:textSize="36px" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="20px"
+                        android:layout_marginRight="20px"
                         android:text="分，抵扣"
                         android:textColor="@color/text_black2"
-                        android:textSize="14sp" />
+                        android:textSize="28px" />
 
                     <TextView
                         android:id="@+id/tv_money_dx"
-                        android:layout_width="80dp"
-                        android:layout_height="30dp"
+                        android:layout_width="160px"
+                        android:layout_height="60px"
                         android:background="@mipmap/edit_bg"
                         android:gravity="center"
                         android:text="0"
                         android:textColor="@color/text_black4"
-                        android:textSize="18sp" />
+                        android:textSize="36px" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="10px"
                         android:text="元"
                         android:textColor="@color/text_black2"
-                        android:textSize="14sp" />
+                        android:textSize="28px" />
 
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_height="70px"
+                    android:layout_marginTop="30px"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
@@ -264,37 +264,37 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="实收金额:"
-                        android:layout_marginLeft="26dp"
+                        android:layout_marginLeft="52px"
                         android:textColor="@color/text_black2"
-                        android:textSize="14sp" />
+                        android:textSize="28px" />
 
                     <TextView
                         android:id="@+id/tv_paymoney"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="20px"
                         android:layout_weight="1"
                         android:background="@mipmap/edit_bg"
                         android:gravity="center"
-                        android:textSize="20sp" />
+                        android:textSize="40px" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginRight="20px"
                         android:text="元"
                         android:textColor="@color/text_black2"
-                        android:textSize="14sp" />
+                        android:textSize="28px" />
                     <Button
                         android:id="@+id/btn_dxjf"
-                        android:layout_width="60dp"
-                        android:layout_height="30dp"
+                        android:layout_width="120px"
+                        android:layout_height="60px"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="20px"
                         android:background="@drawable/select_button_r"
                         android:text="修改"
                         android:textColor="@color/white"
-                        android:textSize="14sp" />
+                        android:textSize="28px" />
                 </LinearLayout>
             </LinearLayout>
             <!--添加的功能一会改名字-->
@@ -306,21 +306,21 @@
                 android:id="@+id/ll_pay_shop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="60px"
+                android:layout_marginRight="60px"
+                android:layout_marginTop="20px"
                 android:orientation="horizontal"
                 android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tv_pay_kq"
-                    android:layout_width="140dp"
-                    android:layout_height="60dp"
+                    android:layout_width="280px"
+                    android:layout_height="120px"
                     android:background="@drawable/select_pay_jf"
                     android:gravity="center"
                     android:text="卡券验证"
                     android:textColor="@color/line_blue_h"
-                    android:textSize="20sp" />
+                    android:textSize="40px" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -329,13 +329,13 @@
 
                 <TextView
                     android:id="@+id/tv_pay_jf"
-                    android:layout_width="140dp"
-                    android:layout_height="60dp"
+                    android:layout_width="280px"
+                    android:layout_height="120px"
                     android:background="@drawable/select_pay_jf"
                     android:gravity="center"
                     android:text="积分抵用"
                     android:textColor="@color/line_blue_h"
-                    android:textSize="20sp" />
+                    android:textSize="40px" />
             </LinearLayout>
 
 

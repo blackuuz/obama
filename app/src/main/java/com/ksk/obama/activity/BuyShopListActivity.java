@@ -53,6 +53,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+import static java.lang.Float.parseFloat;
+
 public class BuyShopListActivity extends BuyShopReadActivity implements IReadCardId, IQrcodeCallBack {
     private TextView tv_cardNum;
     private TextView tv_name;
@@ -74,6 +77,9 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
     private String preID = "";
     private boolean isReadCard = false;
     private String uid = "";
+    private String cardType = "零售价";
+    private int ctype = 0;
+    private float disprice = 0f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -211,7 +217,7 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
                             for (int j = 0; j < list_buy.size(); j++) {
                                 if (list.get(i).getId().equals(list_buy.get(j).getId())) {
                                     list.get(i).setNum(list_buy.get(j).getNum());
-                                    if(list.get(i).getNum() == 0){
+                                    if (list.get(i).getNum() == 0) {
                                         list.remove(i);
                                     }
                                     break;
@@ -257,14 +263,19 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
     public void toCalculate(final int i) {
 
         final PopupWindow window = new PopupWindow();
-        View contentView = LayoutInflater.from(BuyShopListActivity.this).inflate(R.layout.number_update_shop, null);
+        View contentView = LayoutInflater.from(BuyShopListActivity.this).inflate(R.layout.number_update_shop1, null);
         final EditText editText = (EditText) contentView.findViewById(R.id.alert_num);
         TextView editd = (TextView) contentView.findViewById(R.id.alert_num_d);
+        final TextView tv_discount = (TextView) contentView.findViewById(R.id.vip_money_discount);
         final EditText editz = (EditText) contentView.findViewById(R.id.alert_num_z);
+        final EditText edit_discount = (EditText) contentView.findViewById(R.id.alert_num_zh);
+
+
         InputFilter[] filters3 = {new MyTextFilter3()};
         InputFilter[] filters2 = {new MyTextFilter2()};
         editText.setFilters(filters3);
         editz.setFilters(filters2);
+        edit_discount.setFilters(filters2);
         editText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -290,9 +301,58 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
         });
         final float dj = list.get(i).getN_PriceRetail();
         editd.setText(dj + "");
+
+        switch (ctype) {//物品单价
+            case 0:
+                disprice = list.get(i).getN_PriceRetail();
+                break;
+            case 1:
+                disprice = list.get(i).getN_PriceMemberA();
+                break;
+            case 2:
+                disprice = list.get(i).getN_PriceMemberB();
+                break;
+            case 3:
+                disprice = list.get(i).getN_PriceMemberC();
+                break;
+            case 4:
+                disprice = list.get(i).getN_PriceMemberD();
+                break;
+            default:
+                disprice = list.get(i).getN_PriceRetail();
+                break;
+        }
+
+        if (!isVip) {
+            tv_discount.setText("无折扣");
+        } else {
+            if (ctype == 0 && list.get(i).getN_DiscountValue() == 1) {
+                tv_discount.setText(Utils.getNumStr(parseFloat(cardInfo.getN_DiscountValue()) * 0.1f) + "折优惠");
+            } else if (ctype == 0) {
+                tv_discount.setText("商品不打折");
+            } else {
+                tv_discount.setText(disprice + "");
+            }
+        }
+
         editText.setText(list.get(i).getNum() + "");
         editz.setText(Utils.getStringOutE((dj * list.get(i).getNum()) + ""));
-        editz.addTextChangedListener(new TextWatcher() {
+        // TODO: 2017/6/5
+        float num_ = Float.parseFloat(editText.getText().toString().trim());
+        if (isVip) {
+            if (list.get(i).getN_DiscountValue() == 1 && ctype == 0) {
+                edit_discount.setText(Utils.getNumStrE((list.get(i).getN_PriceRetail() * num_ *
+                        Float.parseFloat(cardInfo.getN_DiscountValue()) * 0.01) + ""));
+            } else if (ctype == 0) {
+                edit_discount.setText(Utils.getNumStrE((list.get(i).getN_PriceRetail() * num_) + ""));
+            } else {
+                edit_discount.setText(disprice * num_ + "");
+            }
+        } else {
+            edit_discount.setText(Utils.getNumStrE((list.get(i).getN_PriceRetail() * num_) + ""));
+        }
+        //___
+        edit_discount.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -305,25 +365,34 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (editz.hasFocus()) {
+                if (edit_discount.hasFocus()) {
                     float money = 0f;
-                    if (TextUtils.isEmpty(editz.getText().toString())) {
+                    if (TextUtils.isEmpty(edit_discount.getText().toString())) {
                         money = 0;
                     } else {
-                        money = Float.parseFloat(editz.getText().toString());
+                        money = Float.parseFloat(edit_discount.getText().toString());
                     }
 
                     float num = 0f;
                     if (isVip) {
-                        if (list.get(i).getN_DiscountValue() == 1) {
+                        if (list.get(i).getN_DiscountValue() == 1 && ctype == 0) {
                             num = money / (dj * Float.parseFloat(cardInfo.getN_DiscountValue()) * 0.01f);
-                        } else {
+                        } else if (ctype == 0) {
                             num = money / dj;
+                        } else {
+
+                            if (disprice == 0.0f) {
+                                num = 0;
+                                Utils.showToast(BuyShopListActivity.this, "商品价格为\"0\",不能计算数量");
+                            } else {
+                                num = money / (disprice);
+                            }
                         }
                     } else {
                         num = money / dj;
                     }
                     editText.setText(Utils.getNum3(num));
+                    editz.setText(Utils.getNum3(num * dj));
                 }
             }
         });
@@ -347,16 +416,18 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
                     } else {
                         num = Float.parseFloat(editText.getText().toString());
                     }
-
+                    editz.setText(dj * num + "");
                     if (isVip) {
-                        if (list.get(i).getN_DiscountValue() == 1) {
-                            editz.setText(Utils.getNumStrE((list.get(i).getN_PriceRetail() * num *
+                        if (list.get(i).getN_DiscountValue() == 1 && ctype == 0) {
+                            edit_discount.setText(Utils.getNumStrE((list.get(i).getN_PriceRetail() * num *
                                     Float.parseFloat(cardInfo.getN_DiscountValue()) * 0.01) + ""));
+                        } else if (ctype == 0) {
+                            edit_discount.setText(Utils.getNumStrE((list.get(i).getN_PriceRetail() * num) + ""));
                         } else {
-                            editz.setText(Utils.getNumStrE((list.get(i).getN_PriceRetail() * num) + ""));
+                            edit_discount.setText(disprice * num + "");
                         }
                     } else {
-                        editz.setText(Utils.getNumStrE((list.get(i).getN_PriceRetail() * num) + ""));
+                        edit_discount.setText(Utils.getNumStrE((list.get(i).getN_PriceRetail() * num) + ""));
                     }
 
                 }
@@ -426,7 +497,6 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
             }
         });
         btn_sure.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View arg0) {
                 if (!TextUtils.isEmpty(editText.getText().toString())) {
@@ -441,26 +511,33 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
                                 break;
                             }
                         }
+                        //buyCount.setDis_type(tv_discount.getText().toString().trim());
+                        // buyCount.setC_type(cardType);
                         buyCount.setId(list.get(i).getId());
                         buyCount.setName(list.get(i).getC_GoodsName());
                         buyCount.setPrice(list.get(i).getN_PriceRetail());
+                        buyCount.setDis_price_a(list.get(i).getN_PriceMemberA());
+                        buyCount.setDis_price_b(list.get(i).getN_PriceMemberB());
+                        buyCount.setDis_price_c(list.get(i).getN_PriceMemberC());
+                        buyCount.setDis_price_d(list.get(i).getN_PriceMemberD());
                         buyCount.setMoney(list.get(i).getN_PriceRetail() * num);
                         buyCount.setNum(num);
                         buyCount.setDis(list.get(i).getN_DiscountValue());
                         buyCount.setInteg(list.get(i).getN_IntegralValue());
                         if (isVip) {
-                            if (list.get(i).getN_DiscountValue() == 1) {
+                            if (list.get(i).getN_DiscountValue() == 1 && ctype == 0) {
                                 buyCount.setMoneyin((int) (list.get(i).getN_PriceRetail() * num *
                                         Float.parseFloat(cardInfo.getN_DiscountValue())) * 0.01f);
-                            } else {
+                            } else if (ctype == 0) {
                                 buyCount.setMoneyin(list.get(i).getN_PriceRetail() * num);
+                            } else {
+                                buyCount.setMoneyin(disprice * num);
                             }
                             buyCount.setDazhe(list.get(i).getN_DiscountValue() * 0.01f);
                             buyCount.setJifen(list.get(i).getN_IntegralValue() == 1 ? list.get(i).getN_IntegralValue() : 0);
                         } else {
                             buyCount.setMoneyin(list.get(i).getN_PriceRetail() * num);
                         }
-
                         if (flag) {
                             list_buy.add(buyCount);
                         }
@@ -525,6 +602,25 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
         }
     }
 
+    private void checkCtype(String cardType) {
+        switch (cardType) {
+            case "零售价":
+                ctype = 0;
+                break;
+            case "会员价A":
+                ctype = 1;
+                break;
+            case "会员价B":
+                ctype = 2;
+                break;
+            case "会员价C":
+                ctype = 3;
+                break;
+            case "会员价D":
+                ctype = 4;
+                break;
+        }
+    }
 
     private void sendId(String cardNum) {
         preID = cardNum;
@@ -547,15 +643,45 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
                     cardInfo = readCard.getResult_data();
                     isVip = true;
                     resetData();
-                    for (int i = 0; i < list_buy.size(); i++) {
-                        if (list_buy.get(i).getDis() == 1) {
-                            list_buy.get(i).setMoneyin((int) (list_buy.get(i).getPrice() * list_buy.get(i).getNum() *
-                                    Float.parseFloat(cardInfo.getN_DiscountValue())) * 0.01f);
-                        } else {
-                            list_buy.get(i).setMoneyin(list_buy.get(i).getPrice() * list_buy.get(i).getNum());
+                    cardType = cardInfo.getC_PriceClass();
+                    checkCtype(cardType);
+                    if (cardType == "零售价") {
+                        // ctype = 0;
+                        for (int i = 0; i < list_buy.size(); i++) {
+                            if (list_buy.get(i).getDis() == 1) {
+                                list_buy.get(i).setMoneyin((int) (list_buy.get(i).getPrice() * list_buy.get(i).getNum() *
+                                        parseFloat(cardInfo.getN_DiscountValue())) * 0.01f);
+                            } else {
+                                list_buy.get(i).setMoneyin(list_buy.get(i).getPrice() * list_buy.get(i).getNum());
+
+                            }
+                            list_buy.get(i).setDazhe(list_buy.get(i).getDis() * 0.01f);
+                            list_buy.get(i).setJifen(list_buy.get(i).getInteg() == 1 ? list_buy.get(i).getInteg() : 0);
                         }
-                        list_buy.get(i).setDazhe(list_buy.get(i).getDis() * 0.01f);
-                        list_buy.get(i).setJifen(list_buy.get(i).getInteg() == 1 ? list_buy.get(i).getInteg() : 0);
+                    } else {
+                        for (int i = 0; i < list_buy.size(); i++) {
+                            list_buy.get(i).setMoneyin(list_buy.get(i).getPrice() * list_buy.get(i).getNum());
+                            list_buy.get(i).setDazhe(list_buy.get(i).getDis() * 0.01f);
+                            list_buy.get(i).setJifen(list_buy.get(i).getInteg() == 1 ? list_buy.get(i).getInteg() : 0);
+                            switch (cardType) {
+                                case "会员价A":
+                                    ctype = 1;
+                                    list_buy.get(i).setMoneyin(list_buy.get(i).getDis_price_a() * list_buy.get(i).getNum());
+                                    break;
+                                case "会员价B":
+                                    ctype = 2;
+                                    list_buy.get(i).setMoneyin(list_buy.get(i).getDis_price_b() * list_buy.get(i).getNum());
+                                    break;
+                                case "会员价C":
+                                    ctype = 3;
+                                    list_buy.get(i).setMoneyin(list_buy.get(i).getDis_price_c() * list_buy.get(i).getNum());
+                                    break;
+                                case "会员价D":
+                                    ctype = 4;
+                                    list_buy.get(i).setMoneyin(list_buy.get(i).getDis_price_d() * list_buy.get(i).getNum());
+                                    break;
+                            }
+                        }
                     }
                 } else {
                     Utils.showToast(BuyShopListActivity.this, readCard.getResult_errmsg());
@@ -570,12 +696,13 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
 
     private void resetData() {
         isShowRead(isVip);
-        float oldMoney = Float.parseFloat(cardInfo.getN_AmountAvailable());
+        float oldMoney = parseFloat(cardInfo.getN_AmountAvailable());
         memid = cardInfo.getId();
         String cardNum = cardInfo.getC_CardNO();
         tv_cardNum.setText(cardNum);
         tv_name.setText(cardInfo.getC_Name());
         tv_oldMoney.setText("￥" + oldMoney);
+
 
     }
 
@@ -621,6 +748,7 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
             ColorDrawable dw = new ColorDrawable();
             this.setBackgroundDrawable(dw);
         }
+
         /**
          * 显示popupWindow
          *
@@ -666,10 +794,12 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
                     isVip = true;
                     cardInfo = bundle.getParcelable("info");
                     resetData();
+                    ctype = bundle.getInt("ctype");
                 } else {
                     isVip = false;
                     isShowRead(isVip);
                     cardInfo = null;
+                    ctype = 0;
                 }
             }
             resetList();
@@ -710,6 +840,7 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
                 isShowRead(false);
                 cardInfo = null;
                 uid = "";
+                ctype = 0;
                 for (int i = 0; i < list_buy.size(); i++) {
                     list_buy.get(i).setMoneyin(list_buy.get(i).getMoney());
                 }

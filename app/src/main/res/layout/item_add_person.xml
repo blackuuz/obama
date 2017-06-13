@@ -5,7 +5,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="100px"
         android:orientation="horizontal">
 
         <TextView
@@ -14,10 +14,10 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical|left"
-            android:paddingLeft="25dp"
+            android:paddingLeft="50px"
             android:text="工号"
             android:textColor="#8d8d8d"
-            android:textSize="17sp" />
+            android:textSize="34px" />
 
         <TextView
             android:id="@+id/item_name"
@@ -27,7 +27,7 @@
             android:gravity="center"
             android:text="姓名"
             android:textColor="#8d8d8d"
-            android:textSize="17sp" />
+            android:textSize="34px" />
 
         <TextView
             android:id="@+id/item_shop"
@@ -35,9 +35,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical|right"
-            android:paddingRight="25dp"
+            android:paddingRight="50px"
             android:text="店名"
             android:textColor="#8d8d8d"
-            android:textSize="17sp" />
+            android:textSize="34px" />
     </LinearLayout>
 </FrameLayout>

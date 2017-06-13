@@ -25,21 +25,26 @@ public class BuyCountList {
     private float Discount;
     private float Integral;
     /**
-     * id : 18
-     * i_GroupID : 1
-     * c_GoodsNO : P00001
-     * c_GoodsName : 草莓
-     * c_Pinyin : CM
-     * c_Unit :
-     * c_GoodsClassify : 默认分类
-     * c_BarCode :
-     * n_PricePurchase : .00
-     * n_PriceRetail : 1.00
-     * n_LowerLimit : .00
-     * n_DiscountValue : 1
-     * n_IntegralValue : 1
-     * r_IsMaterial : 0
-     * ROW_NUMBER : 1
+     * "id": "50",
+     "i_GroupID": "1",
+     "c_GoodsNO": "P00046",
+     "c_GoodsName": "垂钓阿1",
+     "c_Pinyin": "CDA1",
+     "c_Unit": "次",
+     "c_GoodsClassify": "默认分类",
+     "c_BarCode": "",
+     "n_PricePurchase": "111.00",
+     "n_PriceRetail": "50.00",
+     "n_LowerLimit": ".00",
+     "n_DiscountValue": "0",
+     "n_IntegralValue": "1",
+     "r_IsMaterial": "0",
+     "i_ShopID": "1",
+     "n_PriceMemberA": ".00",
+     "n_PriceMemberB": ".00",
+     "n_PriceMemberC": ".00",
+     "n_PriceMemberD": ".00",
+     "ROW_NUMBER": "3"
      */
 
     private List<GoodsListBean> goods_list;
@@ -113,9 +118,55 @@ public class BuyCountList {
         private float n_DiscountValue;
         private float n_IntegralValue;
         private String r_IsMaterial;
+        private String i_ShopID;
+        private float n_PriceMemberA;
+        private float n_PriceMemberB;
+        private float n_PriceMemberC;
+        private float n_PriceMemberD;
         private float num = 0;
         private String validTime = getNowTime();
         private String ROW_NUMBER;
+        public String getI_ShopID() {
+            return i_ShopID;
+        }
+
+        public void setI_ShopID(String i_ShopID) {
+            this.i_ShopID = i_ShopID;
+        }
+
+        public float getN_PriceMemberA() {
+            return n_PriceMemberA;
+        }
+
+        public void setN_PriceMemberA(float n_PriceMemberA) {
+            this.n_PriceMemberA = n_PriceMemberA;
+        }
+
+        public float getN_PriceMemberB() {
+            return n_PriceMemberB;
+        }
+
+        public void setN_PriceMemberB(float n_PriceMemberB) {
+            this.n_PriceMemberB = n_PriceMemberB;
+        }
+
+        public float getN_PriceMemberC() {
+            return n_PriceMemberC;
+        }
+
+        public void setN_PriceMemberC(float n_PriceMemberC) {
+            this.n_PriceMemberC = n_PriceMemberC;
+        }
+
+        public float getN_PriceMemberD() {
+            return n_PriceMemberD;
+        }
+
+        public void setN_PriceMemberD(float n_PriceMemberD) {
+            this.n_PriceMemberD = n_PriceMemberD;
+        }
+
+
 
         private String getNowTime() {
             Date date = new Date(System.currentTimeMillis());

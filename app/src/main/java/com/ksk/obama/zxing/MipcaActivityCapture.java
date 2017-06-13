@@ -1,5 +1,6 @@
 package com.ksk.obama.zxing;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
@@ -115,6 +116,7 @@ public class MipcaActivityCapture extends BaseActivity implements Callback {
             @Override
             public void onClick(View view) {
                 timer.cancel();
+                setResult(Activity.RESULT_CANCELED);
                 finish();
             }
         });
@@ -305,6 +307,7 @@ public class MipcaActivityCapture extends BaseActivity implements Callback {
     public void onBackPressed() {
         super.onBackPressed();
         timer.cancel();
+        setResult(Activity.RESULT_CANCELED);
         finish();
     }
 
@@ -465,5 +468,6 @@ public class MipcaActivityCapture extends BaseActivity implements Callback {
             mediaPlayer.seekTo(0);
         }
     };
+
 
 }

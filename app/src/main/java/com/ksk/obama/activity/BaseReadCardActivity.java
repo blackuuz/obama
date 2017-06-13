@@ -532,6 +532,7 @@ public class BaseReadCardActivity extends BaseTypeActivity {
                         String str = (String) cardInfo.hashMap.get("UUID") + "";
                         cardnum = str + "-Is";
                     }
+
                     Logger.e(cardnum);
 
                     if (!number.equals(cardnum) && !TextUtils.isEmpty(cardnum) && mIReadCardId != null) {

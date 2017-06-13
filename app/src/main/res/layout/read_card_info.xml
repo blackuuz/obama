@@ -16,16 +16,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20px"
             android:text="请刷卡"
             android:textColor="@color/text_black4"
-            android:textSize="20sp" />
+            android:textSize="40px" />
 
         <LinearLayout
-            android:layout_width="336dp"
-            android:layout_height="40dp"
+            android:layout_width="672px"
+            android:layout_height="80px"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20px"
             android:orientation="horizontal">
 
             <EditText
@@ -40,56 +40,56 @@
                 android:hint="请输入卡号/电话号"
                 android:inputType="number"
                 android:textColor="@color/text_black4"
-                android:textSize="20sp" />
+                android:textSize="40px" />
 
             <Button
                 android:id="@+id/btn_read_code"
-                android:layout_width="80dp"
+                android:layout_width="160px"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="20px"
                 android:background="@drawable/select_code" />
         </LinearLayout>
 
         <Button
             android:id="@+id/btn_read_yes"
-            android:layout_width="336dp"
-            android:layout_height="40dp"
+            android:layout_width="672px"
+            android:layout_height="80px"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="30px"
             android:background="@mipmap/read_card_info_yes"
             android:text="确     定"
             android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textSize="40px" />
 
         <Button
             android:id="@+id/btn_read_no"
-            android:layout_width="336dp"
-            android:layout_height="40dp"
+            android:layout_width="672px"
+            android:layout_height="80px"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="30px"
             android:background="@mipmap/read_card_info_yes"
             android:text="非会员消费"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="40px"
             android:visibility="gone" />
 
         <TextView
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20px"
             android:id="@+id/tv_hint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@color/text_black4"
-            android:textSize="20sp" />
+            android:textSize="40px" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="19dp"
-            android:layout_marginRight="19dp"
+            android:layout_marginLeft="38px"
+            android:layout_marginRight="38px"
             android:gravity="bottom"
             android:orientation="horizontal"
-            android:paddingBottom="50dp">
+            android:paddingBottom="100px">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -100,26 +100,26 @@
                 android:weightSum="1">
 
                 <TextView
-                    android:layout_width="99dp"
-                    android:layout_height="24dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_width="198px"
+                    android:layout_height="48px"
+                    android:layout_marginTop="30px"
                     android:gravity="center"
                     android:text="磁条卡"
                     android:textColor="#4652ee"
-                    android:textSize="20sp" />
+                    android:textSize="40px" />
 
                 <ImageView
-                    android:layout_width="85dp"
-                    android:layout_height="132dp"
+                    android:layout_width="170px"
+                    android:layout_height="264px"
                     android:src="@mipmap/read2" />
 
                 <TextView
-                    android:layout_width="64dp"
+                    android:layout_width="128px"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="32px"
                     android:text="请在设备右侧刷卡"
                     android:textColor="#ff0000"
-                    android:textSize="13sp" />
+                    android:textSize="26px" />
 
 
             </LinearLayout>
@@ -132,27 +132,27 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="99dp"
-                    android:layout_height="24dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_width="198px"
+                    android:layout_height="48px"
+                    android:layout_marginTop="30px"
                     android:gravity="center"
                     android:text="芯片卡"
                     android:textColor="#4652ee"
-                    android:textSize="20sp" />
+                    android:textSize="40px" />
 
                 <ImageView
-                    android:layout_width="85dp"
-                    android:layout_height="132dp"
+                    android:layout_width="170px"
+                    android:layout_height="264px"
                     android:src="@mipmap/read1" />
 
                 <TextView
-                    android:layout_width="58dp"
+                    android:layout_width="116px"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="32px"
                     android:gravity="center_horizontal"
                     android:text="将卡放在设备上"
                     android:textColor="#ff0000"
-                    android:textSize="13sp" />
+                    android:textSize="26px" />
 
 
             </LinearLayout>

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/item_house_no_root"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="200px"
     android:gravity="center"
     android:background="@color/white"
     android:orientation="vertical">
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="@color/text_black2"
-        android:textSize="15sp" />
+        android:textSize="30px" />
 
     <TextView
         android:id="@+id/item_text_1"
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="@color/text_black2"
-        android:textSize="15sp" />
+        android:textSize="30px" />
 
     <TextView
         android:id="@+id/item_text_2"
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="@color/text_black2"
-        android:textSize="15sp" />
+        android:textSize="30px" />
 
     <TextView
         android:id="@+id/item_text_3"
@@ -37,5 +37,5 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="@color/text_black2"
-        android:textSize="15sp" />
+        android:textSize="30px" />
 </LinearLayout>

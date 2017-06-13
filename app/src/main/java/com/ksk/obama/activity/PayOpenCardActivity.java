@@ -271,6 +271,8 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
                 Utils.showToast(PayOpenCardActivity.this, msg);
                 payHint(true);
                 printInfo(true);
+
+
                 switch (robotType) {
                     case 3:
                     case 4:

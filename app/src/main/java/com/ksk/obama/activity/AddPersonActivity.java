@@ -183,7 +183,6 @@ public class AddPersonActivity extends BaseActivity {
                 Logger.e(jsonText);
                 switch (type) {
                     case 1:
-
                         AddPerson addPerson = new Gson().fromJson(jsonText, AddPerson.class);
                         if (addPerson.getResult_stadus().equals("SUCCESS")) {
                             list_shop.clear();

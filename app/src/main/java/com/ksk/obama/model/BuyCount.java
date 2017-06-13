@@ -16,7 +16,45 @@ public class BuyCount extends DataSupport implements Parcelable {
     private String id1;
     private String name;
     private float num = 1;
-    private float price;
+    private float price;//单价
+    private float dis_price_a;//折扣之后的单价
+    //private String dis_type;//折扣模式的文本
+    private float dis_price_b;
+
+    public float getDis_price_a() {
+        return dis_price_a;
+    }
+
+    public void setDis_price_a(float dis_price_a) {
+        this.dis_price_a = dis_price_a;
+    }
+
+    public float getDis_price_b() {
+        return dis_price_b;
+    }
+
+    public void setDis_price_b(float dis_price_b) {
+        this.dis_price_b = dis_price_b;
+    }
+
+    public float getDis_price_c() {
+        return dis_price_c;
+    }
+
+    public void setDis_price_c(float dis_price_c) {
+        this.dis_price_c = dis_price_c;
+    }
+
+    public float getDis_price_d() {
+        return dis_price_d;
+    }
+
+    public void setDis_price_d(float dis_price_d) {
+        this.dis_price_d = dis_price_d;
+    }
+
+    private float dis_price_c;
+    private float dis_price_d;
     private float money;
     private float dazhe;
     private float jifen;
@@ -26,6 +64,16 @@ public class BuyCount extends DataSupport implements Parcelable {
     private float integ;
     private BuyCountDb buyCountDb;
     private BuyShopDb buyShopDb;
+    private String c_type;
+
+    public String getC_type() {
+        return c_type;
+    }
+
+    public void setC_type(String c_type) {
+        this.c_type = c_type;
+    }
+
 
     public BuyCountDb getBuyCountDb() {
         return buyCountDb;
@@ -55,6 +103,14 @@ public class BuyCount extends DataSupport implements Parcelable {
         validTime = in.readString();
         dis = in.readFloat();
         integ = in.readFloat();
+        c_type = in.readString();
+        dis_price_a = in.readFloat();
+        dis_price_b = in.readFloat();
+        dis_price_c = in.readFloat();
+        dis_price_d = in.readFloat();
+
+
+        // dis_type = in.readString();
     }
 
     public static final Creator<BuyCount> CREATOR = new Creator<BuyCount>() {
@@ -183,6 +239,13 @@ public class BuyCount extends DataSupport implements Parcelable {
         dest.writeString(validTime);
         dest.writeFloat(dis);
         dest.writeFloat(integ);
+        dest.writeString(c_type);
+        dest.writeFloat(dis_price_a);
+        dest.writeFloat(dis_price_b);
+        dest.writeFloat(dis_price_c);
+        dest.writeFloat(dis_price_d);
+
+       // dest.writeString(dis_type);
     }
 
 }

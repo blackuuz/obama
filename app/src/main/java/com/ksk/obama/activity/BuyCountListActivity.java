@@ -71,6 +71,8 @@ public class BuyCountListActivity extends BaseActivity implements View.OnClickLi
     private String password;
     private String oldIntegral;
     private String uid = "";
+    private String cardType;
+    private int ctype = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +83,7 @@ public class BuyCountListActivity extends BaseActivity implements View.OnClickLi
         initView();
         initData();
         getHttpData();
+
     }
 
     @Override
@@ -127,6 +130,7 @@ public class BuyCountListActivity extends BaseActivity implements View.OnClickLi
                     intent.putExtra("pwd", password);
                     intent.putExtra("uid", uid);
                     intent.putExtra("oldi", oldIntegral);
+                    intent.putExtra("ctype",ctype);
                     startActivity(intent);
                 } else {
                     Utils.showToast(BuyCountListActivity.this, "您还没选择购买项目");
@@ -180,6 +184,24 @@ public class BuyCountListActivity extends BaseActivity implements View.OnClickLi
             tv_cardNum.setText(cardNum);
             tv_name.setText(cardInfo.getC_Name());
             tv_oldMoney.setText("￥" + oldMoney);
+            cardType = cardInfo.getC_PriceClass();
+                switch (cardType) {
+                    case "零售价":
+                        ctype = 0;
+                        break;
+                    case "会员价A":
+                        ctype = 1;
+                        break;
+                    case "会员价B":
+                        ctype = 2;
+                        break;
+                    case "会员价C":
+                        ctype = 3;
+                        break;
+                    case "会员价D":
+                        ctype = 4;
+                        break;
+              }
         }
     }
 
@@ -194,18 +216,20 @@ public class BuyCountListActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void getHttpData() {
+
         if (list != null) {
             list.clear();
             if (adapter != null)
                 adapter.notifyDataSetChanged();
         }
         String shopname = et_shopname.getText().toString();
-        String type = tv_type.getText().toString();
+        final String type = tv_type.getText().toString();
         Map<String, String> map = new HashMap<>();
         map.put("c_CardNO", tv_cardNum.getText().toString());
         map.put("dbName", SharedUtil.getSharedData(BuyCountListActivity.this, "dbname"));
         map.put("goodsfind", shopname);
         map.put("goodsclass", type);
+        map.put("UserInfoId", SharedUtil.getSharedData(BuyCountListActivity.this, "userInfoId"));
         postToHttp(NetworkUrl.BUYCOUNT, map, new IHttpCallBack() {
             @Override
             public void OnSucess(String jsonText) {
@@ -214,15 +238,13 @@ public class BuyCountListActivity extends BaseActivity implements View.OnClickLi
                 if (countList.getResult_stadus().equals("SUCCESS")) {
                     list = countList.getGoods_list();
                     resetList();
-
                     if (list_type.size() == 0) {
                         list_type = countList.getGoods_class();
                         if (list_type != null && list_type.size() > 0) {
                             tv_type.setText(list_type.get(0).getClassX());
                         }
                     }
-
-                    adapter = new BuyCountListAdapter(BuyCountListActivity.this, list);
+                    adapter = new BuyCountListAdapter(BuyCountListActivity.this, list, ctype);
                     lv_project.setAdapter(adapter);
                 } else {
                     Utils.showToast(BuyCountListActivity.this, countList.getResult_errmsg());
@@ -333,7 +355,7 @@ public class BuyCountListActivity extends BaseActivity implements View.OnClickLi
                 }
             }
         });
-        Button btn_sure = (Button) contentView.findViewById(R.id.btn_sure);
+        final Button btn_sure = (Button) contentView.findViewById(R.id.btn_sure);
         ImageView iv_back = (ImageView) contentView.findViewById(R.id.alert_back_0);
         iv_back.setOnClickListener(new View.OnClickListener() {
 
@@ -358,20 +380,45 @@ public class BuyCountListActivity extends BaseActivity implements View.OnClickLi
                                 break;
                             }
                         }
+                        float price = 0f;
+                        switch (ctype) {//物品单价
+                            case 0:
+                                price = list.get(i).getN_PriceRetail();
+                                break;
+                            case 1:
+                                price = list.get(i).getN_PriceMemberA();
+                                break;
+                            case 2:
+                                price = list.get(i).getN_PriceMemberB();
+                                break;
+                            case 3:
+                                price = list.get(i).getN_PriceMemberC();
+                                break;
+                            case 4:
+                                price = list.get(i).getN_PriceMemberD();
+                                break;
+                            default:
+                                price = list.get(i).getN_PriceRetail();
+                                break;
+                        }
+                        buyCount.setC_type(cardType);
                         buyCount.setId(list.get(i).getId());
                         buyCount.setName(list.get(i).getC_GoodsName());
-                        buyCount.setPrice(list.get(i).getN_PriceRetail());
+                        buyCount.setPrice(price);
                         buyCount.setMoney(list.get(i).getN_PriceRetail() * num);
                         buyCount.setNum(num);
                         buyCount.setDazhe(list.get(i).getN_DiscountValue());
                         buyCount.setJifen(list.get(i).getN_IntegralValue());
-                        if (list.get(i).getN_DiscountValue() != 0) {
-                            int n = (int) (list.get(i).getN_PriceRetail() * num * countList.getDiscount() * 100);
-                            buyCount.setMoneyin(n / 100f);
+                        if (ctype != 0) {//判断卡的消费类型
+                            buyCount.setMoneyin(price * num);
                         } else {
-                            buyCount.setMoneyin(list.get(i).getN_PriceRetail() * num);
+                            if (list.get(i).getN_DiscountValue() != 0) {
+                                int n = (int) (list.get(i).getN_PriceRetail() * num * countList.getDiscount() * 100);
+                                buyCount.setMoneyin(n / 100f);
+                            } else {
+                                buyCount.setMoneyin(list.get(i).getN_PriceRetail() * num);
+                            }
                         }
-
                         if (curday < 10) {
                             buyCount.setValidTime(curyear + "-" + curmonth + "-0" + curday);
                         } else {
@@ -429,6 +476,8 @@ public class BuyCountListActivity extends BaseActivity implements View.OnClickLi
                 ets[0].setText(curyear + "");
                 break;
             case R.id.iv_click_add_mouth:
+                //ets[2].setText(1+"");
+                //curday = 1;
                 if (curyear == ocuryear) {
                     if (curmonth == 12) {
                         curmonth = ocurmonth;
@@ -445,6 +494,8 @@ public class BuyCountListActivity extends BaseActivity implements View.OnClickLi
                 ets[1].setText(curmonth + "");
                 break;
             case R.id.iv_click_del_mouth:
+                //ets[2].setText(1+"");
+                // curday = 1;
                 if (curyear == ocuryear) {
                     if (curmonth == ocurmonth) {
                         curmonth = 12;

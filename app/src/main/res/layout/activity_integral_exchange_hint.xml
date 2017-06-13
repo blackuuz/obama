@@ -21,55 +21,55 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="60px"
             android:text="消费成功"
             android:textColor="@color/line_blue_h"
-            android:textSize="25sp" />
+            android:textSize="50px" />
 
         <TextView
             android:id="@+id/tv_integral_hint_0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginLeft="50px"
+            android:layout_marginTop="100px"
             android:textColor="@color/text_black4"
-            android:textSize="20sp" />
+            android:textSize="40px" />
 
         <TextView
             android:id="@+id/tv_integral_hint_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginLeft="50px"
+            android:layout_marginTop="40px"
             android:textColor="@color/text_black4"
-            android:textSize="20sp" />
+            android:textSize="40px" />
 
         <TextView
             android:id="@+id/tv_integral_hint_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginLeft="50px"
+            android:layout_marginTop="40px"
             android:textColor="@color/text_black4"
-            android:textSize="20sp" />
+            android:textSize="40px" />
 
         <TextView
             android:id="@+id/tv_integral_hint_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginLeft="50px"
+            android:layout_marginTop="40px"
             android:textColor="@color/text_black4"
-            android:textSize="20sp" />
+            android:textSize="40px" />
 
         <TextView
             android:id="@+id/tv_integral_hint_4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginLeft="50px"
+            android:layout_marginTop="40px"
             android:textColor="@color/text_black4"
-            android:textSize="20sp" />
+            android:textSize="40px" />
     </LinearLayout>
 
     <include layout="@layout/bottom_s" />

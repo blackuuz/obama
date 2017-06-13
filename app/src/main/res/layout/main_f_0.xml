@@ -25,7 +25,7 @@
         <RelativeLayout
             android:id="@+id/rl_main01"
             style="@style/main_f"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="10px">
 
             <TextView
                 style="@style/main_tv_item"
@@ -39,7 +39,7 @@
         <RelativeLayout
             android:id="@+id/rl_main09"
             style="@style/main_f"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="10px">
 
             <TextView
                 style="@style/main_tv_item"
@@ -53,7 +53,7 @@
         <RelativeLayout
             android:id="@+id/rl_main03"
             style="@style/main_f"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="10px">
 
             <TextView
                 style="@style/main_tv_item"
@@ -68,7 +68,7 @@
         <RelativeLayout
             android:id="@+id/rl_main05"
             style="@style/main_f"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="10px">
 
             <TextView
                 style="@style/main_tv_item"
@@ -82,7 +82,7 @@
         <RelativeLayout
             android:id="@+id/rl_main07"
             style="@style/main_f"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="10px">
 
             <TextView
                 style="@style/main_tv_item"
@@ -95,7 +95,7 @@
         <RelativeLayout
             android:id="@+id/rl_main10"
             style="@style/main_f"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="10px">
 
             <TextView
                 style="@style/main_tv_item"
@@ -108,7 +108,7 @@
         <RelativeLayout
             android:id="@+id/rl_main11"
             style="@style/main_f"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="10px">
 
             <TextView
                 style="@style/main_tv_item"

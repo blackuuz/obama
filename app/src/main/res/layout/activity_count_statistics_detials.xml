@@ -19,7 +19,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp">
+                android:layout_height="100px">
 
                 <TextView
                     style="@style/text_statistics_del_l"
@@ -33,7 +33,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp">
+                android:layout_height="100px">
 
                 <TextView
                     android:id="@+id/tv_statistics_detilas1"
@@ -45,19 +45,19 @@
                     style="@style/text_statistics_del_l"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginStart="27dp"
+                    android:layout_marginStart="54px"
                     android:text="姓名" />
             </RelativeLayout>
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="14dp"
+                android:layout_height="28px"
                 android:background="@color/main_bg" />
 
             <LinearLayout
                 android:id="@+id/detials_title"
                 android:layout_width="match_parent"
-                android:layout_height="46dp"
+                android:layout_height="92px"
                 android:background="@color/white"
                 android:orientation="horizontal">
 
@@ -93,12 +93,12 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="14dp"
+                android:layout_height="28px"
                 android:background="@color/main_bg" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp">
+                android:layout_height="80px">
 
                 <TextView
                     style="@style/text_statistics_del_l"
@@ -112,7 +112,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp">
+                android:layout_height="80px">
 
                 <TextView
                     style="@style/text_statistics_del_l"
@@ -126,7 +126,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp">
+                android:layout_height="80px">
 
                 <TextView
                     android:id="@+id/tv_statistics_detilas3"
@@ -138,18 +138,18 @@
                     style="@style/text_statistics_del_l"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginStart="27dp"
+                    android:layout_marginStart="54px"
                     android:text="收款单号" />
             </RelativeLayout>
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="14dp"
+                android:layout_height="28px"
                 android:background="@color/main_bg" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp">
+                android:layout_height="100px">
 
                 <TextView
                     style="@style/text_statistics_del_l"
@@ -163,12 +163,12 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="2px"
                 android:background="@color/main_bg" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp">
+                android:layout_height="100px">
 
                 <TextView
                     style="@style/text_statistics_del_l"

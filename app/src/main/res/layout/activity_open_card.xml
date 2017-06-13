@@ -21,11 +21,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10px"
+                android:layout_marginTop="10px"
                 android:text="必填信息"
                 android:textColor="#333"
-                android:textSize="18sp" />
+                android:textSize="36px" />
 
             <TextView
                 android:id="@+id/tv_hint"
@@ -33,12 +33,12 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textColor="@color/text_black4"
-                android:textSize="15sp" />
+                android:textSize="30px" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginTop="5dp"
+                android:layout_height="60px"
+                android:layout_marginTop="10px"
                 android:orientation="horizontal">
 
                 <TextView
@@ -55,17 +55,17 @@
 
                 <Button
                     android:id="@+id/btn_read_code"
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="80dp"
+                    android:layout_width="100px"
+                    android:layout_height="60px"
+                    android:layout_marginLeft="20px"
+                    android:layout_marginRight="160px"
                     android:background="@drawable/select_code" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="60px"
+                android:layout_marginTop="40px"
                 android:orientation="horizontal">
 
                 <TextView
@@ -81,8 +81,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="60px"
+                android:layout_marginTop="40px"
                 android:orientation="horizontal">
 
                 <TextView
@@ -92,21 +92,21 @@
                 <TextView
                     android:id="@+id/tv_open_type"
                     style="@style/edit_open"
-                    android:layout_width="170dp"
+                    android:layout_width="340px"
                     android:text="选择卡类型"
                     android:textColor="@color/text_black3" />
 
                 <ImageView
                     android:id="@+id/iv_open_type"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="60px"
+                    android:layout_height="60px"
                     android:src="@mipmap/open_xl" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="60px"
+                android:layout_marginTop="40px"
                 android:orientation="horizontal">
 
                 <TextView
@@ -116,7 +116,7 @@
                 <TextView
                     android:id="@+id/tv_open_ys"
                     style="@style/edit_open"
-                    android:layout_width="100dp"
+                    android:layout_width="200px"
                     android:gravity="center"
                     android:textColor="#ff0000" />
 
@@ -128,8 +128,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="60px"
+                android:layout_marginTop="40px"
                 android:orientation="horizontal">
 
                 <TextView
@@ -139,8 +139,8 @@
                 <EditText
                     android:id="@+id/et_open_ss"
                     style="@style/edit_open"
+                    android:layout_width="200px"
                     android:focusable="false"
-                    android:layout_width="100dp"
                     android:gravity="center"
                     android:inputType="numberDecimal"
                     android:textColor="#ff0000" />
@@ -153,14 +153,14 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="10px"
+                android:layout_marginTop="40px"
                 android:background="@color/main_bg" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="40px">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -175,16 +175,16 @@
                     <TextView
                         android:id="@+id/tv_open0"
                         style="@style/text_statistics_open2"
-                        android:layout_width="70dp"
-                        android:layout_height="20dp"
-                        android:layout_marginLeft="5dp"
+                        android:layout_width="140px"
+                        android:layout_height="40px"
+                        android:layout_marginLeft="10px"
                         android:background="@mipmap/edit_bg"
                         android:gravity="center"
                         android:textColor="#ff0000" />
 
                     <TextView
                         style="@style/text_statistics_open2"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="10px"
                         android:text="元" />
                 </LinearLayout>
 
@@ -192,7 +192,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="40px"
                     android:orientation="horizontal">
 
                     <TextView
@@ -202,9 +202,9 @@
                     <TextView
                         android:id="@+id/tv_open1"
                         style="@style/text_statistics_open2"
-                        android:layout_width="70dp"
-                        android:layout_height="20dp"
-                        android:layout_marginLeft="5dp"
+                        android:layout_width="140px"
+                        android:layout_height="40px"
+                        android:layout_marginLeft="10px"
                         android:background="@mipmap/edit_bg"
                         android:gravity="center"
                         android:textColor="#ff0000" />
@@ -215,7 +215,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="40px">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -230,16 +230,16 @@
                     <TextView
                         android:id="@+id/tv_open2"
                         style="@style/text_statistics_open2"
-                        android:layout_width="70dp"
-                        android:layout_height="20dp"
-                        android:layout_marginLeft="5dp"
+                        android:layout_width="140px"
+                        android:layout_height="40px"
+                        android:layout_marginLeft="10px"
                         android:background="@mipmap/edit_bg"
                         android:gravity="center"
                         android:textColor="#ff0000" />
 
                     <TextView
                         style="@style/text_statistics_open2"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="10px"
                         android:text="" />
                 </LinearLayout>
 
@@ -247,7 +247,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="40px"
                     android:orientation="horizontal">
 
                     <TextView
@@ -257,9 +257,9 @@
                     <TextView
                         android:id="@+id/tv_open3"
                         style="@style/text_statistics_open2"
-                        android:layout_width="70dp"
-                        android:layout_height="20dp"
-                        android:layout_marginLeft="5dp"
+                        android:layout_width="140px"
+                        android:layout_height="40px"
+                        android:layout_marginLeft="10px"
                         android:background="@mipmap/edit_bg"
                         android:gravity="center"
                         android:textColor="#ff0000" />
@@ -268,9 +268,33 @@
             </RelativeLayout>
 
             <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="40px"
+                android:layout_marginTop="40px"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/text_statistics_open2"
+                    android:text="充值倍率 :" />
+
+                <TextView
+                    android:id="@+id/tv_integral_rate"
+                    style="@style/text_statistics_open2"
+                    android:layout_width="140px"
+                    android:layout_height="40px"
+                    android:layout_marginLeft="10px"
+                    android:background="@mipmap/edit_bg"
+                    android:gravity="center"
+                    android:textColor="#ff0000" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="60px"
+                android:layout_marginTop="40px"
                 android:orientation="horizontal">
 
                 <TextView

@@ -460,7 +460,8 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
                 if (isclick_pay) {
                     isclick_pay = false;
                     n = 1;
-                    payMoney(1, tv_pay.getText().toString(), orderNumber, "会员充值");
+                    sendData("");
+                    //payMoney(1, tv_pay.getText().toString(), orderNumber, "会员充值");
                 }
                 break;
             case R.id.tv_pay_yl://银联支付
@@ -479,7 +480,8 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
                 if (isclick_pay) {
                     isclick_pay = false;
                     n = 2;
-                    payMoney(2, tv_pay.getText().toString(), orderNumber, "会员充值");
+                    sendData("");
+                    //payMoney(2, tv_pay.getText().toString(), orderNumber, "会员充值");
                 }
                 break;
             case R.id.btn_rech:
@@ -581,6 +583,8 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
             String tag = object.getString("result_stadus");
             if (tag.equals("SUCCESS")) {
                 if ((robotType == 1 && n == 1) || (robotType == 1 && n == 3)) {
+                    payMoney(n, tv_pay.getText().toString(), orderNumber, "会员充值");
+                } else if ((robotType != 1 && n == 1) || (robotType != 1 && n == 2)) {
                     payMoney(n, tv_pay.getText().toString(), orderNumber, "会员充值");
                 } else {
                     reSet();
@@ -938,7 +942,8 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
         if ((robotType == 1 && n == 1) || (robotType == 1 && n == 2) || (robotType == 1 && n == 3)) {
             LKLPay(orderNum);
         } else {
-            sendData(orderNum);
+          //  sendData(orderNum);
+            LKLPay(orderNum);
             loadingDialog.show();
         }
 

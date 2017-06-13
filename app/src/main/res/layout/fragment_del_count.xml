@@ -12,134 +12,134 @@
         android:id="@+id/tv_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10px"
         android:gravity="center"
         android:textColor="@color/text_black4"
-        android:textSize="15sp" />
+        android:textSize="30px" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="20dp">
+        android:paddingBottom="20px"
+        android:paddingLeft="40px"
+        android:paddingRight="40px"
+        android:paddingTop="40px">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="会员卡号:"
             android:textColor="@color/text_black4"
-            android:textSize="18sp" />
+            android:textSize="36px" />
 
         <EditText
             android:id="@+id/et_card_num"
             android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_height="70px"
+            android:layout_marginLeft="20px"
+            android:layout_marginRight="20px"
             android:layout_weight="1"
             android:background="@mipmap/edit_bg"
             android:gravity="center"
             android:hint="请输入卡号"
             android:inputType="number"
             android:textColor="@color/text_black4"
-            android:textSize="18sp" />
+            android:textSize="36px" />
 
         <Button
             android:id="@+id/btn_query"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
+            android:layout_width="160px"
+            android:layout_height="70px"
             android:background="@drawable/select_pw_yes"
             android:text="查询"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="36px" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingBottom="20dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="10dp">
+        android:paddingBottom="40px"
+        android:paddingLeft="40px"
+        android:paddingRight="40px"
+        android:paddingTop="20px">
 
         <TextView
             android:id="@+id/tv_project"
             android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:layout_marginRight="10dp"
+            android:layout_height="70px"
+            android:layout_marginRight="20px"
             android:layout_weight="1"
             android:background="@mipmap/edit_bg"
             android:gravity="center"
             android:textColor="@color/text_black4"
-            android:textSize="18sp" />
+            android:textSize="36px" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="扣除"
             android:textColor="@color/text_black4"
-            android:textSize="18sp" />
+            android:textSize="36px" />
 
         <EditText
             android:id="@+id/et_count"
             android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_height="70px"
+            android:layout_marginLeft="20px"
+            android:layout_marginRight="20px"
             android:layout_weight="1"
             android:background="@mipmap/sign"
             android:gravity="center"
             android:hint="请输入数量"
             android:inputType="number"
             android:textColor="@color/text_black4"
-            android:textSize="18sp" />
+            android:textSize="36px" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="次"
             android:textColor="@color/text_black4"
-            android:textSize="18sp" />
+            android:textSize="36px" />
 
         <Button
             android:id="@+id/btn_read_code"
-            android:layout_width="50dp"
-            android:layout_height="35dp"
+            android:layout_width="100px"
+            android:layout_height="70px"
             android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20px"
+            android:layout_marginTop="20px"
             android:background="@drawable/select_code" />
     </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="10px"
         android:background="@color/main_bg" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20px"
         android:text="项目信息"
         android:textColor="@color/text_black4"
-        android:textSize="18dp" />
+        android:textSize="36px" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="40px"
+        android:layout_marginLeft="40px"
+        android:layout_marginRight="40px"
+        android:layout_marginTop="20px"
         android:layout_weight="1"
         android:background="@drawable/quick_list_bg"
         android:orientation="vertical"
-        android:padding="5dp">
+        android:padding="10px">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -153,7 +153,7 @@
                 android:gravity="center"
                 android:text="项目"
                 android:textColor="@color/text_black4"
-                android:textSize="18dp" />
+                android:textSize="36px" />
 
             <TextView
                 android:layout_width="0dp"
@@ -162,7 +162,7 @@
                 android:gravity="center"
                 android:text="剩余次数"
                 android:textColor="@color/text_black4"
-                android:textSize="18dp" />
+                android:textSize="36px" />
 
             <TextView
                 android:layout_width="0dp"
@@ -171,14 +171,14 @@
                 android:gravity="center"
                 android:text="有效期"
                 android:textColor="@color/text_black4"
-                android:textSize="18dp" />
+                android:textSize="36px" />
         </LinearLayout>
 
         <ListView
             android:id="@+id/fm_del_count_lv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="5dp"
+            android:layout_margin="10px"
             android:divider="@color/item_order_bg"
             android:dividerHeight="0dp"></ListView>
 

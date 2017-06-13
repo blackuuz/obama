@@ -15,7 +15,6 @@ import android.os.Message;
 import android.os.SystemProperties;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -38,6 +37,7 @@ import com.ksk.obama.utils.SharedUtil;
 import com.ksk.obama.utils.Utils;
 import com.ksk.obama.zxing.MipcaActivityCapture;
 import com.orhanobut.logger.Logger;
+import com.zhy.autolayout.AutoLayoutActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -62,7 +62,7 @@ import static com.ksk.obama.utils.SharedUtil.getSharedBData;
  *
  * Created by Administrator on 2016/7/27.
  */
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends AutoLayoutActivity {
     public static List<BuyCount> list_buy = new ArrayList<>();
     public static List<LoginData.RechargefastBean> list_rechargefast = new ArrayList<>();
     public static List<IntegralShopCount> list_integral = new ArrayList<>();
@@ -407,6 +407,7 @@ public class BaseActivity extends AppCompatActivity {
             switch (requestCode) {
                 case 1:
                 case 3:
+                case 10087:
                     if (iCreateOrderNumber != null) {
                         iCreateOrderNumber.OnCreateOrderNumber(true);
                     }
@@ -460,9 +461,9 @@ public class BaseActivity extends AppCompatActivity {
                 case 10087://扫码结果
                     int type0 = data.getExtras().getInt("type");
                     switch (type0) {
-                        case 0:
+                        case 0://扫码主动
                             String id = data.getExtras().getString("result");
-                            Log.e("djy", "扫码结果:" + id);
+                            Log.e("uuz", "扫码结果:" + id);
                             if (id != null) {
                                 loadingDialog.show();
                                 Map<String, String> map = new HashMap<>();
@@ -474,16 +475,24 @@ public class BaseActivity extends AppCompatActivity {
                                 map.put("money", money);
                                 map.put("order", orderNo);
                                 Log.e("HTTP1",orderNo+"");
-                                postToHttp(NetworkUrl.PAYCODE, map, new IHttpCallBack() {
+//                                HttpTools.postMethod(handler, NetworkUrl.PAYCODE, map);
+                               postToHttp(NetworkUrl.PAYCODE, map, new IHttpCallBack() {
                                     @Override
                                     public void OnSucess(String jsonText) {
-                                        Log.e("djy","成功-"+jsonText);
+                                        Log.e("djy",jsonText);
                                         try {
                                             JSONObject object1 = new JSONObject(jsonText);
                                             String tag = object1.getString("result");
                                             if (tag.equals("SUCCESS")) {
+                                                Log.e("djy","成功"+jsonText);
                                                 Utils.showToast(BaseActivity.this, "支付成功");
+                                                if (iPayCallBack != null) {
+                                                    iPayCallBack.OnPaySucess(orderNo,type);
+                                                } else {
+                                                    Log.e("djy", "请实现IPayCallBack接口");
+                                                }
                                             }else if(tag.equals("FAIL")){
+                                                Log.e("djy","失败"+jsonText);
                                                 JSONObject object2 = new JSONObject(jsonText);
                                                 String tag2 = object1.getString("result_msg");
                                                 Utils.showToast(BaseActivity.this, ""+tag2);
@@ -491,22 +500,22 @@ public class BaseActivity extends AppCompatActivity {
 
                                         } catch (JSONException e) {
                                             e.printStackTrace();
+                                            Log.e("djy","异常"+jsonText);
                                         }
-                                        Log.e("djy","成功"+jsonText);
-
+                                       // Log.e("djy","成功"+jsonText);
                                     }
                                     @Override
                                     public void OnFail(String message) {
                                         Log.e("djy","失败*"+message);
                                     }
                                 });
-                               // HttpTools.postMethod(handler, NetworkUrl.PAYCODE, map);
+                                HttpTools.postMethod(handler, NetworkUrl.PAYCODE, map);
                                 Log.e("djy",map.toString());
                             } else {
                                 Utils.showToast(BaseActivity.this, "获取二维码信息失败,请重试");
                             }
                             break;
-                        case 1:
+                        case 1://被扫码
                             String memoBillNum = data.getExtras().getString("memoBillNum");
                             if (iPayCallBack != null) {
                                 iPayCallBack.OnPaySucess(memoBillNum,type);

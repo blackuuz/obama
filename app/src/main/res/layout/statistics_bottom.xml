@@ -6,7 +6,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="46dp"
+        android:layout_height="92px"
         android:background="@color/white"
         android:orientation="horizontal">
 
@@ -33,5 +33,5 @@
         android:layout_height="match_parent"
         android:background="@color/main_bg"
         android:divider="@color/white"
-        android:dividerHeight="1dp"></ListView>
+        android:dividerHeight="2px"></ListView>
 </LinearLayout>

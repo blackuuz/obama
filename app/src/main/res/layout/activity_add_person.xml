@@ -12,26 +12,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
+        android:layout_margin="30px"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_shop"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
+            android:layout_width="200px"
+            android:layout_height="80px"
             android:background="@mipmap/add_btn"
             android:drawableRight="@mipmap/add_0"
             android:paddingRight="10dp"
             android:text="店铺名称"
             android:textColor="#323232"
-            android:textSize="15sp" />
+            android:textSize="30px" />
 
         <EditText
             android:id="@+id/et_name"
             android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="20dp"
+            android:layout_height="60px"
+            android:layout_marginLeft="30px"
+            android:layout_marginRight="40px"
             android:layout_weight="1"
             android:background="@mipmap/add_et"
             android:gravity="center_vertical"
@@ -39,19 +39,19 @@
 
         <Button
             android:id="@+id/btn_serach"
-            android:layout_width="30dp"
+            android:layout_width="60px"
             android:layout_height="26dp"
             android:background="@mipmap/add_serach" />
     </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="10px"
         android:background="@color/main_bg" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="100px"
         android:orientation="horizontal">
 
         <TextView
@@ -60,10 +60,10 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical|left"
-            android:paddingLeft="25dp"
+            android:paddingLeft="50px"
             android:text="工号"
             android:textColor="#323232"
-            android:textSize="17sp" />
+            android:textSize="34px" />
 
         <TextView
             android:layout_width="0dp"
@@ -72,22 +72,22 @@
             android:gravity="center"
             android:text="姓名"
             android:textColor="#323232"
-            android:textSize="17sp" />
+            android:textSize="34px" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical|right"
-            android:paddingRight="25dp"
+            android:paddingRight="50px"
             android:text="店名"
             android:textColor="#323232"
-            android:textSize="17sp" />
+            android:textSize="34px" />
     </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="10px"
         android:background="@color/main_bg" />
 
     <ListView
@@ -95,7 +95,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:dividerHeight="2dp"></ListView>
+        android:dividerHeight="4px"></ListView>
 
     <include layout="@layout/bottom_s" />
 </LinearLayout>

@@ -91,8 +91,55 @@ public class BuyShopList {
         private float n_DiscountValue;
         private float n_IntegralValue;
         private String r_IsMaterial;
-        private float num=0;
+        private float num = 0;
+        private String i_ShopID;
+        private float n_PriceMemberA;
+        private float n_PriceMemberB;
+        private float n_PriceMemberC;
+        private float n_PriceMemberD;
         private String ROW_NUMBER;
+
+        public String getI_ShopID() {
+            return i_ShopID;
+        }
+
+        public void setI_ShopID(String i_ShopID) {
+            this.i_ShopID = i_ShopID;
+        }
+
+        public float getN_PriceMemberA() {
+            return n_PriceMemberA;
+        }
+
+        public void setN_PriceMemberA(float n_PriceMemberA) {
+            this.n_PriceMemberA = n_PriceMemberA;
+        }
+
+        public float getN_PriceMemberB() {
+            return n_PriceMemberB;
+        }
+
+        public void setN_PriceMemberB(float n_PriceMemberB) {
+            this.n_PriceMemberB = n_PriceMemberB;
+        }
+
+        public float getN_PriceMemberC() {
+            return n_PriceMemberC;
+        }
+
+        public void setN_PriceMemberC(float n_PriceMemberC) {
+            this.n_PriceMemberC = n_PriceMemberC;
+        }
+
+        public float getN_PriceMemberD() {
+            return n_PriceMemberD;
+        }
+
+        public void setN_PriceMemberD(float n_PriceMemberD) {
+            this.n_PriceMemberD = n_PriceMemberD;
+        }
+
+
 
         public float getNum() {
             return num;

@@ -17,7 +17,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="5dp"
+            android:layout_height="10px"
             android:background="@color/main_bg" />
 
         <Switch
@@ -25,19 +25,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:switchMinWidth="60dp"
-            android:switchPadding="160dp"
+            android:layout_marginBottom="20px"
+            android:layout_marginTop="20px"
+            android:switchMinWidth="120px"
+            android:switchPadding="320px"
             android:text="微信通知"
             android:textColor="@color/text_black4"
             android:textOff="OFF"
             android:textOn="ON"
-            android:textSize="20sp" />
+            android:textSize="40px" />
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="5dp"
+            android:layout_height="10px"
             android:background="@color/main_bg" />
 
         <Switch
@@ -45,19 +45,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:switchMinWidth="60dp"
-            android:switchPadding="160dp"
+            android:layout_marginBottom="20px"
+            android:layout_marginTop="20px"
+            android:switchMinWidth="120px"
+            android:switchPadding="320px"
             android:text="消费通知"
             android:textColor="@color/text_black4"
             android:textOff="OFF"
             android:textOn="ON"
-            android:textSize="20sp" />
+            android:textSize="40px" />
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="5dp"
+            android:layout_height="10px"
             android:background="@color/main_bg" />
 
         <Switch
@@ -65,19 +65,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:switchMinWidth="60dp"
-            android:switchPadding="160dp"
+            android:layout_marginBottom="20px"
+            android:layout_marginTop="20px"
+            android:switchMinWidth="120px"
+            android:switchPadding="320px"
             android:text="充值通知"
             android:textColor="@color/text_black4"
             android:textOff="OFF"
             android:textOn="ON"
-            android:textSize="20sp" />
+            android:textSize="40px" />
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="5dp"
+            android:layout_height="10px"
             android:background="@color/main_bg" />
 
         <Switch
@@ -85,19 +85,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:switchMinWidth="60dp"
-            android:switchPadding="160dp"
+            android:layout_marginBottom="20px"
+            android:layout_marginTop="20px"
+            android:switchMinWidth="120px"
+            android:switchPadding="320px"
             android:text="兑换通知"
             android:textColor="@color/text_black4"
             android:textOff="OFF"
             android:textOn="ON"
-            android:textSize="20sp" />
+            android:textSize="40px" />
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="5dp"
+            android:layout_height="10px"
             android:background="@color/main_bg" />
 
     </LinearLayout>

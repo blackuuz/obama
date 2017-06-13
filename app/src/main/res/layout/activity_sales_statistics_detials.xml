@@ -20,10 +20,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="10dp">
+            android:paddingBottom="20px"
+            android:paddingLeft="30px"
+            android:paddingRight="30px"
+            android:paddingTop="20px">
 
             <TextView
                 android:id="@+id/tv_name"
@@ -32,7 +32,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textColor="#f09135"
-                android:textSize="25sp" />
+                android:textSize="50px" />
 
             <LinearLayout
                 android:layout_width="150dp"
@@ -49,14 +49,14 @@
                         android:layout_height="match_parent"
                         android:text="总数量:"
                         android:textColor="@color/text_black2"
-                        android:textSize="18sp" />
+                        android:textSize="36px" />
 
                     <TextView
                         android:id="@+id/tv_num"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:textColor="@color/text_blue1"
-                        android:textSize="18sp" />
+                        android:textSize="36px" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -70,14 +70,14 @@
                         android:layout_height="match_parent"
                         android:text="总收入:"
                         android:textColor="@color/text_black2"
-                        android:textSize="18sp" />
+                        android:textSize="36px" />
 
                     <TextView
                         android:id="@+id/tv_money"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:textColor="@color/text_blue1"
-                        android:textSize="18sp" />
+                        android:textSize="36px" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -86,8 +86,8 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:orientation="horizontal"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp">
+            android:paddingLeft="30px"
+            android:paddingRight="30px">
 
             <TextView
                 style="@style/text_statistics"
@@ -99,7 +99,7 @@
 
             <TextView
                 style="@style/text_statistics"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="20px"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="- - -" />
@@ -112,15 +112,15 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="5dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20px"
             android:background="@color/main_bg" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="80px"
             android:orientation="horizontal"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp">
+            android:paddingLeft="30px"
+            android:paddingRight="30px">
 
             <TextView
                 android:layout_width="0dp"
@@ -129,7 +129,7 @@
                 android:gravity="left|center_vertical"
                 android:text="数量"
                 android:textColor="@color/text_blue"
-                android:textSize="18sp" />
+                android:textSize="36px" />
 
             <TextView
                 android:layout_width="0dp"
@@ -138,7 +138,7 @@
                 android:gravity="left|center_vertical"
                 android:text="总价"
                 android:textColor="@color/text_blue"
-                android:textSize="18sp" />
+                android:textSize="36px" />
 
             <TextView
                 android:layout_width="0dp"
@@ -147,7 +147,7 @@
                 android:gravity="center_vertical|right"
                 android:text="消费时间"
                 android:textColor="@color/text_blue"
-                android:textSize="18sp" />
+                android:textSize="36px" />
         </LinearLayout>
 
         <ListView
@@ -155,7 +155,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@color/white"
-            android:dividerHeight="1dp"></ListView>
+            android:dividerHeight="2px"></ListView>
     </LinearLayout>
 
     <include layout="@layout/bottom_s" />

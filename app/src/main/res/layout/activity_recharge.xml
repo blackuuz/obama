@@ -20,13 +20,13 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="70px"
+                android:layout_marginTop="10px"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="35dp"
+                    android:layout_height="70px"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
@@ -43,7 +43,7 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="35dp"
+                    android:layout_height="70px"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
@@ -61,12 +61,12 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="70px"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="35dp"
+                    android:layout_height="70px"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
@@ -83,7 +83,7 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="35dp"
+                    android:layout_height="70px"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
@@ -94,24 +94,19 @@
 
                     <TextView
                         android:id="@+id/tv_rech_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:textSize="10sp"
-                        android:textColor="@color/text_black3"
-                         />
+                        style="@style/exit_text2" />
                 </LinearLayout>
             </LinearLayout>
 
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="70px"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="35dp"
+                    android:layout_height="70px"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
@@ -128,7 +123,7 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="35dp"
+                    android:layout_height="70px"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
@@ -145,12 +140,12 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="70px"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="35dp"
+                    android:layout_height="70px"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
@@ -168,7 +163,7 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="35dp"
+                    android:layout_height="70px"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
@@ -181,24 +176,24 @@
                         android:id="@+id/tv_rech_str3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="9dp"
-                        android:textSize="13sp"
-                        android:textColor="@color/text_black3"/>
+                        android:layout_marginLeft="18px"
+                        android:textColor="@color/text_black3"
+                        android:textSize="26px" />
                 </LinearLayout>
             </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="5px"
+                android:layout_marginTop="10px"
                 android:background="@color/main_bg" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="27dp"
-                android:layout_marginRight="27dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="80px"
+                android:layout_marginLeft="54px"
+                android:layout_marginRight="54px"
+                android:layout_marginTop="10px"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:orientation="horizontal">
@@ -212,47 +207,47 @@
                     android:gravity="right"
                     android:text="充值金额 :"
                     android:textColor="@color/text_blue"
-                    android:textSize="15sp" />
+                    android:textSize="30px" />
 
                 <EditText
                     android:id="@+id/et_rech_paya"
-                    android:layout_width="75dp"
-                    android:layout_height="30dp"
+                    android:layout_width="150px"
+                    android:layout_height="60px"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="20px"
                     android:background="@mipmap/edit_text_1"
                     android:inputType="numberDecimal"
-                    android:paddingLeft="10dp"
+                    android:paddingLeft="20px"
                     android:textColor="@color/text_red"
-                    android:textSize="16sp" />
+                    android:textSize="32px" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="20px"
                     android:text="元"
                     android:textColor="@color/text_black3"
-                    android:textSize="15sp" />
+                    android:textSize="30px" />
 
                 <Button
                     android:id="@+id/btn_rech"
-                    android:layout_width="85dp"
-                    android:layout_height="30dp"
+                    android:layout_width="170px"
+                    android:layout_height="60px"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="23dp"
+                    android:layout_marginLeft="46px"
                     android:background="@drawable/select_button_r"
                     android:text="快速充值"
                     android:textColor="@color/white"
-                    android:textSize="15sp" />
+                    android:textSize="30px" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="27dp"
-                android:layout_marginRight="27dp"
+                android:layout_height="80px"
+                android:layout_marginLeft="54px"
+                android:layout_marginRight="54px"
                 android:orientation="horizontal">
 
                 <TextView
@@ -263,51 +258,51 @@
                     android:gravity="right"
                     android:text="赠送金额 :"
                     android:textColor="@color/text_blue"
-                    android:textSize="15sp" />
+                    android:textSize="30px" />
 
                 <EditText
                     android:id="@+id/et_rech_pay_give"
-                    android:focusable="false"
-                    android:selectAllOnFocus="true"
-                    android:layout_width="75dp"
-                    android:layout_height="30dp"
+                    android:layout_width="150px"
+                    android:layout_height="60px"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="20px"
                     android:background="@mipmap/edit_text_1"
                     android:clickable="false"
+                    android:focusable="false"
                     android:inputType="numberDecimal"
-                    android:paddingLeft="10dp"
+                    android:paddingLeft="20px"
+                    android:selectAllOnFocus="true"
                     android:textColor="@color/text_black3"
-                    android:textSize="16sp" />
+                    android:textSize="32px" />
 
                 <TextView
                     android:id="@+id/textView12"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="20px"
                     android:text="元"
                     android:textColor="@color/text_black3"
-                    android:textSize="15sp" />
+                    android:textSize="30px" />
 
                 <Button
                     android:id="@+id/btn_modify_je"
-                    android:layout_width="85dp"
-                    android:layout_height="30dp"
+                    android:layout_width="170px"
+                    android:layout_height="60px"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="23dp"
+                    android:layout_marginLeft="46px"
                     android:background="@drawable/select_button_r"
                     android:text="点击修改"
                     android:textColor="@color/white"
-                    android:textSize="15sp" />
+                    android:textSize="30px" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="27dp"
-                android:layout_marginRight="27dp"
+                android:layout_height="80px"
+                android:layout_marginLeft="54px"
+                android:layout_marginRight="54px"
                 android:orientation="horizontal">
 
                 <TextView
@@ -317,49 +312,49 @@
                     android:gravity="right"
                     android:text="赠送积分 :"
                     android:textColor="@color/text_blue"
-                    android:textSize="15sp" />
+                    android:textSize="30px" />
 
                 <EditText
                     android:id="@+id/et_rech_integral"
-                    android:focusable="false"
-                    android:selectAllOnFocus="true"
-                    android:layout_width="75dp"
-                    android:layout_height="30dp"
+                    android:layout_width="150px"
+                    android:layout_height="60px"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="20px"
                     android:background="@mipmap/edit_text_1"
                     android:clickable="false"
+                    android:focusable="false"
                     android:inputType="numberDecimal"
-                    android:paddingLeft="10dp"
+                    android:paddingLeft="20px"
+                    android:selectAllOnFocus="true"
                     android:textColor="@color/text_black3"
-                    android:textSize="16sp" />
+                    android:textSize="32px" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="20px"
                     android:text="分"
                     android:textColor="@color/text_black3"
-                    android:textSize="15sp" />
+                    android:textSize="30px" />
 
                 <Button
                     android:id="@+id/btn_modify_jf"
-                    android:layout_width="85dp"
-                    android:layout_height="30dp"
+                    android:layout_width="170px"
+                    android:layout_height="60px"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="23dp"
+                    android:layout_marginLeft="46px"
                     android:background="@drawable/select_button_r"
                     android:text="点击修改"
                     android:textColor="@color/white"
-                    android:textSize="15sp" />
+                    android:textSize="30px" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="27dp"
-                android:layout_marginRight="27dp"
+                android:layout_height="80px"
+                android:layout_marginLeft="54px"
+                android:layout_marginRight="54px"
                 android:orientation="horizontal">
 
                 <TextView
@@ -369,34 +364,35 @@
                     android:gravity="right"
                     android:text="合计金额 :"
                     android:textColor="@color/text_blue"
-                    android:textSize="15sp" />
+                    android:textSize="30px" />
 
                 <TextView
                     android:id="@+id/tv_rech_money"
-                    android:layout_width="75dp"
-                    android:layout_height="30dp"
+                    android:layout_width="150px"
+                    android:layout_height="60px"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="20px"
                     android:background="@mipmap/edit_text_1"
-                    android:paddingLeft="10dp"
+                    android:paddingLeft="20px"
+                    android:gravity="center_vertical"
                     android:textColor="@color/text_black3"
-                    android:textSize="15sp" />
+                    android:textSize="30px" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="20px"
                     android:text="元"
                     android:textColor="@color/text_black3"
-                    android:textSize="15sp" />
+                    android:textSize="30px" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="27dp"
-                android:layout_marginRight="27dp"
+                android:layout_height="80px"
+                android:layout_marginLeft="54px"
+                android:layout_marginRight="54px"
                 android:orientation="horizontal">
 
                 <TextView
@@ -406,47 +402,47 @@
                     android:gravity="right"
                     android:text="实收金额 :"
                     android:textColor="@color/text_blue"
-                    android:textSize="15sp" />
+                    android:textSize="30px" />
 
                 <EditText
                     android:id="@+id/tv_rech_pay"
-                    android:focusable="false"
-                    android:selectAllOnFocus="true"
-                    android:layout_width="75dp"
-                    android:layout_height="30dp"
+                    android:layout_width="150px"
+                    android:layout_height="60px"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="20px"
                     android:background="@mipmap/edit_text_1"
-                    android:inputType="numberDecimal"
-                    android:paddingLeft="10dp"
                     android:clickable="false"
+                    android:focusable="false"
+                    android:inputType="numberDecimal"
+                    android:paddingLeft="20px"
+                    android:selectAllOnFocus="true"
                     android:textColor="@color/text_red"
-                    android:textSize="15sp" />
+                    android:textSize="30px" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="20px"
                     android:text="元"
                     android:textColor="@color/text_black3"
-                    android:textSize="15sp" />
+                    android:textSize="30px" />
 
                 <Button
                     android:id="@+id/btn_modify_ss"
-                    android:layout_width="85dp"
-                    android:layout_height="30dp"
+                    android:layout_width="170px"
+                    android:layout_height="60px"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="23dp"
+                    android:layout_marginLeft="46px"
                     android:background="@drawable/select_button_r"
                     android:text="点击修改"
                     android:textColor="@color/white"
-                    android:textSize="15sp" />
+                    android:textSize="30px" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
+                android:layout_height="5px"
                 android:background="@color/main_bg">
 
             </TextView>
