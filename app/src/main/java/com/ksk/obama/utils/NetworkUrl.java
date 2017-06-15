@@ -5,8 +5,8 @@ package com.ksk.obama.utils;
  */
 public class NetworkUrl {
     private static final String IP = "http://123.207.146.244/";
-   // private static final String IP2 = "yideweb";//测试
-    private static final String IP2 = "yidesoft";//正式
+    private static final String IP2 = "yideweb";//测试
+    //private static final String IP2 = "yidesoft";//正式
     private static final String URL_1 = IP + IP2 + "/index.php/";
     private static final String URL = IP + IP2 + "/App/Business/";
     private static final String URL_2 = IP + IP2 + "/App/";
@@ -61,6 +61,7 @@ public class NetworkUrl {
     public static final String SALES = URL_2 + "Record/drawmenu";//销售统计记录
     public static final String SALESDETIALS = URL_2 + "Record/drawmenu_list";//销售统计记录
     public static final String TEMPORARY = URL + "temporary";//临时权限
+    public static final String COUPON = URL_2 + "Business/use_coupon";//优惠券
 
 
 }

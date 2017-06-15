@@ -59,7 +59,7 @@ import static com.ksk.obama.utils.SharedUtil.getSharedInt;
 import static java.lang.Float.parseFloat;
 
 public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBack,
-        IPrintSuccessCallback, IPrintErrorCallback, ICreateOrderNumber {
+        IPrintSuccessCallback, IPrintErrorCallback, ICreateOrderNumber, View.OnClickListener {
 
     private TextView tv_print;
     private boolean isPay = false;
@@ -148,6 +148,13 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
     LinearLayout ll_w_a;
 
 
+    @BindView(R.id.btn_use_coupon_qrCode) //扫码优惠券
+            Button btn_couponQrCode;
+
+    @BindView(R.id.btn_usable_discount_coupon)//可用优惠券
+            Button btn_coupon;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -198,11 +205,13 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
     }
 
     private void initView() {
-
+       // if(!isVip){btn_coupon.setVisibility(View.GONE);}
+        btn_coupon.setOnClickListener(this);
+        btn_couponQrCode.setOnClickListener(this);
         dx_jf = parseFloat(SharedUtil.getSharedData(PayBuyShopActivity.this, "dx_jf"));//几多积分抵现一元
         dx_mr = parseFloat(SharedUtil.getSharedData(PayBuyShopActivity.this, "dx_mr")) * 0.01f;//默认抵现倍率
         dx_max = parseFloat(SharedUtil.getSharedData(PayBuyShopActivity.this, "dx_max"));//最大抵现几多
-        if(Math.abs(dx_jf-0.0)==0){
+        if (Math.abs(dx_jf - 0.0) == 0) {
             db_isCheck.setVisibility(View.GONE);
         }
         tv_should = (TextView) findViewById(R.id.pay_shop_shuold);
@@ -558,7 +567,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                     } else {
                         n = 1;
                         sendData("");
-                       // payMoney(1, payau + "", orderNumber, "商品消费");
+                        // payMoney(1, payau + "", orderNumber, "商品消费");
                     }
                     break;
                 case R.id.tv_pay_zfb:
@@ -568,7 +577,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                     } else {
                         n = 2;
                         sendData("");
-                       // payMoney(2, payau + "", orderNumber, "商品消费");
+                        // payMoney(2, payau + "", orderNumber, "商品消费");
                     }
                     break;
                 case R.id.tv_pay_yl:
@@ -710,7 +719,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
         postToHttp(NetworkUrl.BUYSHOP, map, new IHttpCallBack() {
             @Override
             public void OnSucess(String jsonText) {
-                Logger.e("445行" + jsonText);
+                Logger.e("" + jsonText);
                 isPay = true;
                 showHttpData(jsonText);
             }
@@ -760,8 +769,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
             if (tag.equals("SUCCESS")) {
                 if ((robotType == 1 && n == 1) || (robotType == 1 && n == 3)) {
                     payMoney(n, payau + "", orderNumber, "商品消费");
-                }
-                else if((robotType != 1 && n == 1) || (robotType != 1 && n == 2)) {
+                } else if ((robotType != 1 && n == 1) || (robotType != 1 && n == 2)) {
                     payMoney(n, payau + "", orderNumber, "商品消费");
                 } else {
                     reSet();
@@ -923,7 +931,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
         if ((robotType == 1 && n == 1) || (robotType == 1 && n == 2) || (robotType == 1 && n == 3)) {
             LKLPay(orderNum);
         } else {
-       //     sendData(orderNum);
+            //     sendData(orderNum);
             LKLPay(orderNum);
             loadingDialog.show();
         }
@@ -1044,7 +1052,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                 alert_flag = true;
             }
         });
-        dialog.setNegativeButton(R.string.dialog_warnning_no,        new DialogInterface.OnClickListener() {
+        dialog.setNegativeButton(R.string.dialog_warnning_no, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 alert_flag = false;
@@ -1074,6 +1082,12 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                     delmoney_jf = data.getFloatExtra("delM", 0);
                     resetMoney();
                     break;
+
+                case 121 :
+                    delmoney_kq = data.getFloatExtra("couponMoney",0);
+                    resetMoney();
+                    break;
+
             }
         }
     }
@@ -1133,12 +1147,12 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
 
     @Override
     public void OnPrintSuccess() {
-        if (printCount == 0) {
+        if (printCount == 0 ) {
             bluetoothPrint(list_son, orderNumber);
         }
         printCount++;
         if (flag) {
-            changeActivity();
+            changeActivity();//打印成功跳转到主页面
         } else {
             if (printCount >= 2) {
                 changeActivity();
@@ -1306,4 +1320,25 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
 
         });
     }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_use_coupon_qrCode:
+
+                break;
+            case R.id.btn_usable_discount_coupon:
+                Intent intent = new Intent();
+                intent.setClass(PayBuyShopActivity.this,CouponSelectActivity.class);
+                intent.putExtra("memberID",memid);
+                intent.putExtra("couponCode","");
+                intent.putExtra("costType","产品消费");
+                intent.putExtra("costMoney","");
+                startActivityForResult(intent,121);
+                break;
+        }
+    }
+
+
 }

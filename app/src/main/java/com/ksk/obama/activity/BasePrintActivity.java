@@ -269,6 +269,7 @@ public class BasePrintActivity extends BaseTypeActivity {
                         woyouService.printText(list.get(i) + "\n", callback);
                     }
                 }
+               // woyouService.printQRCode("东方Project",10,1,callback);
                 woyouService.setAlignment(1, callback);
                 woyouService.printTextWithFont(SharedUtil.getSharedData(BasePrintActivity.this, "name2") + "\n", "", 30, callback);
                 woyouService.printTextWithFont(SharedUtil.getSharedData(BasePrintActivity.this, "name3") + "\n", "", 30, callback);
@@ -315,12 +316,24 @@ public class BasePrintActivity extends BaseTypeActivity {
 
                         }
                     }
+
                     add(new PrintItemObj(SharedUtil.getSharedData(BasePrintActivity.this, "name2"), 23, true, PrintItemObj.ALIGN.CENTER));
                     add(new PrintItemObj(SharedUtil.getSharedData(BasePrintActivity.this, "name3"), 23, true, PrintItemObj.ALIGN.CENTER));
                     add(new PrintItemObj(SharedUtil.getSharedData(BasePrintActivity.this, "name4"), 23, true, PrintItemObj.ALIGN.CENTER));
                     add(new PrintItemObj("                            ", 24));
                     add(new PrintItemObj("                            ", 24));
+                    // TODO: 2017/6/14 打印图片 
+                  // bmp =  BitmapFactory.decodeResource(getResources(), R.mipmap.qrcode0);
+//                    printerDev.printBmp(20,250,250,bmp, new AidlPrinterListener.Stub() {
+//                        @Override
+//                        public void onError(int i) throws RemoteException {}
+//
+//                        @Override
+//                        public void onPrintFinish() throws RemoteException {
+//                        }
+//                    });
                 }
+
             }, new AidlPrinterListener.Stub() {
 
                 @Override

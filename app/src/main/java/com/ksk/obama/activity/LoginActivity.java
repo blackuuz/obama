@@ -142,6 +142,7 @@ public class LoginActivity extends BaseTypeActivity {
         if (TextUtils.isEmpty(username)) {
             Utils.showToast(LoginActivity.this, "请填写账号");
         } else if (TextUtils.isEmpty(employeeNo)) {
+            // TODO: 2017/6/13
             Utils.showToast(LoginActivity.this, "请填写工号");
         } else if (TextUtils.isEmpty(pw) && !employeeNo.equals("1000")) {
             Utils.showToast(LoginActivity.this, "请填写密码");
