@@ -15,14 +15,17 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.ksk.obama.callback.IConnectCallBack;
 import com.ksk.obama.callback.IPrintErrorCallback;
 import com.ksk.obama.callback.IPrintSuccessCallback;
+import com.ksk.obama.model.WangPos;
 import com.ksk.obama.utils.SharedUtil;
 import com.ksk.obama.utils.Utils;
 import com.lkl.cloudpos.aidl.AidlDeviceService;
 import com.lkl.cloudpos.aidl.system.AidlSystem;
 import com.lkl.cloudpos.util.Debug;
+import com.orhanobut.logger.Logger;
 
 import cn.weipass.pos.sdk.IPrint;
 import cn.weipass.pos.sdk.Printer;
@@ -224,6 +227,17 @@ public abstract class BaseTypeActivity extends BaseActivity {
             public void onInitOk() {
                 printer = WeiposImpl.as().openPrinter();
                 setPrintListener();
+                String deviceInfo = WeiposImpl.as().getDeviceInfo();
+                Logger.json(deviceInfo);
+                Logger.e(deviceInfo);
+                WangPos wangPos = new Gson().fromJson(deviceInfo,WangPos.class);
+               if(wangPos.getEn()!= null){
+                   SharedUtil.setSharedData(BaseTypeActivity.this,"xlh",wangPos.getEn());
+               }
+
+
+
+
             }
 
             @Override

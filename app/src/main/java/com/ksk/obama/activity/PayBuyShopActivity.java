@@ -955,6 +955,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
             case 3:
                 map.put("payBank", payau + "");
                 break;
+
         }
         postToHttp(NetworkUrl.PAYQRCODE, map, new IHttpCallBack() {
                     @Override

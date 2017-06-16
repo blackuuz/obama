@@ -60,7 +60,7 @@ import static com.ksk.obama.utils.SharedUtil.getSharedBData;
 
 /**
  * AutoLayoutActivity : 屏幕适配类
- *
+ * <p>
  * Created by Administrator on 2016/7/27.
  */
 public class BaseActivity extends AutoLayoutActivity {
@@ -189,7 +189,6 @@ public class BaseActivity extends AutoLayoutActivity {
         switch (robotType) {
 
             case 1:
-            case 8:
                 terminalSn = SharedUtil.getSharedData(BaseActivity.this, "xlh");
                 break;
 
@@ -202,6 +201,13 @@ public class BaseActivity extends AutoLayoutActivity {
                 terminalSn = ((TelephonyManager) getSystemService(TELEPHONY_SERVICE))
                         .getDeviceId();
                 SharedUtil.setSharedData(BaseActivity.this, "xlh", terminalSn);
+                break;
+
+            case 8:
+                terminalSn = SharedUtil.getSharedData(BaseActivity.this,"xlh");
+                if(terminalSn == null){
+                    terminalSn ="en码获取失败";
+                }
                 break;
         }
         isBluetooth = SharedUtil.getSharedBData(BaseActivity.this, "bluetooth");
@@ -476,43 +482,44 @@ public class BaseActivity extends AutoLayoutActivity {
                                 map.put("goods", title);
                                 map.put("money", money);
                                 map.put("order", orderNo);
-                                Log.e("HTTP1",orderNo+"");
+                                Log.e("HTTP1", orderNo + "");
 //                                HttpTools.postMethod(handler, NetworkUrl.PAYCODE, map);
-                               postToHttp(NetworkUrl.PAYCODE, map, new IHttpCallBack() {
+                                postToHttp(NetworkUrl.PAYCODE, map, new IHttpCallBack() {
                                     @Override
                                     public void OnSucess(String jsonText) {
-                                        Log.e("djy",jsonText);
+                                        Log.e("djy", jsonText);
                                         try {
                                             JSONObject object1 = new JSONObject(jsonText);
                                             String tag = object1.getString("result");
                                             if (tag.equals("SUCCESS")) {
-                                                Log.e("djy","成功"+jsonText);
+                                                Log.e("djy", "成功" + jsonText);
                                                 Utils.showToast(BaseActivity.this, "支付成功");
                                                 if (iPayCallBack != null) {
-                                                    iPayCallBack.OnPaySucess(orderNo,type);
+                                                    iPayCallBack.OnPaySucess(orderNo, type);
                                                 } else {
                                                     Log.e("djy", "请实现IPayCallBack接口");
                                                 }
-                                            }else if(tag.equals("FAIL")){
-                                                Log.e("djy","失败"+jsonText);
+                                            } else if (tag.equals("FAIL")) {
+                                                Log.e("djy", "失败" + jsonText);
                                                 JSONObject object2 = new JSONObject(jsonText);
                                                 String tag2 = object1.getString("result_msg");
-                                                Utils.showToast(BaseActivity.this, ""+tag2);
+                                                Utils.showToast(BaseActivity.this, "" + tag2);
                                             }
 
                                         } catch (JSONException e) {
                                             e.printStackTrace();
-                                            Log.e("djy","异常"+jsonText);
+                                            Log.e("djy", "异常" + jsonText);
                                         }
-                                       // Log.e("djy","成功"+jsonText);
+                                        // Log.e("djy","成功"+jsonText);
                                     }
+
                                     @Override
                                     public void OnFail(String message) {
-                                        Log.e("djy","失败*"+message);
+                                        Log.e("djy", "失败*" + message);
                                     }
                                 });
                                 HttpTools.postMethod(handler, NetworkUrl.PAYCODE, map);
-                                Log.e("djy",map.toString());
+                                Log.e("djy", map.toString());
                             } else {
                                 Utils.showToast(BaseActivity.this, "获取二维码信息失败,请重试");
                             }
@@ -520,7 +527,7 @@ public class BaseActivity extends AutoLayoutActivity {
                         case 1://被扫码
                             String memoBillNum = data.getExtras().getString("memoBillNum");
                             if (iPayCallBack != null) {
-                                iPayCallBack.OnPaySucess(memoBillNum,type);
+                                iPayCallBack.OnPaySucess(memoBillNum, type);
 
                             } else {
                                 Log.e("djy", "请实现IPayCallBack接口");

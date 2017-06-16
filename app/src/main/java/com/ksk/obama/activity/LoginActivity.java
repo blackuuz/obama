@@ -162,6 +162,8 @@ public class LoginActivity extends BaseTypeActivity {
                 case 4:
                     map.put("EquipmentType", "android");
                     break;
+                case 8:
+                    map.put("EquipmentType","wangpos");
             }
             map.put("Edition", Utils.getAppVersionName(LoginActivity.this));
             postToHttp(NetworkUrl.LOGIN, map, new IHttpCallBack() {
