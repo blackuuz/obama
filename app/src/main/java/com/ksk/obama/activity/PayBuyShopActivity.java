@@ -89,6 +89,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
     private TextView tv_jf;
     private float delmoney_jf = 0;
     private float delmoney_kq = 0;
+    private String couponId = "";//优惠券id
     private float payAu = 0;
     private String password = "";//
     private float oldm = 0;//
@@ -103,6 +104,9 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
 
     private String key = "";
     private String result = "";
+
+    private String PayTicket = "";//优惠券优惠的金额
+
 
     private float dx_jf;
     private float dx_mr;
@@ -146,10 +150,6 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
     LinearLayout ll_lkl;
     @BindView(R.id.ll_w_a)
     LinearLayout ll_w_a;
-
-
-    @BindView(R.id.btn_use_coupon_qrCode) //扫码优惠券
-            Button btn_couponQrCode;
 
     @BindView(R.id.btn_usable_discount_coupon)//可用优惠券
             Button btn_coupon;
@@ -205,9 +205,8 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
     }
 
     private void initView() {
-       // if(!isVip){btn_coupon.setVisibility(View.GONE);}
+
         btn_coupon.setOnClickListener(this);
-        btn_couponQrCode.setOnClickListener(this);
         dx_jf = parseFloat(SharedUtil.getSharedData(PayBuyShopActivity.this, "dx_jf"));//几多积分抵现一元
         dx_mr = parseFloat(SharedUtil.getSharedData(PayBuyShopActivity.this, "dx_mr")) * 0.01f;//默认抵现倍率
         dx_max = parseFloat(SharedUtil.getSharedData(PayBuyShopActivity.this, "dx_max"));//最大抵现几多
@@ -476,7 +475,6 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
             tv_del.setText("折扣优惠:￥" + del);
             tv_del_kq.setText("卡券优惠:￥" + delmoney_kq);
             // tv_del_jf.setText("积分抵用:￥" + del_jf);
-
         }
     }
 
@@ -694,6 +692,9 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
         map.put("CardCode", uid);
         map.put("c_Billfrom", robotType + "");
         map.put("Supplement", "0");
+        map.put("PayTicket",PayTicket);
+        map.put("coupon_id",couponId);
+
         switch (n) {
             case 0:
                 map.put("payCash", payau + "");
@@ -743,6 +744,8 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
         num = "";
         moneycount = "";
         integral = "";
+        PayTicket = "";
+        couponId = "";
         integralCount = 0;
         for (int i = 0; i < list_buy.size(); i++) {
             integralCount += list_buy.get(i).getMoneyin() * list_buy.get(i).getJifen() * integerValue * shopIntegral;
@@ -1010,6 +1013,9 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
         buyShopDb.setYouhui(del);
         buyShopDb.setTemName(temName);
         buyShopDb.setTemporaryNum(temporaryNum);
+        buyShopDb.setPayTicket(PayTicket);
+        buyShopDb.setCoupon_id(couponId);
+
         if (n == 4) {
             buyShopDb.setOldMoney(Utils.getNumStr(oldm - payAu));
         } else {
@@ -1083,8 +1089,11 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                     resetMoney();
                     break;
 
-                case 121 :
-                    delmoney_kq = data.getFloatExtra("couponMoney",0);
+                case 121:
+                    delmoney_kq = data.getFloatExtra("couponMoney", 0);
+                    couponId = data.getStringExtra("couponId");
+                    PayTicket = delmoney_kq+"";
+
                     resetMoney();
                     break;
 
@@ -1147,7 +1156,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
 
     @Override
     public void OnPrintSuccess() {
-        if (printCount == 0 ) {
+        if (printCount == 0) {
             bluetoothPrint(list_son, orderNumber);
         }
         printCount++;
@@ -1325,17 +1334,14 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_use_coupon_qrCode:
-
-                break;
             case R.id.btn_usable_discount_coupon:
                 Intent intent = new Intent();
-                intent.setClass(PayBuyShopActivity.this,CouponSelectActivity.class);
-                intent.putExtra("memberID",memid);
-                intent.putExtra("couponCode","");
-                intent.putExtra("costType","产品消费");
-                intent.putExtra("costMoney","");
-                startActivityForResult(intent,121);
+                intent.setClass(PayBuyShopActivity.this, CouponSelectActivity.class);
+                intent.putExtra("memberID", memid);
+                intent.putExtra("couponCode", "");
+                intent.putExtra("costType", "产品消费");
+                intent.putExtra("costMoney", payAu);
+                startActivityForResult(intent, 121);
                 break;
         }
     }

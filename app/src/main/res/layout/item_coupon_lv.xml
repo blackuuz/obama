@@ -8,7 +8,7 @@
     <LinearLayout
         android:layout_width="340px"
         android:layout_height="220px"
-        android:background="#c0d9d9"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <TextView
@@ -20,7 +20,7 @@
             android:layout_weight="3"
             android:gravity="center"
             android:text="￥200"
-            android:textColor="@color/text_red"
+            android:textColor="@color/text_black3"
             android:textSize="70px"
             android:textStyle="bold" />
 
@@ -33,7 +33,7 @@
             android:gravity="center"
             android:textColor="@color/white"
             android:layout_gravity="center_horizontal"
-            android:text="立即领券"
+            android:text="立即使用"
             android:textSize="40px" />
 
         <TextView
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:gravity="center"
-            android:text="满2000元可用"
+            android:text="优惠券可用"
             android:textSize="40px" />
     </LinearLayout>
 </LinearLayout>

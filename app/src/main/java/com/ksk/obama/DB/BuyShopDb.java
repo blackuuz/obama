@@ -47,9 +47,27 @@ public class BuyShopDb extends DataSupport {
     private String uid;
     private String dx_Integral;
     private String dx_Money;
+    private String PayTicket;//优惠券金额
+    private String coupon_id;//优惠券id
 
     private String temporaryNum;
     private String temName;
+
+    public String getPayTicket() {
+        return PayTicket;
+    }
+
+    public void setPayTicket(String payTicket) {
+        PayTicket = payTicket;
+    }
+
+    public String getCoupon_id() {
+        return coupon_id;
+    }
+
+    public void setCoupon_id(String coupon_id) {
+        this.coupon_id = coupon_id;
+    }
 
     public String getTemporaryNum() {
         return temporaryNum;

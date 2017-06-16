@@ -24,14 +24,14 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="260px">
+                android:layout_height="220px">
 
                 <TextView
                     android:id="@+id/pay_shop_shuold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="52px"
-                    android:layout_marginTop="38px"
+                    android:layout_marginTop="45px"
                     android:text="总价:"
                     android:textColor="#2b2b2b"
                     android:textSize="40px" />
@@ -41,29 +41,19 @@
                     android:layout_width="170px"
                     android:layout_height="60px"
                     android:layout_marginLeft="410px"
-                    android:layout_marginTop="38px"
+                    android:layout_marginTop="45px"
                     android:background="@drawable/select_button_r"
                     android:text="优惠券"
                     android:textColor="@color/white"
                     android:textSize="28px" />
 
-                <Button
-                    android:id="@+id/btn_use_coupon_qrCode"
-                    android:layout_width="170px"
-                    android:layout_height="60px"
-                    android:layout_marginLeft="410px"
-                    android:layout_marginTop="120px"
-                    android:background="@drawable/select_button_r"
-                    android:text="扫码优惠券"
-                    android:textColor="@color/white"
-                    android:textSize="28px" />
 
                 <TextView
                     android:id="@+id/pay_shop_del"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="52px"
-                    android:layout_marginTop="120px"
+                    android:layout_marginTop="140px"
                     android:text="折扣优惠:"
                     android:textColor="#2b2b2b"
                     android:textSize="30px" />
@@ -73,8 +63,8 @@
                     android:id="@+id/pay_shop_del_kq"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="52px"
-                    android:layout_marginTop="190px"
+                    android:layout_marginLeft="410px"
+                    android:layout_marginTop="140px"
                     android:text="卡券优惠:"
                     android:textColor="#2b2b2b"
                     android:textSize="30px" />

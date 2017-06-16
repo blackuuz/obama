@@ -456,7 +456,7 @@ public class BaseActivity extends AutoLayoutActivity {
                         if (iQrcodeCallBack != null) {
                             iQrcodeCallBack.OnReadQrcode(number);
                         } else {
-                            Log.e("djy", "请实现IQrcodeCallBack接口");
+                            Log.e("uuz", "请实现IQrcodeCallBack接口");
                         }
                     }
                     break;

@@ -114,6 +114,8 @@ public class BuyShopSupplementActivity extends BaseSupplementActivity implements
             map.put("Supplement", "1");
             map.put("temporary_num",upLoading.getTemporaryNum());
             map.put("result_name",upLoading.getTemName());
+            map.put("PayTicket",upLoading.getPayTicket());
+            map.put("coupon_id",upLoading.getCoupon_id());
             switch (payMode) {
                 case 0:
                     map.put("payCash", m_is);
