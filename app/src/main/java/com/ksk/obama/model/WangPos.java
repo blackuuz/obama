@@ -7,6 +7,7 @@ package com.ksk.obama.model;
 /**
  * "mname": "可视卡测试",
  * "en": " ca 47 22 c7",
+ * "snCode":"P327701601014594"
  * "mcode": "193394",
  * "loginType": 0,
  * "deviceType": "2",
@@ -19,6 +20,15 @@ public class WangPos {
     private String loginType;
     private String deviceType;
     private String name;
+    private String snCode;
+
+    public String getSnCode() {
+        return snCode;
+    }
+
+    public void setSnCode(String snCode) {
+        this.snCode = snCode;
+    }
 
     public String getMname() {
         return mname;

@@ -196,5 +196,6 @@ public class CouponSelectActivity extends BaseActivity implements IQrcodeCallBac
     @Override
     public void OnReadQrcode(String number) {
         etUseCouponNumber.setText(number);
+        getHttpData();
     }
 }

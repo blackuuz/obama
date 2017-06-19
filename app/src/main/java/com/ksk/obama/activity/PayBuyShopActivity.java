@@ -153,7 +153,8 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
 
     @BindView(R.id.btn_usable_discount_coupon)//可用优惠券
             Button btn_coupon;
-
+    @BindView(R.id.btn_nouse_coupon)//不使用优惠券
+            Button btn_nocoupon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -207,6 +208,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
     private void initView() {
 
         btn_coupon.setOnClickListener(this);
+        btn_nocoupon.setOnClickListener(this);
         dx_jf = parseFloat(SharedUtil.getSharedData(PayBuyShopActivity.this, "dx_jf"));//几多积分抵现一元
         dx_mr = parseFloat(SharedUtil.getSharedData(PayBuyShopActivity.this, "dx_mr")) * 0.01f;//默认抵现倍率
         dx_max = parseFloat(SharedUtil.getSharedData(PayBuyShopActivity.this, "dx_max"));//最大抵现几多
@@ -1344,6 +1346,15 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                 intent.putExtra("costMoney", payAu);
                 startActivityForResult(intent, 121);
                 break;
+            case R.id.btn_nouse_coupon:
+                delmoney_kq = 0;
+                couponId = "";
+                PayTicket = "";
+                resetMoney();
+                break;
+
+
+
         }
     }
 

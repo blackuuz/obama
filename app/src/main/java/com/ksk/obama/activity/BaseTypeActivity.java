@@ -231,10 +231,9 @@ public abstract class BaseTypeActivity extends BaseActivity {
                 Logger.json(deviceInfo);
                 Logger.e(deviceInfo);
                 WangPos wangPos = new Gson().fromJson(deviceInfo,WangPos.class);
-               if(wangPos.getEn()!= null){
-                   SharedUtil.setSharedData(BaseTypeActivity.this,"xlh",wangPos.getEn());
+               if(wangPos.getSnCode()!= null){
+                   SharedUtil.setSharedData(BaseTypeActivity.this,"xlh",wangPos.getSnCode());
                }
-
 
 
 
