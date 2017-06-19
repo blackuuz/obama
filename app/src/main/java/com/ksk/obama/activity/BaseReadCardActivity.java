@@ -42,6 +42,7 @@ import java.util.Map;
 
 import cn.weipass.biz.nfc.BankCard;
 import cn.weipass.biz.nfc.NFCManager;
+import cn.weipass.pos.sdk.MagneticReader;
 
 import static com.ksk.obama.utils.SharedUtil.getSharedData;
 
@@ -652,6 +653,9 @@ public class BaseReadCardActivity extends BaseTypeActivity {
         }
     };
     private NFCManager mNFCManager;
+    private MagneticReader mMagneticReader;// 磁条卡管理
+
+
 
     private void initWangPOS() {
         mNFCManager = NFCManager.getInstance();

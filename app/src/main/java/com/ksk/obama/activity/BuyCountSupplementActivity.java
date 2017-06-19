@@ -66,7 +66,7 @@ public class BuyCountSupplementActivity extends BaseSupplementActivity implement
         findViewById(R.id.tv_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isComplition) {
+                if (true) {
                     finish();
                 }
             }

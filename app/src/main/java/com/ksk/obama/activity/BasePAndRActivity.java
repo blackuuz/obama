@@ -328,6 +328,10 @@ public class BasePAndRActivity extends BaseReadCardActivity {
             case 4:
                 str = terminalSn.substring(10);
                 break;
+            case 8:
+                str = terminalSn.substring(11);
+                break;
+
         }
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyMMddHHmmss");

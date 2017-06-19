@@ -407,7 +407,6 @@ public class BasePrintActivity extends BaseTypeActivity {
     protected String getOrderNum(String first) {
         String str = "";
         switch (robotType) {
-
             case 1:
                 str = terminalSn.substring(9);
                 break;
@@ -417,6 +416,9 @@ public class BasePrintActivity extends BaseTypeActivity {
                 break;
             case 4:
                 str = terminalSn.substring(10);
+                break;
+            case 8:
+                str = terminalSn.substring(11);
                 break;
 
         }

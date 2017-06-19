@@ -63,7 +63,7 @@ public class QuickDelMoneySupplementActivity extends BaseSupplementActivity impl
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isComplition) {
+                if (true) {
                     finish();
                 }
             }
