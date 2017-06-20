@@ -1032,7 +1032,6 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                 break;
             case 3:
             case 4:
-            case 8:
                 ll_lkl.setVisibility(View.GONE);
                 if (!SharedUtil.getSharedBData(QuickDelMActivity.this, "FW")) {
                     pay_wx.setVisibility(View.GONE);
@@ -1040,7 +1039,27 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                 if (!SharedUtil.getSharedBData(QuickDelMActivity.this, "FA")) {
                     pay_zfb.setVisibility(View.GONE);
                 }
-
+                break;
+            case 8:
+                if(SharedUtil.getSharedBData(QuickDelMActivity.this,"pay_ment")) {//如果结果为true证明使用官方支付接口
+                    ll_w_a.setVisibility(View.GONE);
+                    if (SharedUtil.getSharedBData(QuickDelMActivity.this, "FW") && SharedUtil.getSharedBData(QuickDelMActivity.this, "FA")) {
+                        pay_sm.setVisibility(View.VISIBLE);
+                    } else {
+                        pay_sm.setVisibility(View.GONE);
+                    }
+                    if (!SharedUtil.getSharedBData(QuickDelMActivity.this, "FY")) {
+                        pay_yl.setVisibility(View.GONE);
+                    }
+                }else {
+                    ll_lkl.setVisibility(View.GONE);
+                    if (!SharedUtil.getSharedBData(QuickDelMActivity.this, "FW")) {
+                        pay_wx.setVisibility(View.GONE);
+                    }
+                    if (!SharedUtil.getSharedBData(QuickDelMActivity.this, "FA")) {
+                        pay_zfb.setVisibility(View.GONE);
+                    }
+                }
                 break;
         }
 
@@ -1583,7 +1602,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        close();
+
         unbinder.unbind();
     }
 

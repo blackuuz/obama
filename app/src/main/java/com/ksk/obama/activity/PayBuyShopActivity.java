@@ -270,13 +270,35 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                 break;
             case 3:
             case 4:
-            case 8:
+
                 ll_lkl.setVisibility(View.GONE);
                 if (!SharedUtil.getSharedBData(PayBuyShopActivity.this, "GW")) {
                     pay_wx.setVisibility(View.GONE);
                 }
                 if (!SharedUtil.getSharedBData(PayBuyShopActivity.this, "GA")) {
                     pay_zfb.setVisibility(View.GONE);
+                }
+                break;
+            case 8:
+                if(SharedUtil.getSharedBData(PayBuyShopActivity.this,"pay_ment")){//如果结果为true证明使用官方支付接口
+                    ll_w_a.setVisibility(View.GONE);
+                    if (SharedUtil.getSharedBData(PayBuyShopActivity.this, "GW") && SharedUtil.getSharedBData(PayBuyShopActivity.this, "GA")) {
+                        pay_sm.setVisibility(View.VISIBLE);
+                    } else {
+                        pay_sm.setVisibility(View.GONE);
+                    }
+                    if (!SharedUtil.getSharedBData(PayBuyShopActivity.this, "GY")) {
+                        pay_yl.setVisibility(View.GONE);
+                    }
+
+                }else{
+                    ll_lkl.setVisibility(View.GONE);
+                    if (!SharedUtil.getSharedBData(PayBuyShopActivity.this, "GW")) {
+                        pay_wx.setVisibility(View.GONE);
+                    }
+                    if (!SharedUtil.getSharedBData(PayBuyShopActivity.this, "GA")) {
+                        pay_zfb.setVisibility(View.GONE);
+                    }
                 }
                 break;
         }

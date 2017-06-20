@@ -780,6 +780,7 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        close();
         list_buy.clear();
     }
 

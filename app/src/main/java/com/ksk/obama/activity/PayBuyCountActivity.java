@@ -251,13 +251,33 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
                 break;
             case 3:
             case 4:
-            case 8:
                 ll_lkl.setVisibility(View.GONE);
                 if (!SharedUtil.getSharedBData(PayBuyCountActivity.this, "PW")) {
                     pay_wx.setVisibility(View.GONE);
                 }
                 if (!SharedUtil.getSharedBData(PayBuyCountActivity.this, "PA")) {
                     pay_zfb.setVisibility(View.GONE);
+                }
+                break;
+            case 8:
+                if (SharedUtil.getSharedBData(PayBuyCountActivity.this, "pay_ment")) {//如果结果为true证明使用官方支付接口
+                    ll_w_a.setVisibility(View.GONE);
+                    if (SharedUtil.getSharedBData(PayBuyCountActivity.this, "PW") && SharedUtil.getSharedBData(PayBuyCountActivity.this, "PA")) {
+                        pay_sm.setVisibility(View.VISIBLE);
+                    } else {
+                        pay_sm.setVisibility(View.GONE);
+                    }
+                    if (!SharedUtil.getSharedBData(PayBuyCountActivity.this, "PY")) {
+                        pay_yl.setVisibility(View.GONE);
+                    }
+                } else {
+                    ll_lkl.setVisibility(View.GONE);
+                    if (!SharedUtil.getSharedBData(PayBuyCountActivity.this, "PW")) {
+                        pay_wx.setVisibility(View.GONE);
+                    }
+                    if (!SharedUtil.getSharedBData(PayBuyCountActivity.this, "PA")) {
+                        pay_zfb.setVisibility(View.GONE);
+                    }
                 }
                 break;
         }
@@ -720,7 +740,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
             if (tag.equals("SUCCESS")) {
                 if ((robotType == 1 && n == 1) || (robotType == 1 && n == 3)) {
                     payMoney(n, payau + "", orderNumber, "商品消费");
-                } else if ((robotType !=1 && n == 1) || (robotType !=1 && n == 2)) {
+                } else if ((robotType != 1 && n == 1) || (robotType != 1 && n == 2)) {
                     payMoney(n, payau + "", orderNumber, "购买次数");
                 } else {
                     reSet();
@@ -756,7 +776,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
 
     private void reSet() {
         flag = true;
-        if(robotType == 1){
+        if (robotType == 1) {
             ll_pay.setVisibility(View.GONE);
         }
         tv_print.setVisibility(View.VISIBLE);

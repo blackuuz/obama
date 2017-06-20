@@ -100,7 +100,7 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
         this.setOnPayCallBack(this);
         this.setOnPrintSuccess(this);
         this.setOnPrintError(this);
-        unbinder= ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
         getOrderNum("KK");
         initTitale();
         initView();
@@ -161,13 +161,12 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
                 } else {
                     pay_sm.setVisibility(View.GONE);
                 }
-                if(!SharedUtil.getSharedBData(PayOpenCardActivity.this,"RY")){
+                if (!SharedUtil.getSharedBData(PayOpenCardActivity.this, "RY")) {
                     pay_yl.setVisibility(View.GONE);
                 }
                 break;
             case 3:
             case 4:
-            case 8:
                 ll_lkl.setVisibility(View.GONE);
                 if (!SharedUtil.getSharedBData(PayOpenCardActivity.this, "RW")) {
                     pay_wx.setVisibility(View.GONE);
@@ -175,7 +174,27 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
                 if (!SharedUtil.getSharedBData(PayOpenCardActivity.this, "RA")) {
                     pay_zfb.setVisibility(View.GONE);
                 }
-
+                break;
+            case 8:
+                if (SharedUtil.getSharedBData(PayOpenCardActivity.this, "pay_ment")) {//如果结果为true证明使用官方支付接口
+                    ll_w_a.setVisibility(View.GONE);
+                    if (SharedUtil.getSharedBData(PayOpenCardActivity.this, "RW") && SharedUtil.getSharedBData(PayOpenCardActivity.this, "RA")) {
+                        pay_sm.setVisibility(View.VISIBLE);
+                    } else {
+                        pay_sm.setVisibility(View.GONE);
+                    }
+                    if (!SharedUtil.getSharedBData(PayOpenCardActivity.this, "RY")) {
+                        pay_yl.setVisibility(View.GONE);
+                    }
+                } else {
+                    ll_lkl.setVisibility(View.GONE);
+                    if (!SharedUtil.getSharedBData(PayOpenCardActivity.this, "RW")) {
+                        pay_wx.setVisibility(View.GONE);
+                    }
+                    if (!SharedUtil.getSharedBData(PayOpenCardActivity.this, "RA")) {
+                        pay_zfb.setVisibility(View.GONE);
+                    }
+                }
                 break;
         }
         pay_xj1.setOnClickListener(this);
@@ -210,8 +229,8 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
         map.put("Supplement", "0");
         map.put("classID", cardInfo.getGoodsId() + "");
         map.put("userID", SharedUtil.getSharedData(PayOpenCardActivity.this, "userInfoId"));
-        map.put("payActual",actualMoney);//实际付款
-        map.put("payShould",cardInfo.getPayshould());//应付款
+        map.put("payActual", actualMoney);//实际付款
+        map.put("payShould", cardInfo.getPayshould());//应付款
         map.put("orderNo", orderNumber);
         map.put("CardCode", cardInfo.getUid());
         map.put("c_Billfrom", robotType + "");
@@ -305,8 +324,8 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
     public void onClick(View v) {
         if (isclick_pay) {
             isclick_pay = false;
-            actualMoney =  et_pay.getText().toString();
-            if(actualMoney.equals("")){
+            actualMoney = et_pay.getText().toString();
+            if (actualMoney.equals("")) {
                 actualMoney = "0";
             }
 
@@ -454,10 +473,10 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
         } else {
             listp.add("金额:" + Utils.getNumStr(Float.parseFloat(str2)));
         }
-        if(actualMoney.equals("")){
+        if (actualMoney.equals("")) {
             listp.add("实收金额:0");
-        }else {
-            listp.add("实收金额:"+Utils.getNumStr(Float.parseFloat(actualMoney)));
+        } else {
+            listp.add("实收金额:" + Utils.getNumStr(Float.parseFloat(actualMoney)));
         }
 
 
@@ -574,15 +593,14 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(unbinder!=null){
+        if (unbinder != null) {
             unbinder.unbind();
         }
     }
 
 
-
     @OnClick(R.id.btn_sjsk)
-    public void sjsk(View view){
+    public void sjsk(View view) {
         Arrived();
     }
 

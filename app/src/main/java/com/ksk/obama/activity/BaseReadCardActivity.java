@@ -43,6 +43,7 @@ import java.util.Map;
 import cn.weipass.biz.nfc.BankCard;
 import cn.weipass.biz.nfc.NFCManager;
 import cn.weipass.pos.sdk.MagneticReader;
+import cn.weipass.pos.sdk.impl.WeiposImpl;
 
 import static com.ksk.obama.utils.SharedUtil.getSharedData;
 
@@ -87,24 +88,26 @@ public class BaseReadCardActivity extends BaseTypeActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        switch (robotType) {
-            case 8:
-                mNFCManager.setNFCListener(mNFCListener);
-                mNFCManager.onResume(this);
-                break;
-        }
+        // TODO: 2017/6/19 16:19 注释的 
+//        switch (robotType) {
+//            case 8:
+//                mNFCManager.setNFCListener(mNFCListener);
+//                mNFCManager.onResume(this);
+//                break;
+//        }
         openRead();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        // TODO: 2017/6/19
+        close();
         switch (robotType) {
             case 8:
                 mNFCManager.onPause(this);
                 break;
         }
-        close();
     }
 
     @Override
@@ -138,6 +141,9 @@ public class BaseReadCardActivity extends BaseTypeActivity {
                 case 3:
                     SUNMIread();
                     break;
+                case 8:
+                    WangPosread();
+                    break;
             }
         }
     }
@@ -153,6 +159,11 @@ public class BaseReadCardActivity extends BaseTypeActivity {
                 case 3:
                     SUNMIclose();
                     break;
+
+                case 8:
+                    WangPosclose();//uuz旺POS关闭
+                    break;
+
             }
         }
     }
@@ -291,23 +302,24 @@ public class BaseReadCardActivity extends BaseTypeActivity {
             e.printStackTrace();
         }
     }
-    //检测ic卡是否在位
-    public void isExists() {
-        try {
-            boolean flag = iccard.isExist();
-            if (flag) {
-                Utils.showToast(BaseReadCardActivity.this,"卡片已插入");
-                Logger.d("卡片已插入");
-                apduComm();
-            } else {
-                handler.postDelayed(runnable, 2000);
-                Logger.d("未检测到卡片");
-            }
-        } catch (RemoteException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
+
+    // TODO: 2017/6/19  检测ic卡是否在位
+//    public void isExists() {
+//        try {
+//            boolean flag = iccard.isExist();
+//            if (flag) {
+//                Utils.showToast(BaseReadCardActivity.this, "卡片已插入");
+//                Logger.d("卡片已插入");
+//                apduComm();
+//            } else {
+//                handler.postDelayed(runnable, 2000);
+//                Logger.d("未检测到卡片");
+//            }
+//        } catch (RemoteException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//    }
 
 
     // 认证
@@ -331,55 +343,55 @@ public class BaseReadCardActivity extends BaseTypeActivity {
         }
     }
 
-    //apdu通讯 触式ic
-    public void apduComm() {
-        byte[] apdu = HexUtil.hexStringToByte("00A404000E315041592E5359532E4444463031");
-        try {
-            byte[] data = iccard.apduComm(apdu);
-            if (null != data) {
-                Logger.e("选择主目录结果" + HexUtil.bcd2str(data));
-                final String str = HexUtil.bcd2str(data);
-                String str2 = str.substring(0, 32);
-                Logger.e(str2);
-                int i = 0;
-                int j = 2;
-                List<String> list = new ArrayList<String>();
-                while (str2.length() >= j) {
-                    list.add(str2.substring(i, j));
-                    i = j;
-                    j += 2;
-                }
-                String cardNum = "";
-                for (int n = 0; n < list.size(); n++) {
-                    String str3 = list.get(n);
-                    cardNum += (char) Integer.parseInt(str3, 16);
-                }
-                String uid = getUID();
-                if (uid == null) {
-                    uid = "";
-                }
-                close();
-                final String Num = cardNum.trim();
-                final String finalUid = uid;
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mIReadCardId != null) {
-                            mIReadCardId.readCardNo(Num, finalUid);
-                            playSound();
-                        } else {
-                            Log.e("djy", "请实现mIReadCardId接口");
-                        }
-                    }
-                });
-            } else {
-                Logger.e("APDU数据交互失败");
-            }
-        } catch (RemoteException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
+    // TODO: 2017/6/19  apdu通讯 触式ic
+//    public void apduComm() {
+//        byte[] apdu = HexUtil.hexStringToByte("00A404000E315041592E5359532E4444463031");
+//        try {
+//            byte[] data = iccard.apduComm(apdu);
+//            if (null != data) {
+//                Logger.e("选择主目录结果" + HexUtil.bcd2str(data));
+//                final String str = HexUtil.bcd2str(data);
+//                String str2 = str.substring(0, 32);
+//                Logger.e(str2);
+//                int i = 0;
+//                int j = 2;
+//                List<String> list = new ArrayList<String>();
+//                while (str2.length() >= j) {
+//                    list.add(str2.substring(i, j));
+//                    i = j;
+//                    j += 2;
+//                }
+//                String cardNum = "";
+//                for (int n = 0; n < list.size(); n++) {
+//                    String str3 = list.get(n);
+//                    cardNum += (char) Integer.parseInt(str3, 16);
+//                }
+//                String uid = getUID();
+//                if (uid == null) {
+//                    uid = "";
+//                }
+//                close();
+//                final String Num = cardNum.trim();
+//                final String finalUid = uid;
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        if (mIReadCardId != null) {
+//                            mIReadCardId.readCardNo(Num, finalUid);
+//                            playSound();
+//                        } else {
+//                            Log.e("djy", "请实现mIReadCardId接口");
+//                        }
+//                    }
+//                });
+//            } else {
+//                Logger.e("APDU数据交互失败");
+//            }
+//        } catch (RemoteException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//    }
 
     // 读取块数据
     private void LKLreadBlockData() {
@@ -630,9 +642,55 @@ public class BaseReadCardActivity extends BaseTypeActivity {
 
     /*************************************SUNMI*********************************************/
 
-    /*************************************
-     * wangpos
-     *********************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+    /************************************** wangpos*********************************************/
+
+    private void initWangPOS() {
+        if (SharedUtil.getSharedBData(BaseReadCardActivity.this, "citiao")) {
+            //实现磁条卡的方法
+            mMagneticReader = WeiposImpl.as().openMagneticReader();
+            if (mMagneticReader == null) {
+                Utils.showToast(BaseReadCardActivity.this, "磁条卡读取服务不可用");
+            }
+        }
+        if (SharedUtil.getSharedBData(BaseReadCardActivity.this, "nfc")) {
+            //实现nfc卡的方法
+            mNFCManager = NFCManager.getInstance();
+            mNFCManager.init(this);
+        }
+    }
+
+    /**
+     * 旺POS 开启
+     */
+    // TODO: 2017/6/19 17:13
+    protected void WangPosread() {
+        if (SharedUtil.getSharedBData(BaseReadCardActivity.this, "citiao")) {
+            startTask();
+        }
+        if (SharedUtil.getSharedBData(BaseReadCardActivity.this, "nfc")) {
+            //实现nfc卡的方法
+            mNFCManager.setNFCListener(mNFCListener);
+            mNFCManager.onResume(this);
+        }
+    }
+
+
+    protected void WangPosclose() {
+        stopTask();
+
+    }
 
     private NFCManager.NFCListener mNFCListener = new NFCManager.NFCListener() {
 
@@ -653,14 +711,14 @@ public class BaseReadCardActivity extends BaseTypeActivity {
         }
     };
     private NFCManager mNFCManager;
+    //// TODO: 2017/6/19
     private MagneticReader mMagneticReader;// 磁条卡管理
 
 
-
-    private void initWangPOS() {
-        mNFCManager = NFCManager.getInstance();
-        mNFCManager.init(this);
-    }
+//    private void initWangPOS() {
+//        mNFCManager = NFCManager.getInstance();
+//        mNFCManager.init(this);
+//    }
 
     private void getCardUID(final String cardNo) {
         loadingDialog.show();
@@ -700,5 +758,121 @@ public class BaseReadCardActivity extends BaseTypeActivity {
             }
         });
     }
+
+
+    public String getMagneticReaderInfo() {
+        if (mMagneticReader == null) {
+            Utils.showToast(BaseReadCardActivity.this, "初始化磁条卡sdk失败");
+            return "";
+        }
+        // 刷卡后，主动获取磁卡的byte[]数据
+        // byte[] cardByte = mMagneticReader.readCard();
+
+        // String decodeData = mMagneticReader.getCardDecodeData();
+
+        // 磁卡刷卡后，主动获取解码后的字符串数据信息
+        String[] decodeData = mMagneticReader.getCardDecodeThreeTrackData();//
+        if (decodeData != null && decodeData.length > 0) {
+            /**
+             * 1：刷会员卡返回会员卡号后面变动的卡号，前面为固定卡号（没有写入到磁卡中）
+             * 如会员卡号：9999100100030318，读卡返回数据为00030318，前面99991001在磁卡中没有写入
+             * 2：刷银行卡返回数据格式为：卡号=有效期。
+             */
+            String retStr = "";
+            for (int i = 0; i < decodeData.length; i++) {
+                if (decodeData[i] == null)
+                    continue;
+                String txt = decodeData[i].trim();
+                if (retStr.length() > 0) {
+                    retStr = retStr + "=";
+                } else {
+                    if (txt.indexOf("=") >= 0) {
+                        String[] arr = txt.split("=");
+                        if (arr[0].length() == 16 || arr[0].length() == 19) {
+                            return arr[0];
+                        }
+                    }
+                }
+                retStr = retStr + txt;
+            }
+            return retStr;
+        } else {
+            // Toast.makeText(MainNewActivity.this, "获取磁条卡数据失败，请确保已经刷卡",
+            // Toast.LENGTH_LONG).show();
+            return "";
+        }
+    }
+
+    private ReadMagTask mReadMagTask = null;
+
+    private void startTask() {
+        if (mReadMagTask == null) {
+            mReadMagTask = new ReadMagTask();
+            mReadMagTask.start();
+        }
+    }
+
+    private void stopTask() {
+        if (mReadMagTask != null) {
+            mReadMagTask.interrupt();
+            mReadMagTask = null;
+        }
+    }
+
+    class ReadMagTask extends Thread implements Handler.Callback {
+        private Handler H;
+        private boolean isRun = false;
+
+        public ReadMagTask() {
+            H = new Handler(this);
+        }
+
+        /*
+         * (non-Javadoc)
+         *
+         * @see java.lang.Thread#run()
+         */
+        @Override
+        public void run() {
+            isRun = true;
+            // 磁卡刷卡后，主动获取解码后的字符串数据信息
+            try {
+                while (isRun) {
+                    String decodeData = getMagneticReaderInfo();
+                    if (decodeData != null && decodeData.length() != 0) {
+                        System.out.println("final============>>>" + decodeData);
+                        Message m = H.obtainMessage(0);
+                        m.obj = decodeData;
+                        H.sendMessage(m);
+                    }
+                    Thread.sleep(500);
+                }
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                isRun = false;
+            }
+        }
+
+        @Override
+        public boolean handleMessage(Message msg) {
+            /**
+             * 1：刷会员卡返回会员卡号后面变动的卡号，前面为固定卡号（没有写入到磁卡中）
+             * 如会员卡号：9999100100030318，读卡返回数据为00030318，前面99991001在磁卡中没有写入
+             * 2：刷银行卡返回数据格式为：卡号=有效期。
+             */
+            // updateLogInfo("磁条卡内容：：" + msg.obj);
+            String str = (String) msg.obj;
+            if (str != null) {
+                mIReadCardId.readCardNo(str, "");
+                playSound();
+            }
+
+            // getCardUID(str);
+            return false;
+        }
+
+    }
+
     /*************************************wangpos*********************************************/
 }

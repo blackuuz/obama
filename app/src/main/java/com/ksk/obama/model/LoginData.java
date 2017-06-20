@@ -25,6 +25,7 @@ public class LoginData {
      * Set : {"CardSet":["非接会员卡","条码会员卡"],"PaySet":["现金","银联卡","微信","支付宝"],"IntegralSet":["快速消费积分"]}
      * MaxFastCostMoney : 100
      * SetHandCard : 1
+     * PayMent: 1
      * QuitTime : 0
      * HandoverTime : 12:20:00
      * ShopIntegraltimes : 10
@@ -52,6 +53,16 @@ public class LoginData {
     private String n_IntegralToMoneyDefault;
     private String Rechargebutton;//是否开启快速充值
     private String RechargePoints;
+
+    public String getPayMent() {
+        return PayMent;
+    }
+
+    public void setPayMent(String payMent) {
+        PayMent = payMent;
+    }
+
+    private String PayMent; // 是否使用wangpos官方支付接口  1|0
 
     private List<SetPaysBean> SetPays;
     private List<RechargefastBean> Rechargefast;

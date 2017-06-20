@@ -192,6 +192,7 @@ public class LoginActivity extends BaseTypeActivity {
                         SharedUtil.setSharedData(LoginActivity.this, "time", loginData.getHandoverTime());
                         SharedUtil.setSharedData(LoginActivity.this, "exittime", loginData.getQuitTime());
                         SharedUtil.setSharedBData(LoginActivity.this, "bluetooth", loginData.getDrawmenu().equals("1"));
+                        SharedUtil.setSharedBData(LoginActivity.this,"pay_ment",loginData.getPayMent().equals("1")); //旺POS是否使用官方接口  1为使用
                         getPrintInfo(loginData.getDbname() + ".");
                     } else {
                         try {

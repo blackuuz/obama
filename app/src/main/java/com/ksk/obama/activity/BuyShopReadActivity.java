@@ -40,6 +40,8 @@ import java.util.Map;
 
 import cn.weipass.biz.nfc.BankCard;
 import cn.weipass.biz.nfc.NFCManager;
+import cn.weipass.pos.sdk.MagneticReader;
+import cn.weipass.pos.sdk.impl.WeiposImpl;
 
 import static com.ksk.obama.utils.SharedUtil.getSharedData;
 
@@ -87,6 +89,12 @@ public class BuyShopReadActivity extends BaseTypeActivity {
     protected void onPause() {
         super.onPause();
         close();
+        switch (robotType) {
+            case 8:
+                mNFCManager.onPause(this);
+                break;
+        }
+
     }
 
     @Override
@@ -123,6 +131,7 @@ public class BuyShopReadActivity extends BaseTypeActivity {
                     break;
 
                 case 8:
+                    WangPosread();
                     mNFCManager.setNFCListener(mNFCListener);
                     mNFCManager.onResume(this);
                     break;
@@ -142,7 +151,8 @@ public class BuyShopReadActivity extends BaseTypeActivity {
                     SUNMIclose();
                     break;
                 case 8:
-                    mNFCManager.onPause(this);
+                    WangPosclose();
+
                     break;
             }
         }
@@ -539,9 +549,41 @@ public class BuyShopReadActivity extends BaseTypeActivity {
 
     /*************************************SUNMI*********************************************/
 
-    /*************************************
-     * wangpos
-     *********************************************/
+    /************************************** wangpos*********************************************/
+
+    private NFCManager mNFCManager;
+    private MagneticReader mMagneticReader;// 磁条卡管理
+
+    private void initWangPOS() {
+        if (SharedUtil.getSharedBData(BuyShopReadActivity.this, "citiao")) {
+            //实现磁条卡的方法
+            mMagneticReader = WeiposImpl.as().openMagneticReader();
+            if (mMagneticReader == null) {
+                Utils.showToast(BuyShopReadActivity.this, "磁条卡读取服务不可用");
+            }
+        }
+        if (SharedUtil.getSharedBData(BuyShopReadActivity.this, "nfc")) {
+            //实现nfc卡的方法
+            mNFCManager = NFCManager.getInstance();
+            mNFCManager.init(this);
+        }
+    }
+
+    protected void WangPosread() {
+        if (SharedUtil.getSharedBData(BuyShopReadActivity.this, "citiao")) {
+            startTask();
+        }
+        if (SharedUtil.getSharedBData(BuyShopReadActivity.this, "nfc")) {
+            //实现nfc卡的方法
+            mNFCManager.setNFCListener(mNFCListener);
+            mNFCManager.onResume(this);
+        }
+    }
+
+    protected void WangPosclose() {
+        stopTask();
+
+    }
 
     private NFCManager.NFCListener mNFCListener = new NFCManager.NFCListener() {
 
@@ -560,12 +602,7 @@ public class BuyShopReadActivity extends BaseTypeActivity {
 
         }
     };
-    private NFCManager mNFCManager;
 
-    private void initWangPOS() {
-        mNFCManager = NFCManager.getInstance();
-        mNFCManager.init(this);
-    }
 
     private void getCardUID(final String cardNo) {
         loadingDialog.show();
@@ -605,5 +642,120 @@ public class BuyShopReadActivity extends BaseTypeActivity {
             }
         });
     }
+
+    public String getMagneticReaderInfo() {
+        if (mMagneticReader == null) {
+            Utils.showToast(BuyShopReadActivity.this, "初始化磁条卡sdk失败");
+            return "";
+        }
+        // 刷卡后，主动获取磁卡的byte[]数据
+        // byte[] cardByte = mMagneticReader.readCard();
+
+        // String decodeData = mMagneticReader.getCardDecodeData();
+
+        // 磁卡刷卡后，主动获取解码后的字符串数据信息
+        String[] decodeData = mMagneticReader.getCardDecodeThreeTrackData();//
+        if (decodeData != null && decodeData.length > 0) {
+            /**
+             * 1：刷会员卡返回会员卡号后面变动的卡号，前面为固定卡号（没有写入到磁卡中）
+             * 如会员卡号：9999100100030318，读卡返回数据为00030318，前面99991001在磁卡中没有写入
+             * 2：刷银行卡返回数据格式为：卡号=有效期。
+             */
+            String retStr = "";
+            for (int i = 0; i < decodeData.length; i++) {
+                if (decodeData[i] == null)
+                    continue;
+                String txt = decodeData[i].trim();
+                if (retStr.length() > 0) {
+                    retStr = retStr + "=";
+                } else {
+                    if (txt.indexOf("=") >= 0) {
+                        String[] arr = txt.split("=");
+                        if (arr[0].length() == 16 || arr[0].length() == 19) {
+                            return arr[0];
+                        }
+                    }
+                }
+                retStr = retStr + txt;
+            }
+            return retStr;
+        } else {
+            // Toast.makeText(MainNewActivity.this, "获取磁条卡数据失败，请确保已经刷卡",
+            // Toast.LENGTH_LONG).show();
+            return "";
+        }
+    }
+
+    private ReadMagTask mReadMagTask = null;
+
+    private void startTask() {
+        if (mReadMagTask == null) {
+            mReadMagTask = new ReadMagTask();
+            mReadMagTask.start();
+        }
+    }
+
+    private void stopTask() {
+        if (mReadMagTask != null) {
+            mReadMagTask.interrupt();
+            mReadMagTask = null;
+        }
+    }
+
+    class ReadMagTask extends Thread implements Handler.Callback {
+        private Handler H;
+        private boolean isRun = false;
+
+        public ReadMagTask() {
+            H = new Handler(this);
+        }
+
+        /*
+         * (non-Javadoc)
+         *
+         * @see java.lang.Thread#run()
+         */
+        @Override
+        public void run() {
+            isRun = true;
+            // 磁卡刷卡后，主动获取解码后的字符串数据信息
+            try {
+                while (isRun) {
+                    String decodeData = getMagneticReaderInfo();
+                    if (decodeData != null && decodeData.length() != 0) {
+                        System.out.println("final============>>>" + decodeData);
+                        Message m = H.obtainMessage(0);
+                        m.obj = decodeData;
+                        H.sendMessage(m);
+                    }
+                    Thread.sleep(500);
+                }
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                isRun = false;
+            }
+        }
+
+        @Override
+        public boolean handleMessage(Message msg) {
+            /**
+             * 1：刷会员卡返回会员卡号后面变动的卡号，前面为固定卡号（没有写入到磁卡中）
+             * 如会员卡号：9999100100030318，读卡返回数据为00030318，前面99991001在磁卡中没有写入
+             * 2：刷银行卡返回数据格式为：卡号=有效期。
+             */
+            // updateLogInfo("磁条卡内容：：" + msg.obj);
+            String str = (String) msg.obj;
+            if (str != null) {
+                mIReadCardId.readCardNo(str, "");
+                playSound();
+            }
+
+            // getCardUID(str);
+            return false;
+        }
+
+    }
+
     /*************************************wangpos*********************************************/
 }

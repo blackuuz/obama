@@ -282,7 +282,6 @@ public class BaseActivity extends AutoLayoutActivity {
 
             case 3:
             case 4:
-            case 8:
                 if (n == 1 && getSharedBData(BaseActivity.this, "paywx")) {
                     newPay(n, money, orderDesc, str2);
                 } else if (n == 2 && getSharedBData(BaseActivity.this, "payal")) {
@@ -290,6 +289,21 @@ public class BaseActivity extends AutoLayoutActivity {
                 } else {
                     isclick_pay = true;
                     Utils.showToast(BaseActivity.this, "没有开通此功能");
+                }
+                break;
+            case 8:
+                if(getSharedBData(BaseActivity.this,"pay_ment")){
+                    Utils.showToast(BaseActivity.this,"功能开发中……");
+                    isclick_pay = true;
+                }else {
+                    if (n == 1 && getSharedBData(BaseActivity.this, "paywx")) {
+                        newPay(n, money, orderDesc, str2);
+                    } else if (n == 2 && getSharedBData(BaseActivity.this, "payal")) {
+                        newPay(n, money, orderDesc, str2);
+                    } else {
+                        isclick_pay = true;
+                        Utils.showToast(BaseActivity.this, "没有开通此功能");
+                    }
                 }
                 break;
         }
