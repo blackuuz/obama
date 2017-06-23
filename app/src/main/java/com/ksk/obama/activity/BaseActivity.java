@@ -2,6 +2,7 @@ package com.ksk.obama.activity;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.ComponentName;
 import android.content.Context;
@@ -21,7 +22,9 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.ksk.obama.R;
 import com.ksk.obama.application.MyApp;
 import com.ksk.obama.callback.ICreateOrderNumber;
@@ -31,6 +34,7 @@ import com.ksk.obama.callback.IQrcodeCallBack;
 import com.ksk.obama.model.BuyCount;
 import com.ksk.obama.model.IntegralShopCount;
 import com.ksk.obama.model.LoginData;
+import com.ksk.obama.model.WangPosPAY;
 import com.ksk.obama.utils.HttpTools;
 import com.ksk.obama.utils.MyDialog;
 import com.ksk.obama.utils.NetworkUrl;
@@ -44,6 +48,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -53,7 +59,11 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import cn.weipass.biz.nfc.CashierSign;
+import cn.weipass.pos.sdk.BizServiceInvoker;
 import cn.weipass.pos.sdk.impl.WeiposImpl;
+import cn.weipass.service.bizInvoke.RequestInvoke;
+import cn.weipass.service.bizInvoke.RequestResult;
 
 import static com.ksk.obama.utils.SharedUtil.getSharedBData;
 
@@ -71,6 +81,21 @@ public class BaseActivity extends AutoLayoutActivity {
     protected MyDialog loadingDialog;
     private IHttpCallBack callBack;
     protected boolean isclick_pay = true;
+
+    /**
+     * 判断机型是否为拉卡拉或旺POS 并且支付方式为“扫码”或“银联”
+     * <p>简单来说就是判断是否满足官方支付条件<p/>
+     * <p>17-06-22——by uuz</p>
+     *
+     * @param n 支付方式
+     * @return 返回布尔
+     * @author uuz
+     */
+    protected boolean robotType_pay(int n) {
+        return ((robotType == 1 || robotType == 8) && n == 1) || ((robotType == 1 || robotType == 8) && n == 3);
+    }
+
+
     protected String terminalSn;
     protected Bitmap bmp;
 
@@ -204,9 +229,9 @@ public class BaseActivity extends AutoLayoutActivity {
                 break;
 
             case 8:
-                terminalSn = SharedUtil.getSharedData(BaseActivity.this,"xlh");
-                if(terminalSn == null){
-                    terminalSn ="en码获取失败";
+                terminalSn = SharedUtil.getSharedData(BaseActivity.this, "xlh");
+                if (terminalSn == null) {
+                    terminalSn = "en码获取失败";
                 }
                 break;
         }
@@ -292,18 +317,24 @@ public class BaseActivity extends AutoLayoutActivity {
                 }
                 break;
             case 8:
-                if(getSharedBData(BaseActivity.this,"pay_ment")){
-                    Utils.showToast(BaseActivity.this,"功能开发中……");
-                    isclick_pay = true;
-                }else {
-                    if (n == 1 && getSharedBData(BaseActivity.this, "paywx")) {
-                        newPay(n, money, orderDesc, str2);
-                    } else if (n == 2 && getSharedBData(BaseActivity.this, "payal")) {
-                        newPay(n, money, orderDesc, str2);
-                    } else {
+                if (!TextUtils.isEmpty(money) && Float.parseFloat(money) > 0) {
+                    if (getSharedBData(BaseActivity.this, "pay_ment")) {
+                        Utils.showToast(BaseActivity.this, "功能开发中……");
+                        requestCashier(n, money, orderDesc);
                         isclick_pay = true;
-                        Utils.showToast(BaseActivity.this, "没有开通此功能");
+                    } else {
+                        if (n == 1 && getSharedBData(BaseActivity.this, "paywx")) {
+                            newPay(n, money, orderDesc, str2);
+                        } else if (n == 2 && getSharedBData(BaseActivity.this, "payal")) {
+                            newPay(n, money, orderDesc, str2);
+                        } else {
+                            isclick_pay = true;
+                            Utils.showToast(BaseActivity.this, "没有开通此功能");
+                        }
                     }
+                } else {
+                    isclick_pay = true;
+                    Utils.showToast(BaseActivity.this, "请填写正确的金额");
                 }
                 break;
         }
@@ -327,7 +358,7 @@ public class BaseActivity extends AutoLayoutActivity {
             startActivityForResult(intent, 10087);
         } else {
             isclick_pay = true;
-            Utils.showToast(BaseActivity.this, "请填写充值金额");
+            Utils.showToast(BaseActivity.this, "请填写正确的金额");
         }
     }
 
@@ -438,7 +469,7 @@ public class BaseActivity extends AutoLayoutActivity {
             }
         }
         if (resultCode == Activity.RESULT_OK) {
-            Logger.e(resultCode + " *** " + data.toString());
+            Logger.e(resultCode + "-" + data.toString());
             String orderidScan = "";
             switch (requestCode) {
                 case 1:
@@ -506,15 +537,15 @@ public class BaseActivity extends AutoLayoutActivity {
                                             JSONObject object1 = new JSONObject(jsonText);
                                             String tag = object1.getString("result");
                                             if (tag.equals("SUCCESS")) {
-                                                Log.e("djy", "成功" + jsonText);
+                                                Log.e("uuz", "成功" + jsonText);
                                                 Utils.showToast(BaseActivity.this, "支付成功");
                                                 if (iPayCallBack != null) {
                                                     iPayCallBack.OnPaySucess(orderNo, type);
                                                 } else {
-                                                    Log.e("djy", "请实现IPayCallBack接口");
+                                                    Log.e("uuz", "请实现IPayCallBack接口");
                                                 }
                                             } else if (tag.equals("FAIL")) {
-                                                Log.e("djy", "失败" + jsonText);
+                                                Log.e("uuz", "失败" + jsonText);
                                                 JSONObject object2 = new JSONObject(jsonText);
                                                 String tag2 = object1.getString("result_msg");
                                                 Utils.showToast(BaseActivity.this, "" + tag2);
@@ -522,18 +553,18 @@ public class BaseActivity extends AutoLayoutActivity {
 
                                         } catch (JSONException e) {
                                             e.printStackTrace();
-                                            Log.e("djy", "异常" + jsonText);
+                                            Log.e("uuz", "异常" + jsonText);
                                         }
                                         // Log.e("djy","成功"+jsonText);
                                     }
 
                                     @Override
                                     public void OnFail(String message) {
-                                        Log.e("djy", "失败*" + message);
+                                        Log.e("uuz", "失败*" + message);
                                     }
                                 });
                                 HttpTools.postMethod(handler, NetworkUrl.PAYCODE, map);
-                                Log.e("djy", map.toString());
+                                Log.e("uuz", map.toString());
                             } else {
                                 Utils.showToast(BaseActivity.this, "获取二维码信息失败,请重试");
                             }
@@ -544,7 +575,7 @@ public class BaseActivity extends AutoLayoutActivity {
                                 iPayCallBack.OnPaySucess(memoBillNum, type);
 
                             } else {
-                                Log.e("djy", "请实现IPayCallBack接口");
+                                Log.e("uuz", "请实现IPayCallBack接口");
                             }
                             break;
                     }
@@ -675,5 +706,244 @@ public class BaseActivity extends AutoLayoutActivity {
         }
         return false;
     }
+
+
+    private ProgressDialog pd = null;
+    private BizServiceInvoker mBizServiceInvoker;
+
+    /**
+     * WangPos本地调用收银服务
+     */
+    private void requestCashier(int n, String money, String orderDesc) {
+        // 1003 微信
+        // 1004 支付宝
+        // 1006 银行卡
+        switch (n) {
+            case 1:
+                pay_type = "1003";
+                break;
+            case 3:
+                pay_type = "1006";
+                break;
+        }
+        if (money == "") {
+            Utils.showToast(BaseActivity.this, "请填写正确的金额");
+
+            return;
+        }
+        String s[] = (Utils.getNumStr(Float.parseFloat(money) * 100)).split("\\.");
+        total_fee = s[0];
+        backClassPath = "com.ksk.obama.activity." + getRunningActivityName();//uuz 动态获取当前运行Activity 的名字
+        Log.d("8268", "innerRequestCashier: " + backClassPath + "===" + s[0]);
+        tradeNo = orderDesc;
+
+
+        try {
+            // 初始化服务调用
+            mBizServiceInvoker = WeiposImpl.as().getService(BizServiceInvoker.class);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        if (mBizServiceInvoker == null) {
+            Toast.makeText(this, "初始化服务调用失败", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        // 设置请求订阅服务监听结果的回调方法
+        mBizServiceInvoker.setOnResponseListener(mOnResponseListener);
+        innerRequestCashier();
+    }
+
+    //业务demo在bp平台中的的bpid，这里填写对应应用所属bp账号的bpid和对应的key--------------需要动态改变
+    //private String InvokeCashier_BPID="53b3a1ca45ceb5f96d153eec";
+    // private String InvokeCashier_KEY="LIz6bPS2z8jUnwLHRYzcJ6WK2X87ziWe";
+
+    private String InvokeCashier_BPID = "58db1762eb670024651d6535";
+    private String InvokeCashier_KEY = "JHj3HKD2fAeC5L3gTM8zrCuijVuztz9J";
+    // 1001 现金
+    // 1003 微信
+    // 1004 支付宝
+    // 1005 百度钱包
+    // 1006 银行卡
+    // 1007 易付宝
+    // 1009 京东钱包
+    // 1011 QQ钱包
+    private String pay_type = "1004";
+    // 第三方订单流水号，非空,发起请求，tradeNo不能相同，相同在收银会提示有存在订单
+    private String tradeNo = System.currentTimeMillis() + "";
+    private String channel = "POS";//标明是pos调用，不需改变
+    private String body = "消费";//订单body描述信息 ，不可空
+    private String attach = "无";//备注信息，可空，订单信息原样返回，可空
+    private String total_fee = "1";//支付金额，单位为分，1=0.01元，100=1元，不可空
+    private String seqNo = "1";//服务端请求序列,本地应用调用可固定写死为1
+    // 如果需要页面调回到自己的App，需要在调用中增加参数package和classpath(如com.xxx.pay.ResultActivity)，并且这个跳转的Activity需要在AndroidManifest.xml中增加android:exported=”true”属性。
+    // 如果不需要回调页面，则backPkgName和backClassPath需要同时设置为空字符串 ："";
+    private String backPkgName = "com.ksk.obama";//，可空
+    private String backClassPath = "";//，可空
+    //指定接收收银结果的url地址默认为："http://apps.weipass.cn/pay/notify"，填写自己服务器接收地址
+    private String notifyUrl = "";//，可空
+
+    // 通过context来获取 Activity：
+    private String getRunningActivityName() {
+        String contextString = this.toString();
+        return contextString.substring(contextString.lastIndexOf(".") + 1, contextString.indexOf("@"));
+    }
+
+
+    // 1.执行调用之前需要调用WeiposImpl.as().init()方法，保证sdk初始化成功。
+    //
+    // 2.调用收银支付成功后，收银支付结果页面完成后，BizServiceInvoker.OnResponseListener后收到响应的结果
+    //
+    // 3.如果需要页面调回到自己的App，需要在调用中增加参数package和classpath(如com.xxx.pay.ResultActivity)，并且这个跳转的Activity需要在AndroidManifest.xml中增加android:exported=”true”属性。
+    private void innerRequestCashier() {
+
+        try {
+            RequestInvoke cashierReq = new RequestInvoke();
+            cashierReq.pkgName = this.getPackageName();
+            cashierReq.sdCode = CashierSign.Cashier_sdCode;// 收银服务的sdcode信息
+            cashierReq.bpId = InvokeCashier_BPID;
+            cashierReq.launchType = CashierSign.launchType;
+            cashierReq.params = CashierSign.sign(InvokeCashier_BPID, InvokeCashier_KEY, channel,
+                    pay_type, tradeNo, body, attach, total_fee, backPkgName, backClassPath, notifyUrl);
+            cashierReq.seqNo = seqNo;
+
+            RequestResult r = mBizServiceInvoker.request(cashierReq);
+            Log.i("requestCashier", r.token + "," + r.seqNo + "," + r.result);
+            // 发送调用请求
+            if (r != null) {
+                Log.d("requestCashier", "request result:" + r.result + "|launchType:" + cashierReq.launchType);
+                String err = null;
+                switch (r.result) {
+                    case BizServiceInvoker.REQ_SUCCESS: {
+                        // 调用成功
+                        Toast.makeText(this, "收银服务调用成功", Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case BizServiceInvoker.REQ_ERR_INVAILD_PARAM: {
+                        Toast.makeText(this, "请求参数错误！", Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case BizServiceInvoker.REQ_ERR_NO_BP: {
+                        Toast.makeText(this, "未知的合作伙伴！", Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case BizServiceInvoker.REQ_ERR_NO_SERVICE: {
+                        //调用结果返回，没有订阅对应bp账号中的收银服务，则去调用sdk主动订阅收银服务
+                        runOnUiThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                // TODO Auto-generated method stub
+                                if (pd == null) {
+                                    pd = new ProgressDialog(BaseActivity.this);
+                                }
+                                pd.setMessage("正在申请订阅收银服务...");
+                                pd.show();
+                                // 如果没有订阅，则主动请求订阅服务
+                                mBizServiceInvoker.subscribeService(CashierSign.Cashier_sdCode,
+                                        InvokeCashier_BPID);
+                            }
+                        });
+                        break;
+                    }
+                    case BizServiceInvoker.REQ_NONE: {
+                        Toast.makeText(this, "请求未知错误！", Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                }
+                if (err != null) {
+                    Log.w("requestCashier", "serviceInvoker request err:" + err);
+                }
+            } else {
+                Toast.makeText(this, "请求结果对象为空！", Toast.LENGTH_SHORT).show();
+            }
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * 这个是服务调用完成后的响应监听方法
+     */
+    private BizServiceInvoker.OnResponseListener mOnResponseListener = new BizServiceInvoker.OnResponseListener() {
+
+        @Override
+        public void onResponse(String sdCode, String token, byte[] data) {
+            // 收银服务调用完成后的返回方法
+            String orderidScan = "";
+            Log.d("uuz", new String(data));
+            Log.e("uuz", "sdCode = " + sdCode + " , token = " + token + " , data = " + new String(data));
+            String json = new String(data);
+            WangPosPAY wData = new Gson().fromJson(json, WangPosPAY.class);
+            if (wData != null) {
+                Utils.showToast(BaseActivity.this, wData.getErrMsg());
+                if (wData.getErrCode().equals("-1")) {//交易取消
+                    if (iCreateOrderNumber != null) {
+                        iCreateOrderNumber.OnCreateOrderNumber(true);
+                    }
+                } else {
+                    orderidScan = wData.getCashier_trade_no();
+                    if (iPayCallBack != null) {
+                        int type = -1;
+                        if (wData.getPay_type() != null) {
+                            switch (wData.getPay_type()) {
+                                case "1003":
+                                    type = 1;
+                                    break;
+                                case "1004":
+                                    type = 2;
+                                    break;
+                                case "1006":
+                                    type = 3;
+                                    break;
+                                default:
+                                    type = 10;
+                                    break;
+                            }
+                            iPayCallBack.OnPaySucess(orderidScan, type);
+                        }
+                    } else {
+                        Utils.showToast(BaseActivity.this, "接口错误");
+                    }
+                }
+            }
+            /* new String(data) 为支付结果json，内容样式为:
+               {
+			    "errCode": "-1",
+			    "errMsg": "取消交易",
+			    "out_trade_no": "1474442791311",
+			    "trade_status": null,
+			    "input_charset": "UTF-8",
+			    "cashier_trade_no": null,
+			    "pay_type": null,
+			    "pay_info": "取消交易"
+			}*/
+            if (pd != null) {
+                pd.hide();
+            }
+
+        }
+
+        @Override
+        public void onFinishSubscribeService(boolean result, String err) {
+            // TODO Auto-generated method stub
+            // 申请订阅收银服务结果返回
+            if (pd != null) {
+                pd.hide();
+            }
+            // bp订阅收银服务返回结果
+            if (!result) {
+                //订阅失败
+                Toast.makeText(BaseActivity.this, err, Toast.LENGTH_SHORT).show();
+            } else {
+                //订阅成功
+                Toast.makeText(BaseActivity.this, "订阅收银服务成功，请按home键回调主页刷新订阅数据后重新进入调用收银", Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+
 
 }

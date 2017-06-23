@@ -738,7 +738,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
             JSONObject object = new JSONObject(text);
             String tag = object.getString("result_stadus");
             if (tag.equals("SUCCESS")) {
-                if ((robotType == 1 && n == 1) || (robotType == 1 && n == 3)) {
+                if (robotType_pay(n)) {
                     payMoney(n, payau + "", orderNumber, "商品消费");
                 } else if ((robotType != 1 && n == 1) || (robotType != 1 && n == 2)) {
                     payMoney(n, payau + "", orderNumber, "购买次数");

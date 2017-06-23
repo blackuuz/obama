@@ -572,6 +572,9 @@ public class BuyShopCartActivity extends BuyShopReadActivity implements IReadCar
     @Override
     public void readCardNo(String cardNo, String UID) {
         uid = UID;
+        if(editText == null){
+            return;
+        }
         editText.setText(cardNo);
         sendCardNum(cardNo);
         window0.dismiss();

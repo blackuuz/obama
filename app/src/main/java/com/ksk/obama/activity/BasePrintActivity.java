@@ -269,7 +269,7 @@ public class BasePrintActivity extends BaseTypeActivity {
                         woyouService.printText(list.get(i) + "\n", callback);
                     }
                 }
-               // woyouService.printQRCode("东方Project",10,1,callback);
+                // woyouService.printQRCode("东方Project",10,1,callback);
                 woyouService.setAlignment(1, callback);
                 woyouService.printTextWithFont(SharedUtil.getSharedData(BasePrintActivity.this, "name2") + "\n", "", 30, callback);
                 woyouService.printTextWithFont(SharedUtil.getSharedData(BasePrintActivity.this, "name3") + "\n", "", 30, callback);
@@ -298,19 +298,58 @@ public class BasePrintActivity extends BaseTypeActivity {
                         add(new PrintItemObj("操作员 :" + SharedUtil.getSharedData(BasePrintActivity.this, "username")));
                         add(new PrintItemObj("手持序列号:" + terminalSn));
                     }
+                    // TODO: 2017/6/22  格式化打印小票  如果不格式化 商品价格错位 就显得很丑
                     for (int i = 0; i < list.size(); i++) {
                         if (list.get(i).equals("son") && sonList != null) {
                             if (sonList.size() > 0) {
-                                add(new PrintItemObj("商品名   单价   数量   小计"));
+                                add(new PrintItemObj("商品名\t\t\t\t单价\t\t\t\t数量\t\t\t\t小计"));
                                 for (int j = 0; j < sonList.size(); j++) {
-                                    add(new PrintItemObj(sonList.get(j).getName() + "    " + sonList.get(j).getPrice()
-                                            + "    " + sonList.get(j).getNum() + "    " + sonList.get(j).getMoney()));
+                                    String str = "";
+                                    String str1 = "";
+                                    switch (sonList.get(j).getPrice().length()) {
+                                        case 1:
+                                        case 0:
+                                            str1 = "\t\t\t\t\t\t\t\t";
+                                            break;
+                                        case 2:
+                                            str1 = "\t\t\t\t\t\t\t";
+                                            break;
+                                        case 3:
+                                            str1 = "\t\t\t\t\t\t";
+                                            break;
+                                        case 4:
+                                            str1 = "\t\t\t\t\t";
+                                            break;
+                                        default:
+                                            str1 = "\t\t\t";
+                                            break;
+                                    }
+                                    switch (sonList.get(j).getName().length()) {
+                                        case 0:
+                                        case 1:
+                                            str = "\t\t\t\t\t\t";
+                                            break;
+                                        case 2:
+                                            str = "\t\t\t\t\t";
+                                            break;
+                                        case 3:
+                                            str = "\t\t\t\t";
+                                            break;
+                                        case 4:
+                                            str = "\t\t";
+                                            break;
+                                        default:
+                                            str = "\n\t\t\t\t\t\t\t\t\t";
+                                            break;
+                                    }
+                                    add(new PrintItemObj(sonList.get(j).getName() + str + sonList.get(j).getPrice()
+                                            + str1 + sonList.get(j).getNum() + "\t\t\t" + sonList.get(j).getMoney()));
                                 }
                             }
                         } else {
-                            if(list.get(i).substring(0,3).equals("序号-")){
-                                add(new PrintItemObj(list.get(i),16, true, PrintItemObj.ALIGN.LEFT));
-                            }else {
+                            if (list.get(i).substring(0, 3).equals("序号-")) {
+                                add(new PrintItemObj(list.get(i), 16, true, PrintItemObj.ALIGN.LEFT));
+                            } else {
                                 add(new PrintItemObj(list.get(i) + ""));
                             }
 
@@ -323,15 +362,15 @@ public class BasePrintActivity extends BaseTypeActivity {
                     add(new PrintItemObj("                            ", 24));
                     add(new PrintItemObj("                            ", 24));
                     // TODO: 2017/6/14 打印图片 
-                  // bmp =  BitmapFactory.decodeResource(getResources(), R.mipmap.qrcode0);
+//                   bmp =  BitmapFactory.decodeResource(getResources(), R.mipmap.xs);
 //                    printerDev.printBmp(20,250,250,bmp, new AidlPrinterListener.Stub() {
-//                        @Override
-//                        public void onError(int i) throws RemoteException {}
+//                    @Override
+//                    public void onError(int i) throws RemoteException {}
 //
-//                        @Override
-//                        public void onPrintFinish() throws RemoteException {
-//                        }
-//                    });
+//                    @Override
+//                    public void onPrintFinish() throws RemoteException {
+//                    }
+//                });
                 }
 
             }, new AidlPrinterListener.Stub() {
@@ -419,6 +458,7 @@ public class BasePrintActivity extends BaseTypeActivity {
                 break;
             case 8:
                 str = terminalSn.substring(11);
+                //str = "00000";
                 break;
 
         }

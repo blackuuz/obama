@@ -159,7 +159,7 @@ public class CouponSelectActivity extends BaseActivity implements IQrcodeCallBac
             @Override
             public void onclick(View view, int position) {
                 Intent intent = new Intent();
-                couponId = list.get(position).getId();
+                couponId = list.get(position).getC_Code();
                 couponMoney_ = Float.parseFloat(list.get(position).getN_Money());//优惠金额)
                 intent.putExtra("couponMoney", couponMoney_);
                 intent.putExtra("couponId",couponId);

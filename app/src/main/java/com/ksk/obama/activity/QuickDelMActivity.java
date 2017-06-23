@@ -96,7 +96,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
     private boolean isVip = false;
     private boolean isInfo = false;//是否检测到会员卡的信息
     private String gread = "0";
-    private String ordernb;
+    private String ordernb = "";
     private String orderte;
     private String uid = "";
     private Button btn_change;
@@ -379,7 +379,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                                 if (isclick_pay) {
                                     isclick_pay = false;
                                     n = 1;
-                                    if (robotType == 1) {
+                                    if (robotType == 1||robotType == 8) {
                                         sendDelMoney();
                                     } else {
                                         payMoney(1, payau, orderNumber, "商品消费");
@@ -393,7 +393,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                         if (isclick_pay) {
                             isclick_pay = false;
                             n = 1;
-                            if (robotType == 1) {
+                            if (robotType == 1||robotType == 8) {
                                 sendDelMoney();
                             } else {
                                 payMoney(1, payau, orderNumber, "商品消费");
@@ -423,7 +423,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                                 if (isclick_pay) {
                                     isclick_pay = false;
                                     n = 3;
-                                    if (robotType == 1) {
+                                    if (robotType == 1||robotType == 8) {
                                         sendDelMoney();
                                     } else {
                                         payMoney(3, payau, orderNumber, "商品消费");
@@ -437,7 +437,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                         if (isclick_pay) {
                             isclick_pay = false;
                             n = 3;
-                            if (robotType == 1) {
+                            if (robotType == 1||robotType == 8 ) {
                                 sendDelMoney();
                             } else {
                                 payMoney(3, payau, orderNumber, "商品消费");
@@ -802,6 +802,10 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
             case 3:
                 map.put("payBank", money + "");
                 break;
+            case 10:
+
+                break;
+
         }
         postToHttp(NetworkUrl.PAYQRCODE, map, new IHttpCallBack() {
                     @Override
@@ -1279,8 +1283,8 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                                     JSONObject object1 = new JSONObject(jsonText);
                                     String tag = object1.getString("result_stadus");
                                     if (tag.equals("SUCCESS")) {
-                                        if ((robotType == 1 && n == 1) || (robotType == 1 && n == 3)) {
-                                            payMoney(n, payau, orderNumber, "商品消费");
+                                        if (robotType_pay(n)) {
+                                                    payMoney(n, payau, orderNumber, "商品消费");
                                         } else if ((robotType != 1 && n == 1) || (robotType != 1 && n == 2)) {
                                             payMoney(n, payau + "", orderNumber, "商品消费");
                                         } else {
@@ -1337,7 +1341,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                             JSONObject object = new JSONObject(jsonText);
                             String tag = object.getString("result_stadus");
                             if (tag.equals("SUCCESS")) {
-                                if ((robotType == 1 && n == 1) || (robotType == 1 && n == 3)) {
+                                if (((robotType == 1||robotType == 8) && n == 1) || ((robotType == 1||robotType == 8) && n == 3)) {
                                     payMoney(n, payau, orderNumber, "商品消费");
                                 }  else if ((robotType != 1 && n == 1) || (robotType != 1 && n == 2)) {
                                     payMoney(n, payau + "", orderNumber, "商品消费");

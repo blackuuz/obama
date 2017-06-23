@@ -254,6 +254,10 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
                 map.put("payBank", actualMoney);
                 map.put("refernumber", orderno);
                 break;
+            case 10:
+                map.put("payOther",actualMoney);
+                map.put("refernumber",orderno);
+
         }
         map.put("EquipmentNum", terminalSn);
         map.put("C_ServiceEmployee", cardInfo.getAddId());//推荐员工的名字

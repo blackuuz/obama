@@ -280,7 +280,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                 }
                 break;
             case 8:
-                if(SharedUtil.getSharedBData(PayBuyShopActivity.this,"pay_ment")){//如果结果为true证明使用官方支付接口
+                if (SharedUtil.getSharedBData(PayBuyShopActivity.this, "pay_ment")) {//如果结果为true证明使用官方支付接口
                     ll_w_a.setVisibility(View.GONE);
                     if (SharedUtil.getSharedBData(PayBuyShopActivity.this, "GW") && SharedUtil.getSharedBData(PayBuyShopActivity.this, "GA")) {
                         pay_sm.setVisibility(View.VISIBLE);
@@ -291,7 +291,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                         pay_yl.setVisibility(View.GONE);
                     }
 
-                }else{
+                } else {
                     ll_lkl.setVisibility(View.GONE);
                     if (!SharedUtil.getSharedBData(PayBuyShopActivity.this, "GW")) {
                         pay_wx.setVisibility(View.GONE);
@@ -495,9 +495,9 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                 pay_hy.setVisibility(View.INVISIBLE);
             }
             payau = payAu - delmoney_jf - delmoney_kq;
-            tv_should.setText("总价:￥" + should);
-            tv_del.setText("折扣优惠:￥" + del);
-            tv_del_kq.setText("卡券优惠:￥" + delmoney_kq);
+            tv_should.setText("总价:  ￥" + should);
+            tv_del.setText("折扣优惠:  ￥" + del);
+            tv_del_kq.setText("卡券优惠:  ￥" + delmoney_kq);
             // tv_del_jf.setText("积分抵用:￥" + del_jf);
         }
     }
@@ -716,8 +716,8 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
         map.put("CardCode", uid);
         map.put("c_Billfrom", robotType + "");
         map.put("Supplement", "0");
-        map.put("PayTicket",PayTicket);
-        map.put("coupon_id",couponId);
+        map.put("PayTicket", PayTicket);
+        map.put("coupon_id", couponId);
 
         switch (n) {
             case 0:
@@ -794,7 +794,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
             JSONObject object = new JSONObject(text);
             String tag = object.getString("result_stadus");
             if (tag.equals("SUCCESS")) {
-                if ((robotType == 1 && n == 1) || (robotType == 1 && n == 3)) {
+                if (robotType_pay(n)) {
                     payMoney(n, payau + "", orderNumber, "商品消费");
                 } else if ((robotType != 1 && n == 1) || (robotType != 1 && n == 2)) {
                     payMoney(n, payau + "", orderNumber, "商品消费");
@@ -955,13 +955,13 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
     public void OnPaySucess(String orderNum, int payMode) {
         n = payMode;
         order_again = orderNum;
-        if ((robotType == 1 && n == 1) || (robotType == 1 && n == 2) || (robotType == 1 && n == 3)) {
-            LKLPay(orderNum);
-        } else {
-            //     sendData(orderNum);
-            LKLPay(orderNum);
-            loadingDialog.show();
-        }
+//        if ((robotType == 1 && n == 1) || (robotType == 1 && n == 2) || (robotType == 1 && n == 3)) {
+//            LKLPay(orderNum);
+//        } else {
+//            //     sendData(orderNum);
+        LKLPay(orderNum);
+        loadingDialog.show();
+//        }
     }
 
     private void LKLPay(String order) {
@@ -1117,8 +1117,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                 case 121:
                     delmoney_kq = data.getFloatExtra("couponMoney", 0);
                     couponId = data.getStringExtra("couponId");
-                    PayTicket = delmoney_kq+"";
-
+                    PayTicket = delmoney_kq + "";
                     resetMoney();
                     break;
 
@@ -1128,6 +1127,9 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
 
     private void resetMoney() {
         payau = payAu - delmoney_jf - delmoney_kq;
+        if (payau < 0) {
+            payau = 0f;
+        }
         et_payau.setText(Utils.getNumStr(payau));
         tv_del.setText("折扣优惠:￥" + del);
         tv_del_kq.setText("卡券优惠:￥" + delmoney_kq);
@@ -1367,6 +1369,8 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                 intent.putExtra("costType", "产品消费");
                 intent.putExtra("costMoney", payAu);
                 startActivityForResult(intent, 121);
+                db_isCheck.setChecked(false);
+                //db_isCheck.setChecked(true);
                 break;
             case R.id.btn_nouse_coupon:
                 delmoney_kq = 0;
@@ -1374,7 +1378,6 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                 PayTicket = "";
                 resetMoney();
                 break;
-
 
 
         }
