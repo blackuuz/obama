@@ -527,6 +527,8 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
         if (TextUtils.isEmpty(gread)) {
             gread = "0";
         }
+
+
         if (isclick_pay) {
             isclick_pay = false;
             switch (view.getId()) {

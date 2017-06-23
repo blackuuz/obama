@@ -319,7 +319,6 @@ public class BaseActivity extends AutoLayoutActivity {
             case 8:
                 if (!TextUtils.isEmpty(money) && Float.parseFloat(money) > 0) {
                     if (getSharedBData(BaseActivity.this, "pay_ment")) {
-                        Utils.showToast(BaseActivity.this, "功能开发中……");
                         requestCashier(n, money, orderDesc);
                         isclick_pay = true;
                     } else {
@@ -877,6 +876,7 @@ public class BaseActivity extends AutoLayoutActivity {
             Log.d("uuz", new String(data));
             Log.e("uuz", "sdCode = " + sdCode + " , token = " + token + " , data = " + new String(data));
             String json = new String(data);
+            Logger.json(json);
             WangPosPAY wData = new Gson().fromJson(json, WangPosPAY.class);
             if (wData != null) {
                 Utils.showToast(BaseActivity.this, wData.getErrMsg());

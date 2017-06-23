@@ -17,6 +17,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -153,6 +154,7 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
         setListener();
         initData();
         getOrderNum("CZ");
+        getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);//默认不弹出键盘
     }
 
     private void initTitale() {
@@ -466,13 +468,15 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
             case R.id.tv_pay_sm://扫码支付
                 if (isclick_pay) {
                     isclick_pay = false;
-
                     n = 1;
-                    if (robotType == 1) {
-                        sendData("");
-                    } else {
-                        payMoney(1, tv_pay.getText().toString(), orderNumber, "会员充值");
-                    }
+                    sendData("");
+                    // TODO: 2017/6/23
+//暂时扫码支付只有拉卡拉和旺POS才有 不需要判断
+//                    if (robotType == 1) {
+//                        sendData("");
+//                    } else {
+//                        payMoney(1, tv_pay.getText().toString(), orderNumber, "会员充值");
+//                    }
                 }
                 break;
             case R.id.tv_pay_wx://微信支付
@@ -487,7 +491,7 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
                 if (isclick_pay) {
                     isclick_pay = false;
                     n = 3;
-                    if (robotType == 1) {
+                    if (robotType == 1||robotType == 8) {
                         sendData("");
                     } else {
                         payMoney(3, tv_pay.getText().toString(), orderNumber, "会员充值");
@@ -601,7 +605,7 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
             JSONObject object = new JSONObject(jsontext);
             String tag = object.getString("result_stadus");
             if (tag.equals("SUCCESS")) {
-                if ((robotType == 1 && n == 1) || (robotType == 1 && n == 3)) {
+                if (robotType_pay(n)) {
                     payMoney(n, tv_pay.getText().toString(), orderNumber, "会员充值");
                 } else if ((robotType != 1 && n == 1) || (robotType != 1 && n == 2)) {
                     payMoney(n, tv_pay.getText().toString(), orderNumber, "会员充值");

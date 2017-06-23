@@ -12,9 +12,14 @@ public class ExampleUnitTest {
         a = "123456789";
         b = "一二三四五六七八九"; c = "abcdefghi"; d = "一2c";
 
-        System.out.println(a.length()+"---"+a);
-        System.out.println(b.length()+"---"+b);
-        System.out.println(c.length()+"---"+c);
+        int bb = '☺';
+        int aa = '♣';
+        int cc = '☻';
+        char dd = 520;
+        int ee = 'Ȉ';
+        System.out.println(a.length()+"---"+bb+aa+cc);
+        System.out.println(b.length()+"---"+dd);
+        System.out.println(c.length()+"---"+ee);
         System.out.println(d.length()+"---"+d);
         }
     }

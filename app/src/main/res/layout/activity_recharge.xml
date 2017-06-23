@@ -373,8 +373,8 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="20px"
                     android:background="@mipmap/edit_text_1"
-                    android:paddingLeft="20px"
                     android:gravity="center_vertical"
+                    android:paddingLeft="20px"
                     android:textColor="@color/text_black3"
                     android:textSize="30px" />
 
@@ -418,6 +418,7 @@
                     android:selectAllOnFocus="true"
                     android:textColor="@color/text_red"
                     android:textSize="30px" />
+                <!--android:cursorVisible="false"-->
 
                 <TextView
                     android:layout_width="wrap_content"
