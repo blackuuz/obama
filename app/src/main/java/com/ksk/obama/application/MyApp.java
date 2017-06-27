@@ -29,7 +29,7 @@ public class MyApp extends LitePalApplication {
     public void onCreate() {
         super.onCreate();
 //        CrashHandler.getInstance().init(this);
-        Logger.init("djy");
+        Logger.init("uuz");
         initBluetooth();
     }
 

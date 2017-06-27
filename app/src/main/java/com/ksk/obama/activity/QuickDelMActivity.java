@@ -327,34 +327,29 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                 break;
 
             case R.id.tv_pay_xj://现金支付
-                if (isXJ) {
-                    if (!TextUtils.isEmpty(cardNum) && cardNum.equals(preID)) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                        builder.setTitle("重要提示：");
-                        builder.setMessage("此次卡号" + cardNum + "与上次卡号" + preID + "重复,是否继续操作?");
-                        builder.setNegativeButton("取消", null);
-                        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (isclick_pay) {
-                                    isclick_pay = false;
-                                    n = 0;
-                                    sendDelMoney();
-                                }
+                if (!TextUtils.isEmpty(cardNum) && cardNum.equals(preID)) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("重要提示：");
+                    builder.setMessage("此次卡号" + cardNum + "与上次卡号" + preID + "重复,是否继续操作?");
+                    builder.setNegativeButton("取消", null);
+                    builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (isclick_pay) {
+                                isclick_pay = false;
+                                n = 0;
+                                sendDelMoney();
                             }
-                        });
-                        builder.create().show();
-                        isclick_pay = true;
-                    } else {
-                        if (isclick_pay) {
-                            isclick_pay = false;
-                            n = 0;
-                            sendDelMoney();
                         }
-                    }
-
+                    });
+                    builder.create().show();
+                    isclick_pay = true;
                 } else {
-                    Utils.showToast(QuickDelMActivity.this, "没有开通此功能");
+                    if (isclick_pay) {
+                        isclick_pay = false;
+                        n = 0;
+                        sendDelMoney();
+                    }
                 }
 
                 break;
@@ -379,7 +374,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                                 if (isclick_pay) {
                                     isclick_pay = false;
                                     n = 1;
-                                    if (robotType == 1||robotType == 8) {
+                                    if (robotType == 1 || robotType == 8) {
                                         sendDelMoney();
                                     } else {
                                         payMoney(1, payau, orderNumber, "商品消费");
@@ -393,7 +388,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                         if (isclick_pay) {
                             isclick_pay = false;
                             n = 1;
-                            if (robotType == 1||robotType == 8) {
+                            if (robotType == 1 || robotType == 8) {
                                 sendDelMoney();
                             } else {
                                 payMoney(1, payau, orderNumber, "商品消费");
@@ -423,7 +418,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                                 if (isclick_pay) {
                                     isclick_pay = false;
                                     n = 3;
-                                    if (robotType == 1||robotType == 8) {
+                                    if (robotType == 1 || robotType == 8) {
                                         sendDelMoney();
                                     } else {
                                         payMoney(3, payau, orderNumber, "商品消费");
@@ -437,7 +432,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                         if (isclick_pay) {
                             isclick_pay = false;
                             n = 3;
-                            if (robotType == 1||robotType == 8 ) {
+                            if (robotType == 1 || robotType == 8) {
                                 sendDelMoney();
                             } else {
                                 payMoney(3, payau, orderNumber, "商品消费");
@@ -1045,7 +1040,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                 }
                 break;
             case 8:
-                if(SharedUtil.getSharedBData(QuickDelMActivity.this,"pay_ment")) {//如果结果为true证明使用官方支付接口
+                if (SharedUtil.getSharedBData(QuickDelMActivity.this, "pay_ment")) {//如果结果为true证明使用官方支付接口
                     ll_w_a.setVisibility(View.GONE);
                     if (SharedUtil.getSharedBData(QuickDelMActivity.this, "FW") && SharedUtil.getSharedBData(QuickDelMActivity.this, "FA")) {
                         pay_sm.setVisibility(View.VISIBLE);
@@ -1055,7 +1050,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                     if (!SharedUtil.getSharedBData(QuickDelMActivity.this, "FY")) {
                         pay_yl.setVisibility(View.GONE);
                     }
-                }else {
+                } else {
                     ll_lkl.setVisibility(View.GONE);
                     if (!SharedUtil.getSharedBData(QuickDelMActivity.this, "FW")) {
                         pay_wx.setVisibility(View.GONE);
@@ -1284,7 +1279,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                                     String tag = object1.getString("result_stadus");
                                     if (tag.equals("SUCCESS")) {
                                         if (robotType_pay(n)) {
-                                                    payMoney(n, payau, orderNumber, "商品消费");
+                                            payMoney(n, payau, orderNumber, "商品消费");
                                         } else if ((robotType != 1 && n == 1) || (robotType != 1 && n == 2)) {
                                             payMoney(n, payau + "", orderNumber, "商品消费");
                                         } else {
@@ -1341,11 +1336,11 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                             JSONObject object = new JSONObject(jsonText);
                             String tag = object.getString("result_stadus");
                             if (tag.equals("SUCCESS")) {
-                                if (((robotType == 1||robotType == 8) && n == 1) || ((robotType == 1||robotType == 8) && n == 3)) {
+                                if (((robotType == 1 || robotType == 8) && n == 1) || ((robotType == 1 || robotType == 8) && n == 3)) {
                                     payMoney(n, payau, orderNumber, "商品消费");
-                                }  else if ((robotType != 1 && n == 1) || (robotType != 1 && n == 2)) {
+                                } else if ((robotType != 1 && n == 1) || (robotType != 1 && n == 2)) {
                                     payMoney(n, payau + "", orderNumber, "商品消费");
-                                }else {
+                                } else {
                                     noVIPReset();
                                 }
                             } else {

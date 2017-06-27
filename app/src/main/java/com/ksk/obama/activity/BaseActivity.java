@@ -87,7 +87,7 @@ public class BaseActivity extends AutoLayoutActivity {
      * <p>简单来说就是判断是否满足官方支付条件<p/>
      * <p>17-06-22——by uuz</p>
      *
-     * @param n 支付方式
+     * @param n 支付方式 现金：0   第三方：1 会员卡：4  微信：5   支付宝：6
      * @return 返回布尔
      * @author uuz
      */
@@ -292,6 +292,12 @@ public class BaseActivity extends AutoLayoutActivity {
         this.iPayCallBack = iPayCallBack;
     }
 
+    /**
+     * @param n 付款方式 支付方式 现金：0   扫码：1  微信：10   支付宝：2   银行卡：3   会员卡：4
+     * @param money 金额
+     * @param orderDesc  订单号
+     * @param str2 付款页面
+     */
     protected void payMoney(int n, String money, String orderDesc, String str2) {
         switch (robotType) {
             case 1:

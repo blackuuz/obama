@@ -1,124 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:id="@+id/activity_type_setting"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:background="@color/main_bg"
-android:orientation="vertical">
-
-<include layout="@layout/title_obama" />
-
-<LinearLayout
+    android:id="@+id/activity_type_setting"
     android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg"
     android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:layout_marginTop="40px"
-        android:background="#ebebeb" />
+    <include layout="@layout/title_obama" />
 
-    <android.support.v7.widget.SwitchCompat
-        android:id="@+id/switch_lkl"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100px"
-        android:layout_marginLeft="52px"
-        android:layout_marginRight="52px"
-        android:text="拉卡拉POS"
-        android:textColor="#323232"
-        android:textSize="36px" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:background="#ebebeb" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="20dp"
+            android:background="#ebebeb" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:layout_marginTop="20px"
-        android:background="#ebebeb" />
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/switch_lkl"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="26dp"
+            android:layout_marginRight="26dp"
+            android:text="拉卡拉POS"
+            android:textColor="#323232"
+            android:textSize="18dp" />
 
-    <android.support.v7.widget.SwitchCompat
-        android:id="@+id/switch_sm"
-        android:layout_width="match_parent"
-        android:layout_height="100px"
-        android:layout_marginLeft="52px"
-        android:layout_marginRight="52px"
-        android:text="商米POS:p1"
-        android:textColor="#323232"
-        android:textSize="36px" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ebebeb" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:background="#ebebeb" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="#ebebeb" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:layout_marginTop="20px"
-        android:background="#ebebeb" />
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/switch_sm"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="26dp"
+            android:layout_marginRight="26dp"
+            android:text="商米POS:p1"
+            android:textColor="#323232"
+            android:textSize="18dp" />
 
-    <android.support.v7.widget.SwitchCompat
-        android:id="@+id/switch_sm_v1"
-        android:layout_width="match_parent"
-        android:layout_height="100px"
-        android:layout_marginLeft="52px"
-        android:layout_marginRight="52px"
-        android:text="商米POS:v1"
-        android:textColor="#323232"
-        android:textSize="36px" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ebebeb" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:background="#ebebeb" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="#ebebeb" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:layout_marginTop="20px"
-        android:background="#ebebeb" />
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/switch_sm_v1"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="26dp"
+            android:layout_marginRight="26dp"
+            android:text="商米POS:v1"
+            android:textColor="#323232"
+            android:textSize="18dp" />
 
-    <android.support.v7.widget.SwitchCompat
-        android:id="@+id/switch_phone"
-        android:layout_width="match_parent"
-        android:layout_height="100px"
-        android:layout_marginLeft="52px"
-        android:layout_marginRight="52px"
-        android:text="手机"
-        android:textColor="#323232"
-        android:textSize="36px" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ebebeb" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:background="#ebebeb" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="#ebebeb" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:layout_marginTop="20px"
-        android:background="#ebebeb" />
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/switch_phone"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="26dp"
+            android:layout_marginRight="26dp"
+            android:text="手机"
+            android:textColor="#323232"
+            android:textSize="18dp" />
 
-    <android.support.v7.widget.SwitchCompat
-        android:id="@+id/switch_wang_pos"
-        android:layout_width="match_parent"
-        android:layout_height="100px"
-        android:layout_marginLeft="52px"
-        android:layout_marginRight="52px"
-        android:text="旺POS"
-        android:textColor="#323232"
-        android:textSize="36px" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ebebeb" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:background="#ebebeb" />
-</LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="#ebebeb" />
 
-<include layout="@layout/bottom_s" />
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/switch_wang_pos"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="26dp"
+            android:layout_marginRight="26dp"
+            android:text="旺POS"
+            android:textColor="#323232"
+            android:textSize="18dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ebebeb" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="#ebebeb" />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/switch_liandong"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="26dp"
+            android:layout_marginRight="26dp"
+            android:text="联动优势"
+            android:textColor="#323232"
+            android:textSize="18dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ebebeb" />
+    </LinearLayout>
+
+    <include layout="@layout/bottom_s" />
 </LinearLayout>

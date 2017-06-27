@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -14,7 +15,7 @@ import com.ksk.obama.utils.Utils;
 
 public class TypeSettingActivity extends AppCompatActivity {
 
-    private SwitchCompat[] sth = new SwitchCompat[5];
+    private SwitchCompat[] sth = new SwitchCompat[6];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +44,17 @@ public class TypeSettingActivity extends AppCompatActivity {
                     type = 30;
                 } else if (sth[4].isChecked()) {
                     type = 8;
+                }else if (sth[5].isChecked()){
+                    type = 9;
                 }
                 if (type != -1) {
+                    if(type == 9){
+                        type = 4;
+                    }
                     SharedUtil.setSharedData(TypeSettingActivity.this, "isSet", type + "");
                     SharedUtil.setSharedData(TypeSettingActivity.this, "robotType", type + "");
                     startActivity(new Intent(TypeSettingActivity.this, LoginActivity.class));
+                    Log.d("uuz", "onClick: "+type);
                     finish();
                 } else {
                     Utils.showToast(TypeSettingActivity.this, "请选择机型");
@@ -68,11 +75,13 @@ public class TypeSettingActivity extends AppCompatActivity {
         SwitchCompat s_phone = (SwitchCompat) findViewById(R.id.switch_phone);
         SwitchCompat switch_sm_v1 = (SwitchCompat) findViewById(R.id.switch_sm_v1);
         SwitchCompat switch_wang_pos = (SwitchCompat) findViewById(R.id.switch_wang_pos);
+        SwitchCompat switch_liandong = (SwitchCompat) findViewById(R.id.switch_liandong);
         sth[0] = s_lkl;
         sth[1] = s_sm;
         sth[2] = s_phone;
         sth[3] = switch_sm_v1;
         sth[4] = switch_wang_pos;
+        sth[5] = switch_liandong;
         s_lkl.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -113,6 +122,16 @@ public class TypeSettingActivity extends AppCompatActivity {
                 }
             }
         });
+        switch_liandong.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    setType(5);
+                }
+            }
+        });
+
+
         String str = SharedUtil.getSharedData(TypeSettingActivity.this, "robotType");
         if (str.equals("1")) {
             s_lkl.setChecked(true);
@@ -124,6 +143,8 @@ public class TypeSettingActivity extends AppCompatActivity {
             switch_sm_v1.setChecked(true);
         } else if (str.equals("8")) {
             switch_wang_pos.setChecked(true);
+        }else if(str.equals("9")){
+            switch_liandong.setChecked(true);
         }
     }
 

@@ -504,7 +504,6 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
             isclick_pay = false;
             switch (v.getId()) {
                 case R.id.tv_pay_xj:
-                    if (isXJ) {
                         if (TextUtils.isEmpty(gread)) {
                             isclick_pay = true;
                             Utils.showToast(PayBuyCountActivity.this, "请输入积分");
@@ -512,11 +511,6 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
                             n = 0;
                             sendData("");
                         }
-                    } else {
-                        isclick_pay = true;
-                        Utils.showToast(PayBuyCountActivity.this, "没有开通此功能");
-                    }
-
                     break;
                 case R.id.tv_pay_sm:
                     if (TextUtils.isEmpty(gread)) {
@@ -739,18 +733,18 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
             String tag = object.getString("result_stadus");
             if (tag.equals("SUCCESS")) {
                 if (robotType_pay(n)) {
-                    payMoney(n, payau + "", orderNumber, "商品消费");
-                } else if ((robotType != 1 && n == 1) || (robotType != 1 && n == 2)) {
+                    payMoney(n, payau + "", orderNumber, "购买次数");
+                } else if (n == 1 ||n == 2) { //支付方式为微信或者是支付宝
                     payMoney(n, payau + "", orderNumber, "购买次数");
                 } else {
-                    reSet();
+                    reSet();//现金支付
                 }
-                switch (robotType) {
-                    case 3:
-                        //case 4:
-                        changeActivity();
-                        break;
-                }
+//                switch (robotType) {
+//                    case 3:
+//                        //case 4:
+//                        changeActivity();
+//                        break;
+//                }
             } else if (tag.equals("ERR")) {
                 isclick_pay = true;
                 flag = true;

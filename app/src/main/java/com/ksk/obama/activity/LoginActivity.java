@@ -171,6 +171,7 @@ public class LoginActivity extends BaseTypeActivity {
                 @Override
                 public void OnSucess(String jsonText) {
                     Logger.e(jsonText);
+                    Logger.json(jsonText);//// TODO: 2017/6/26
                     loginData = new Gson().fromJson(jsonText, LoginData.class);
                     if (loginData.getResult_stadus().equals("SUCCESS")) {
                         SharedUtil.setSharedData(LoginActivity.this, "login_id", employeeNo);
@@ -440,6 +441,7 @@ public class LoginActivity extends BaseTypeActivity {
             @Override
             public void OnSucess(String jsonText) {
                 Logger.e(jsonText);
+
                 try {
                     JSONObject object = new JSONObject(jsonText);
                     String stadus = object.getString("result_stadus");
