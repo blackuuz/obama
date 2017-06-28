@@ -163,7 +163,7 @@ public class LoginActivity extends BaseTypeActivity {
                     map.put("EquipmentType", "android");
                     break;
                 case 8:
-                    map.put("EquipmentType","wangpos");
+                    map.put("EquipmentType", "wangpos");
             }
             map.put("Edition", Utils.getAppVersionName(LoginActivity.this));
             postToHttp(NetworkUrl.LOGIN, map, new IHttpCallBack() {
@@ -193,7 +193,7 @@ public class LoginActivity extends BaseTypeActivity {
                         SharedUtil.setSharedData(LoginActivity.this, "time", loginData.getHandoverTime());
                         SharedUtil.setSharedData(LoginActivity.this, "exittime", loginData.getQuitTime());
                         SharedUtil.setSharedBData(LoginActivity.this, "bluetooth", loginData.getDrawmenu().equals("1"));
-                        SharedUtil.setSharedBData(LoginActivity.this,"pay_ment",loginData.getPayMent().equals("1")); //旺POS是否使用官方接口  1为使用
+                        SharedUtil.setSharedBData(LoginActivity.this, "pay_ment", loginData.getPayMent().equals("1")); //旺POS是否使用官方接口  1为使用
                         getPrintInfo(loginData.getDbname() + ".");
                     } else {
                         try {
@@ -238,23 +238,23 @@ public class LoginActivity extends BaseTypeActivity {
         SharedUtil.setSharedBData(LoginActivity.this, "FW", false);
         SharedUtil.setSharedBData(LoginActivity.this, "FA", false);
         SharedUtil.setSharedBData(LoginActivity.this, "FX", false);
-        SharedUtil.setSharedBData(LoginActivity.this, "FY", false);
+        SharedUtil.setSharedBData(LoginActivity.this, "FT", false);
         SharedUtil.setSharedBData(LoginActivity.this, "RW", false);
         SharedUtil.setSharedBData(LoginActivity.this, "RA", false);
         SharedUtil.setSharedBData(LoginActivity.this, "RX", false);
-        SharedUtil.setSharedBData(LoginActivity.this, "RY", false);
+        SharedUtil.setSharedBData(LoginActivity.this, "RT", false);
         SharedUtil.setSharedBData(LoginActivity.this, "OW", false);
         SharedUtil.setSharedBData(LoginActivity.this, "OA", false);
         SharedUtil.setSharedBData(LoginActivity.this, "OX", false);
-        SharedUtil.setSharedBData(LoginActivity.this, "OY", false);
+        SharedUtil.setSharedBData(LoginActivity.this, "OT", false);
         SharedUtil.setSharedBData(LoginActivity.this, "GW", false);
         SharedUtil.setSharedBData(LoginActivity.this, "GA", false);
         SharedUtil.setSharedBData(LoginActivity.this, "GX", false);
-        SharedUtil.setSharedBData(LoginActivity.this, "GY", false);
+        SharedUtil.setSharedBData(LoginActivity.this, "GT", false);
         SharedUtil.setSharedBData(LoginActivity.this, "PW", false);
         SharedUtil.setSharedBData(LoginActivity.this, "PA", false);
         SharedUtil.setSharedBData(LoginActivity.this, "PX", false);
-        SharedUtil.setSharedBData(LoginActivity.this, "PY", false);
+        SharedUtil.setSharedBData(LoginActivity.this, "PT", false);
 
         SharedUtil.setSharedBData(LoginActivity.this, "qdx", false);
         SharedUtil.setSharedBData(LoginActivity.this, "ssje", false);
@@ -267,7 +267,7 @@ public class LoginActivity extends BaseTypeActivity {
         SharedUtil.setSharedBData(LoginActivity.this, "gcdx", false);
         SharedUtil.setSharedBData(LoginActivity.this, "gcsj", false);
         SharedUtil.setSharedBData(LoginActivity.this, "opencard", false);
-        SharedUtil.setSharedBData(LoginActivity.this,"giveInte",false);
+        SharedUtil.setSharedBData(LoginActivity.this, "giveInte", false);
     }
 
     private void setting() {
@@ -364,8 +364,8 @@ public class LoginActivity extends BaseTypeActivity {
 
                 } else if (str.equals("POS:开卡实收金额修改")) {
                     SharedUtil.setSharedBData(LoginActivity.this, "opencard", true);//
-                }else if(str.equals("POS:赠送积分")){
-                    SharedUtil.setSharedBData(LoginActivity.this,"giveInte",true);
+                } else if (str.equals("POS:赠送积分")) {
+                    SharedUtil.setSharedBData(LoginActivity.this, "giveInte", true);
                 }
 
             }
@@ -382,7 +382,7 @@ public class LoginActivity extends BaseTypeActivity {
                 } else if (str.equals("FastCash")) {
                     SharedUtil.setSharedBData(LoginActivity.this, "FX", true);//现金
                 } else if (str.equals("FastCard")) {
-                    SharedUtil.setSharedBData(LoginActivity.this, "FY", true);//银行卡
+                    SharedUtil.setSharedBData(LoginActivity.this, "FT", true);//第三方
 
                 } else if (str.equals("RechargeWeChat")) {
                     SharedUtil.setSharedBData(LoginActivity.this, "RW", true);//充值
@@ -390,8 +390,8 @@ public class LoginActivity extends BaseTypeActivity {
                     SharedUtil.setSharedBData(LoginActivity.this, "RA", true);
                 } else if (str.equals("RechargeCash")) {
                     SharedUtil.setSharedBData(LoginActivity.this, "RX", true);
-                } else if (str.equals("RechargeCard")) {
-                    SharedUtil.setSharedBData(LoginActivity.this, "RY", true);
+                } else if (str.equals("RechargeThird")) {
+                    SharedUtil.setSharedBData(LoginActivity.this, "RT", true);
 
                 } else if (str.equals("OpenWeChat")) {
                     SharedUtil.setSharedBData(LoginActivity.this, "OW", true);//开卡
@@ -399,8 +399,8 @@ public class LoginActivity extends BaseTypeActivity {
                     SharedUtil.setSharedBData(LoginActivity.this, "OA", true);
                 } else if (str.equals("OpenCash")) {
                     SharedUtil.setSharedBData(LoginActivity.this, "OX", true);
-                } else if (str.equals("OpenCard")) {
-                    SharedUtil.setSharedBData(LoginActivity.this, "OY", true);
+                } else if (str.equals("OpenThird")) {
+                    SharedUtil.setSharedBData(LoginActivity.this, "OT", true);//第三方
 
                 } else if (str.equals("GoodWeChat")) {
                     SharedUtil.setSharedBData(LoginActivity.this, "GW", true);//产品消费
@@ -409,7 +409,7 @@ public class LoginActivity extends BaseTypeActivity {
                 } else if (str.equals("GoodCash")) {
                     SharedUtil.setSharedBData(LoginActivity.this, "GX", true);
                 } else if (str.equals("GoodCard")) {
-                    SharedUtil.setSharedBData(LoginActivity.this, "GY", true);
+                    SharedUtil.setSharedBData(LoginActivity.this, "GT", true);
 
                 } else if (str.equals("PurchaseWeChat")) {
                     SharedUtil.setSharedBData(LoginActivity.this, "PW", true);//购次
@@ -418,7 +418,7 @@ public class LoginActivity extends BaseTypeActivity {
                 } else if (str.equals("PurchaseCash")) {
                     SharedUtil.setSharedBData(LoginActivity.this, "PX", true);
                 } else if (str.equals("PurchaseCard")) {
-                    SharedUtil.setSharedBData(LoginActivity.this, "PY", true);
+                    SharedUtil.setSharedBData(LoginActivity.this, "PT", true);
                 }
 
             }

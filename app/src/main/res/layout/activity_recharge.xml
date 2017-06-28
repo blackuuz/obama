@@ -449,7 +449,7 @@
             </TextView>
 
 
-            <include layout="@layout/pay_select2" />
+            <include layout="@layout/pay_select_dsf1" />
 
         </LinearLayout>
     </ScrollView>

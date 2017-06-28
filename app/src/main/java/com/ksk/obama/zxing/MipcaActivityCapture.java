@@ -167,7 +167,6 @@ public class MipcaActivityCapture extends BaseActivity implements Callback {
         Intent intent = getIntent();
         if (intent != null) {
             isPay = intent.getBooleanExtra("isPay", false);
-            type = intent.getStringExtra("type1");
             groupId = intent.getStringExtra("groupId");
             money = intent.getStringExtra("money");
             goods = intent.getStringExtra("goods");

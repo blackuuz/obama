@@ -81,7 +81,7 @@
             </LinearLayout>
 
 
-            <include layout="@layout/pay_select2" />
+            <include layout="@layout/pay_select_dsf1" />
 
         <include layout="@layout/pay_hint" />
     </LinearLayout>

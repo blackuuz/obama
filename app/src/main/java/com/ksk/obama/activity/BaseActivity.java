@@ -2,6 +2,7 @@ package com.ksk.obama.activity;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.ComponentName;
@@ -19,9 +20,16 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -79,6 +87,7 @@ public class BaseActivity extends AutoLayoutActivity {
     public static List<IntegralShopCount> list_integral = new ArrayList<>();
     private InputMethodManager manager;
     protected MyDialog loadingDialog;
+    private Dialog mdialog;
     private IHttpCallBack callBack;
     protected boolean isclick_pay = true;
 
@@ -87,7 +96,7 @@ public class BaseActivity extends AutoLayoutActivity {
      * <p>简单来说就是判断是否满足官方支付条件<p/>
      * <p>17-06-22——by uuz</p>
      *
-     * @param n 支付方式 现金：0   第三方：1 会员卡：4  微信：5   支付宝：6
+     * @param n 支付方式 现金：0  微信：1   支付宝：2  第三方：3 会员卡：4
      * @return 返回布尔
      * @author uuz
      */
@@ -292,60 +301,106 @@ public class BaseActivity extends AutoLayoutActivity {
         this.iPayCallBack = iPayCallBack;
     }
 
-    /**
-     * @param n 付款方式 支付方式 现金：0   扫码：1  微信：10   支付宝：2   银行卡：3   会员卡：4
-     * @param money 金额
-     * @param orderDesc  订单号
-     * @param str2 付款页面
-     */
-    protected void payMoney(int n, String money, String orderDesc, String str2) {
-        switch (robotType) {
-            case 1:
-                if (n == 1 && getSharedBData(BaseActivity.this, "paycode")) {
-                    newPay(n, money, orderDesc);
-                } else if (n == 3 && getSharedBData(BaseActivity.this, "paybank")) {
-                    newPay(n, money, orderDesc);
-                } else {
-                    isclick_pay = true;
-                    Utils.showToast(BaseActivity.this, "没有开通此功能");
-                }
-                break;
 
-            case 3:
-            case 4:
-                if (n == 1 && getSharedBData(BaseActivity.this, "paywx")) {
-                    newPay(n, money, orderDesc, str2);
-                } else if (n == 2 && getSharedBData(BaseActivity.this, "payal")) {
+    /**
+     * @param n         付款方式 支付方式 现金——0   ,微信——1   ,支付宝——2  , 第三方——3,  会员卡——4
+     * @param money     金额
+     * @param orderDesc 订单号
+     * @param str2      付款页面
+     *                  <p> 点击支付选项 调用次方法  2017-6-27  <p/>
+     *                  <p>所有页面的支付选项 都会先调用此方法   </p>
+     */
+    protected void payMoney(final int n, final String money, final String orderDesc, String str2) {
+        switch (robotType) {
+            case 1://拉卡拉
+                switch (n) {
+                    case 3://第三方支付
+                        mdialog = new Dialog(BaseActivity.this, R.style.BottomDialogStyle);
+                        //填充对话框的布局
+                        View view = LayoutInflater.from(BaseActivity.this).inflate(R.layout.dialog_base_sm_yl, null);
+                        //初始化控件
+                        TextView tv_sm = (TextView) view.findViewById(R.id.dia_sm);
+                        TextView tv_yl = (TextView) view.findViewById(R.id.dia_yl);
+                        tv_sm.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                newPay(1, money, orderDesc); //1 扫码
+                                mdialog.dismiss();
+                            }
+                        });
+                        tv_yl.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                newPay(3, money, orderDesc);// 3 为银联
+                                mdialog.dismiss();
+                            }
+                        });
+                        //将布局设置给Dialog
+                        mdialog.setContentView(view);
+                        //获取当前Activity所在的窗体
+                        Window dialogWindow = mdialog.getWindow();
+                        //设置Dialog从窗体底部弹出
+                        dialogWindow.setGravity(Gravity.BOTTOM);
+                        //获得窗体的属性
+                        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+                        DisplayMetrics dm = new DisplayMetrics();
+                        getWindowManager().getDefaultDisplay().getMetrics(dm);
+                        lp.width = (int) (dm.widthPixels * 0.95);
+                        lp.y = 300; //设置Dialog距离底部的距离
+                        dialogWindow.setAttributes(lp); //将属性设置给窗体
+                        mdialog.show();//显示对话框
+                        break;
+                    case 1://微信支付
+                    case 2://支付宝支付
+                        newPay(n, money, orderDesc, str2);//调用摄像头扫码支付
+                        break;
+                }
+                break;
+            case 3://商米
+                if (n == 3) {
+                    isclick_pay = true;
+                    Utils.showToast(BaseActivity.this, "第三方支付尚未开通");
+                } else if (n == 1 || n == 2) {
                     newPay(n, money, orderDesc, str2);
                 } else {
                     isclick_pay = true;
                     Utils.showToast(BaseActivity.this, "没有开通此功能");
                 }
                 break;
-            case 8:
-                if (!TextUtils.isEmpty(money) && Float.parseFloat(money) > 0) {
-                    if (getSharedBData(BaseActivity.this, "pay_ment")) {
-                        requestCashier(n, money, orderDesc);
-                        isclick_pay = true;
-                    } else {
-                        if (n == 1 && getSharedBData(BaseActivity.this, "paywx")) {
-                            newPay(n, money, orderDesc, str2);
-                        } else if (n == 2 && getSharedBData(BaseActivity.this, "payal")) {
-                            newPay(n, money, orderDesc, str2);
-                        } else {
-                            isclick_pay = true;
-                            Utils.showToast(BaseActivity.this, "没有开通此功能");
-                        }
-                    }
+            case 4://手机
+
+                if (n == 3) {
+                    isclick_pay = true;
+                    Utils.showToast(BaseActivity.this, "第三方支付尚未开通");
+                } else if (n == 1 || n == 2) {
+                    newPay(n, money, orderDesc, str2);
                 } else {
                     isclick_pay = true;
-                    Utils.showToast(BaseActivity.this, "请填写正确的金额");
+                    Utils.showToast(BaseActivity.this, "没有开通此功能");
                 }
                 break;
+            case 8://旺POS
+                if (n == 3) {
+                    requestCashier(n, money, orderDesc);
+                } else if (n == 1 || n == 2) {
+                    newPay(n, money, orderDesc, str2);
+                } else{
+                    isclick_pay = true;
+                    Utils.showToast(BaseActivity.this, "没有开通此功能");
+                }
         }
     }
 
-    //sunmi
+
+    /**
+     * @param n     付款方式 支付方式 现金——0   , 微信——1   ,支付宝——2  ,  第三方——3, 会员卡——4
+     * @param str   金额
+     * @param order 订单号
+     * @param str2  付款页面
+     *              <p> 点击支付选项 调用此方法  2017-6-28 <p/>
+     *              <p> 微信、支付宝 调用摄像机扫码 或生成码的方法{通用}<p/>
+     */
+
     private void newPay(int n, String str, String order, String str2) {
         if (!TextUtils.isEmpty(str) && Float.parseFloat(str) > 0) {
             money = str;
@@ -363,11 +418,18 @@ public class BaseActivity extends AutoLayoutActivity {
             startActivityForResult(intent, 10087);
         } else {
             isclick_pay = true;
-            Utils.showToast(BaseActivity.this, "请填写正确的金额");
+            Utils.showToast(BaseActivity.this, "金额不能为空");
         }
     }
 
-    //lkl
+
+    /**
+     * @param n         付款方式
+     * @param money     付款金额
+     * @param orderDesc 订单号
+     *                  <p>拉卡拉官方支付接口  包含扫码 和银联 </p>
+     *                  <p>2017-06-28</p>
+     */
     private void newPay(int n, String money, String orderDesc) {
         if (!TextUtils.isEmpty(money) && Float.parseFloat(money) > 0) {
             Intent intent = new Intent();
@@ -390,7 +452,7 @@ public class BaseActivity extends AutoLayoutActivity {
             startActivityForResult(intent, n);
         } else {
             isclick_pay = true;
-            Utils.showToast(BaseActivity.this, "请填写充值金额");
+            Utils.showToast(BaseActivity.this, "金额不能为空");
         }
     }
 
@@ -434,7 +496,7 @@ public class BaseActivity extends AutoLayoutActivity {
                             if (iPayCallBack != null) {
                                 iPayCallBack.OnPaySucess(order, type);
                             } else {
-                                Log.e("djy", "请实现IPayCallBack接口");
+                                Log.e("uuz", "请实现IPayCallBack接口");
                             }
                         } else {
                             String msg1 = object.getString("result_msg");
@@ -477,7 +539,7 @@ public class BaseActivity extends AutoLayoutActivity {
             Logger.e(resultCode + "-" + data.toString());
             String orderidScan = "";
             switch (requestCode) {
-                case 1:
+                case 1:// pay_tp 1-微信 2-支付宝 3-银联钱包   4-百度钱包 5-京东钱包
                     requestCode = Integer.parseInt(data.getExtras().getString("pay_tp"));
                     String txndetail = data.getExtras().getString("txndetail");
                     if (txndetail != null && txndetail.length() != 0) {
@@ -491,16 +553,16 @@ public class BaseActivity extends AutoLayoutActivity {
                         }
                     }
                     if (iPayCallBack != null) {
-                        iPayCallBack.OnPaySucess(orderidScan, requestCode);
+                        iPayCallBack.OnPaySucess(orderidScan, 3);//3表示第三方支付
                     } else {
                         Utils.showToast(BaseActivity.this, "接口错误");
                     }
                     Utils.showToast(BaseActivity.this, "支付成功");
                     break;
-                case 3:
+                case 3://拉卡拉银行卡支付回调 返回信息
                     orderidScan = data.getExtras().getString("refernumber");//参考号
                     if (iPayCallBack != null) {
-                        iPayCallBack.OnPaySucess(orderidScan, requestCode);
+                        iPayCallBack.OnPaySucess(orderidScan, 3);
                     } else {
                         Utils.showToast(BaseActivity.this, "接口错误");
                     }
@@ -516,7 +578,7 @@ public class BaseActivity extends AutoLayoutActivity {
                         }
                     }
                     break;
-                case 10087://扫码结果
+                case 10087://支付扫码结果
                     int type0 = data.getExtras().getInt("type");
                     switch (type0) {
                         case 0://扫码主动
@@ -537,7 +599,7 @@ public class BaseActivity extends AutoLayoutActivity {
                                 postToHttp(NetworkUrl.PAYCODE, map, new IHttpCallBack() {
                                     @Override
                                     public void OnSucess(String jsonText) {
-                                        Log.e("djy", jsonText);
+                                        Log.e("uuz", jsonText);
                                         try {
                                             JSONObject object1 = new JSONObject(jsonText);
                                             String tag = object1.getString("result");
@@ -545,6 +607,7 @@ public class BaseActivity extends AutoLayoutActivity {
                                                 Log.e("uuz", "成功" + jsonText);
                                                 Utils.showToast(BaseActivity.this, "支付成功");
                                                 if (iPayCallBack != null) {
+                                                    Log.e("uuz", "OnSucess: +++++++++++"+type);
                                                     iPayCallBack.OnPaySucess(orderNo, type);
                                                 } else {
                                                     Log.e("uuz", "请实现IPayCallBack接口");
@@ -578,7 +641,7 @@ public class BaseActivity extends AutoLayoutActivity {
                             String memoBillNum = data.getExtras().getString("memoBillNum");
                             if (iPayCallBack != null) {
                                 iPayCallBack.OnPaySucess(memoBillNum, type);
-
+                                Log.e("uuz", "OnSucess: +++++++++++"+type);
                             } else {
                                 Log.e("uuz", "请实现IPayCallBack接口");
                             }
@@ -716,46 +779,55 @@ public class BaseActivity extends AutoLayoutActivity {
     private ProgressDialog pd = null;
     private BizServiceInvoker mBizServiceInvoker;
 
+
     /**
-     * WangPos本地调用收银服务
+     * @param n         支付方式
+     * @param money     支付金额
+     * @param orderDesc 订单号
+     *                  <p> 旺POS 官方支付接口调用</p>
      */
     private void requestCashier(int n, String money, String orderDesc) {
-        // 1003 微信
-        // 1004 支付宝
-        // 1006 银行卡
-        switch (n) {
-            case 1:
-                pay_type = "1003";
-                break;
-            case 3:
-                pay_type = "1006";
-                break;
-        }
-        if (money == "") {
-            Utils.showToast(BaseActivity.this, "请填写正确的金额");
+        if (!TextUtils.isEmpty(money) && Float.parseFloat(money) > 0) {
+            // 1003 微信
+            // 1004 支付宝
+            // 1006 银行卡
+            switch (n) {
+                case 3:
+                    pay_type = "1003";
+                    break;
+                default:
+                    pay_type = "1003";
+                    break;
+            }
+            if (money == "") {
+                Utils.showToast(BaseActivity.this, "金额不能为空");
 
-            return;
-        }
-        String s[] = (Utils.getNumStr(Float.parseFloat(money) * 100)).split("\\.");
-        total_fee = s[0];
-        backClassPath = "com.ksk.obama.activity." + getRunningActivityName();//uuz 动态获取当前运行Activity 的名字
-        Log.d("8268", "innerRequestCashier: " + backClassPath + "===" + s[0]);
-        tradeNo = orderDesc;
+                return;
+            }
+            String s[] = (Utils.getNumStr(Float.parseFloat(money) * 100)).split("\\.");
+            total_fee = s[0];
+            backClassPath = "com.ksk.obama.activity." + getRunningActivityName();//uuz 动态获取当前运行Activity 的名字
+            Log.d("8268", "innerRequestCashier: " + backClassPath + "===" + s[0]);
+            tradeNo = orderDesc;
 
 
-        try {
-            // 初始化服务调用
-            mBizServiceInvoker = WeiposImpl.as().getService(BizServiceInvoker.class);
-        } catch (Exception e) {
-            // TODO: handle exception
+            try {
+                // 初始化服务调用
+                mBizServiceInvoker = WeiposImpl.as().getService(BizServiceInvoker.class);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+            if (mBizServiceInvoker == null) {
+                Toast.makeText(this, "初始化服务调用失败", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            // 设置请求订阅服务监听结果的回调方法
+            mBizServiceInvoker.setOnResponseListener(mOnResponseListener);
+            innerRequestCashier();
+        } else {
+            isclick_pay = true;
+            Utils.showToast(BaseActivity.this, "金额不能为空");
         }
-        if (mBizServiceInvoker == null) {
-            Toast.makeText(this, "初始化服务调用失败", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        // 设置请求订阅服务监听结果的回调方法
-        mBizServiceInvoker.setOnResponseListener(mOnResponseListener);
-        innerRequestCashier();
     }
 
     //业务demo在bp平台中的的bpid，这里填写对应应用所属bp账号的bpid和对应的key--------------需要动态改变
@@ -894,22 +966,8 @@ public class BaseActivity extends AutoLayoutActivity {
                     orderidScan = wData.getCashier_trade_no();
                     if (iPayCallBack != null) {
                         int type = -1;
-                        if (wData.getPay_type() != null) {
-                            switch (wData.getPay_type()) {
-                                case "1003":
-                                    type = 1;
-                                    break;
-                                case "1004":
-                                    type = 2;
-                                    break;
-                                case "1006":
-                                    type = 3;
-                                    break;
-                                default:
-                                    type = 10;
-                                    break;
-                            }
-                            iPayCallBack.OnPaySucess(orderidScan, type);
+                        if (wData.getPay_type() != null) {//type 值为付款方式 但是现在只设定为“3” 表示第三方支付
+                            iPayCallBack.OnPaySucess(orderidScan, 3);
                         }
                     } else {
                         Utils.showToast(BaseActivity.this, "接口错误");

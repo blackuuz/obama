@@ -66,25 +66,25 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
     private boolean isTemporary = false;
     private String temName = "";
     private String temporaryNum = "";
+
+    boolean XJ, WX, AL, TR;
+
     private Unbinder unbinder;
 
     @BindView(R.id.tv_pay_xj)
-    TextView pay_xj;
-    @BindView(R.id.tv_pay_xj1)
-    TextView pay_xj1;
-    @BindView(R.id.tv_pay_sm)
-    TextView pay_sm;
-    @BindView(R.id.tv_pay_yl)
-    TextView pay_yl;
-    @BindView(R.id.tv_pay_wx)
-    TextView pay_wx;
-    @BindView(R.id.tv_pay_zfb)
-    TextView pay_zfb;
+    TextView tvPayXj;
+    @BindView(R.id.tv_pay_dsf)
+    TextView tvPayDsf;
 
-    @BindView(R.id.ll_lkl)
-    LinearLayout ll_lkl;
+    @BindView(R.id.tv_pay_wx)
+    TextView tvPayWx;
+    @BindView(R.id.tv_pay_zfb)
+    TextView tvPayZfb;
+
+    @BindView(R.id.ll_top)
+    LinearLayout llTop;
     @BindView(R.id.ll_w_a)
-    LinearLayout ll_w_a;
+    LinearLayout llWA;
 
     @BindView(R.id.tv_pay_open_money)
     TextView tv_money;
@@ -138,7 +138,10 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
     }
 
     private void initView() {
-
+        XJ = SharedUtil.getSharedBData(PayOpenCardActivity.this, "OX");
+        WX = SharedUtil.getSharedBData(PayOpenCardActivity.this, "OW");
+        AL = SharedUtil.getSharedBData(PayOpenCardActivity.this, "OA");
+        TR = SharedUtil.getSharedBData(PayOpenCardActivity.this, "OT");
         InputFilter[] filters = {new MyTextFilter()};
         et_pay.setFilters(filters);
         if (SharedUtil.getSharedBData(PayOpenCardActivity.this, "opencard")) {
@@ -148,61 +151,31 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
             et_pay.requestFocus();
             et_pay.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
         }
-        //  tv_money = (TextView) findViewById(R.id.tv_pay_open_money);
-        if (!SharedUtil.getSharedBData(PayOpenCardActivity.this, "RX")) {
-            pay_xj.setVisibility(View.GONE);
-            pay_xj1.setVisibility(View.GONE);
+        if (!XJ) {
+            tvPayXj.setVisibility(View.GONE);//如果没有现金权限隐藏现金支付
         }
-        switch (robotType) {
-            case 1:
-                ll_w_a.setVisibility(View.GONE);
-                if (SharedUtil.getSharedBData(PayOpenCardActivity.this, "RW") && SharedUtil.getSharedBData(PayOpenCardActivity.this, "RA")) {
-                    pay_sm.setVisibility(View.VISIBLE);
-                } else {
-                    pay_sm.setVisibility(View.GONE);
-                }
-                if (!SharedUtil.getSharedBData(PayOpenCardActivity.this, "RY")) {
-                    pay_yl.setVisibility(View.GONE);
-                }
-                break;
-            case 3:
-            case 4:
-                ll_lkl.setVisibility(View.GONE);
-                if (!SharedUtil.getSharedBData(PayOpenCardActivity.this, "RW")) {
-                    pay_wx.setVisibility(View.GONE);
-                }
-                if (!SharedUtil.getSharedBData(PayOpenCardActivity.this, "RA")) {
-                    pay_zfb.setVisibility(View.GONE);
-                }
-                break;
-            case 8:
-                if (SharedUtil.getSharedBData(PayOpenCardActivity.this, "pay_ment")) {//如果结果为true证明使用官方支付接口
-                    ll_w_a.setVisibility(View.GONE);
-                    if (SharedUtil.getSharedBData(PayOpenCardActivity.this, "RW") && SharedUtil.getSharedBData(PayOpenCardActivity.this, "RA")) {
-                        pay_sm.setVisibility(View.VISIBLE);
-                    } else {
-                        pay_sm.setVisibility(View.GONE);
-                    }
-                    if (!SharedUtil.getSharedBData(PayOpenCardActivity.this, "RY")) {
-                        pay_yl.setVisibility(View.GONE);
-                    }
-                } else {
-                    ll_lkl.setVisibility(View.GONE);
-                    if (!SharedUtil.getSharedBData(PayOpenCardActivity.this, "RW")) {
-                        pay_wx.setVisibility(View.GONE);
-                    }
-                    if (!SharedUtil.getSharedBData(PayOpenCardActivity.this, "RA")) {
-                        pay_zfb.setVisibility(View.GONE);
-                    }
-                }
-                break;
+        if (!TR) {
+            tvPayDsf.setVisibility(View.GONE); //如果没有第三方权限隐藏第三方支付
         }
-        pay_xj1.setOnClickListener(this);
-        pay_sm.setOnClickListener(this);
-        pay_wx.setOnClickListener(this);
-        pay_xj.setOnClickListener(this);
-        pay_zfb.setOnClickListener(this);
-        pay_yl.setOnClickListener(this);
+        if (!XJ && !TR) {
+            llTop.setVisibility(View.GONE); //现金第三方都没有隐藏布局
+        }
+        if (robotType == 4) {
+            tvPayDsf.setVisibility(View.GONE); //如果机型是手机隐藏第三方支付
+        }
+        if (!WX) {
+            tvPayWx.setVisibility(View.GONE);//如果没有微信权限隐藏微信支付
+        }
+        if (!AL) {
+            tvPayZfb.setVisibility(View.GONE);//如果没有阿里权限隐藏支付宝支付
+        }
+        if (!WX && !AL) {
+            llWA.setVisibility(View.GONE);//微信阿里同时没有权限 隐藏布局
+        }
+        tvPayXj.setOnClickListener(this);
+        tvPayDsf.setOnClickListener(this);
+        tvPayZfb.setOnClickListener(this);
+        tvPayWx.setOnClickListener(this);
         this.setOnPayCallBack(this);
     }
 
@@ -242,6 +215,10 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
             case 0:
                 map.put("payCash", actualMoney);
                 break;
+            case 3:
+                map.put("payThird", actualMoney);
+                map.put("refernumber", orderno);
+                break;
             case 1:
                 map.put("payWeChat", actualMoney);
                 map.put("refernumber", orderno);
@@ -250,13 +227,6 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
                 map.put("payAli", actualMoney);
                 map.put("refernumber", orderno);
                 break;
-            case 3:
-                map.put("payBank", actualMoney);
-                map.put("refernumber", orderno);
-                break;
-            case 10:
-                map.put("payOther",actualMoney);
-                map.put("refernumber",orderno);
 
         }
         map.put("EquipmentNum", terminalSn);
@@ -287,15 +257,13 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
                 flag = true;
                 tv_print.setVisibility(View.VISIBLE);
                 tv_print.setEnabled(true);
-                pay_xj.setVisibility(View.GONE);
-                pay_sm.setVisibility(View.GONE);
-                pay_yl.setVisibility(View.GONE);
+                // TODO: 2017/6/27 付款成功后隐藏支付方式
+                llTop.setVisibility(View.GONE);
+                llWA.setVisibility(View.GONE);
                 String msg = object.getString("result_msg");
                 Utils.showToast(PayOpenCardActivity.this, msg);
                 payHint(true);
                 printInfo(true);
-
-
                 switch (robotType) {
                     case 3:
                     case 4:
@@ -332,21 +300,16 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
             if (actualMoney.equals("")) {
                 actualMoney = "0";
             }
-
-
             switch (v.getId()) {
                 case R.id.tv_pay_xj:
-                case R.id.tv_pay_xj1:
-                    if (isXJ) {
-                        n = 0;
-                        sendData();
-                    } else {
-                        isclick_pay = true;
-                        Utils.showToast(PayOpenCardActivity.this, "没有开通此功能");
-                    }
-
+                    n = 0;
+                    sendData();
                     break;
-                case R.id.tv_pay_sm:
+                case R.id.tv_pay_dsf:
+                    isclick_pay = true;
+                    n = 3;
+                    payMoney(3, actualMoney, orderNumber, "开卡");
+                    break;
                 case R.id.tv_pay_wx:
                     n = 1;
                     payMoney(1, actualMoney, orderNumber, "开卡");
@@ -354,10 +317,6 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
                 case R.id.tv_pay_zfb:
                     n = 2;
                     payMoney(2, actualMoney, orderNumber, "开卡");
-                    break;
-                case R.id.tv_pay_yl:
-                    n = 3;
-                    payMoney(3, actualMoney, orderNumber, "开卡");
                     break;
             }
         }

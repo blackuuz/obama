@@ -67,6 +67,7 @@ import static com.ksk.obama.utils.SharedUtil.getSharedData;
 public class RechargeActivity extends BasePrintActivity implements View.OnClickListener, IPayCallBack,
         IPrintSuccessCallback, IPrintErrorCallback, ICreateOrderNumber {
 
+
     private TextView tv_print;
     private TextView tv_cardNum;
     private TextView tv_name;
@@ -122,24 +123,19 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
     private ReadCardInfo.ResultDataBean cardInfo = null;
     private Unbinder unbinder;
     private RechargeAdapter adapter;
-
+    private boolean XJ, WX, AL, TR;
     @BindView(R.id.tv_pay_xj)
-    TextView pay_xj;
-    @BindView(R.id.tv_pay_xj1)
-    TextView pay_xj1;
-    @BindView(R.id.tv_pay_sm)
-    TextView pay_sm;
-    @BindView(R.id.tv_pay_yl)
-    TextView pay_yl;
+    TextView tvPayXj;
+    @BindView(R.id.tv_pay_dsf)
+    TextView tvPayDsf;
+    @BindView(R.id.ll_top)
+    LinearLayout llTop;
     @BindView(R.id.tv_pay_wx)
-    TextView pay_wx;
+    TextView tvPayWx;
     @BindView(R.id.tv_pay_zfb)
-    TextView pay_zfb;
-
-    @BindView(R.id.ll_lkl)
-    LinearLayout ll_lkl;
+    TextView tvPayZfb;
     @BindView(R.id.ll_w_a)
-    LinearLayout ll_w_a;
+    LinearLayout llWA;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,13 +144,14 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
         setOnPrintError(this);
         setOnPrintSuccess(this);
         setOnCrateOrderNumber(this);
+        this.setOnPayCallBack(this);
         unbinder = ButterKnife.bind(this);
         initTitale();
         initView();
         setListener();
         initData();
         getOrderNum("CZ");
-        getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);//默认不弹出键盘
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);//默认不弹出键盘
     }
 
     private void initTitale() {
@@ -179,6 +176,32 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
     }
 
     private void initView() {
+        XJ = SharedUtil.getSharedBData(RechargeActivity.this, "RX");
+        WX = SharedUtil.getSharedBData(RechargeActivity.this, "RW");
+        AL = SharedUtil.getSharedBData(RechargeActivity.this, "RA");
+        TR = SharedUtil.getSharedBData(RechargeActivity.this, "RT");
+        if (!XJ) {
+            tvPayXj.setVisibility(View.GONE);//如果没有现金权限隐藏现金支付
+        }
+        if (!TR) {
+            tvPayDsf.setVisibility(View.GONE); //如果没有第三方权限隐藏第三方支付
+        }
+        if (!XJ && !TR) {
+            llTop.setVisibility(View.GONE); //现金第三方都没有隐藏布局
+        }
+        if (robotType == 4) {
+            tvPayDsf.setVisibility(View.GONE); //如果机型是手机隐藏第三方支付
+        }
+        if (!WX) {
+            tvPayWx.setVisibility(View.GONE);//如果没有微信权限隐藏微信支付
+        }
+        if (!AL) {
+            tvPayZfb.setVisibility(View.GONE);//如果没有阿里权限隐藏支付宝支付
+        }
+        if (!WX && !AL) {
+            llWA.setVisibility(View.GONE);//微信阿里同时没有权限 隐藏布局
+        }
+
         tv_cardNum = (TextView) findViewById(R.id.tv_rech_cardNum);
         tv_name = (TextView) findViewById(R.id.tv_rech_name);
         tv_type = (TextView) findViewById(R.id.tv_rech_type);
@@ -220,7 +243,6 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
             et_integral.requestFocus();
             // et_integral.setClickable(true);
             et_integral.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
-
         }
         if (SharedUtil.getSharedBData(RechargeActivity.this, "ssje")) {
             btn_modify2.setVisibility(View.GONE);
@@ -229,59 +251,8 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
             tv_pay.requestFocus();
             //tv_pay.setClickable(true);
             tv_pay.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
-
         }
 
-
-        if (!SharedUtil.getSharedBData(RechargeActivity.this, "RX")) {
-            pay_xj.setVisibility(View.GONE);
-            pay_xj1.setVisibility(View.GONE);
-        }
-        switch (robotType) {
-            case 1:
-                ll_w_a.setVisibility(View.GONE);
-                if (SharedUtil.getSharedBData(RechargeActivity.this, "RW") && SharedUtil.getSharedBData(RechargeActivity.this, "RA")) {
-                    pay_sm.setVisibility(View.VISIBLE);
-                } else {
-                    pay_sm.setVisibility(View.GONE);
-                }
-                if (!SharedUtil.getSharedBData(RechargeActivity.this, "RY")) {
-                    pay_yl.setVisibility(View.GONE);
-                }
-                break;
-            case 3:
-            case 4:
-
-                ll_lkl.setVisibility(View.GONE);
-                if (!SharedUtil.getSharedBData(RechargeActivity.this, "RW")) {
-                    pay_wx.setVisibility(View.GONE);
-                }
-                if (!SharedUtil.getSharedBData(RechargeActivity.this, "RA")) {
-                    pay_zfb.setVisibility(View.GONE);
-                }
-                break;
-            case 8:
-                if (SharedUtil.getSharedBData(RechargeActivity.this, "pay_ment")) {//如果结果为true证明使用官方支付接口
-                    ll_w_a.setVisibility(View.GONE);
-                    if (SharedUtil.getSharedBData(RechargeActivity.this, "RW") && SharedUtil.getSharedBData(RechargeActivity.this, "RA")) {
-                        pay_sm.setVisibility(View.VISIBLE);
-                    } else {
-                        pay_sm.setVisibility(View.GONE);
-                    }
-                    if (!SharedUtil.getSharedBData(RechargeActivity.this, "RY")) {
-                        pay_yl.setVisibility(View.GONE);
-                    }
-                } else {
-                    ll_lkl.setVisibility(View.GONE);
-                    if (!SharedUtil.getSharedBData(RechargeActivity.this, "RW")) {
-                        pay_wx.setVisibility(View.GONE);
-                    }
-                    if (!SharedUtil.getSharedBData(RechargeActivity.this, "RA")) {
-                        pay_zfb.setVisibility(View.GONE);
-                    }
-                }
-                break;
-        }
 
         btn_select = (Button) findViewById(R.id.btn_rech);
         lv_recharge = (ListView) findViewById(R.id.lv_recharge);
@@ -322,13 +293,10 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
     }
 
     private void setListener() {
-        this.setOnPayCallBack(this);
-        pay_xj1.setOnClickListener(this);
-        pay_sm.setOnClickListener(this);
-        pay_wx.setOnClickListener(this);
-        pay_xj.setOnClickListener(this);
-        pay_zfb.setOnClickListener(this);
-        pay_yl.setOnClickListener(this);
+        tvPayXj.setOnClickListener(this);
+        tvPayDsf.setOnClickListener(this);
+        tvPayZfb.setOnClickListener(this);
+        tvPayWx.setOnClickListener(this);
 
         tv_clean.setOnClickListener(this);
         btn_select.setOnClickListener(this);
@@ -453,30 +421,17 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_pay_xj://现金支付
-            case R.id.tv_pay_xj1:
-                if (isXJ) {
-                    if (isclick_pay) {
-                        isclick_pay = false;
-                        n = 0;
-                        sendData("");
-                    }
-                } else {
-                    Utils.showToast(RechargeActivity.this, "没有开通此功能");
-                }
-
-                break;
-            case R.id.tv_pay_sm://扫码支付
                 if (isclick_pay) {
                     isclick_pay = false;
-                    n = 1;
+                    n = 0;
                     sendData("");
-                    // TODO: 2017/6/23
-//暂时扫码支付只有拉卡拉和旺POS才有 不需要判断
-//                    if (robotType == 1) {
-//                        sendData("");
-//                    } else {
-//                        payMoney(1, tv_pay.getText().toString(), orderNumber, "会员充值");
-//                    }
+                }
+                break;
+            case R.id.tv_pay_dsf://第三方支付
+                if (isclick_pay) {
+                    isclick_pay = false;
+                    n = 3;
+                    sendData("");
                 }
                 break;
             case R.id.tv_pay_wx://微信支付
@@ -487,18 +442,6 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
                     //payMoney(1, tv_pay.getText().toString(), orderNumber, "会员充值");
                 }
                 break;
-            case R.id.tv_pay_yl://银联支付
-                if (isclick_pay) {
-                    isclick_pay = false;
-                    n = 3;
-                    if (robotType == 1||robotType == 8) {
-                        sendData("");
-                    } else {
-                        payMoney(3, tv_pay.getText().toString(), orderNumber, "会员充值");
-                    }
-                }
-                break;
-
             case R.id.tv_pay_zfb://支付宝支付
                 if (isclick_pay) {
                     isclick_pay = false;
@@ -541,7 +484,6 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
         } else {
             paysend = et_pay_give.getText().toString();
         }
-
         if (TextUtils.isEmpty(m_is)) {
             isclick_pay = true;
             Utils.showToast(RechargeActivity.this, "请填写充值金额");
@@ -578,7 +520,7 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
                     break;
                 case 3:
                     map.put("refernumber", orderidScan);
-                    map.put("payBank", m_sj);
+                    map.put("payThird", m_sj);
                     break;
             }
             postToHttp(NetworkUrl.RECHARGE, map, new IHttpCallBack() {
@@ -589,7 +531,7 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
 
                 @Override
                 public void OnFail(String message) {
-                    if (robotType != 1 || (n != 1 && n != 3)) {
+                    if (n != 3) {
                         showAlert();
                     } else {
                         isclick_pay = true;
@@ -605,21 +547,18 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
             JSONObject object = new JSONObject(jsontext);
             String tag = object.getString("result_stadus");
             if (tag.equals("SUCCESS")) {
-                if (robotType_pay(n)) {
-                    payMoney(n, tv_pay.getText().toString(), orderNumber, "会员充值");
-                } else if ((robotType != 1 && n == 1) || (robotType != 1 && n == 2)) {
+                if (n != 0) {
                     payMoney(n, tv_pay.getText().toString(), orderNumber, "会员充值");
                 } else {
                     reSet();
                 }
-
             } else if (tag.equals("ERR")) {
                 isclick_pay = true;
                 String msg = object.getString("result_errmsg");
                 Utils.showToast(RechargeActivity.this, msg);
             } else {
                 Utils.showToast(RechargeActivity.this, "支付失败,请稍后重试");
-                if (robotType != 1 || (n != 1 && n != 3)) {
+                if (n!=3) {
                     showAlert();
                 } else {
                     isclick_pay = true;
@@ -961,13 +900,8 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
     public void OnPaySucess(String orderNum, int payMode) {
         n = payMode;
         order_again = orderNum;
-        if ((robotType == 1 && n == 1) || (robotType == 1 && n == 2) || (robotType == 1 && n == 3)) {
-            LKLPay(orderNum);
-        } else {
-            //  sendData(orderNum);
-            LKLPay(orderNum);
-            loadingDialog.show();
-        }
+        LKLPay(orderNum);
+        loadingDialog.show();
 
     }
 
@@ -986,7 +920,7 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
                 map.put("n_GetIntegral", et_integral.getText().toString());
                 break;
             case 3:
-                map.put("payBank", et_paya.getText().toString());
+                map.put("payThird", et_paya.getText().toString());
                 map.put("n_GetIntegral", et_integral.getText().toString());
                 break;
         }

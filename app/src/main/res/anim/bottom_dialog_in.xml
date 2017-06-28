@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<translate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="200"
+    android:fromYDelta="100%"
+    android:toYDelta="0" />
+<!--底部弹出选则扫码或银联的动画-->
