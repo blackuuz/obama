@@ -20,7 +20,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 24
         versionCode 345
-        versionName "3.1.4"//time : 2017-06-28--13:57
+        versionName "3.1.4"//time : 2017-6-29-15:07 修改银联 扫码支付 为第三方支付  未测试版
         //versionName "_____"//旺pos
 
     }

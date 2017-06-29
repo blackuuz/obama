@@ -7,10 +7,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.ksk.obama.DB.RechargeAgain;
@@ -27,6 +29,7 @@ import com.orhanobut.logger.Logger;
 import org.litepal.crud.DataSupport;
 import org.litepal.tablemanager.Connector;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +45,8 @@ public class ReadCardInfoActivity extends BaseReadCardActivity implements IReadC
     private boolean flag = false;
     private String preID = "";
     private String uid = "";
+    private List<ReadCardInfo.ResultDataBean> data = new ArrayList<>();
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -135,6 +140,7 @@ public class ReadCardInfoActivity extends BaseReadCardActivity implements IReadC
             @Override
             public void OnSucess(String jsonText) {
                 Logger.e(jsonText);
+                Logger.json(jsonText);
                 isclick_pay = true;
                 changeActivity(jsonText);
             }
@@ -174,9 +180,63 @@ public class ReadCardInfoActivity extends BaseReadCardActivity implements IReadC
         }
     }
 
+
+    int yourChoice;
+
+    private void showSingleChoiceDialog() {
+        final String[] items = card__;
+        yourChoice = -1;
+        AlertDialog.Builder singleChoiceDialog =
+                new AlertDialog.Builder(ReadCardInfoActivity.this);
+        singleChoiceDialog.setTitle("请选择要使用的会员卡");
+        // 第二个参数是默认选项，此处设置为0
+        singleChoiceDialog.setSingleChoiceItems(items, 0,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        yourChoice = which;
+                    }
+                });
+        singleChoiceDialog.setPositiveButton("确定",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (yourChoice != -1) {
+                            Toast.makeText(ReadCardInfoActivity.this,
+                                    "你选择了" + items[yourChoice],
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+        singleChoiceDialog.show();
+    }
+
+    private String card__[] = null;
     private void changeActivity(String json) {
         ReadCardInfo readCard = new Gson().fromJson(json, ReadCardInfo.class);
         if (readCard.getResult_stadus().equals("SUCCESS")) {
+            int card_dnum = 0;
+            try {
+                card_dnum = Integer.parseInt(readCard.getResult_datasNum());
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                Log.e("uuz", " String转int 异常 ");
+            }
+            if (card_dnum > 1) {
+                String cardNo[] = new String[card_dnum];
+                String cardName[] = new String[card_dnum];
+                card__ = new String[card_dnum];
+                data.addAll(readCard.getResult_datas());
+                for (int i = 0;i<card_dnum;i++){
+                    cardNo[i] = readCard.getResult_datas().get(i).getC_CardNO();
+                    cardName[i] = readCard.getResult_datas().get(i).getC_Name();
+                    card__[i] = cardName[i]+"\t\t\t"+cardNo[i];
+
+                }
+                showSingleChoiceDialog();
+            } else {
+
+            }
             switch (robotType) {
                 case 3:
                     et_cradNum.setText(readCard.getResult_data().getC_CardNO());

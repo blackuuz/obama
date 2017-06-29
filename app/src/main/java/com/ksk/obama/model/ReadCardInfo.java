@@ -14,11 +14,25 @@ public class ReadCardInfo {
      * result_code : SUCCESS
      * result_msg : 是我们的会员
      * result_data : {"id":"11","i_GroupID":"1","i_ShopID":"1","c_CardNO":"123","c_Name":"12312","c_Sex":"","c_Mobile":"","c_IDCard":"","c_Car":"","c_Add":"","c_Password":"","c_BirthdayType":"","i_BirthdayYear":"0","i_BirthdayMonth":"1","i_BirthdayDay":"1","i_ClassID":"1","c_ClassName":"金卡改过名","n_IntegralValue":"100.00","n_DiscountValue":"88.00","n_AmountAvailable":"1197.00","n_IntegralAvailable":"1000.00","n_IntegralAccumulated":"1000.00","t_CreateTime":"2016-07-08 10:41:44.000","t_StopTime":"2026-07-07 00:00:00.000","t_LastTime":"2016-07-08 10:41:44.000","c_OpenID":"","c_Remark":"","c_Photo":"","i_Memberup":null,"c_Memberpath":null,"ROW_NUMBER":"1"}
+     * result_datas: [{……},{……},{……}]
+     *
      */
 
     private String result_stadus;
     private String result_errmsg;
     private String result_lost;
+    private String result_datasNum;  //是否开启一块
+
+
+    private List<ResultDataBean> result_datas;
+
+    public List<ResultDataBean> getResult_datas() {
+        return result_datas;
+    }
+
+    public void setResult_datas(List<ResultDataBean> result_datas) {
+        this.result_datas = result_datas;
+    }
 
     /**
      * id : 11
@@ -67,7 +81,13 @@ public class ReadCardInfo {
     public void setResult_project(List<PesultProject> result_project) {
         this.result_project = result_project;
     }
+    public String getResult_datasNum() {
+        return result_datasNum;
+    }
 
+    public void setResult_datasNum(String result_datasNum) {
+        this.result_datasNum = result_datasNum;
+    }
     public String getResult_lost() {
         return result_lost;
     }
