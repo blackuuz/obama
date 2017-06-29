@@ -12,7 +12,6 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,12 +59,14 @@ import static com.ksk.obama.R.id.btn_hdjf;
 import static com.ksk.obama.R.id.btn_sjsk;
 import static com.ksk.obama.R.id.et_dx_jf;
 import static com.ksk.obama.R.id.ll_jfdx;
+import static com.ksk.obama.R.id.ll_pay;
 import static com.ksk.obama.R.id.tv_money_dx;
 import static com.ksk.obama.utils.SharedUtil.getSharedData;
 import static java.lang.Float.parseFloat;
 
 public class PayBuyCountActivity extends BasePrintActivity implements View.OnClickListener, IPayCallBack,
         IPrintSuccessCallback, IPrintErrorCallback, ICreateOrderNumber {
+
 
 
     private boolean isPay = false;
@@ -81,7 +82,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
     private String times;
     private String moneycount;
     private String order_again = "";
-    private LinearLayout ll_pay;
+
     private String net_url;
     private TextView tv_print;
     private String validTimes;
@@ -132,25 +133,30 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
     Button btnDxjf;
     @BindView(ll_jfdx)
     LinearLayout llJfdx;
+
     @BindView(R.id.cb_ischeck_cpxf)
     AppCompatCheckBox db_isCheck;
 
-    @BindView(R.id.tv_pay_xj)
-    TextView pay_xj;
-    @BindView(R.id.tv_pay_sm)
-    TextView pay_sm;
+
     @BindView(R.id.tv_pay_hy)
-    TextView pay_hy;
-    @BindView(R.id.tv_pay_yl)
-    TextView pay_yl;
+    TextView tvPayHy;
+    @BindView(R.id.tv_pay_xj)
+    TextView tvPayXj;
+    @BindView(R.id.ll_top_xj)
+    LinearLayout llTopXj;
     @BindView(R.id.tv_pay_wx)
-    TextView pay_wx;
+    TextView tvPayWx;
     @BindView(R.id.tv_pay_zfb)
-    TextView pay_zfb;
-    @BindView(R.id.ll_lkl)
-    LinearLayout ll_lkl;
+    TextView tvPayZfb;
     @BindView(R.id.ll_w_a)
-    LinearLayout ll_w_a;
+    LinearLayout llWA;
+    @BindView(R.id.tv_pay_dsf)
+    TextView tvPayDsf;
+    @BindView(R.id.ll_dsf)
+    LinearLayout llDsf;
+    @BindView(ll_pay)
+    LinearLayout llPay;
+    private boolean XJ, WX, AL, TR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,6 +207,34 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
     }
 
     private void initView() {
+
+        XJ = SharedUtil.getSharedBData(PayBuyCountActivity.this, "PX");
+        WX = SharedUtil.getSharedBData(PayBuyCountActivity.this, "PW");
+        AL = SharedUtil.getSharedBData(PayBuyCountActivity.this, "PA");
+        TR = SharedUtil.getSharedBData(PayBuyCountActivity.this, "PT");
+
+        if (!XJ) {
+            tvPayXj.setVisibility(View.GONE);//如果没有现金权限隐藏现金支付
+        }
+        if (!WX) {
+            tvPayWx.setVisibility(View.GONE);//如果没有微信权限隐藏微信支付
+        }
+        if (!AL) {
+            tvPayZfb.setVisibility(View.GONE);//如果没有阿里权限隐藏支付宝支付
+        }
+        if (!WX && !AL) {
+            llWA.setVisibility(View.GONE);//微信阿里同时没有权限 隐藏布局
+        }
+        if (!TR || robotType == 4) {
+            llDsf.setVisibility(View.GONE);
+            tvPayDsf.setVisibility(View.GONE); //如果没有第三方权限隐藏第三方支付
+        }
+        tvPayXj.setOnClickListener(this);
+        tvPayDsf.setOnClickListener(this);
+        tvPayZfb.setOnClickListener(this);
+        tvPayWx.setOnClickListener(this);
+        tvPayHy.setOnClickListener(this);
+
         dx_jf = parseFloat(SharedUtil.getSharedData(PayBuyCountActivity.this, "dx_jf"));//几多积分抵现一元
         dx_mr = parseFloat(SharedUtil.getSharedData(PayBuyCountActivity.this, "dx_mr")) * 0.01f;//默认抵现倍率
         dx_max = parseFloat(SharedUtil.getSharedData(PayBuyCountActivity.this, "dx_max"));//最大抵现几多
@@ -230,57 +264,6 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
             etDxJf.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
         }
 
-
-        ll_pay = (LinearLayout) findViewById(R.id.ll_pay);
-        if (!SharedUtil.getSharedBData(PayBuyCountActivity.this, "PX")) {
-            pay_xj.setVisibility(View.GONE);
-        }
-
-        Log.d("10086", SharedUtil.getSharedBData(PayBuyCountActivity.this, "PW") + "------" + SharedUtil.getSharedBData(PayBuyCountActivity.this, "PA"));
-        switch (robotType) {
-            case 1:
-                ll_w_a.setVisibility(View.GONE);
-                if (SharedUtil.getSharedBData(PayBuyCountActivity.this, "PW") && SharedUtil.getSharedBData(PayBuyCountActivity.this, "PA")) {
-                    pay_sm.setVisibility(View.VISIBLE);
-                } else {
-                    pay_sm.setVisibility(View.GONE);
-                }
-                if (!SharedUtil.getSharedBData(PayBuyCountActivity.this, "PY")) {
-                    pay_yl.setVisibility(View.GONE);
-                }
-                break;
-            case 3:
-            case 4:
-                ll_lkl.setVisibility(View.GONE);
-                if (!SharedUtil.getSharedBData(PayBuyCountActivity.this, "PW")) {
-                    pay_wx.setVisibility(View.GONE);
-                }
-                if (!SharedUtil.getSharedBData(PayBuyCountActivity.this, "PA")) {
-                    pay_zfb.setVisibility(View.GONE);
-                }
-                break;
-            case 8:
-                if (SharedUtil.getSharedBData(PayBuyCountActivity.this, "pay_ment")) {//如果结果为true证明使用官方支付接口
-                    ll_w_a.setVisibility(View.GONE);
-                    if (SharedUtil.getSharedBData(PayBuyCountActivity.this, "PW") && SharedUtil.getSharedBData(PayBuyCountActivity.this, "PA")) {
-                        pay_sm.setVisibility(View.VISIBLE);
-                    } else {
-                        pay_sm.setVisibility(View.GONE);
-                    }
-                    if (!SharedUtil.getSharedBData(PayBuyCountActivity.this, "PY")) {
-                        pay_yl.setVisibility(View.GONE);
-                    }
-                } else {
-                    ll_lkl.setVisibility(View.GONE);
-                    if (!SharedUtil.getSharedBData(PayBuyCountActivity.this, "PW")) {
-                        pay_wx.setVisibility(View.GONE);
-                    }
-                    if (!SharedUtil.getSharedBData(PayBuyCountActivity.this, "PA")) {
-                        pay_zfb.setVisibility(View.GONE);
-                    }
-                }
-                break;
-        }
 
         InputFilter[] filters = {new MyTextFilter()};
         et_money.setFilters(filters);
@@ -425,32 +408,6 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
         });
 
 
-        pay_xj.setOnClickListener(this);
-        pay_hy.setOnClickListener(this);
-        pay_sm.setOnClickListener(this);
-        pay_yl.setOnClickListener(this);
-        pay_wx.setOnClickListener(this);
-        pay_zfb.setOnClickListener(this);
-
-
-//        et_money.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                if (hasFocus) {
-//                    et_money.setText("");
-//                }
-//            }
-//        });
-//
-//        et_gread.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                if (hasFocus) {
-//                    et_gread.setText("");
-//                }
-//            }
-//        });
-
     }
 
     private void initData() {
@@ -504,24 +461,26 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
             isclick_pay = false;
             switch (v.getId()) {
                 case R.id.tv_pay_xj:
-                        if (TextUtils.isEmpty(gread)) {
-                            isclick_pay = true;
-                            Utils.showToast(PayBuyCountActivity.this, "请输入积分");
-                        } else {
-                            n = 0;
-                            sendData("");
-                        }
-                    break;
-                case R.id.tv_pay_sm:
                     if (TextUtils.isEmpty(gread)) {
                         isclick_pay = true;
                         Utils.showToast(PayBuyCountActivity.this, "请输入积分");
                     } else {
-                        n = 1;
+                        n = 0;
+                        sendData("");
+                    }
+                    break;
+                case R.id.tv_pay_dsf:
+                    getOrderNum("BT");//后加
+                    if (TextUtils.isEmpty(gread)) {
+                        isclick_pay = true;
+                        Utils.showToast(PayBuyCountActivity.this, "请输入积分");
+                    } else {
+                        n = 3;
                         sendData("");
                     }
                     break;
                 case R.id.tv_pay_wx:
+                    getOrderNum("BT");//后加
                     if (TextUtils.isEmpty(gread)) {
                         isclick_pay = true;
                         Utils.showToast(PayBuyCountActivity.this, "请输入积分");
@@ -532,6 +491,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
                     }
                     break;
                 case R.id.tv_pay_zfb:
+                    getOrderNum("BT");//后加
                     if (TextUtils.isEmpty(gread)) {
                         isclick_pay = true;
                         Utils.showToast(PayBuyCountActivity.this, "请输入积分");
@@ -546,16 +506,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
 //                        }
                     }
                     break;
-                case R.id.tv_pay_yl:
-                    if (TextUtils.isEmpty(gread)) {
-                        isclick_pay = true;
-                        Utils.showToast(PayBuyCountActivity.this, "请输入积分");
-                    } else {
-                        n = 3;
-                        sendData("");
-//                        payMoney(3, payau, orderNumber, "购买次数");
-                    }
-                    break;
+
                 case R.id.tv_pay_hy:
                     if (TextUtils.isEmpty(gread)) {
                         isclick_pay = true;
@@ -697,7 +648,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
                 break;
 
             case 3:
-                map.put("payBank", payau);
+                map.put("payThird", payau);
                 map.put("refernumber", order_again);
                 break;
 
@@ -718,7 +669,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
 
             @Override
             public void OnFail(String message) {
-                if (robotType != 1 || (n != 1 && n != 3)) {
+                if (n != 3) {
                     showAlert();
                 } else {
                     isclick_pay = true;
@@ -732,12 +683,10 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
             JSONObject object = new JSONObject(text);
             String tag = object.getString("result_stadus");
             if (tag.equals("SUCCESS")) {
-                if (robotType_pay(n)) {
-                    payMoney(n, payau + "", orderNumber, "购买次数");
-                } else if (n == 1 ||n == 2) { //支付方式为微信或者是支付宝
-                    payMoney(n, payau + "", orderNumber, "购买次数");
-                } else {
+                if (n == 0 || n == 4) {
                     reSet();//现金支付
+                } else {
+                    payMoney(n, payau + "", orderNumber, "购买次数");
                 }
 //                switch (robotType) {
 //                    case 3:
@@ -751,7 +700,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
                 String msg = object.getString("result_errmsg");
                 Utils.showToast(PayBuyCountActivity.this, msg);
             } else {
-                if (robotType != 1 || (n != 1 && n != 3)) {
+                if (n != 3) {
                     String msg = object.getString("result_errmsg");
                     Utils.showToast(PayBuyCountActivity.this, msg);
                     tv_print.setVisibility(View.INVISIBLE);
@@ -770,9 +719,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
 
     private void reSet() {
         flag = true;
-        if (robotType == 1) {
-            ll_pay.setVisibility(View.GONE);
-        }
+        llPay.setVisibility(View.GONE);
         tv_print.setVisibility(View.VISIBLE);
         tv_print.setEnabled(true);
         payHint(true);
@@ -807,7 +754,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
                 listp.add("支付方式:支付宝支付");
                 break;
             case 3:
-                listp.add("支付方式:银联支付");
+                listp.add("支付方式:第三方支付");
                 break;
             case 4:
                 listp.add("支付方式:会员卡");
@@ -853,13 +800,8 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
     public void OnPaySucess(String orderNum, int payMode) {
         n = payMode;
         order_again = orderNum;
-        if ((robotType == 1 && n == 1) || (robotType == 1 && n == 2) || (robotType == 1 && n == 3)) {
-            LKLPay(orderNum);
-        } else {
-            // sendData(orderNum);
-            LKLPay(orderNum);
-            loadingDialog.show();
-        }
+        LKLPay(orderNum);
+        loadingDialog.show();
     }
 
     private void
@@ -876,7 +818,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
                 map.put("payAli", payau);
                 break;
             case 3:
-                map.put("payBank", payau);
+                map.put("payThird", payau);
                 break;
         }
         postToHttp(NetworkUrl.PAYQRCODE, map, new IHttpCallBack() {
@@ -979,7 +921,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 alert_flag = false;
-                if ((robotType == 1 && n == 1) || (robotType == 1 && n == 2) || (robotType == 1 && n == 3)) {
+                if (n == 3) {
                     LKLPay(order_again);
                 } else {
                     sendData(order_again);

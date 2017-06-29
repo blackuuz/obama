@@ -54,6 +54,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
+import static com.ksk.obama.utils.SharedUtil.getSharedBData;
 import static com.ksk.obama.utils.SharedUtil.getSharedData;
 import static com.ksk.obama.utils.SharedUtil.getSharedInt;
 import static java.lang.Float.parseFloat;
@@ -61,6 +62,22 @@ import static java.lang.Float.parseFloat;
 public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBack,
         IPrintSuccessCallback, IPrintErrorCallback, ICreateOrderNumber, View.OnClickListener {
 
+    @BindView(R.id.tv_pay_hy)
+    TextView tvPayHy;
+    @BindView(R.id.tv_pay_xj)
+    TextView tvPayXj;
+    @BindView(R.id.ll_top_xj)
+    LinearLayout llTopXj;
+    @BindView(R.id.tv_pay_wx)
+    TextView tvPayWx;
+    @BindView(R.id.tv_pay_zfb)
+    TextView tvPayZfb;
+    @BindView(R.id.ll_w_a)
+    LinearLayout llWA;
+    @BindView(R.id.tv_pay_dsf)
+    TextView tvPayDsf;
+    @BindView(R.id.ll_dsf)
+    LinearLayout llDsf;
     private TextView tv_print;
     private boolean isPay = false;
     private String memid = "";
@@ -117,6 +134,8 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
     private String temporaryNum = "";
     private boolean isTemporary = false;
 
+    private boolean XJ, WX, AL, TR;
+
     @BindView(R.id.ll_jfdx)
     LinearLayout ll_jfdx;
     @BindView(R.id.btn_sjsk)
@@ -134,22 +153,6 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
     @BindView(R.id.et_dx_jf)
     EditText et_dx_jf;
 
-    @BindView(R.id.tv_pay_xj)
-    TextView pay_xj;
-    @BindView(R.id.tv_pay_sm)
-    TextView pay_sm;
-    @BindView(R.id.tv_pay_hy)
-    TextView pay_hy;
-    @BindView(R.id.tv_pay_yl)
-    TextView pay_yl;
-    @BindView(R.id.tv_pay_wx)
-    TextView pay_wx;
-    @BindView(R.id.tv_pay_zfb)
-    TextView pay_zfb;
-    @BindView(R.id.ll_lkl)
-    LinearLayout ll_lkl;
-    @BindView(R.id.ll_w_a)
-    LinearLayout ll_w_a;
 
     @BindView(R.id.btn_usable_discount_coupon)//可用优惠券
             Button btn_coupon;
@@ -206,6 +209,26 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
     }
 
     private void initView() {
+        XJ = SharedUtil.getSharedBData(PayBuyShopActivity.this, "GX");
+        WX = SharedUtil.getSharedBData(PayBuyShopActivity.this, "GW");
+        AL = SharedUtil.getSharedBData(PayBuyShopActivity.this, "GA");
+        TR = SharedUtil.getSharedBData(PayBuyShopActivity.this, "GT");
+        if (!XJ) {
+            tvPayXj.setVisibility(View.GONE);//如果没有现金权限隐藏现金支付
+        }
+        if (!WX) {
+            tvPayWx.setVisibility(View.GONE);//如果没有微信权限隐藏微信支付
+        }
+        if (!AL) {
+            tvPayZfb.setVisibility(View.GONE);//如果没有阿里权限隐藏支付宝支付
+        }
+        if (!WX && !AL) {
+            llWA.setVisibility(View.GONE);//微信阿里同时没有权限 隐藏布局
+        }
+        if (!TR || robotType == 4) {
+            llDsf.setVisibility(View.GONE);
+            tvPayDsf.setVisibility(View.GONE); //如果没有第三方权限隐藏第三方支付
+        }
 
         btn_coupon.setOnClickListener(this);
         btn_nocoupon.setOnClickListener(this);
@@ -253,55 +276,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
         }
 
         tv_jf = (TextView) findViewById(R.id.tv_pay_jf);
-        if (!SharedUtil.getSharedBData(PayBuyShopActivity.this, "GX")) {
-            pay_xj.setVisibility(View.GONE);
-        }
-        switch (robotType) {
-            case 1:
-                ll_w_a.setVisibility(View.GONE);
-                if (SharedUtil.getSharedBData(PayBuyShopActivity.this, "GW") && SharedUtil.getSharedBData(PayBuyShopActivity.this, "GA")) {
-                    pay_sm.setVisibility(View.VISIBLE);
-                } else {
-                    pay_sm.setVisibility(View.GONE);
-                }
-                if (!SharedUtil.getSharedBData(PayBuyShopActivity.this, "GY")) {
-                    pay_yl.setVisibility(View.GONE);
-                }
-                break;
-            case 3:
-            case 4:
 
-                ll_lkl.setVisibility(View.GONE);
-                if (!SharedUtil.getSharedBData(PayBuyShopActivity.this, "GW")) {
-                    pay_wx.setVisibility(View.GONE);
-                }
-                if (!SharedUtil.getSharedBData(PayBuyShopActivity.this, "GA")) {
-                    pay_zfb.setVisibility(View.GONE);
-                }
-                break;
-            case 8:
-                if (SharedUtil.getSharedBData(PayBuyShopActivity.this, "pay_ment")) {//如果结果为true证明使用官方支付接口
-                    ll_w_a.setVisibility(View.GONE);
-                    if (SharedUtil.getSharedBData(PayBuyShopActivity.this, "GW") && SharedUtil.getSharedBData(PayBuyShopActivity.this, "GA")) {
-                        pay_sm.setVisibility(View.VISIBLE);
-                    } else {
-                        pay_sm.setVisibility(View.GONE);
-                    }
-                    if (!SharedUtil.getSharedBData(PayBuyShopActivity.this, "GY")) {
-                        pay_yl.setVisibility(View.GONE);
-                    }
-
-                } else {
-                    ll_lkl.setVisibility(View.GONE);
-                    if (!SharedUtil.getSharedBData(PayBuyShopActivity.this, "GW")) {
-                        pay_wx.setVisibility(View.GONE);
-                    }
-                    if (!SharedUtil.getSharedBData(PayBuyShopActivity.this, "GA")) {
-                        pay_zfb.setVisibility(View.GONE);
-                    }
-                }
-                break;
-        }
 
         db_isCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -475,7 +450,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
             if (str.equals("yes")) {
                 isVip = true;
                 tv_jf.setVisibility(View.VISIBLE);
-                pay_hy.setVisibility(View.VISIBLE);
+              //  tvPayHy.setVisibility(View.VISIBLE);
                 uid = intent.getStringExtra("uid");
                 memid = intent.getStringExtra("memid");
                 cardNum = intent.getStringExtra("cardNum");
@@ -492,7 +467,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                 tv_jf.setVisibility(View.INVISIBLE);
                 payAu = Float.parseFloat(should);
                 et_payau.setText(should);
-                pay_hy.setVisibility(View.INVISIBLE);
+               // tvPayHy.setVisibility(View.INVISIBLE);
             }
             payau = payAu - delmoney_jf - delmoney_kq;
             tv_should.setText("总价:  ￥" + should);
@@ -503,7 +478,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
     }
 
     //支付的点击监听
-    @OnClick({R.id.tv_pay_xj, R.id.tv_pay_sm, R.id.tv_pay_hy, R.id.tv_pay_yl, R.id.tv_pay_wx, R.id.tv_pay_zfb, R.id.tv_pay_kq, R.id.tv_pay_jf})
+    @OnClick({R.id.tv_pay_xj, R.id.tv_pay_dsf, R.id.tv_pay_hy, R.id.tv_pay_wx, R.id.tv_pay_zfb})
     public void pay(TextView view) {
         dx_integral = et_dx_jf.getText().toString();
         dx_money = tv_money_dx.getText().toString();
@@ -532,59 +507,56 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
         if (isclick_pay) {
             isclick_pay = false;
             switch (view.getId()) {
-                case R.id.tv_pay_kq:
-                    if (payau > 0) {
-                        Intent intent = new Intent(PayBuyShopActivity.this, BuyShopUseCouponActivity.class);
-                        intent.putExtra("delmoney", delmoney_kq);
-                        intent.putExtra("oldMoney", Utils.getNumStr(payau));
-                        startActivityForResult(intent, 119);
-                    } else {
-                        Utils.showToast(PayBuyShopActivity.this, "已经不用付钱了");
-                    }
-                    break;
-                case R.id.tv_pay_jf:
-                    if (isVip) {
-                        if (payau > 0) {
-                            Intent intent1 = new Intent(PayBuyShopActivity.this, BuyShopUseIntegralActivity.class);
-                            intent1.putExtra("cardNum", cardNum);
-                            intent1.putExtra("name", name);
-                            intent1.putExtra("integral", inteCount);
-                            intent1.putExtra("delIntegral", del_jf);
-                            intent1.putExtra("delmoney", delmoney_jf);
-                            intent1.putExtra("oldMoney", Utils.getNumStr(payau));
-                            startActivityForResult(intent1, 120);
-                        } else {
-                            Utils.showToast(PayBuyShopActivity.this, "已经不用付钱了");
-                        }
-                    }
-                    break;
+//                case R.id.tv_pay_kq:
+//                    if (payau > 0) {
+//                        Intent intent = new Intent(PayBuyShopActivity.this, BuyShopUseCouponActivity.class);
+//                        intent.putExtra("delmoney", delmoney_kq);
+//                        intent.putExtra("oldMoney", Utils.getNumStr(payau));
+//                        startActivityForResult(intent, 119);
+//                    } else {
+//                        Utils.showToast(PayBuyShopActivity.this, "已经不用付钱了");
+//                    }
+//                    break;
+//                case R.id.tv_pay_jf:
+//                    if (isVip) {
+//                        if (payau > 0) {
+//                            Intent intent1 = new Intent(PayBuyShopActivity.this, BuyShopUseIntegralActivity.class);
+//                            intent1.putExtra("cardNum", cardNum);
+//                            intent1.putExtra("name", name);
+//                            intent1.putExtra("integral", inteCount);
+//                            intent1.putExtra("delIntegral", del_jf);
+//                            intent1.putExtra("delmoney", delmoney_jf);
+//                            intent1.putExtra("oldMoney", Utils.getNumStr(payau));
+//                            startActivityForResult(intent1, 120);
+//                        } else {
+//                            Utils.showToast(PayBuyShopActivity.this, "已经不用付钱了");
+//                        }
+//                    }
+//                    break;
                 case R.id.tv_pay_xj:
-                    if (isXJ) {
-                        if (isVip && TextUtils.isEmpty(gread)) {
-                            isclick_pay = true;
-                            Utils.showToast(PayBuyShopActivity.this, "请输入积分");
-                        } else {
-                            n = 0;
-                            sendData("");
-                        }
-                    } else {
-                        isclick_pay = true;
-                        Utils.showToast(PayBuyShopActivity.this, "没有开通此功能");
-                    }
-
-                    break;
-                case R.id.tv_pay_sm:
                     if (isVip && TextUtils.isEmpty(gread)) {
                         isclick_pay = true;
                         Utils.showToast(PayBuyShopActivity.this, "请输入积分");
                     } else {
-                        n = 1;
+                        n = 0;
+                        sendData("");
+                    }
+                    break;
+                case R.id.tv_pay_dsf:
+                    getOrderNum("SY");//后加
+                    if (isVip && TextUtils.isEmpty(gread)) {
+                        isclick_pay = true;
+                        Utils.showToast(PayBuyShopActivity.this, "请输入积分");
+                    } else {
+                        isclick_pay = true;
+                        n = 3;
                         sendData("");
 //                        payMoney(1, payau + "", orderNumber, "商品消费");
                     }
                     break;
 
                 case R.id.tv_pay_wx:
+                    getOrderNum("SY");//后加
                     if (isVip && TextUtils.isEmpty(gread)) {
                         isclick_pay = true;
                         Utils.showToast(PayBuyShopActivity.this, "请输入积分");
@@ -595,6 +567,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                     }
                     break;
                 case R.id.tv_pay_zfb:
+                    getOrderNum("SY");//后加
                     if (isVip && TextUtils.isEmpty(gread)) {
                         isclick_pay = true;
                         Utils.showToast(PayBuyShopActivity.this, "请输入积分");
@@ -602,15 +575,6 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                         n = 2;
                         sendData("");
                         // payMoney(2, payau + "", orderNumber, "商品消费");
-                    }
-                    break;
-                case R.id.tv_pay_yl:
-                    if (isVip && TextUtils.isEmpty(gread)) {
-                        isclick_pay = true;
-                        Utils.showToast(PayBuyShopActivity.this, "请输入积分");
-                    } else {
-                        n = 3;
-                        sendData("");
                     }
                     break;
                 case R.id.tv_pay_hy:
@@ -631,6 +595,9 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                                 Utils.showToast(PayBuyShopActivity.this, "余额不足,请充值");
                             }
                         }
+                    }else{
+                        isclick_pay = true;
+                        Utils.showToast(PayBuyShopActivity.this, "您不是会员，无法使用会员卡支付");
                     }
                     break;
             }
@@ -734,7 +701,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                 map.put("refernumber", orderidScan);
                 break;
             case 3:
-                map.put("payBank", payau + "");
+                map.put("payThird", payau + "");
                 map.put("refernumber", orderidScan);
                 break;
             case 4:
@@ -753,7 +720,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
 
             @Override
             public void OnFail(String message) {
-                if (robotType != 1 || (n != 1 && n != 3)) {
+                if (n != 3) {
                     flag = false;
                     payHint(false);
                     showAlert();
@@ -796,12 +763,11 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
             JSONObject object = new JSONObject(text);
             String tag = object.getString("result_stadus");
             if (tag.equals("SUCCESS")) {
-                if (robotType_pay(n)) {
-                    payMoney(n, payau + "", orderNumber, "商品消费");
-                } else if ((robotType != 1 && n == 1) || (robotType != 1 && n == 2)) {
-                    payMoney(n, payau + "", orderNumber, "商品消费");
-                } else {
+                if (n == 0 || n == 4) {
                     reSet();
+                } else {
+                    payMoney(n, payau + "", orderNumber, "商品消费");
+
                 }
             } else if (tag.equals("ERR")) {
                 flag = true;
@@ -811,7 +777,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
             } else {
                 String msg = object.getString("result_errmsg");
                 Utils.showToast(PayBuyShopActivity.this, msg);
-                if (robotType != 1 || (n != 1 && n != 3)) {
+                if (n != 3) {
                     flag = false;
                     payHint(false);
                     showAlert();
@@ -864,7 +830,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
             list_son.add(page);
         }
         List<String> listp = new ArrayList<>();
-        if (SharedUtil.getSharedBData(PayBuyShopActivity.this, "bluetooth")) {
+        if (getSharedBData(PayBuyShopActivity.this, "bluetooth")) {
             int nn = getSharedInt(PayBuyShopActivity.this, "num");
             String str = SharedUtil.getSharedData(PayBuyShopActivity.this, "day");
             Date date = new Date(System.currentTimeMillis());
@@ -901,7 +867,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                 listp.add("支付方式:支付宝支付");
                 break;
             case 3:
-                listp.add("支付方式:银联支付");
+                listp.add("支付方式:第三方支付");
                 break;
             case 4:
                 listp.add("支付方式:会员卡");
@@ -979,7 +945,9 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                 map.put("payAli", payau + "");
                 break;
             case 3:
-                map.put("payBank", payau + "");
+                map.put("payThird", payau + "");
+            case 4:
+                map.put("payCard", payau + "");
                 break;
 
         }
@@ -1089,7 +1057,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 alert_flag = false;
-                if ((robotType == 1 && n == 1) || (robotType == 1 && n == 2) || (robotType == 1 && n == 3)) {
+                if ( n == 3) {
                     LKLPay(order_again);
                 } else {
                     sendData(order_again);

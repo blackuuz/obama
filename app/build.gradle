@@ -21,7 +21,7 @@ android {
         targetSdkVersion 24
         versionCode 345
         versionName "3.1.4"//time : 2017-06-28--13:57
-        //versionName "2.2.8"//旺pos
+        //versionName "_____"//旺pos
 
     }
     buildTypes {

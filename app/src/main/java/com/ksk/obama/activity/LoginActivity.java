@@ -215,7 +215,6 @@ public class LoginActivity extends BaseTypeActivity {
     }
 
     private void initShared() {
-        SharedUtil.setSharedBData(LoginActivity.this, "paybank", true);
         SharedUtil.setSharedBData(LoginActivity.this, "payxj", true);
         SharedUtil.setSharedBData(LoginActivity.this, "paywx", true);
         SharedUtil.setSharedBData(LoginActivity.this, "payal", true);
@@ -381,7 +380,7 @@ public class LoginActivity extends BaseTypeActivity {
                     SharedUtil.setSharedBData(LoginActivity.this, "FA", true);//支付宝
                 } else if (str.equals("FastCash")) {
                     SharedUtil.setSharedBData(LoginActivity.this, "FX", true);//现金
-                } else if (str.equals("FastCard")) {
+                } else if (str.equals("FastThird")) {
                     SharedUtil.setSharedBData(LoginActivity.this, "FT", true);//第三方
 
                 } else if (str.equals("RechargeWeChat")) {
@@ -408,7 +407,7 @@ public class LoginActivity extends BaseTypeActivity {
                     SharedUtil.setSharedBData(LoginActivity.this, "GA", true);
                 } else if (str.equals("GoodCash")) {
                     SharedUtil.setSharedBData(LoginActivity.this, "GX", true);
-                } else if (str.equals("GoodCard")) {
+                } else if (str.equals("GoodThird")) {
                     SharedUtil.setSharedBData(LoginActivity.this, "GT", true);
 
                 } else if (str.equals("PurchaseWeChat")) {
@@ -417,7 +416,7 @@ public class LoginActivity extends BaseTypeActivity {
                     SharedUtil.setSharedBData(LoginActivity.this, "PA", true);
                 } else if (str.equals("PurchaseCash")) {
                     SharedUtil.setSharedBData(LoginActivity.this, "PX", true);
-                } else if (str.equals("PurchaseCard")) {
+                } else if (str.equals("PurchaseThird")) {
                     SharedUtil.setSharedBData(LoginActivity.this, "PT", true);
                 }
 

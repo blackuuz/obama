@@ -60,6 +60,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
+import static com.ksk.obama.utils.SharedUtil.getSharedBData;
 import static com.ksk.obama.utils.SharedUtil.getSharedData;
 import static java.lang.Float.parseFloat;
 
@@ -69,6 +70,7 @@ import static java.lang.Float.parseFloat;
 public class QuickDelMActivity extends BasePAndRActivity implements View.OnClickListener,
         IReadCardId, IPayCallBack, IQrcodeCallBack, IPrintErrorCallback, IPrintSuccessCallback
         , ICreateOrderNumber {
+
     private String password = "";
     private String payau;
     private String money1;
@@ -117,27 +119,23 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
     //private boolean isQrSure = false;//二维码支付确认
 
     private Unbinder unbinder;
-
-
-    @BindView(R.id.tv_pay_xj)
-    TextView pay_xj;
+    private boolean XJ, WX, AL, TR;
     @BindView(R.id.tv_pay_hy)
-    TextView pay_hy;
-    @BindView(R.id.tv_pay_sm)
-    TextView pay_sm;
-    @BindView(R.id.tv_pay_yl)
-    TextView pay_yl;
+    TextView tvPayHy;
+    @BindView(R.id.tv_pay_xj)
+    TextView tvPayXj;
+    @BindView(R.id.ll_top_xj)
+    LinearLayout llTopXj;
     @BindView(R.id.tv_pay_wx)
-    TextView pay_wx;
+    TextView tvPayWx;
     @BindView(R.id.tv_pay_zfb)
-    TextView pay_zfb;
-    @Nullable
-    @BindView(R.id.ll_lkl)
-    LinearLayout ll_lkl;
-    @Nullable
+    TextView tvPayZfb;
     @BindView(R.id.ll_w_a)
-    LinearLayout ll_w_a;
-
+    LinearLayout llWA;
+    @BindView(R.id.tv_pay_dsf)
+    TextView tvPayDsf;
+    @BindView(R.id.ll_dsf)
+    LinearLayout llDsf;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -172,13 +170,13 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
     private void setQX() {
         String str = "";
         TextView tv = (TextView) findViewById(R.id.tv_hint);
-        if (SharedUtil.getSharedBData(QuickDelMActivity.this, "citiao")) {
+        if (getSharedBData(QuickDelMActivity.this, "citiao")) {
             str += "磁条卡,";
         }
-        if (SharedUtil.getSharedBData(QuickDelMActivity.this, "nfc")) {
+        if (getSharedBData(QuickDelMActivity.this, "nfc")) {
             str += "M1卡,";
         }
-        if (SharedUtil.getSharedBData(QuickDelMActivity.this, "saoma")) {
+        if (getSharedBData(QuickDelMActivity.this, "saoma")) {
             str += "二维码卡";
         }
         tv.setText("当前可刷卡类型：" + str);
@@ -311,7 +309,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         });
     }
 
-    @OnClick({R.id.btn_read_code, R.id.btn_change, R.id.tv_pay_xj, R.id.tv_pay_sm, R.id.tv_pay_yl, R.id.tv_pay_hy, R.id.tv_pay_wx, R.id.tv_pay_zfb})
+    @OnClick({R.id.btn_read_code, R.id.btn_change, R.id.tv_pay_xj, R.id.tv_pay_hy, R.id.tv_pay_wx, R.id.tv_pay_zfb, R.id.tv_pay_dsf})
     public void onClick(View v) {
         payau = et_money.getText().toString();
         String mon = et_money.getText().toString();
@@ -351,9 +349,9 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                         sendDelMoney();
                     }
                 }
-
                 break;
-            case R.id.tv_pay_sm://lkl扫码
+            case R.id.tv_pay_dsf://第三方
+                getOrderNum("KM");//后加
                 if (parseFloat(mon) > maxMoney && maxMoney != 0) {
                     isclick_pay = true;
                     Utils.showToast(QuickDelMActivity.this, "超出扣除最大范围，请修改扣除金额");
@@ -371,73 +369,15 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                if (isclick_pay) {
-                                    isclick_pay = false;
-                                    n = 1;
-                                    if (robotType == 1 || robotType == 8) {
-                                        sendDelMoney();
-                                    } else {
-                                        payMoney(1, payau, orderNumber, "商品消费");
-                                    }
-                                }
+                                n = 3;
+                                sendDelMoney();
                             }
                         });
                         builder.create().show();
                         isclick_pay = true;
                     } else {
-                        if (isclick_pay) {
-                            isclick_pay = false;
-                            n = 1;
-                            if (robotType == 1 || robotType == 8) {
-                                sendDelMoney();
-                            } else {
-                                payMoney(1, payau, orderNumber, "商品消费");
-                            }
-                        }
-                    }
-                }
-                break;
-            case R.id.tv_pay_yl://银联支付
-                if (parseFloat(mon) > maxMoney && maxMoney != 0) {
-                    isclick_pay = true;
-                    Utils.showToast(QuickDelMActivity.this, "超出扣除最大范围，请修改扣除金额");
-                } else {
-                    if (db_isCheck.isChecked()) {
-                        payau = tv_pay.getText().toString();
-                    } else {
-                        payau = et_money.getText().toString();
-                    }
-                    if (!TextUtils.isEmpty(cardNum) && cardNum.equals(preID)) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                        builder.setTitle("重要提示：");
-                        builder.setMessage("此次卡号" + cardNum + "与上次卡号" + preID + "重复,是否继续操作?");
-                        builder.setNegativeButton("取消", null);
-                        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (isclick_pay) {
-                                    isclick_pay = false;
-                                    n = 3;
-                                    if (robotType == 1 || robotType == 8) {
-                                        sendDelMoney();
-                                    } else {
-                                        payMoney(3, payau, orderNumber, "商品消费");
-                                    }
-                                }
-                            }
-                        });
-                        builder.create().show();
-                        isclick_pay = true;
-                    } else {
-                        if (isclick_pay) {
-                            isclick_pay = false;
-                            n = 3;
-                            if (robotType == 1 || robotType == 8) {
-                                sendDelMoney();
-                            } else {
-                                payMoney(3, payau, orderNumber, "商品消费");
-                            }
-                        }
+                        n = 3;
+                        sendDelMoney();
                     }
                 }
                 break;
@@ -484,6 +424,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                 break;
 
             case R.id.tv_pay_wx://微信支付
+                getOrderNum("KM");//后加
                 if (parseFloat(mon) > maxMoney && maxMoney != 0) {
                     isclick_pay = true;
                     Utils.showToast(QuickDelMActivity.this, "超出扣除最大范围，请修改扣除金额");
@@ -502,17 +443,9 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (isclick_pay) {
-                                    if (payau.equals("") || payau.equals("0") || payau.equals("0.")) {
-                                        Utils.showToast(QuickDelMActivity.this, "该方式实际消费金额不能为0");
-                                    } else {
-                                        showCodeSure();
-                                    }
-//                                    if (isQrSure) {
-//                                        isclick_pay = false;
-//                                        n = 1;
-//                                        payMoney(1, payau, orderNumber, "商品消费");
-//                                    }
-
+                                    isclick_pay = false;
+                                    n = 1;
+                                    sendDelMoney();
                                 }
                             }
                         });
@@ -520,22 +453,15 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                         isclick_pay = true;
                     } else {
                         if (isclick_pay) {
-                            if (payau.equals("") || payau.equals("0") || payau.equals("0.")) {
-                                Utils.showToast(QuickDelMActivity.this, "该方式实际消费金额不能为0");
-                            } else {
-                                showCodeSure();
-                            }
-//                            if (isQrSure) {
-//                                isclick_pay = false;
-//                                n = 1;
-//                                payMoney(1, payau, orderNumber, "商品消费");
-//                            }
+                            n = 1;
+                            sendDelMoney();
                         }
                     }
                 }
                 break;
 
             case R.id.tv_pay_zfb://支付宝
+                getOrderNum("KM");//后加
                 if (maxMoney != 0 && parseFloat(mon) > maxMoney) {
                     isclick_pay = true;
                     Utils.showToast(QuickDelMActivity.this, "超出扣除最大范围，请修改扣除金额");
@@ -576,57 +502,57 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         }
     }
 
-    private void showCodeSure() {
-        final PopupWindow window = new PopupWindow();
-        View contentView = LayoutInflater.from(QuickDelMActivity.this).inflate(R.layout.qr_pay_dialog, null);
-        final TextView textView = (TextView) contentView.findViewById(R.id.qr_pay_money);
-        ImageView back = (ImageView) contentView.findViewById(R.id.alert_back_qr);
-        final Button sure = (Button) contentView.findViewById(R.id.btn_sure_qr);
-
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isclick_pay = true;
-                window.dismiss();
-
-            }
-        });
-        textView.setText(payau);
-        sure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isclick_pay = false;
-                n = 1;
-                sendDelMoney();
-                // payMoney(1, payau, orderNumber, "商品消费");
-                window.dismiss();
-            }
-        });
-
-        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                isclick_pay = true;
-
-            }
-        });
-
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-        int w = dm.widthPixels;
-        int h = dm.heightPixels;
-        window.setContentView(contentView);
-        window.setWidth((int) (w * 0.8));
-        window.setHeight((int) (h * 0.4));
-        window.setFocusable(true);
-        window.setOutsideTouchable(false);
-        window.update();
-        ColorDrawable dw = new ColorDrawable();
-        window.setBackgroundDrawable(dw);
-        window.showAtLocation(findViewById(R.id.ll_quick_money_root), Gravity.CENTER, 0, 0);
-
-    }
-
+//    private void showCodeSure() {
+//        final PopupWindow window = new PopupWindow();
+//        View contentView = LayoutInflater.from(QuickDelMActivity.this).inflate(R.layout.qr_pay_dialog, null);
+//        final TextView textView = (TextView) contentView.findViewById(R.id.qr_pay_money);
+//        ImageView back = (ImageView) contentView.findViewById(R.id.alert_back_qr);
+//        final Button sure = (Button) contentView.findViewById(R.id.btn_sure_qr);
+//
+//        back.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                isclick_pay = true;
+//                window.dismiss();
+//
+//            }
+//        });
+//        textView.setText(payau);
+//        sure.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                isclick_pay = false;
+//                n = 1;
+//                sendDelMoney();
+//                // payMoney(1, payau, orderNumber, "商品消费");
+//                window.dismiss();
+//            }
+//        });
+//
+//        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
+//            @Override
+//            public void onDismiss() {
+//                isclick_pay = true;
+//
+//            }
+//        });
+//
+//        DisplayMetrics dm = new DisplayMetrics();
+//        getWindowManager().getDefaultDisplay().getMetrics(dm);
+//        int w = dm.widthPixels;
+//        int h = dm.heightPixels;
+//        window.setContentView(contentView);
+//        window.setWidth((int) (w * 0.8));
+//        window.setHeight((int) (h * 0.4));
+//        window.setFocusable(true);
+//        window.setOutsideTouchable(false);
+//        window.update();
+//        ColorDrawable dw = new ColorDrawable();
+//        window.setBackgroundDrawable(dw);
+//        window.showAtLocation(findViewById(R.id.ll_quick_money_root), Gravity.CENTER, 0, 0);
+//
+//    }
+//
 
     private void getPassword() {
         final PopupWindow window = new PopupWindow();
@@ -773,13 +699,13 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
     public void OnPaySucess(String orderNum, int payMode) {
         n = payMode;
         orderNo = orderNum;
-        if ((robotType == 1 && n == 1) || (robotType == 1 && n == 2) || (robotType == 1 && n == 3)) {
-            LKLPay(orderNum);
-        } else {
-            // sendDelMoney();
-            LKLPay(orderNum);
-            loadingDialog.show();
-        }
+        // if ((robotType == 1 && n == 1) || (robotType == 1 && n == 2) || (robotType == 1 && n == 3)) {
+        LKLPay(orderNum);
+        //} else {
+        // sendDelMoney();
+        //  LKLPay(orderNum);
+        loadingDialog.show();
+        //}
     }
 
     private void LKLPay(String order) {
@@ -795,10 +721,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                 map.put("payAli", money + "");
                 break;
             case 3:
-                map.put("payBank", money + "");
-                break;
-            case 10:
-
+                map.put("payThird", money + "");
                 break;
 
         }
@@ -869,7 +792,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         }
 
 
-        if (SharedUtil.getSharedBData(QuickDelMActivity.this, "quicki")) {
+        if (getSharedBData(QuickDelMActivity.this, "quicki")) {
             shopi = 1;
         } else {
             shopi = 0;
@@ -877,6 +800,28 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
     }
 
     private void initViewM() {
+
+        XJ = SharedUtil.getSharedBData(QuickDelMActivity.this, "FX");
+        WX = SharedUtil.getSharedBData(QuickDelMActivity.this, "FW");
+        AL = SharedUtil.getSharedBData(QuickDelMActivity.this, "FA");
+        TR = SharedUtil.getSharedBData(QuickDelMActivity.this, "FT");
+        if (!XJ) {
+            tvPayXj.setVisibility(View.GONE);//如果没有现金权限隐藏现金支付
+        }
+        if (!WX) {
+            tvPayWx.setVisibility(View.GONE);//如果没有微信权限隐藏微信支付
+        }
+        if (!AL) {
+            tvPayZfb.setVisibility(View.GONE);//如果没有阿里权限隐藏支付宝支付
+        }
+        if (!WX && !AL) {
+            llWA.setVisibility(View.GONE);//微信阿里同时没有权限 隐藏布局
+        }
+        if (!TR || robotType == 4) {
+            llDsf.setVisibility(View.GONE);
+            tvPayDsf.setVisibility(View.GONE); //如果没有第三方权限隐藏第三方支付
+        }
+
         calculate();
         et_cardNum = (EditText) findViewById(R.id.et_card_num);
         if (SharedUtil.getSharedData(QuickDelMActivity.this, "isedit").equals("0")) {
@@ -1011,56 +956,6 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
             }
         });
 
-
-        if (!SharedUtil.getSharedBData(QuickDelMActivity.this, "FX")) {
-            pay_xj.setVisibility(View.GONE);
-        }
-
-        Log.d("10086", SharedUtil.getSharedBData(QuickDelMActivity.this, "FW") + "------" + SharedUtil.getSharedBData(QuickDelMActivity.this, "FA"));
-        switch (robotType) {
-            case 1:
-                ll_w_a.setVisibility(View.GONE);
-                if (SharedUtil.getSharedBData(QuickDelMActivity.this, "FW") && SharedUtil.getSharedBData(QuickDelMActivity.this, "FA")) {
-                    pay_sm.setVisibility(View.VISIBLE);
-                } else {
-                    pay_sm.setVisibility(View.GONE);
-                }
-                if (!SharedUtil.getSharedBData(QuickDelMActivity.this, "FY")) {
-                    pay_yl.setVisibility(View.GONE);
-                }
-                break;
-            case 3:
-            case 4:
-                ll_lkl.setVisibility(View.GONE);
-                if (!SharedUtil.getSharedBData(QuickDelMActivity.this, "FW")) {
-                    pay_wx.setVisibility(View.GONE);
-                }
-                if (!SharedUtil.getSharedBData(QuickDelMActivity.this, "FA")) {
-                    pay_zfb.setVisibility(View.GONE);
-                }
-                break;
-            case 8:
-                if (SharedUtil.getSharedBData(QuickDelMActivity.this, "pay_ment")) {//如果结果为true证明使用官方支付接口
-                    ll_w_a.setVisibility(View.GONE);
-                    if (SharedUtil.getSharedBData(QuickDelMActivity.this, "FW") && SharedUtil.getSharedBData(QuickDelMActivity.this, "FA")) {
-                        pay_sm.setVisibility(View.VISIBLE);
-                    } else {
-                        pay_sm.setVisibility(View.GONE);
-                    }
-                    if (!SharedUtil.getSharedBData(QuickDelMActivity.this, "FY")) {
-                        pay_yl.setVisibility(View.GONE);
-                    }
-                } else {
-                    ll_lkl.setVisibility(View.GONE);
-                    if (!SharedUtil.getSharedBData(QuickDelMActivity.this, "FW")) {
-                        pay_wx.setVisibility(View.GONE);
-                    }
-                    if (!SharedUtil.getSharedBData(QuickDelMActivity.this, "FA")) {
-                        pay_zfb.setVisibility(View.GONE);
-                    }
-                }
-                break;
-        }
 
         et_money.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -1246,7 +1141,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                     break;
                 case 3:
                     map.put("refernumber", orderNo);
-                    map.put("payBank", money + "");
+                    map.put("payThird", money + "");
                     break;
                 case 4:
                     map.put("payCard", money + "");
@@ -1270,7 +1165,6 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                             map.put("result_name", temName);
                         }
                         postToHttp(NetworkUrl.QUICK_M, map, new IHttpCallBack() {
-
                             @Override
                             public void OnSucess(String jsonText) {
                                 Logger.e(jsonText);
@@ -1278,12 +1172,10 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                                     JSONObject object1 = new JSONObject(jsonText);
                                     String tag = object1.getString("result_stadus");
                                     if (tag.equals("SUCCESS")) {
-                                        if (robotType_pay(n)) {
-                                            payMoney(n, payau, orderNumber, "商品消费");
-                                        } else if ((robotType != 1 && n == 1) || (robotType != 1 && n == 2)) {
-                                            payMoney(n, payau + "", orderNumber, "商品消费");
-                                        } else {
+                                        if (n == 0 || n == 4) {
                                             VIPReset();
+                                        } else {
+                                            payMoney(n, payau, orderNumber, "商品消费");
                                         }
                                     } else if (tag.equals("ERR")) {
                                         isclick_pay = true;
@@ -1293,7 +1185,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                                         String msg = object1.getString("result_errmsg");
                                         Utils.showToast(QuickDelMActivity.this, msg);
                                         openRead();
-                                        if (robotType != 1 || (n != 1 && n != 3)) {
+                                        if (n != 3) {
                                             showDBAlert();
                                         } else {
                                             isclick_pay = true;
@@ -1310,7 +1202,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                             public void OnFail(String message) {
                                 Logger.e(message + "!!!!!!失败");
                                 openRead();
-                                if (robotType != 1 || (n != 1 && n != 3)) {
+                                if (n != 3) {
                                     showDBAlert();
                                 } else {
                                     isclick_pay = true;
@@ -1336,16 +1228,14 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                             JSONObject object = new JSONObject(jsonText);
                             String tag = object.getString("result_stadus");
                             if (tag.equals("SUCCESS")) {
-                                if (((robotType == 1 || robotType == 8) && n == 1) || ((robotType == 1 || robotType == 8) && n == 3)) {
-                                    payMoney(n, payau, orderNumber, "商品消费");
-                                } else if ((robotType != 1 && n == 1) || (robotType != 1 && n == 2)) {
-                                    payMoney(n, payau + "", orderNumber, "商品消费");
-                                } else {
+                                if (n == 0 || n == 4) {
                                     noVIPReset();
+                                } else {
+                                    payMoney(n, payau, orderNumber, "快速消费");
                                 }
                             } else {
                                 Utils.showToast(QuickDelMActivity.this, "支付失败,请重试");
-                                if (robotType != 1 || (n != 1 && n != 3)) {
+                                if (n != 3) {
                                     showDBAlert();
                                 } else {
                                     isclick_pay = true;
@@ -1359,7 +1249,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
 
                     @Override
                     public void OnFail(String message) {
-                        if (robotType != 1 || (n != 1 && n != 3)) {
+                        if (n != 3) {
                             showDBAlert();
                         } else {
                             isclick_pay = true;
@@ -1474,7 +1364,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                 list.add("支付方式:支付宝支付");
                 break;
             case 3:
-                list.add("支付方式:银联支付");
+                list.add("支付方式:第三方支付");
                 break;
             case 4:
                 list.add("支付方式:会员卡支付");
@@ -1588,7 +1478,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 alert_flag = false;
-                if ((robotType == 1 && n == 1) || (robotType == 1 && n == 2) || (robotType == 1 && n == 3)) {
+                if (n == 3) {
                     LKLPay(orderNo);
                 } else {
                     sendDelMoney();

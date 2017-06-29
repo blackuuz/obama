@@ -125,7 +125,7 @@ public class QuickDelMoneySupplementActivity extends BaseSupplementActivity impl
                     map.put("refernumber", upLoading.getRefernumber());
                     break;
                 case 3:
-                    map.put("payBank", money);
+                    map.put("payThird", money);
                     map.put("refernumber", upLoading.getRefernumber());
                     break;
                 case 4:

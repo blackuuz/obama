@@ -62,12 +62,12 @@ public class SettingActivity extends BaseActivity {
             tv2.setText("不可用");
             tv2.setTextColor(ContextCompat.getColor(SettingActivity.this, R.color.text_red2));
         }
-        if (SharedUtil.getSharedBData(SettingActivity.this, "paybank")) {
-            tv3.setText("可用");
-        } else {
-            tv3.setText("不可用");
-            tv3.setTextColor(ContextCompat.getColor(SettingActivity.this, R.color.text_red2));
-        }
+//        if (SharedUtil.getSharedBData(SettingActivity.this, "paybank")) {
+//            tv3.setText("可用");
+//        } else {
+//            tv3.setText("不可用");
+//            tv3.setTextColor(ContextCompat.getColor(SettingActivity.this, R.color.text_red2));
+//        }
         if (SharedUtil.getSharedBData(SettingActivity.this, "nfc")) {
             tv4.setText("可用");
         } else {

@@ -344,7 +344,7 @@
             </LinearLayout>
 
 
-            <include layout="@layout/pay_select3" />
+            <include layout="@layout/pay_select_dsf2" />
 
         </LinearLayout>
     </ScrollView>

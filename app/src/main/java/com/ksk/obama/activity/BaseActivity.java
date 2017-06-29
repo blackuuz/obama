@@ -91,19 +91,6 @@ public class BaseActivity extends AutoLayoutActivity {
     private IHttpCallBack callBack;
     protected boolean isclick_pay = true;
 
-    /**
-     * 判断机型是否为拉卡拉或旺POS 并且支付方式为“扫码”或“银联”
-     * <p>简单来说就是判断是否满足官方支付条件<p/>
-     * <p>17-06-22——by uuz</p>
-     *
-     * @param n 支付方式 现金：0  微信：1   支付宝：2  第三方：3 会员卡：4
-     * @return 返回布尔
-     * @author uuz
-     */
-    protected boolean robotType_pay(int n) {
-        return ((robotType == 1 || robotType == 8) && n == 1) || ((robotType == 1 || robotType == 8) && n == 3);
-    }
-
 
     protected String terminalSn;
     protected Bitmap bmp;
@@ -325,6 +312,7 @@ public class BaseActivity extends AutoLayoutActivity {
                             @Override
                             public void onClick(View v) {
                                 newPay(1, money, orderDesc); //1 扫码
+                                isclick_pay =false;
                                 mdialog.dismiss();
                             }
                         });
@@ -332,6 +320,7 @@ public class BaseActivity extends AutoLayoutActivity {
                             @Override
                             public void onClick(View v) {
                                 newPay(3, money, orderDesc);// 3 为银联
+                                isclick_pay = false;
                                 mdialog.dismiss();
                             }
                         });
@@ -349,6 +338,8 @@ public class BaseActivity extends AutoLayoutActivity {
                         lp.y = 300; //设置Dialog距离底部的距离
                         dialogWindow.setAttributes(lp); //将属性设置给窗体
                         mdialog.show();//显示对话框
+                        //mdialog.setOutsideTouchable(false);
+                        mdialog.setCancelable(false);
                         break;
                     case 1://微信支付
                     case 2://支付宝支付

@@ -215,16 +215,16 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
             case 0:
                 map.put("payCash", actualMoney);
                 break;
-            case 3:
-                map.put("payThird", actualMoney);
-                map.put("refernumber", orderno);
-                break;
             case 1:
                 map.put("payWeChat", actualMoney);
                 map.put("refernumber", orderno);
                 break;
             case 2:
                 map.put("payAli", actualMoney);
+                map.put("refernumber", orderno);
+                break;
+            case 3:
+                map.put("payThird", actualMoney);
                 map.put("refernumber", orderno);
                 break;
 
@@ -457,7 +457,7 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
                 listp.add("支付方式:支付宝支付");
                 break;
             case 3:
-                listp.add("支付方式:银联支付");
+                listp.add("支付方式:第三方支付");
                 break;
         }
         if (cardInfo.getPhone().length() == 11) {

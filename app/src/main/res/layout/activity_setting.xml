@@ -13,90 +13,99 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="40px"
-            android:text="支付方式设置"
-            android:textColor="@color/text_blue1"
-            android:textSize="32px" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="70px">
+            android:visibility="gone"
+            android:orientation="vertical">
 
             <TextView
-                style="@style/text_statistics_del_l"
-                android:text="现金" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="40px"
+                android:text="支付方式设置"
+                android:textColor="@color/text_blue1"
+                android:textSize="32px" />
 
-            <TextView
-                android:id="@+id/tv_set_0"
-                style="@style/text_statistics_del_r"
-                android:textColor="@color/text_black0" />
-        </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="70px">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2px"
-            android:background="#ebebeb" />
+                <TextView
+                    style="@style/text_statistics_del_l"
+                    android:text="现金" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="70px">
+                <TextView
+                    android:id="@+id/tv_set_0"
+                    style="@style/text_statistics_del_r"
+                    android:textColor="@color/text_black0" />
+            </RelativeLayout>
 
-            <TextView
-                style="@style/text_statistics_del_l"
-                android:text="微信" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="#ebebeb" />
 
-            <TextView
-                android:id="@+id/tv_set_1"
-                style="@style/text_statistics_del_r"
-                android:textColor="@color/text_black0" />
-        </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="70px">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2px"
-            android:background="#ebebeb" />
+                <TextView
+                    style="@style/text_statistics_del_l"
+                    android:text="微信" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="70px">
+                <TextView
+                    android:id="@+id/tv_set_1"
+                    style="@style/text_statistics_del_r"
+                    android:textColor="@color/text_black0" />
+            </RelativeLayout>
 
-            <TextView
-                style="@style/text_statistics_del_l"
-                android:text="支付宝" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="#ebebeb" />
 
-            <TextView
-                android:id="@+id/tv_set_2"
-                style="@style/text_statistics_del_r"
-                android:textColor="@color/text_black0" />
-        </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="70px">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2px"
-            android:background="#ebebeb" />
+                <TextView
+                    style="@style/text_statistics_del_l"
+                    android:text="支付宝" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="70px">
+                <TextView
+                    android:id="@+id/tv_set_2"
+                    style="@style/text_statistics_del_r"
+                    android:textColor="@color/text_black0" />
+            </RelativeLayout>
 
-            <TextView
-                style="@style/text_statistics_del_l"
-                android:text="银联" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="#ebebeb" />
 
-            <TextView
-                android:id="@+id/tv_set_3"
-                style="@style/text_statistics_del_r"
-                android:textColor="@color/text_black0" />
-        </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="70px">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="10px"
-            android:background="#ebebeb" />
+                <TextView
+                    style="@style/text_statistics_del_l"
+                    android:text="第三方支付"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_set_3"
+                    style="@style/text_statistics_del_r"
+                    android:textColor="@color/text_black0"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10px"
+                android:background="#ebebeb" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"

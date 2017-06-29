@@ -428,6 +428,7 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
                 }
                 break;
             case R.id.tv_pay_dsf://第三方支付
+                getOrderNum("CZ");//后加
                 if (isclick_pay) {
                     isclick_pay = false;
                     n = 3;
@@ -435,6 +436,7 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
                 }
                 break;
             case R.id.tv_pay_wx://微信支付
+                getOrderNum("CZ");//后加
                 if (isclick_pay) {
                     isclick_pay = false;
                     n = 1;
@@ -443,6 +445,7 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
                 }
                 break;
             case R.id.tv_pay_zfb://支付宝支付
+                getOrderNum("CZ");//后加
                 if (isclick_pay) {
                     isclick_pay = false;
                     n = 2;
@@ -487,7 +490,10 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
         if (TextUtils.isEmpty(m_is)) {
             isclick_pay = true;
             Utils.showToast(RechargeActivity.this, "请填写充值金额");
-        } else {
+        } else if(TextUtils.isEmpty(m_sj)){
+            isclick_pay = true;
+            Utils.showToast(RechargeActivity.this, "请填写实收金额");
+        }else  {
             Date date = new Date(System.currentTimeMillis());
             SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             orderTime = simpleFormat.format(date);
@@ -548,6 +554,7 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
             String tag = object.getString("result_stadus");
             if (tag.equals("SUCCESS")) {
                 if (n != 0) {
+                    if(n == 3){isclick_pay = true;}
                     payMoney(n, tv_pay.getText().toString(), orderNumber, "会员充值");
                 } else {
                     reSet();
@@ -660,7 +667,7 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
                 list.add("充值方式:支付宝支付");
                 break;
             case 3:
-                list.add("充值方式:银联支付");
+                list.add("充值方式:第三方支付");
                 break;
 
         }
@@ -884,7 +891,7 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 alert_flag = false;
-                if ((robotType == 1 && n == 1) || (robotType == 1 && n == 2) || (robotType == 1 && n == 3)) {
+                if (n == 3) {
                     LKLPay(order_again);
                 } else {
                     sendData(order_again);

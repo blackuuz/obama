@@ -120,7 +120,7 @@ public class RechargeSupplementActivity extends BaseSupplementActivity implement
                     map.put("refernumber", orderidScan);
                     break;
                 case 3:
-                    map.put("payBank", m_is);
+                    map.put("payThird", m_is);
                     map.put("refernumber", orderidScan);
                     break;
             }
