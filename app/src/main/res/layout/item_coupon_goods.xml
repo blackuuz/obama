@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20px"
+    android:layout_margin="5px"
+    android:background="#00000000">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_coupon_background"
+        android:orientation="vertical"
+        android:layout_margin="15px">
+
+        <!--<TextView-->
+        <!--android:layout_marginTop="10px"-->
+        <!--android:layout_marginRight="20px"-->
+        <!--android:id="@+id/tv_item_coupon"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="3"-->
+        <!--android:gravity="center"-->
+        <!--android:text="草莓"-->
+        <!--android:textColor="@color/text_black3"-->
+        <!--android:textSize="70px" />-->
+
+        <TextView
+            android:id="@+id/item_coupon_name"
+            android:layout_width="match_parent"
+            android:layout_marginTop="20px"
+            android:layout_height="60px"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="2"
+            android:gravity="left|center"
+            android:paddingLeft="40px"
+
+            android:text="优惠券名称: 草莓券"
+            android:textColor="@color/text_black4"
+            android:textSize="40px"
+            />
+
+        <TextView
+            android:id="@+id/item_coupon_type"
+            android:layout_width="match_parent"
+            android:layout_height="60px"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="2"
+            android:gravity="left|center"
+            android:paddingLeft="40px"
+            android:text="优惠券类型: 兑换券"
+            android:textColor="@color/text_black3"
+            android:textSize="40px" />
+
+        <TextView
+            android:id="@+id/item_coupon_goods"
+            android:layout_width="match_parent"
+            android:layout_height="60px"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="2"
+            android:gravity="left|center"
+            android:paddingLeft="40px"
+            android:text="兑换的商品: 草莓"
+            android:textColor="@color/text_black4"
+            android:textSize="40px"
+            />
+        <TextView
+            android:id="@+id/item_coupon_vipname"
+            android:layout_width="match_parent"
+            android:layout_height="60px"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="2"
+            android:gravity="left|center"
+            android:paddingLeft="40px"
+            android:text="会员姓名: 琪露诺"
+            android:textColor="@color/text_black3"
+            android:textSize="40px"
+            />
+        <TextView
+            android:id="@+id/item_coupon_vipnum"
+            android:layout_width="match_parent"
+            android:layout_height="60px"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="2"
+            android:gravity="left|center"
+            android:paddingLeft="40px"
+            android:text="会员卡号: 9"
+            android:textColor="@color/text_black3"
+            android:textSize="40px"
+            />
+
+        <TextView
+            android:id="@+id/btn_coupon"
+            android:layout_marginLeft="60px"
+            android:layout_marginRight="60px"
+            android:layout_width="match_parent"
+            android:layout_height="100px"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10px"
+            android:layout_weight="2"
+            android:background="@drawable/select_button_r"
+            android:gravity="center"
+            android:padding="5px"
+            android:text="草莓"
+            android:visibility="gone"
+            android:textColor="@color/white"
+            android:textSize="55px" />
+
+
+
+
+    </LinearLayout>
+</LinearLayout>

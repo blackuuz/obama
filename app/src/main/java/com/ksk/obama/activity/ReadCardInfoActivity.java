@@ -45,7 +45,7 @@ public class ReadCardInfoActivity extends BaseReadCardActivity implements IReadC
     private boolean flag = false;
     private String preID = "";
     private String uid = "";
-    private List<ReadCardInfo.ResultDataBean> data = new ArrayList<>();
+    private List<ReadCardInfo.ResultDataBean> c_data = new ArrayList<>();
 
 
     @Override
@@ -136,6 +136,7 @@ public class ReadCardInfoActivity extends BaseReadCardActivity implements IReadC
         map.put("cardNO", id);
         map.put("CardCode", uid);
         map.put("gid", SharedUtil.getSharedData(ReadCardInfoActivity.this, "groupid"));
+        map.put("shopID",shopId);
         postToHttp(NetworkUrl.ISCARD, map, new IHttpCallBack() {
             @Override
             public void OnSucess(String jsonText) {
@@ -181,14 +182,16 @@ public class ReadCardInfoActivity extends BaseReadCardActivity implements IReadC
     }
 
 
-    int yourChoice;
-
+    private int yourChoice;
+    /**
+     * 这是一个单项选择弹窗
+     */
     private void showSingleChoiceDialog() {
         final String[] items = card__;
         yourChoice = -1;
         AlertDialog.Builder singleChoiceDialog =
                 new AlertDialog.Builder(ReadCardInfoActivity.this);
-        singleChoiceDialog.setTitle("请选择要使用的会员卡");
+        singleChoiceDialog.setTitle("\t\t请选择要使用的会员卡");
         // 第二个参数是默认选项，此处设置为0
         singleChoiceDialog.setSingleChoiceItems(items, 0,
                 new DialogInterface.OnClickListener() {
@@ -201,10 +204,17 @@ public class ReadCardInfoActivity extends BaseReadCardActivity implements IReadC
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        if(yourChoice == -1){
+                            Toast.makeText(ReadCardInfoActivity.this, "你选择了" + items[0], Toast.LENGTH_SHORT).show();
+                            ToActivity(c_data.get(0));
+                            c_data.clear();
+                        }
+
                         if (yourChoice != -1) {
-                            Toast.makeText(ReadCardInfoActivity.this,
-                                    "你选择了" + items[yourChoice],
+                            Toast.makeText(ReadCardInfoActivity.this, "你选择了" + items[yourChoice],
                                     Toast.LENGTH_SHORT).show();
+                            ToActivity(c_data.get(yourChoice));
+                            c_data.clear();
                         }
                     }
                 });
@@ -212,6 +222,38 @@ public class ReadCardInfoActivity extends BaseReadCardActivity implements IReadC
     }
 
     private String card__[] = null;
+    private void dialog_(ReadCardInfo readCard) {
+        int card_dnum = 0;
+        try {
+            card_dnum = Integer.parseInt(readCard.getResult_datasNum());
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            Log.e("uuz", " String转int 异常 ");
+        }
+        if (card_dnum > 1) {
+            String cardNo[] = new String[card_dnum];
+            String cardName[] = new String[card_dnum];
+            String cName = "";
+            String length = "             ";
+            card__ = new String[card_dnum];
+            c_data = readCard.getResult_datas();
+            for (int i = 0; i < card_dnum; i++) {
+                cardNo[i] = readCard.getResult_datas().get(i).getC_CardNO();
+                cardName[i] = readCard.getResult_datas().get(i).getC_Name();
+                if (cardName[i].length() > 4) {
+                    cName = cardName[i].substring(0, 4) + "… :";
+                } else if (cardName[i].length() == 4) {
+                    cName = cardName[i] + "  :";
+                } else {
+                    cName = cardName[i] + length.substring(0, (4 - cardName[i].length())) + "  :";
+                }
+                card__[i] = cName + "  " + cardNo[i];
+            }
+            showSingleChoiceDialog();
+        }
+    }
+
+
     private void changeActivity(String json) {
         ReadCardInfo readCard = new Gson().fromJson(json, ReadCardInfo.class);
         if (readCard.getResult_stadus().equals("SUCCESS")) {
@@ -223,76 +265,9 @@ public class ReadCardInfoActivity extends BaseReadCardActivity implements IReadC
                 Log.e("uuz", " String转int 异常 ");
             }
             if (card_dnum > 1) {
-                String cardNo[] = new String[card_dnum];
-                String cardName[] = new String[card_dnum];
-                card__ = new String[card_dnum];
-                data.addAll(readCard.getResult_datas());
-                for (int i = 0;i<card_dnum;i++){
-                    cardNo[i] = readCard.getResult_datas().get(i).getC_CardNO();
-                    cardName[i] = readCard.getResult_datas().get(i).getC_Name();
-                    card__[i] = cardName[i]+"\t\t\t"+cardNo[i];
-
-                }
-                showSingleChoiceDialog();
-            } else {
-
-            }
-            switch (robotType) {
-                case 3:
-                    et_cradNum.setText(readCard.getResult_data().getC_CardNO());
-                    break;
-            }
-            Intent intent = new Intent();
-            Bundle bundle = new Bundle();
-            bundle.putString("uid", uid);
-            bundle.putParcelable("infoma", readCard.getResult_data());
-            intent.putExtras(bundle);
-            if (n == 11) {//充值
-                Connector.getDatabase();
-                List<RechargeAgain> list = DataSupport.findAll(RechargeAgain.class);
-                if (isNetworkAvailable(ReadCardInfoActivity.this)) {
-                    if (list != null && list.size() > 0) {
-                        startActivity(new Intent(ReadCardInfoActivity.this, RechargeSupplementActivity.class));
-                    } else {
-                        intent.setClass(ReadCardInfoActivity.this, RechargeActivity.class);
-                        startActivity(intent);
-                    }
-                } else {
-                    Utils.showToast(ReadCardInfoActivity.this, "当前无网络,您有" + list.size() + "单子未上传");
-                }
-            } else {
-                switch (n) {
-
-                    //积分兑换
-                    case 3:
-                        intent.setClass(ReadCardInfoActivity.this, IntegralExchangeListActivity.class);
-                        break;
-                    //赠扣积分
-                    case 4:
-                        intent.setClass(ReadCardInfoActivity.this, GiveDelIntegralActivity.class);
-                        break;
-                    //卡片延期
-                    case 6:
-                        intent.setClass(ReadCardInfoActivity.this, CardDelayedActivity.class);
-                        break;
-                    //购买次数
-                    case 12:
-                        intent.setClass(ReadCardInfoActivity.this, BuyCountListActivity.class);
-                        break;
-                    //会员到店
-                    case 13:
-                        intent.setClass(ReadCardInfoActivity.this, VipToShopActivity.class);
-                        break;
-                    //挂失
-                    case 14:
-                        intent.setClass(ReadCardInfoActivity.this, LossOfCardActivity.class);
-                        break;
-                    //退卡
-                    case 15:
-                        intent.setClass(ReadCardInfoActivity.this, ExitCardActivity.class);
-                        break;
-                }
-                startActivity(intent);
+                dialog_(readCard);
+            }else {
+                ToActivity(readCard.getResult_data());
             }
         } else {
             if (readCard.getResult_lost() != null && readCard.getResult_lost().equals("1")) {//挂失
@@ -316,6 +291,70 @@ public class ReadCardInfoActivity extends BaseReadCardActivity implements IReadC
         }
         et_cradNum.setText("");
     }
+
+
+    private void ToActivity( ReadCardInfo.ResultDataBean resultData){
+        switch (robotType) {
+            case 3:
+                et_cradNum.setText(resultData.getC_CardNO());
+                break;
+        }
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putString("uid", uid);
+        bundle.putParcelable("infoma", resultData);
+        intent.putExtras(bundle);
+        if (n == 11) {//充值
+            Connector.getDatabase();
+            List<RechargeAgain> list = DataSupport.findAll(RechargeAgain.class);
+            if (isNetworkAvailable(ReadCardInfoActivity.this)) {
+                if (list != null && list.size() > 0) {
+                    startActivity(new Intent(ReadCardInfoActivity.this, RechargeSupplementActivity.class));
+                } else {
+                    intent.setClass(ReadCardInfoActivity.this, RechargeActivity.class);
+                    startActivity(intent);
+                }
+            } else {
+                Utils.showToast(ReadCardInfoActivity.this, "当前无网络,您有" + list.size() + "单子未上传");
+            }
+        } else {
+            switch (n) {
+
+                //积分兑换
+                case 3:
+                    intent.setClass(ReadCardInfoActivity.this, IntegralExchangeListActivity.class);
+                    break;
+                //赠扣积分
+                case 4:
+                    intent.setClass(ReadCardInfoActivity.this, GiveDelIntegralActivity.class);
+                    break;
+                //卡片延期
+                case 6:
+                    intent.setClass(ReadCardInfoActivity.this, CardDelayedActivity.class);
+                    break;
+                //购买次数
+                case 12:
+                    intent.setClass(ReadCardInfoActivity.this, BuyCountListActivity.class);
+                    break;
+                //会员到店
+                case 13:
+                    intent.setClass(ReadCardInfoActivity.this, VipToShopActivity.class);
+                    break;
+                //挂失
+                case 14:
+                    intent.setClass(ReadCardInfoActivity.this, LossOfCardActivity.class);
+                    break;
+                //退卡
+                case 15:
+                    intent.setClass(ReadCardInfoActivity.this, ExitCardActivity.class);
+                    break;
+            }
+            startActivity(intent);
+        }
+
+    }
+
+
 
     @Override
     protected void onResume() {

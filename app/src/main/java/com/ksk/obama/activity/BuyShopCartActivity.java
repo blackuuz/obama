@@ -12,6 +12,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.ksk.obama.R;
@@ -43,7 +45,9 @@ import com.orhanobut.logger.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static java.lang.Float.parseFloat;
@@ -74,6 +78,8 @@ public class BuyShopCartActivity extends BuyShopReadActivity implements IReadCar
     private String cardType;
     private int ctype = 0;
     private float zdj = 0;
+    private List<ReadCardInfo.ResultDataBean> c_data = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -613,46 +619,25 @@ public class BuyShopCartActivity extends BuyShopReadActivity implements IReadCar
         map.put("cardNO", cardNum);
         map.put("CardCode", uid);
         map.put("gid", SharedUtil.getSharedData(BuyShopCartActivity.this, "groupid"));
+        map.put("shopID",shopId);
         postToHttp(NetworkUrl.ISCARD, map, new IHttpCallBack() {
             @Override
             public void OnSucess(String jsonText) {
                 Logger.e(jsonText);
                 ReadCardInfo readCard = new Gson().fromJson(jsonText, ReadCardInfo.class);
                 if (readCard.getResult_stadus().equals("SUCCESS")) {
-                    switch (robotType) {
-                        case 3:
-                            editText.setText(readCard.getResult_data().getC_CardNO());
-                            break;
+                    int card_dnum = 0;
+                    try {
+                        card_dnum = Integer.parseInt(readCard.getResult_datasNum());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        Log.e("uuz", " String转int 异常 ");
                     }
-                    isVip = true;
-                    isShowRead(isVip);
-                    cardInfo = readCard.getResult_data();
-                    float oldMoney = parseFloat(cardInfo.getN_AmountAvailable());
-                    memid = cardInfo.getId();
-                    discount = parseFloat(cardInfo.getN_DiscountValue()) * 0.01f;
-                    integerValue = parseFloat(cardInfo.getN_IntegralValue()) * 0.01f;
-                    String cardNum = cardInfo.getC_CardNO();
-                    tv_cardNum.setText(cardNum);
-                    tv_name.setText(cardInfo.getC_Name());
-                    tv_oldMoney.setText("￥" + oldMoney);
-                    cardType = cardInfo.getC_PriceClass();
-                    checkCType(cardType);
-                    adapter.setCtype(ctype);
-                    for (int i = 0; i < list_buy.size(); i++) {
-                        if (list_buy.get(i).getDis() == 1&&ctype == 0) {
-                            list_buy.get(i).setMoneyin((int) (list_buy.get(i).getPrice() * list_buy.get(i).getNum() *
-                                    parseFloat(cardInfo.getN_DiscountValue())) * 0.01f);
-                        } else if(ctype == 0){
-                            list_buy.get(i).setMoneyin(list_buy.get(i).getPrice() * list_buy.get(i).getNum());
-                        }else {
-                            checkDisPrice(ctype,i);
-                            list_buy.get(i).setMoneyin( zdj* list_buy.get(i).getNum());
-                        }
-                        list_buy.get(i).setDazhe(list_buy.get(i).getDis() * 0.01f);
-                        list_buy.get(i).setJifen(list_buy.get(i).getInteg() == 1 ? list_buy.get(i).getInteg() : 0);
+                    if (card_dnum > 1) {
+                        dialog_(readCard);
+                    }else {
+                        ToActivity(readCard.getResult_data());
                     }
-                    upListData();
-
                 } else {
                     Utils.showToast(BuyShopCartActivity.this, readCard.getResult_errmsg());
                 }
@@ -664,6 +649,111 @@ public class BuyShopCartActivity extends BuyShopReadActivity implements IReadCar
         });
     }
 
+    private int yourChoice;
+    /**
+     * 这是一个单项选择弹窗
+     */
+    private void showSingleChoiceDialog() {
+        final String[] items = card__;
+        yourChoice = -1;
+        AlertDialog.Builder singleChoiceDialog =
+                new AlertDialog.Builder(BuyShopCartActivity.this);
+        singleChoiceDialog.setTitle("\t\t请选择要使用的会员卡");
+        // 第二个参数是默认选项，此处设置为0
+        singleChoiceDialog.setSingleChoiceItems(items, 0,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        yourChoice = which;
+                    }
+                });
+        singleChoiceDialog.setPositiveButton("确定",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(yourChoice == -1){
+                            Toast.makeText(BuyShopCartActivity.this, "你选择了" + items[0], Toast.LENGTH_SHORT).show();
+                            ToActivity(c_data.get(0));
+                            c_data.clear();
+                        }
+                        if (yourChoice != -1) {
+                            Toast.makeText(BuyShopCartActivity.this, "你选择了" + items[yourChoice], Toast.LENGTH_SHORT).show();
+                            ToActivity(c_data.get(yourChoice));
+                            c_data.clear();
+                        }
+                    }
+                });
+        singleChoiceDialog.show();
+    }
+
+    private String card__[] = null;
+
+    private void dialog_(ReadCardInfo readCard) {
+        int card_dnum = 0;
+        try {
+            card_dnum = Integer.parseInt(readCard.getResult_datasNum());
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            Log.e("uuz", " String转int 异常 ");
+        }
+        if (card_dnum > 1) {
+            String cardNo[] = new String[card_dnum];
+            String cardName[] = new String[card_dnum];
+            String cName = "";
+            String length = "             ";
+            card__ = new String[card_dnum];
+            c_data = readCard.getResult_datas();
+            for (int i = 0; i < card_dnum; i++) {
+                cardNo[i] = readCard.getResult_datas().get(i).getC_CardNO();
+                cardName[i] = readCard.getResult_datas().get(i).getC_Name();
+                if (cardName[i].length() > 4) {
+                    cName = cardName[i].substring(0, 4) + "… :";
+                } else if (cardName[i].length() == 4) {
+                    cName = cardName[i] + "  :";
+                } else {
+                    cName = cardName[i] + length.substring(0, (4 - cardName[i].length())) + "  :";
+                }
+                card__[i] = cName + "  " + cardNo[i];
+            }
+            showSingleChoiceDialog();
+        }
+    }
+
+    private void ToActivity(ReadCardInfo.ResultDataBean resultData){
+        switch (robotType) {
+            case 3:
+                editText.setText(resultData.getC_CardNO());
+                break;
+        }
+        isVip = true;
+        isShowRead(isVip);
+        cardInfo = resultData;
+        float oldMoney = parseFloat(cardInfo.getN_AmountAvailable());
+        memid = cardInfo.getId();
+        discount = parseFloat(cardInfo.getN_DiscountValue()) * 0.01f;
+        integerValue = parseFloat(cardInfo.getN_IntegralValue()) * 0.01f;
+        String cardNum = cardInfo.getC_CardNO();
+        tv_cardNum.setText(cardNum);
+        tv_name.setText(cardInfo.getC_Name());
+        tv_oldMoney.setText("￥" + oldMoney);
+        cardType = cardInfo.getC_PriceClass();
+        checkCType(cardType);
+        adapter.setCtype(ctype);
+        for (int i = 0; i < list_buy.size(); i++) {
+            if (list_buy.get(i).getDis() == 1&&ctype == 0) {
+                list_buy.get(i).setMoneyin((int) (list_buy.get(i).getPrice() * list_buy.get(i).getNum() *
+                        parseFloat(cardInfo.getN_DiscountValue())) * 0.01f);
+            } else if(ctype == 0){
+                list_buy.get(i).setMoneyin(list_buy.get(i).getPrice() * list_buy.get(i).getNum());
+            }else {
+                checkDisPrice(ctype,i);
+                list_buy.get(i).setMoneyin( zdj* list_buy.get(i).getNum());
+            }
+            list_buy.get(i).setDazhe(list_buy.get(i).getDis() * 0.01f);
+            list_buy.get(i).setJifen(list_buy.get(i).getInteg() == 1 ? list_buy.get(i).getInteg() : 0);
+        }
+        upListData();
+    }
     private void showalert() {
         window0 = new PopupWindow(BuyShopCartActivity.this);
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);

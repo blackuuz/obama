@@ -21,6 +21,10 @@ import java.util.List;
 public class DelCountAdapter extends BaseAdapter {
     private Context context;
     private List<QuickCount.DataBean> list;
+    public void clean(){
+        this.list.clear();
+        this.notifyDataSetChanged();
+    }
 
     public DelCountAdapter(Context context, List<QuickCount.DataBean> list) {
         this.context = context;

@@ -458,7 +458,6 @@ public class BasePrintActivity extends BaseTypeActivity {
                 break;
             case 8:
                 str = terminalSn.substring(11);
-                //str = "00000";
                 break;
 
         }

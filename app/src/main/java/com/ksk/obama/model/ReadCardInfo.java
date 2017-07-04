@@ -21,7 +21,7 @@ public class ReadCardInfo {
     private String result_stadus;
     private String result_errmsg;
     private String result_lost;
-    private String result_datasNum;  //是否开启一块
+    private String result_datasNum;  //是否开启
 
 
     private List<ResultDataBean> result_datas;

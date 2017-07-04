@@ -119,5 +119,19 @@
                 android:src="@mipmap/main011" />
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/rl_main_coupon"
+            style="@style/main_f"
+            android:layout_marginTop="10px">
+
+            <TextView
+                style="@style/main_tv_item"
+                android:text="优惠券核销" />
+
+            <ImageView
+                style="@style/main_iv_item"
+                android:src="@mipmap/main_30" />
+        </RelativeLayout>
+
     </LinearLayout>
 </ScrollView>

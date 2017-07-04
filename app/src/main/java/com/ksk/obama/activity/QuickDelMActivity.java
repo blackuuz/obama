@@ -1,7 +1,9 @@
 package com.ksk.obama.activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,18 +19,23 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.ksk.obama.DB.QuickDelMoney;
 import com.ksk.obama.R;
+import com.ksk.obama.adapter.QuickDelMAdapter;
 import com.ksk.obama.callback.ICreateOrderNumber;
 import com.ksk.obama.callback.IHttpCallBack;
 import com.ksk.obama.callback.IPayCallBack;
@@ -37,6 +44,7 @@ import com.ksk.obama.callback.IPrintSuccessCallback;
 import com.ksk.obama.callback.IQrcodeCallBack;
 import com.ksk.obama.callback.IReadCardId;
 import com.ksk.obama.model.CardInfo;
+import com.ksk.obama.model.QuickDelM;
 import com.ksk.obama.utils.MyTextFilter;
 import com.ksk.obama.utils.NetworkUrl;
 import com.ksk.obama.utils.SharedUtil;
@@ -87,6 +95,8 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
     private TextView tv_name;
     private TextView tv_m;
     private TextView tv_i;
+    private ListView lv_quick;
+
     private String cardNum = "散客";
     private String cardName = "散客";
     private String haveMoney = "";
@@ -117,6 +127,8 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
     private boolean isTemporary = false;
     private String temName = "";
     //private boolean isQrSure = false;//二维码支付确认
+    private List<CardInfo.ResultDataBean> c_data = new ArrayList<>();
+    private List<QuickDelM.FastListBean> q_data = new ArrayList<>();//快速消费快速选择集合
 
     private Unbinder unbinder;
     private boolean XJ, WX, AL, TR;
@@ -137,6 +149,12 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
     @BindView(R.id.ll_dsf)
     LinearLayout llDsf;
 
+    @BindView(R.id.brn_quickm_select)
+    Button quickm_select;
+
+    private QuickDelMAdapter adapter;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,7 +167,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         this.setOnCrateOrderNumber(this);
         unbinder = ButterKnife.bind(this);
         initTitle();
-        setQX();
+        setQX();//加载集合数据也放在这里了
         initViewM();
         getOrderNum("KM");
         if (isNetworkAvailable(QuickDelMActivity.this)) {
@@ -180,6 +198,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
             str += "二维码卡";
         }
         tv.setText("当前可刷卡类型：" + str);
+
     }
 
     private void initTitle() {
@@ -504,7 +523,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
 
 //    private void showCodeSure() {
 //        final PopupWindow window = new PopupWindow();
-//        View contentView = LayoutInflater.from(QuickDelMActivity.this).inflate(R.layout.qr_pay_dialog, null);
+//        View contentView = LayoutInflater.from(QuickDelM.this).inflate(R.layout.qr_pay_dialog, null);
 //        final TextView textView = (TextView) contentView.findViewById(R.id.qr_pay_money);
 //        ImageView back = (ImageView) contentView.findViewById(R.id.alert_back_qr);
 //        final Button sure = (Button) contentView.findViewById(R.id.btn_sure_qr);
@@ -619,20 +638,30 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         postToHttp(NetworkUrl.QUICK, map, new IHttpCallBack() {
             @Override
             public void OnSucess(String jsonText) {
-                try {
-                    Logger.e(jsonText);
-                    JSONObject object = new JSONObject(jsonText);
-                    String money = object.getString("defaultcost");
-                    et_money.setText(money);
-                    openRead();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                Logger.e(jsonText);
+                QuickDelM quick = new Gson().fromJson(jsonText, QuickDelM.class);
+                String money;
+                if (quick.getResult_stadus().equals("SUCCESS")) {
+                    money = quick.getDefaultcost()+"";
+                    if(!quick.getFast_state().equals("1")){ //快速消费状态 如果不等于“1” 隐藏按钮
+                        quickm_select.setVisibility(View.GONE);
+                    }else {
+                        quickm_select.setVisibility(View.VISIBLE);
+                        q_data = quick.getFast_list();
+                        adapter = new QuickDelMAdapter(QuickDelMActivity.this,q_data);
+                    }
+                }else {
+                     money ="";
+                    quickm_select.setVisibility(View.GONE);
+                    adapter = new QuickDelMAdapter(QuickDelMActivity.this,q_data);
                 }
+                et_money.setText(money);
+                openRead();
             }
 
             @Override
             public void OnFail(String message) {
-
+                quickm_select.setVisibility(View.GONE);
             }
         });
     }
@@ -655,32 +684,29 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         map.put("cardNO", cardNum1);
         map.put("CardCode", uid);
         map.put("gid", SharedUtil.getSharedData(QuickDelMActivity.this, "groupid"));
+        map.put("shopID", shopId);
         postToHttp(NetworkUrl.ISCARD, map, new IHttpCallBack() {
             @Override
             public void OnSucess(String jsonText) {
+                Logger.e(jsonText);
                 openRead();
                 CardInfo cardInfo = new Gson().fromJson(jsonText, CardInfo.class);
                 if (cardInfo != null) {
                     if (cardInfo.getResult_stadus() != null && cardInfo.getResult_stadus().equals("SUCCESS")) {
-                        if (cardInfo.getResult_data() != null) {
-                            switch (robotType) {
-                                case 3:
-                                    et_cardNum.setText(cardInfo.getResult_data().getC_CardNO());
-                                    break;
-                            }
-                            isInfo = true;
-                            cardNum = cardInfo.getResult_data().getC_CardNO();
-                            cardName = cardInfo.getResult_data().getC_Name();
-                            money1 = cardInfo.getResult_data().getN_AmountAvailable();
-                            vipIntegral = parseFloat(cardInfo.getResult_data().getN_IntegralValue()) * 0.01f;
-                            String jifen = cardInfo.getResult_data().getN_IntegralAvailable();
-                            password = cardInfo.getResult_data().getC_Password();
-                            tv_name.setText("会员姓名:" + cardName);
-                            haveMoney = money1;
-                            haveIntegral = jifen;
-                            tv_m.setText("当前储值:￥" + money1);
-                            tv_i.setText("当前积分:" + jifen);
+                        int card_dnum = 0;
+                        try {
+                            card_dnum = Integer.parseInt(cardInfo.getResult_datasNum());
+                        } catch (NumberFormatException e) {
+                            e.printStackTrace();
+                            Log.e("uuz", " String转int 异常 ");
                         }
+                        if (card_dnum > 1) {
+                            dialog_(cardInfo);
+                        } else {
+                            ToActivity(cardInfo.getResult_data());
+                        }
+
+
                     } else {
                         et_cardNum.setText("");
                         Utils.showToast(QuickDelMActivity.this, cardInfo.getResult_errmsg());
@@ -693,6 +719,105 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                 openRead();
             }
         });
+    }
+
+    private int yourChoice;
+
+    /**
+     * 这是一个单项选择弹窗
+     */
+    private void showSingleChoiceDialog() {
+        final String[] items = card__;
+        yourChoice = -1;
+        AlertDialog.Builder singleChoiceDialog =
+                new AlertDialog.Builder(QuickDelMActivity.this);
+        singleChoiceDialog.setTitle("\t\t请选择要使用的会员卡");
+        // 第二个参数是默认选项，此处设置为0
+        singleChoiceDialog.setSingleChoiceItems(items, 0,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        yourChoice = which;
+
+                    }
+                });
+        singleChoiceDialog.setPositiveButton("确定",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (yourChoice == -1) {
+                            Toast.makeText(QuickDelMActivity.this, "你选择了" + items[0], Toast.LENGTH_SHORT).show();
+                            ToActivity(c_data.get(0));
+                            c_data.clear();
+                        }
+
+                        if (yourChoice != -1) {
+                            Toast.makeText(QuickDelMActivity.this, "你选择了" + items[yourChoice], Toast.LENGTH_SHORT).show();
+                            ToActivity(c_data.get(yourChoice));
+                            c_data.clear();
+                        }
+                    }
+                });
+        singleChoiceDialog.show();
+    }
+
+
+    private String card__[] = null;
+
+    private void dialog_(CardInfo readCard) {
+        int card_dnum = 0;
+        try {
+            card_dnum = Integer.parseInt(readCard.getResult_datasNum());
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            Log.e("uuz", " String转int 异常 ");
+        }
+        if (card_dnum > 1) {
+            String cardNo[] = new String[card_dnum];
+            String cardName[] = new String[card_dnum];
+            String cName = "";
+            String length = "             ";
+            card__ = new String[card_dnum];
+            c_data = readCard.getResult_datas();
+            for (int i = 0; i < card_dnum; i++) {
+                cardNo[i] = readCard.getResult_datas().get(i).getC_CardNO();
+                cardName[i] = readCard.getResult_datas().get(i).getC_Name();
+                if (cardName[i].length() > 4) {
+                    cName = cardName[i].substring(0, 4) + "… :";
+                } else if (cardName[i].length() == 4) {
+                    cName = cardName[i] + "  :";
+                } else {
+                    cName = cardName[i] + length.substring(0, (4 - cardName[i].length())) + "  :";
+                }
+                card__[i] = cName + "  " + cardNo[i];
+            }
+            showSingleChoiceDialog();
+        }
+    }
+
+
+    private void ToActivity(CardInfo.ResultDataBean resultData) {
+        if (resultData != null) {
+            switch (robotType) {
+                case 3:
+                    et_cardNum.setText(resultData.getC_CardNO());
+                    break;
+            }
+            isInfo = true;
+            cardNum = resultData.getC_CardNO();
+            cardName = resultData.getC_Name();
+            money1 = resultData.getN_AmountAvailable();
+            vipIntegral = parseFloat(resultData.getN_IntegralValue()) * 0.01f;
+            String jifen = resultData.getN_IntegralAvailable();
+            password = resultData.getC_Password();
+            tv_name.setText("会员姓名:" + cardName);
+            haveMoney = money1;
+            haveIntegral = jifen;
+            tv_m.setText("当前储值:￥" + money1);
+            tv_i.setText("当前积分:" + jifen);
+        }
+
+
     }
 
     @Override
@@ -1026,61 +1151,22 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                     et_gread_dx.setSelection(et_gread_dx.getText().length());
                     tv_money_dx.setText(Utils.getNumStr(del_jf / dx_jf));
                     tv_pay.setText(Utils.getNumStr(delm - del_jf / dx_jf));
-
-//                    if(del_jf/dx_jf>dx_max){
-//                        if(del_jf>have_jf){
-//                            et_gread_dx.removeTextChangedListener(this);
-//                            et_gread_dx.setText(Utils.getNumStr(have_jf));
-//                            et_gread_dx.addTextChangedListener(this);
-//                            et_gread_dx.setInputType(EditorInfo.TYPE_CLASS_PHONE);
-//                            et_gread_dx.setSelection(et_gread_dx.getText().length());
-//                            tv_money_dx.setText(Utils.getNumStr(have_jf * dx_jf));
-//                            tv_pay.setText(Utils.getNumStr(delm - have_jf * dx_jf));
-//                        }
-//                    }
-
-                    ///
-//                    if (del_jf / dx_jf > delm) {//抵现金额大于消费金额
-//                        if (del_jf > have_jf) {//抵现积分大于现有积分
-//                            et_gread_dx.removeTextChangedListener(this);
-//                            et_gread_dx.setText(Utils.getNumStr(have_jf));
-//                            et_gread_dx.addTextChangedListener(this);
-//                            et_gread_dx.setInputType(EditorInfo.TYPE_CLASS_PHONE);
-//                            et_gread_dx.setSelection(et_gread_dx.getText().length());
-//                            tv_money_dx.setText(Utils.getNumStr(have_jf * dx_jf));
-//                            tv_pay.setText(Utils.getNumStr(delm - have_jf * dx_jf));
-//                        } else {
-//                            et_gread_dx.removeTextChangedListener(this);
-//                            et_gread_dx.setText(Utils.getNumStr(delm * dx_jf));
-//                            et_gread_dx.addTextChangedListener(this);
-//                            et_gread_dx.setInputType(EditorInfo.TYPE_CLASS_PHONE);
-//                            et_gread_dx.setSelection(et_gread_dx.getText().length());
-//                            tv_money_dx.setText(str2);
-//                            //  tv_pay.setText("0");
-//                        }
-//                    } else {
-//                        if (del_jf > have_jf) {//抵现积分大于现有积分
-//                            et_gread_dx.removeTextChangedListener(this);
-//                            et_gread_dx.setText(Utils.getNumStr(have_jf));
-//                            et_gread_dx.addTextChangedListener(this);
-//                            et_gread_dx.setInputType(EditorInfo.TYPE_CLASS_PHONE);
-//                            et_gread_dx.setSelection(et_gread_dx.getText().length());
-//                            tv_money_dx.setText(Utils.getNumStr(have_jf / dx_jf));
-//                            tv_pay.setText(Utils.getNumStr(delm - have_jf / dx_jf));
-//                        } else {
-//                            et_gread_dx.removeTextChangedListener(this);
-//                            et_gread_dx.setText(str);
-//                            et_gread_dx.addTextChangedListener(this);
-//                            et_gread_dx.setInputType(EditorInfo.TYPE_CLASS_PHONE);
-//                            et_gread_dx.setSelection(et_gread_dx.getText().length());
-//                            tv_money_dx.setText(Utils.getNumStr(del_jf / dx_jf));
-//                            tv_pay.setText(Utils.getNumStr(delm - del_jf / dx_jf));
-//                        }
-//                    }
                 }
             }
         });
-        //findViewById(R.id.btn_read_code).setOnClickListener(this);
+
+        quickm_select.setOnClickListener(new View.OnClickListener() {//快速消费列表
+            @Override
+            public void onClick(View v) {
+                if(!db_isCheck.isChecked()){
+                    new PopupWindows(QuickDelMActivity.this, findViewById(R.id.ll_quick_money_root));
+                }
+
+
+            }
+        });
+
+
         btn_query.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1088,6 +1174,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
             }
         });
         getDelMoney();
+
     }
 
     private void sendDelMoney() {
@@ -1304,10 +1391,13 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         isCheck = false;
         ll_dx.setVisibility(View.GONE);
         btn_change.setEnabled(false);
-        et_gread_dx.setText("0");
+        if (dx_jf != 0) {
+            et_gread_dx.setText("0");
+            et_gread_dx.setInputType(InputType.TYPE_NULL);
+        }
         tv_money_dx.setText("0");
         tv_pay.setText("0");
-        et_gread_dx.setInputType(InputType.TYPE_NULL);
+
         et_money.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
         reset();
     }
@@ -1591,4 +1681,53 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
             postToHttp(NetworkUrl.DELPAYQRCODE, map, null);
         }
     }
+
+    public class PopupWindows extends PopupWindow implements View.OnClickListener, PopupWindow.OnDismissListener {
+        public PopupWindows(Context mContext, View parent) {
+            View view = View.inflate(mContext, R.layout.popup_window_quickdelm, null);
+            DisplayMetrics dm = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(dm);
+            int w = dm.widthPixels;
+            setWidth(w * 2 / 3);
+            setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+            setBackgroundDrawable(new BitmapDrawable());
+            setContentView(view);
+            setOutsideTouchable(false);
+            setFocusable(true);
+            setTouchable(true);
+            showAtLocation(parent, Gravity.CENTER, 0, 0);
+            update();
+            ImageView back = (ImageView) view.findViewById(R.id.pop_iv_click);
+            lv_quick = (ListView) view.findViewById(R.id.lv_quickdelm);
+             lv_quick.setAdapter(adapter);
+             adapter.notifyDataSetChanged();
+
+            lv_quick.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    et_money.setText(q_data.get(position).getC_Value()+"");
+                    dismiss();
+                }
+            });
+
+            back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dismiss();
+                }
+            });
+        }
+
+        @Override
+        public void onClick(View view) {
+            dismiss();
+        }
+
+        @Override
+        public void onDismiss() {
+            isclick_pay = true;
+        }
+    }
+
+
 }

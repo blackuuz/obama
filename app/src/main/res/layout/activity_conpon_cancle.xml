@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ksk.obama.activity.CouponSelectActivity">
+    <include layout="@layout/title_obama" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="50px">
+
+            <EditText
+                android:id="@+id/et_use_coupon_number"
+                android:layout_width="0dp"
+                android:layout_height="60px"
+                android:layout_weight="1"
+                android:background="@mipmap/edit_bg"
+                android:gravity="center"
+                android:hint="请输入卡券编码"
+                android:inputType="number"
+                android:textColor="@color/text_black2"
+                android:textSize="30px" />
+
+            <Button
+                android:id="@+id/btn_use_coupon_qrCode"
+                android:layout_width="120px"
+                android:layout_height="60px"
+                android:layout_marginLeft="60px"
+                android:background="@drawable/select_pw_yes"
+                android:text="扫码"
+                android:textColor="@color/white"
+                android:textSize="30px" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_use_coupon_query"
+            android:layout_width="match_parent"
+            android:layout_height="70px"
+            android:layout_marginLeft="50px"
+            android:layout_marginRight="50px"
+            android:background="@drawable/select_bottoms_y"
+            android:text="确定"
+            android:textColor="@color/white"
+            android:textSize="30px" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="10px"
+            android:layout_marginTop="10px"
+            android:background="@color/main_bg" />
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_weight="0"
+            android:id="@+id/rv_coupon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="60px"
+            android:background="@drawable/coupon_list_bg"
+            android:padding="10px">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <Button
+            android:id="@+id/btn_coupon_sure"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="70px"
+            android:layout_marginLeft="50px"
+            android:layout_marginRight="50px"
+            android:layout_gravity="center"
+            android:background="@drawable/select_button_r"
+            android:text="确定使用"
+            android:visibility="gone"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+    <include layout="@layout/bottom_s" />
+</LinearLayout>

@@ -91,7 +91,7 @@ public class BaseActivity extends AutoLayoutActivity {
     private IHttpCallBack callBack;
     protected boolean isclick_pay = true;
 
-
+    protected String shopId = "";
     protected String terminalSn;
     protected Bitmap bmp;
 
@@ -235,6 +235,7 @@ public class BaseActivity extends AutoLayoutActivity {
         manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         loadingDialog = new MyDialog(BaseActivity.this, R.style.loading_dialog);
         isXJ = getSharedBData(BaseActivity.this, "payxj");
+        shopId = SharedUtil.getSharedData(BaseActivity.this,"shopid");
         String jf = SharedUtil.getSharedData(BaseActivity.this, "shopintegral");
         if (TextUtils.isEmpty(jf)) {
             shopIntegral = 0;
@@ -312,7 +313,7 @@ public class BaseActivity extends AutoLayoutActivity {
                             @Override
                             public void onClick(View v) {
                                 newPay(1, money, orderDesc); //1 扫码
-                                isclick_pay =false;
+                                isclick_pay = false;
                                 mdialog.dismiss();
                             }
                         });
@@ -375,7 +376,7 @@ public class BaseActivity extends AutoLayoutActivity {
                     requestCashier(n, money, orderDesc);
                 } else if (n == 1 || n == 2) {
                     newPay(n, money, orderDesc, str2);
-                } else{
+                } else {
                     isclick_pay = true;
                     Utils.showToast(BaseActivity.this, "没有开通此功能");
                 }
@@ -598,7 +599,7 @@ public class BaseActivity extends AutoLayoutActivity {
                                                 Log.e("uuz", "成功" + jsonText);
                                                 Utils.showToast(BaseActivity.this, "支付成功");
                                                 if (iPayCallBack != null) {
-                                                    Log.e("uuz", "OnSucess: +++++++++++"+type);
+                                                    Log.e("uuz", "OnSucess: +++++++++++" + type);
                                                     iPayCallBack.OnPaySucess(orderNo, type);
                                                 } else {
                                                     Log.e("uuz", "请实现IPayCallBack接口");
@@ -632,7 +633,7 @@ public class BaseActivity extends AutoLayoutActivity {
                             String memoBillNum = data.getExtras().getString("memoBillNum");
                             if (iPayCallBack != null) {
                                 iPayCallBack.OnPaySucess(memoBillNum, type);
-                                Log.e("uuz", "OnSucess: +++++++++++"+type);
+                                Log.e("uuz", "OnSucess: +++++++++++" + type);
                             } else {
                                 Log.e("uuz", "请实现IPayCallBack接口");
                             }

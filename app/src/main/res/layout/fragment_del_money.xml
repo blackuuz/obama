@@ -93,8 +93,6 @@
                         android:textSize="36px" />
 
                     <EditText
-                        android:focusable="false"
-                        android:selectAllOnFocus="true"
                         android:id="@+id/et_money"
                         android:layout_width="0dp"
                         android:layout_height="70px"
@@ -102,11 +100,13 @@
                         android:layout_marginRight="20px"
                         android:layout_weight="1"
                         android:background="@mipmap/sign"
+                        android:focusable="false"
                         android:gravity="center"
                         android:hint="请输入金额"
                         android:inputType="numberDecimal"
+                        android:selectAllOnFocus="true"
                         android:textColor="@color/text_black4"
-                        android:textSize="50px" />
+                        android:textSize="34px" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -124,6 +124,19 @@
                         android:layout_marginTop="20px"
                         android:background="@drawable/select_code" />
 
+                    <Button
+                        android:id="@+id/brn_quickm_select"
+                        android:layout_width="100px"
+                        android:layout_height="70px"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="20px"
+                        android:layout_marginTop="20px"
+                        android:text="金额\n选择"
+                        android:textSize="25px"
+                        android:visibility="gone"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:background="@drawable/select_pw_yes" />
                 </LinearLayout>
 
                 <TextView
@@ -206,14 +219,15 @@
 
                 <LinearLayout
                     android:id="@+id/ll_dx"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="30px"
                     android:layout_marginBottom="30px"
+                    android:layout_marginTop="30px"
                     android:orientation="vertical"
                     android:paddingLeft="40px"
-                    android:paddingRight="40px">
+                    android:paddingRight="40px"
+                    android:visibility="gone">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -233,11 +247,11 @@
                             android:layout_height="70px"
                             android:layout_weight="1"
                             android:background="@mipmap/sign"
+                            android:digits="1234567890."
                             android:gravity="center"
                             android:text="0"
-                            android:digits="1234567890."
-                            android:textSize="40px"
-                            android:textColor="@color/text_black4" />
+                            android:textColor="@color/text_black4"
+                            android:textSize="40px" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -288,9 +302,9 @@
                             android:layout_height="match_parent"
                             android:layout_marginLeft="20px"
                             android:layout_weight="1"
-                            android:textSize="40px"
+                            android:background="@mipmap/edit_bg"
                             android:gravity="center"
-                            android:background="@mipmap/edit_bg" />
+                            android:textSize="40px" />
 
                         <Button
                             android:id="@+id/btn_change"

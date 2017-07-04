@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/im_popclick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="10px"
+        android:paddingLeft="80px"
+        android:paddingRight="40px"
+        android:paddingTop="10px">
+
+
+
+        <TextView
+            android:layout_width="60px"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:gravity="right|center"
+            android:clickable="true"
+            android:text="消费"
+            android:textColor="#000"
+            android:textSize="30px" />
+
+        <TextView
+            android:id="@+id/tv_recharge_name"
+            android:layout_width="80px"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text=""
+            android:gravity="center"
+            android:textColor="#000"
+            android:maxLines="1"
+            android:textSize="30px" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="元"
+            android:textColor="#000"
+            android:textSize="30px" />
+
+
+        <TextView
+            android:layout_width="120px"
+            android:layout_height="60px"
+            android:gravity="center"
+            android:text="选择"
+            android:layout_marginLeft="20px"
+            android:layout_margin="10px"
+            android:background="@drawable/select_button_r"
+            android:textColor="#fff"
+            android:textSize="30px" />
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -10,14 +10,52 @@ public class QuickCount {
 
 
     /**
+     * num : 2  如果num小于2 返回 data 和memberdata
      * Stadus : SUCCESS
      * data : [{"id":"20","i_GroupID":"1","c_GoodsNO":"P00020","c_GoodsName":"辣椒","c_Pinyin":"LJ","c_Unit":"","c_GoodsClassify":"萝卜","c_BarCode":"","n_PricePurchase":".00","n_PriceRetail":"3.00","n_LowerLimit":".00","n_DiscountValue":"1","n_IntegralValue":"1","r_IsMaterial":"0","goods_times":"86","StopTime":"2099-12-31 00:00:00.000","ROW_NUMBER":"1"},{"id":"20","i_GroupID":"1","c_GoodsNO":"P00020","c_GoodsName":"辣椒","c_Pinyin":"LJ","c_Unit":"","c_GoodsClassify":"萝卜","c_BarCode":"","n_PricePurchase":".00","n_PriceRetail":"3.00","n_LowerLimit":".00","n_DiscountValue":"1","n_IntegralValue":"1","r_IsMaterial":"0","goods_times":"10","StopTime":"2099-12-31 00:00:00.000","ROW_NUMBER":"2"}]
      * memberdata : {"id":"325","i_GroupID":"1","i_ShopID":"1","c_CardNO":"5607","c_Name":"经济","c_Sex":"","c_Mobile":"","c_IDCard":null,"c_Car":null,"c_Add":null,"c_Password":"","c_BirthdayType":null,"i_BirthdayYear":null,"i_BirthdayMonth":null,"i_BirthdayDay":null,"i_ClassID":"1","c_ClassName":"金卡改过名","n_IntegralValue":"100.00","n_DiscountValue":"88.00","n_AmountAvailable":"3075.00","n_IntegralAvailable":"1136.00","n_IntegralAccumulated":"1118.00","t_CreateTime":"2016-10-11 11:25:04.000","t_StopTime":"2026-10-11 00:00:00.000","t_LastTime":"2000-01-01 00:00:00.000","c_OpenID":"","c_Remark":"","c_Photo":"","c_Memberpath":"0","i_Parent":"0","ROW_NUMBER":"1"}
+     *
+     *
+     *  如果num 大于2 返回datas 和memberdatas
+     * datas :[[{……},{……}],[{……},{……}]]
+     *
      */
-
+    private String num;
     private String result_stadus;
     private MemberdataBean memberdata;
     private List<DataBean> data;
+
+    private List<MemberdataBean> memberdatas;
+    private List<List<DataBean>> datas;
+
+
+    public List<List<DataBean>> getDatas() {
+        return datas;
+    }
+
+    public void setDatas(List<List<DataBean>> datas) {
+        this.datas = datas;
+    }
+
+    public List<MemberdataBean> getMemberdatas() {
+        return memberdatas;
+    }
+
+    public void setMemberdatas(List<MemberdataBean> memberdatas) {
+        this.memberdatas = memberdatas;
+    }
+
+
+
+
+    public String getNum() {
+        return num;
+    }
+    public void setNum(String num) {
+        this.num = num;
+    }
+
+
 
     public String getResult_stadus() {
         return result_stadus;

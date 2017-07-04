@@ -31,6 +31,7 @@ public class MainFrag1 extends Fragment implements View.OnClickListener {
     private RelativeLayout rl_main_4;
     private RelativeLayout rl_main_04;
     private RelativeLayout rl_main_06;
+    private RelativeLayout rl_main_exitCard;
 
     @Nullable
     @Override
@@ -53,14 +54,17 @@ public class MainFrag1 extends Fragment implements View.OnClickListener {
 
         rl_main_04 = (RelativeLayout) getView().findViewById(R.id.rl_main04);
         rl_main_06 = (RelativeLayout) getView().findViewById(R.id.rl_main06);
+        rl_main_exitCard = (RelativeLayout) getView().findViewById(R.id.rl_main_exit);
+
         rl_main_04.setVisibility(View.GONE);
         rl_main_06.setVisibility(View.GONE);
-
         rl_main_0.setVisibility(View.GONE);
         rl_main_1.setVisibility(View.GONE);
         rl_main_2.setVisibility(View.GONE);
         rl_main_3.setVisibility(View.GONE);
         rl_main_4.setVisibility(View.GONE);
+        rl_main_exitCard.setVisibility(View.GONE);
+
         for (int i = 0; i < MainActivity.list_pow.size(); i++) {
             String str = MainActivity.list_pow.get(i).getC_PopedomName();
             if (str.equals("POS:会员办卡")) {
@@ -84,6 +88,9 @@ public class MainFrag1 extends Fragment implements View.OnClickListener {
             } else if (str.equals("POS:卡片延期")) {
                 rl_main_06.setVisibility(View.VISIBLE);
                 rl_main_06.setOnClickListener(this);
+            }else if(str.equals("POS:退卡销户")){
+                rl_main_exitCard.setVisibility(View.VISIBLE);
+                rl_main_exitCard.setOnClickListener(this);
             }
         }
     }
@@ -125,6 +132,12 @@ public class MainFrag1 extends Fragment implements View.OnClickListener {
                     intent.putExtra("type", 6);
                     intent.setClass(getActivity(), ReadCardInfoActivity.class);
                     break;
+                case R.id.rl_main_exit:
+                    intent.putExtra("type",15);
+                    intent.setClass(getActivity(), ReadCardInfoActivity.class);
+                    break;
+
+
 
             }
             startActivity(intent);

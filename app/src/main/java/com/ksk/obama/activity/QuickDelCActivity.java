@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,7 +64,8 @@ public class QuickDelCActivity extends BasePAndRActivity implements IReadCardId,
     private String password = "";
     private String orderTime = "";
     private String uid = "";
-
+    private List<List<QuickCount.DataBean>> c_data = new ArrayList<>();
+    private List<QuickCount.MemberdataBean> m_data = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -223,30 +225,28 @@ public class QuickDelCActivity extends BasePAndRActivity implements IReadCardId,
         map.put("cardNO", cardNum);
         map.put("CardCode", uid);
         map.put("gid", SharedUtil.getSharedData(QuickDelCActivity.this, "groupid"));
+        map.put("shopid", shopId);
         postToHttp(NetworkUrl.QUICK_LIST, map, new IHttpCallBack() {
             @Override
             public void OnSucess(String jsonText) {
                 Logger.e(jsonText);
+                Logger.json(jsonText);
                 QuickCount readCard = new Gson().fromJson(jsonText, QuickCount.class);
                 if (readCard.getResult_stadus().equals("SUCCESS")) {
-                    switch (robotType) {
-                        case 3:
-                        case 4:
-                            et_cardNum.setText(readCard.getMemberdata().getC_CardNO());
-                            break;
+                    int card_dnum = 0;
+                    try {
+                        card_dnum = Integer.parseInt(readCard.getNum());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        Log.e("uuz", " String转int 异常 ");
                     }
-                    password = readCard.getMemberdata().getC_Password();
-                    list = readCard.getData();
-                    if (list != null) {
-                        if (list.size() > 0) {
-                            adapter = new DelCountAdapter(QuickDelCActivity.this, list);
-                            lv_count.setAdapter(adapter);
-                        } else {
-                            openRead();
-                            et_cardNum.setText("");
-                            Utils.showToast(QuickDelCActivity.this, "您没有可扣项目");
-                        }
+                    if (card_dnum > 1) {
+                        dialog_(readCard);
+                    } else {
+                        ToRead(readCard.getData(),readCard.getMemberdata());
                     }
+
+
                 } else {
                     openRead();
                     try {
@@ -265,6 +265,114 @@ public class QuickDelCActivity extends BasePAndRActivity implements IReadCardId,
             }
         });
     }
+
+    private int yourChoice;
+
+    /**
+     * 这是一个单项选择弹窗
+     */
+    private void showSingleChoiceDialog() {
+        final String[] items = card__;
+        yourChoice = -1;
+        AlertDialog.Builder singleChoiceDialog =
+                new AlertDialog.Builder(QuickDelCActivity.this);
+        singleChoiceDialog.setTitle("\t\t请选择要使用的会员卡");
+        // 第二个参数是默认选项，此处设置为0
+        singleChoiceDialog.setSingleChoiceItems(items, 0,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        yourChoice = which;
+                    }
+                });
+        singleChoiceDialog.setPositiveButton("确定",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (yourChoice == -1) {
+                            //Toast.makeText(QuickDelCActivity.this, "你选择了" + items[0], Toast.LENGTH_SHORT).show();
+                            ToRead(c_data.get(0),m_data.get(0));
+                            c_data.clear();
+                            m_data.clear();
+                        }
+
+                        if (yourChoice != -1) {
+//                            Toast.makeText(QuickDelCActivity.this, "你选择了" + items[yourChoice],
+//                                    Toast.LENGTH_SHORT).show();
+                            ToRead(c_data.get(yourChoice),m_data.get(yourChoice));
+                            c_data.clear();
+                            m_data.clear();
+                        }
+                    }
+                });
+        singleChoiceDialog.show();
+    }
+
+    private String card__[] = null;
+
+    private void dialog_(QuickCount readCard) {
+        int card_dnum = 0;
+        try {
+            card_dnum = Integer.parseInt(readCard.getNum());
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            Log.e("uuz", " String转int 异常 ");
+        }
+        if (card_dnum > 1) {
+            String cardNo[] = new String[card_dnum];
+            String cardName[] = new String[card_dnum];
+            String cName = "";
+            String length = "             ";
+            card__ = new String[card_dnum];
+            c_data = readCard.getDatas();
+            m_data = readCard.getMemberdatas();
+
+            for (int i = 0; i < card_dnum; i++) {
+                cardNo[i] = readCard.getMemberdatas().get(i).getC_CardNO();
+                cardName[i] = readCard.getMemberdatas().get(i).getC_Name();
+                if (cardName[i].length() > 4) {
+                    cName = cardName[i].substring(0, 4) + "… :";
+                } else if (cardName[i].length() == 4) {
+                    cName = cardName[i] + "  :";
+                } else {
+                    cName = cardName[i] + length.substring(0, (4 - cardName[i].length())) + "  :";
+                }
+                card__[i] = cName + "  " + cardNo[i];
+            }
+            showSingleChoiceDialog();
+        }
+    }
+
+
+    private void ToRead(List<QuickCount.DataBean> dataBeen, QuickCount.MemberdataBean memberdataBean) {
+
+        switch (robotType) {
+            case 3:
+            case 4:
+                et_cardNum.setText(memberdataBean.getC_CardNO());
+                break;
+        }
+        password = memberdataBean.getC_Password();
+        list = dataBeen;
+        if (list != null) {
+            if (list.size() > 0) {
+                adapter.clean();
+                adapter = new DelCountAdapter(QuickDelCActivity.this, list);
+                lv_count.setAdapter(adapter);
+
+                et_cardNum.setText(memberdataBean.getC_CardNO());
+            } else {
+                openRead();
+                adapter.clean();
+                adapter.notifyDataSetChanged();
+                et_cardNum.setText("");
+                Utils.showToast(QuickDelCActivity.this, "您没有可扣项目");
+            }
+        }
+
+
+    }
+
 
     public void commitdata() {
         cardNum = et_cardNum.getText().toString();
@@ -335,9 +443,8 @@ public class QuickDelCActivity extends BasePAndRActivity implements IReadCardId,
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
-//                        Utils.showToast(QuickDelMActivity.this,"权限异常");
+//                        Utils.showToast(QuickDelM.this,"权限异常");
                     }
-
 
 
                 }

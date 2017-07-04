@@ -49,6 +49,7 @@ public class ExitCardActivity extends BasePrintActivity implements View.OnClickL
     private TextView pay1;
     private TextView pay2;
     private TextView pay3;
+    private TextView pay_dsf;
     private int n = -1;
     private String id = "";
     private String uid;
@@ -101,7 +102,7 @@ public class ExitCardActivity extends BasePrintActivity implements View.OnClickL
         pay1 = (TextView) findViewById(R.id.tv_pay_open_1);
         pay2 = (TextView) findViewById(R.id.tv_pay_open_2);
         pay3 = (TextView) findViewById(R.id.tv_pay_open_3);
-
+        pay_dsf = (TextView) findViewById(R.id.tv_pay_open_dsf);
         InputFilter[] filters = {new MyTextFilter()};
         et_money.setFilters(filters);
 
@@ -109,7 +110,7 @@ public class ExitCardActivity extends BasePrintActivity implements View.OnClickL
         pay1.setOnClickListener(this);
         pay2.setOnClickListener(this);
         pay3.setOnClickListener(this);
-
+        pay_dsf.setOnClickListener(this);
     }
 
     private void setData() {
@@ -130,7 +131,7 @@ public class ExitCardActivity extends BasePrintActivity implements View.OnClickL
 
     private void getHttpData() {
         if (n == -1) {
-            Utils.showToast(ExitCardActivity.this, "请选择支付方式");
+            Utils.showToast(ExitCardActivity.this, "请选择退卡方式");
         } else {
             Map<String, String> map = new HashMap<>();
             map.put("dbName", SharedUtil.getSharedData(ExitCardActivity.this, "dbname"));
@@ -155,9 +156,13 @@ public class ExitCardActivity extends BasePrintActivity implements View.OnClickL
                     map.put("payAli", et_money.getText().toString().equals("") ? 0 + "" : et_money.getText().toString());
                     break;
                 case 3:
-                    map.put("pay_way", "银联");
-                    map.put("payBank", et_money.getText().toString().equals("") ? 0 + "" : et_money.getText().toString());
+                    map.put("pay_way", "第三方");
+                    map.put("payThird", et_money.getText().toString().equals("") ? 0 + "" : et_money.getText().toString());
                     break;
+                case 4:
+                    map.put("pay_way","银联");
+                    map.put("payBank", et_money.getText().toString().equals("") ? 0 + "" : et_money.getText().toString());
+
             }
 
             postToHttp(NetworkUrl.EXITCARD, map, new IHttpCallBack() {
@@ -189,32 +194,43 @@ public class ExitCardActivity extends BasePrintActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.tv_pay_open_0:
                 n = 0;
-                pay0.setBackgroundResource(R.mipmap.xj1);
-                pay1.setBackgroundResource(R.mipmap.wx);
-                pay2.setBackgroundResource(R.mipmap.zfb);
-                pay3.setBackgroundResource(R.mipmap.yl);
+                pay0.setBackgroundResource(R.mipmap.xj);
+                pay1.setBackgroundResource(R.mipmap.wx1);
+                pay2.setBackgroundResource(R.mipmap.zfb1);
+                pay3.setBackgroundResource(R.mipmap.yl1);
+                pay_dsf.setBackgroundResource(R.mipmap.dsf1);
                 break;
             case R.id.tv_pay_open_1:
                 n = 1;
-                pay0.setBackgroundResource(R.mipmap.xj);
-                pay1.setBackgroundResource(R.mipmap.wx1);
-                pay2.setBackgroundResource(R.mipmap.zfb);
-                pay3.setBackgroundResource(R.mipmap.yl);
+                pay0.setBackgroundResource(R.mipmap.xj1);
+                pay1.setBackgroundResource(R.mipmap.wx);
+                pay2.setBackgroundResource(R.mipmap.zfb1);
+                pay3.setBackgroundResource(R.mipmap.yl1);
+                pay_dsf.setBackgroundResource(R.mipmap.dsf1);
                 break;
             case R.id.tv_pay_open_2:
                 n = 2;
-                pay0.setBackgroundResource(R.mipmap.xj);
-                pay1.setBackgroundResource(R.mipmap.wx);
-                pay2.setBackgroundResource(R.mipmap.zfb1);
-                pay3.setBackgroundResource(R.mipmap.yl);
-                break;
-            case R.id.tv_pay_open_3:
-                n = 3;
-                pay0.setBackgroundResource(R.mipmap.xj);
-                pay1.setBackgroundResource(R.mipmap.wx);
+                pay0.setBackgroundResource(R.mipmap.xj1);
+                pay1.setBackgroundResource(R.mipmap.wx1);
                 pay2.setBackgroundResource(R.mipmap.zfb);
                 pay3.setBackgroundResource(R.mipmap.yl1);
+                pay_dsf.setBackgroundResource(R.mipmap.dsf1);
                 break;
+            case R.id.tv_pay_open_3:
+                n = 4;
+                pay0.setBackgroundResource(R.mipmap.xj1);
+                pay1.setBackgroundResource(R.mipmap.wx1);
+                pay2.setBackgroundResource(R.mipmap.zfb1);
+                pay3.setBackgroundResource(R.mipmap.yl);
+                pay_dsf.setBackgroundResource(R.mipmap.dsf1);
+                break;
+            case R.id.tv_pay_open_dsf:
+                n = 3 ;
+                pay0.setBackgroundResource(R.mipmap.xj1);
+                pay1.setBackgroundResource(R.mipmap.wx1);
+                pay2.setBackgroundResource(R.mipmap.zfb1);
+                pay3.setBackgroundResource(R.mipmap.yl1);
+                pay_dsf.setBackgroundResource(R.mipmap.dsf);
         }
     }
 
@@ -242,6 +258,9 @@ public class ExitCardActivity extends BasePrintActivity implements View.OnClickL
                 listp.add("退款方式:支付宝");
                 break;
             case 3:
+                listp.add("退款方式:第三方");
+                break;
+            case 4:
                 listp.add("退款方式:银联");
                 break;
         }
@@ -297,5 +316,6 @@ public class ExitCardActivity extends BasePrintActivity implements View.OnClickL
     @Override
     public void OnPrintSuccess() {
         startActivity(new Intent(ExitCardActivity.this, MainActivity.class));
+
     }
 }

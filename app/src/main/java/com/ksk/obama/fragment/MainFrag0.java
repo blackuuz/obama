@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import com.ksk.obama.R;
 import com.ksk.obama.activity.BuyShopListActivity;
 import com.ksk.obama.activity.ChangePersonActivity;
+import com.ksk.obama.activity.CouponCancelActivity;
 import com.ksk.obama.activity.GetMoneyActivity;
 import com.ksk.obama.activity.HouseActivity;
 import com.ksk.obama.activity.MainActivity;
@@ -38,6 +39,7 @@ public class MainFrag0 extends Fragment implements View.OnClickListener {
     private RelativeLayout rl_main_9;
     private RelativeLayout rl_main_10;
     private RelativeLayout rl_main_11;
+    private RelativeLayout rl_main_coupon;
 
 
     @Nullable
@@ -61,6 +63,7 @@ public class MainFrag0 extends Fragment implements View.OnClickListener {
         rl_main_9 = (RelativeLayout) getView().findViewById(R.id.rl_main09);
         rl_main_10 = (RelativeLayout) getView().findViewById(R.id.rl_main10);
         rl_main_11 = (RelativeLayout) getView().findViewById(R.id.rl_main11);
+        rl_main_coupon = (RelativeLayout) getView().findViewById(R.id.rl_main_coupon);
         rl_main_0.setVisibility(View.GONE);
         rl_main_1.setVisibility(View.GONE);
         rl_main_3.setVisibility(View.GONE);
@@ -69,6 +72,7 @@ public class MainFrag0 extends Fragment implements View.OnClickListener {
         rl_main_9.setVisibility(View.GONE);
         rl_main_10.setVisibility(View.GONE);
         rl_main_11.setVisibility(View.GONE);
+        rl_main_coupon.setVisibility(View.GONE);
         for (int i = 0; i < MainActivity.list_pow.size(); i++) {
             String str = MainActivity.list_pow.get(i).getC_PopedomName();
             if (str.equals("POS:商品消费")) {
@@ -88,6 +92,10 @@ public class MainFrag0 extends Fragment implements View.OnClickListener {
             } else if (str.equals("POS:今日收益")) {
                 rl_main_7.setVisibility(View.VISIBLE);
                 rl_main_7.setOnClickListener(this);
+            }else if(str.equals("POS:优惠券核销")){
+                rl_main_coupon.setVisibility(View.VISIBLE);
+                rl_main_coupon.setOnClickListener(this);
+
             }
         }
 
@@ -143,6 +151,11 @@ public class MainFrag0 extends Fragment implements View.OnClickListener {
                 case R.id.rl_main11:
                     intent.setClass(getActivity(), TechnicianActivity.class);
                     break;
+                //优惠券核销
+                case R.id.rl_main_coupon:
+                    intent.setClass(getActivity(), CouponCancelActivity.class);
+                    break;
+
             }
             startActivity(intent);
         } else {

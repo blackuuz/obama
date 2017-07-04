@@ -62,6 +62,9 @@ public class NetworkUrl {
     public static final String SALESDETIALS = URL_2 + "Record/drawmenu_list";//销售统计记录
     public static final String TEMPORARY = URL + "temporary";//临时权限
     public static final String COUPON = URL_2 + "Business/use_coupon";//优惠券
+    public static final String COUPONCANCEL = URL_2 + "Business/detail_member_coupon";//优惠券核销查询
+    public static final String COUPONCANCELSURE = URL_2 + "Business/verify_coupon";//优惠券核销确认
+
 
 
 }

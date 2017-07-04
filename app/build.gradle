@@ -19,9 +19,9 @@ android {
         applicationId "com.ksk.obama"
         minSdkVersion 14
         targetSdkVersion 24
-        versionCode 345
-        versionName "3.1.4"//time : 2017-6-29-15:07 修改银联 扫码支付 为第三方支付  未测试版
-        //versionName "_____"//旺pos
+        versionCode 347
+        versionName "3.1.5"//time : 2017-7-4 8:59 优惠券核销测试版
+         //versionName "_____"//旺pos
 
     }
     buildTypes {
@@ -58,7 +58,7 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.5.1'
     compile 'com.zhy:autolayout:1.4.5'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha8'
+    compile 'com.android.support:recyclerview-v7:24.0.0'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-    compile 'com.android.support:recyclerview-v7:24.0.0'
 }

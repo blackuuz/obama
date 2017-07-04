@@ -167,6 +167,7 @@ public class VipToShopActivity extends BaseActivity implements View.OnClickListe
         Map<String, String> map = new HashMap<>();
         map.put("dbName", SharedUtil.getSharedData(VipToShopActivity.this, "dbname"));
         map.put("cardNO", cardInfo.getC_CardNO());
+        map.put("shopID",shopId);
         postToHttp(NetworkUrl.ISCARD, map, new IHttpCallBack() {
                     @Override
                     public void OnSucess(String jsonText) {
@@ -326,6 +327,7 @@ public class VipToShopActivity extends BaseActivity implements View.OnClickListe
         Map<String, String> map = new HashMap<>();
         map.put("dbName", SharedUtil.getSharedData(VipToShopActivity.this, "dbname"));
         map.put("cardNO", cardInfo.getC_CardNO());
+
         postToHttp(NetworkUrl.ISCARD, map, new IHttpCallBack() {
             @Override
             public void OnSucess(String jsonText) {

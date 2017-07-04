@@ -104,5 +104,18 @@
             style="@style/main_iv_item"
             android:src="@mipmap/main14" />
     </RelativeLayout>
+ <RelativeLayout
+        android:id="@+id/rl_main_exit"
+        style="@style/main_f"
+        android:layout_marginTop="10px">
+
+        <TextView
+            style="@style/main_tv_item"
+            android:text="退卡销户" />
+
+        <ImageView
+            style="@style/main_iv_item"
+            android:src="@mipmap/main15" />
+    </RelativeLayout>
 
 </LinearLayout>
