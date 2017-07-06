@@ -167,7 +167,7 @@ public class BasePrintActivity extends BaseTypeActivity {
             buffer.append("\n");
             buffer.append("\n");
             buffer.append("\n");
-            printer.printText(buffer.toString(), Printer.FontFamily.SONG, Printer.FontSize.MEDIUM,
+            printer.printText(buffer.toString(), Printer.FontFamily.SONG, Printer.FontSize.LARGE,
                     Printer.FontStyle.NORMAL, Printer.Gravity.LEFT);
 
 //            printer.printText("\n", Printer.FontFamily.SONG, Printer.FontSize.MEDIUM,

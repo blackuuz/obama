@@ -430,6 +430,8 @@ public class QuickDelCActivity extends BasePAndRActivity implements IReadCardId,
                             haveMoney = data.getString("n_AmountAvailable");
                             haveintegral = data.getString("n_IntegralAvailable");
                             printInfo();
+                            reset();
+
 
                         } else if (tag.equals("ERR")) {
                             isclick_pay = true;
@@ -443,7 +445,7 @@ public class QuickDelCActivity extends BasePAndRActivity implements IReadCardId,
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
-//                        Utils.showToast(QuickDelM.this,"权限异常");
+
                     }
 
 
@@ -457,6 +459,24 @@ public class QuickDelCActivity extends BasePAndRActivity implements IReadCardId,
             });
         }
     }
+
+    private void reset(){
+        uid = "";
+        et_cardNum.setText("");
+        tv_project.setText("");
+        et_count.setText("");
+        list.clear();
+        adapter.notifyDataSetChanged();
+        switch (robotType){
+            case 3:
+            case 4:
+                showAlert();
+                getOrderNum("KT");
+        }
+
+        isclick_pay = true;
+    }
+
 
     private void printInfo() {
         List<String> list = new ArrayList<>();

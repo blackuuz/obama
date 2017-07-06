@@ -8,22 +8,22 @@ android {
     compileSdkVersion 24
     buildToolsVersion "24.0.1"
 
-//    defaultConfig {//正式版
-//        applicationId "com.ksk.obama"
-//        minSdkVersion 14
-//        targetSdkVersion 25
-//        versionCode 334
-//        versionName "2.3.1"
-//    }
-    defaultConfig {//测试版
+    defaultConfig {//正式版
         applicationId "com.ksk.obama"
         minSdkVersion 14
-        targetSdkVersion 24
-        versionCode 347
-        versionName "3.1.5"//time : 2017-7-4 8:59 优惠券核销测试版
-         //versionName "_____"//旺pos
-
+        targetSdkVersion 25
+        versionCode 334
+        versionName "2.3.3"//2017-7-6 13:33 快捷消费退卡销户
     }
+//    defaultConfig {//测试版
+//        applicationId "com.ksk.obama"
+//        minSdkVersion 14
+//        targetSdkVersion 24
+//        versionCode 347
+//        versionName "3.1.5"//time : 2017-7-4 8:59 优惠券核销测试版
+//         //versionName "_____"//旺pos
+//
+//    }
     buildTypes {
         release {
             minifyEnabled false

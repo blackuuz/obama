@@ -175,6 +175,7 @@ public class ExitCardActivity extends BasePrintActivity implements View.OnClickL
                         if (tag.equals("SUCCESS")) {
                             printInfo();
                         } else {
+                            isclick_pay = true;
                             Utils.showToast(ExitCardActivity.this, "操作失败,请重试");
                         }
                     } catch (JSONException e) {
@@ -184,6 +185,7 @@ public class ExitCardActivity extends BasePrintActivity implements View.OnClickL
 
                 @Override
                 public void OnFail(String message) {
+                    isclick_pay = true;
                 }
             });
         }
