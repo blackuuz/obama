@@ -68,7 +68,6 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
         IPrintSuccessCallback, IPrintErrorCallback, ICreateOrderNumber {
 
 
-
     private boolean isPay = false;
     private String memid;
     private String cardNum;
@@ -204,6 +203,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
             }
         });
 
+
     }
 
     private void initView() {
@@ -296,7 +296,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
                             tv_paymoney.setText(Utils.getNumStr(del - jf / dx_jf));
                         }
                     } else {
-                        if (dx_max * dx_mr * dx_jf <= jf) {//卡积分够
+                        if (dx_max * dx_jf <= jf) {//卡积分够
                             etDxJf.setText(Utils.getNumStr(dx_max * dx_jf));
                             tvMoneyDx.setText(Utils.getNumStr(dx_max));
                             tv_paymoney.setText(Utils.getNumStr(del - dx_max));
@@ -304,6 +304,17 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
                             etDxJf.setText(inteCount + "");
                             tvMoneyDx.setText(Utils.getNumStr(jf / dx_jf));
                             tv_paymoney.setText(Utils.getNumStr(del - jf / dx_jf));
+                        }
+                        if (dx_max == 0.0f) {//不限积分抵现额度
+                            if (del * dx_mr * dx_jf <= jf) {//卡积分够
+                                etDxJf.setText(Utils.getNumStr(del * dx_mr * dx_jf));
+                                tvMoneyDx.setText(Utils.getNumStr(del * dx_mr));
+                                tv_paymoney.setText(Utils.getNumStr(del - del * dx_mr));
+                            } else {
+                                etDxJf.setText(inteCount + "");
+                                tvMoneyDx.setText(Utils.getNumStr(jf / dx_jf));
+                                tv_paymoney.setText(Utils.getNumStr(del - jf / dx_jf));
+                            }
                         }
                     }
                     btnDxjf.setEnabled(true);
@@ -369,6 +380,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
                     } else {
                         delm = parseFloat(str2);
                     }
+
                     if (TextUtils.isEmpty(str)) {
                         del_jf = 0;
                     } else {

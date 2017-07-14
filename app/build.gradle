@@ -12,15 +12,15 @@ android {
         applicationId "com.ksk.obama"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 334
-        versionName "2.3.3"//2017-7-6 13:33 快捷消费退卡销户
+        versionCode 357
+        versionName "2.3.4"//2017-7-14 版本号为 x.y.z  其中y为单数
     }
 //    defaultConfig {//测试版
 //        applicationId "com.ksk.obama"
 //        minSdkVersion 14
 //        targetSdkVersion 24
 //        versionCode 347
-//        versionName "3.1.5"//time : 2017-7-4 8:59 优惠券核销测试版
+//        versionName "3.1.6"//time : 2017-7-4 8:59 优惠券核销测试版
 //         //versionName "_____"//旺pos
 //
 //    }

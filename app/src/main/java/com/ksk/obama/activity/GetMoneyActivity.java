@@ -59,6 +59,9 @@ public class GetMoneyActivity extends BasePrintActivity {
     private TextView tv_change_time;
     private String startTime;
     private String endTime;
+    private boolean flag_g = false;
+
+
     //今日收益*
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +88,9 @@ public class GetMoneyActivity extends BasePrintActivity {
         tv_print.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                printInfo();
+                if(flag_g){
+                    printInfo();
+                }
             }
         });
     }
@@ -194,7 +199,7 @@ public class GetMoneyActivity extends BasePrintActivity {
                 tv_pay1_t.setText("微信退款:￥" + shiftInfo.getResult_data().getCancelcardmoneyPaywechat());
                 tv_pay2_t.setText("支付宝退款:￥" + shiftInfo.getResult_data().getCancelcardmoneyPayali());
                 tv_pay3_t.setText("银行卡退款:￥" + shiftInfo.getResult_data().getCancelcardmoneyPayBank());
-
+                flag_g = true;
 
             } else {
                 String result_msg = object.getString("result_errmsg");

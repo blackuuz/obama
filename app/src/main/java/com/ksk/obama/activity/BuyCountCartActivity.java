@@ -289,20 +289,39 @@ public class BuyCountCartActivity extends BaseActivity implements View.OnClickLi
         iv_del_d.setOnClickListener(this);
     }
 
+
+    private void getDays() {
+        mycalendar.set(Calendar.YEAR, curyear);//先指定年份
+        mycalendar.set(Calendar.MONTH, curmonth - 1);//再指定月份 Java月份从0开始算
+        daysCountOfMonth = mycalendar.getActualMaximum(Calendar.DATE);
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_click_add_year:
                 curyear += 1;
+                getDays();
+                if (curday >= daysCountOfMonth) {
+                    curday = daysCountOfMonth;
+                    ets[2].setText(curday + "");
+                }
                 ets[0].setText(curyear + "");
                 break;
             case R.id.iv_click_del_year:
                 if (curyear > ocuryear) {
                     curyear -= 1;
                 }
+                getDays();
+                if (curday >= daysCountOfMonth) {
+                    curday = daysCountOfMonth;
+                    ets[2].setText(curday + "");
+                }
                 ets[0].setText(curyear + "");
                 break;
             case R.id.iv_click_add_mouth:
+                //ets[2].setText(1+"");
+                //curday = 1;
                 if (curyear == ocuryear) {
                     if (curmonth == 12) {
                         curmonth = ocurmonth;
@@ -316,9 +335,16 @@ public class BuyCountCartActivity extends BaseActivity implements View.OnClickLi
                         curmonth += 1;
                     }
                 }
+                getDays();
+                if (curday >= daysCountOfMonth) {
+                    curday = daysCountOfMonth;
+                    ets[2].setText(curday + "");
+                }
                 ets[1].setText(curmonth + "");
                 break;
             case R.id.iv_click_del_mouth:
+                //ets[2].setText(1+"");
+                // curday = 1;
                 if (curyear == ocuryear) {
                     if (curmonth == ocurmonth) {
                         curmonth = 12;
@@ -332,25 +358,30 @@ public class BuyCountCartActivity extends BaseActivity implements View.OnClickLi
                         curmonth -= 1;
                     }
                 }
+                getDays();
+                if (curday >= daysCountOfMonth) {//
+                    curday = daysCountOfMonth;
+                    ets[2].setText(curday + "");
+                }
                 ets[1].setText(curmonth + "");
                 break;
             case R.id.iv_click_add_day:
                 if (curyear == ocuryear) {
                     if (curmonth == ocurmonth) {
-                        if (curday == daysCountOfMonth) {
+                        if (curday >= daysCountOfMonth) {
                             curday = ocurday;
                         } else {
                             curday += 1;
                         }
                     } else {
-                        if (curday == daysCountOfMonth) {
+                        if (curday >= daysCountOfMonth) {
                             curday = 1;
                         } else {
                             curday += 1;
                         }
                     }
                 } else {
-                    if (curday == daysCountOfMonth) {
+                    if (curday >= daysCountOfMonth) {
                         curday = 1;
                     } else {
                         curday += 1;

@@ -167,7 +167,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         this.setOnCrateOrderNumber(this);
         unbinder = ButterKnife.bind(this);
         initTitle();
-        setQX();//加载集合数据也放在这里了
+        setQX();
         initViewM();
         getOrderNum("KM");
         if (isNetworkAvailable(QuickDelMActivity.this)) {
@@ -480,7 +480,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                 break;
 
             case R.id.tv_pay_zfb://支付宝
-                getOrderNum("KM");//后加
+                getOrderNum("KM");//
                 if (maxMoney != 0 && parseFloat(mon) > maxMoney) {
                     isclick_pay = true;
                     Utils.showToast(QuickDelMActivity.this, "超出扣除最大范围，请修改扣除金额");
@@ -643,7 +643,8 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                 String money;
                 if (quick.getResult_stadus().equals("SUCCESS")) {
                     money = quick.getDefaultcost()+"";
-                    if(!quick.getFast_state().equals("1")){ //快速消费状态 如果不等于“1” 隐藏按钮
+                    if(quick.getFast_state()==null||!quick.getFast_state().equals("1")){ //快速消费状态 如果不等于“1” 隐藏按钮
+                        Log.d("uuz", "消费状态 ："+quick.getFast_state());
                         quickm_select.setVisibility(View.GONE);
                     }else {
                         quickm_select.setVisibility(View.VISIBLE);
@@ -901,10 +902,10 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
      * 计算
      */
     private void calculate() {
-        dx_jf = parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_jf"));//几多积分抵现一元
-
-        dx_mr = parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_mr")) * 0.01f;//默认抵现倍率
+        dx_jf = parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_jf"));//多少积分抵现一元
+        dx_mr = parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_mr")) * 0.01f;//默认抵现倍率  默认抵现当前金额的多少
         dx_max = parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_max"));//最大抵现几多
+
         Log.d("65535", "" + dx_jf + "^^^" + SharedUtil.getSharedData(QuickDelMActivity.this, "dx_jf"));
         String str = SharedUtil.getSharedData(QuickDelMActivity.this, "maxmoney");
 
@@ -925,7 +926,6 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
     }
 
     private void initViewM() {
-
         XJ = SharedUtil.getSharedBData(QuickDelMActivity.this, "FX");
         WX = SharedUtil.getSharedBData(QuickDelMActivity.this, "FW");
         AL = SharedUtil.getSharedBData(QuickDelMActivity.this, "FA");
@@ -1024,19 +1024,18 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                             }
 
                             float jf = parseFloat(haveIntegral);
-                            if (dx_max >= del * dx_mr) {//否超过默认金额
+                            if (dx_max >= del * dx_mr) {//抵现的积分没超过默认金额
                                 if (del * dx_mr * dx_jf <= jf) {//卡积分够
                                     et_gread_dx.setText(Utils.getNumStr(del * dx_mr * dx_jf));
                                     tv_money_dx.setText(Utils.getNumStr(del * dx_mr));
                                     tv_pay.setText(Utils.getNumStr(del - del * dx_mr));
-
                                 } else {
                                     et_gread_dx.setText(haveIntegral);
                                     tv_money_dx.setText(Utils.getNumStr(jf / dx_jf));
                                     tv_pay.setText(Utils.getNumStr(del - jf / dx_jf));
                                 }
                             } else {
-                                if (dx_max * dx_mr * dx_jf <= jf) {//卡积分够
+                                if (dx_max * dx_jf <= jf) {//卡积分够
                                     et_gread_dx.setText(Utils.getNumStr(dx_max * dx_jf));
                                     tv_money_dx.setText(Utils.getNumStr(dx_max));
                                     tv_pay.setText(Utils.getNumStr(del - dx_max));
@@ -1045,6 +1044,17 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                                     tv_money_dx.setText(Utils.getNumStr(jf / dx_jf));
                                     tv_pay.setText(Utils.getNumStr(del - jf / dx_jf));
                                 }
+                                if(dx_max == 0.0f){//不限积分抵现额度
+                                    if(del*dx_mr*dx_jf <= jf ){//卡积分够
+                                        et_gread_dx.setText(Utils.getNumStr(del * dx_mr * dx_jf));
+                                        tv_money_dx.setText(Utils.getNumStr(del * dx_mr));
+                                        tv_pay.setText(Utils.getNumStr(del - del * dx_mr));
+                                    } else {
+                                        et_gread_dx.setText(haveIntegral);
+                                        tv_money_dx.setText(Utils.getNumStr(jf / dx_jf));
+                                        tv_pay.setText(Utils.getNumStr(del - jf / dx_jf));
+                                    }
+                                }
                             }
                             btn_change.setEnabled(true);
                             et_money.setFocusable(false);
@@ -1052,8 +1062,8 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                             et_money.setInputType(InputType.TYPE_NULL);
                             ll_dx.setVisibility(View.VISIBLE);
                         } else {
-                            dx_jf = parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_jf"));//几多积分抵现一元
-                            dx_mr = parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_mr")) * 0.01f;//默认抵现倍率
+                            dx_jf = parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_jf"));//多少积分抵现一元
+                            dx_mr = parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_mr")) * 0.01f;//默认抵现倍率  默认抵现当前金额的多少
                             dx_max = parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_max"));//最大抵现几多
                             temporaryNum = "";
                             temName = "";
@@ -1104,7 +1114,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
             public void afterTextChanged(Editable s) {
 
                 String e = et_gread_dx.getText().toString();
-                if (e.equals(0) || e.equals("0") || e.equals("0.")) {
+                if (e.equals(0) || e.equals("0") || e.equals("0.")||e.equals(".0")) {
                     et_gread_dx.setText("");
                 }
                 if (isTemporary || SharedUtil.getSharedBData(QuickDelMActivity.this, "qdx")) {

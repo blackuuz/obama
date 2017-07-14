@@ -60,6 +60,7 @@ public class OpenCardStatisticsActivity extends BaseActivity implements View.OnC
     private Calendar calendar;
     private String dialogTag;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

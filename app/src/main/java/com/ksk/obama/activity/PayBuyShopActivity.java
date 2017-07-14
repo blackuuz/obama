@@ -305,7 +305,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                                 tv_paymoney.setText(Utils.getNumStr(del - jf / dx_jf));
                             }
                         } else {
-                            if (dx_max * dx_mr * dx_jf <= jf) {//卡积分够
+                            if (dx_max * dx_jf <= jf) {//卡积分够
                                 et_dx_jf.setText(Utils.getNumStr(dx_max * dx_jf));
                                 tv_money_dx.setText(Utils.getNumStr(dx_max));
                                 tv_paymoney.setText(Utils.getNumStr(del - dx_max));
@@ -313,6 +313,17 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                                 et_dx_jf.setText(inteCount + "");
                                 tv_money_dx.setText(Utils.getNumStr(jf / dx_jf));
                                 tv_paymoney.setText(Utils.getNumStr(del - jf / dx_jf));
+                            }
+                            if (dx_max == 0.0f) {//不限积分抵现额度
+                                if (del * dx_mr * dx_jf <= jf) {//卡积分够
+                                    et_dx_jf.setText(Utils.getNumStr(del * dx_mr * dx_jf));
+                                    tv_money_dx.setText(Utils.getNumStr(del * dx_mr));
+                                    tv_paymoney.setText(Utils.getNumStr(del - del * dx_mr));
+                                }else {
+                                    et_dx_jf.setText(inteCount + "");
+                                    tv_money_dx.setText(Utils.getNumStr(jf / dx_jf));
+                                    tv_paymoney.setText(Utils.getNumStr(del - jf / dx_jf));
+                                }
                             }
                         }
                         btn_dxjf.setEnabled(true);
@@ -450,7 +461,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
             if (str.equals("yes")) {
                 isVip = true;
                 tv_jf.setVisibility(View.VISIBLE);
-              //  tvPayHy.setVisibility(View.VISIBLE);
+                //  tvPayHy.setVisibility(View.VISIBLE);
                 uid = intent.getStringExtra("uid");
                 memid = intent.getStringExtra("memid");
                 cardNum = intent.getStringExtra("cardNum");
@@ -467,7 +478,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                 tv_jf.setVisibility(View.INVISIBLE);
                 payAu = Float.parseFloat(should);
                 et_payau.setText(should);
-               // tvPayHy.setVisibility(View.INVISIBLE);
+                // tvPayHy.setVisibility(View.INVISIBLE);
             }
             payau = payAu - delmoney_jf - delmoney_kq;
             tv_should.setText("总价:  ￥" + should);
@@ -584,7 +595,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                             Utils.showToast(PayBuyShopActivity.this, "请输入积分");
                         } else {
                             n = 4;
-                            if (oldm > payau) {
+                            if (oldm >= payau) {
                                 if (TextUtils.isEmpty(password)) {
                                     sendData("");
                                 } else {
@@ -595,7 +606,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                                 Utils.showToast(PayBuyShopActivity.this, "余额不足,请充值");
                             }
                         }
-                    }else{
+                    } else {
                         isclick_pay = true;
                         Utils.showToast(PayBuyShopActivity.this, "您不是会员，无法使用会员卡支付");
                     }
@@ -1057,7 +1068,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 alert_flag = false;
-                if ( n == 3) {
+                if (n == 3) {
                     LKLPay(order_again);
                 } else {
                     sendData(order_again);
@@ -1101,8 +1112,8 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
             payau = 0f;
         }
         et_payau.setText(Utils.getNumStr(payau));
-        tv_del.setText("折扣优惠:￥" + del);
-        tv_del_kq.setText("卡券优惠:￥" + delmoney_kq);
+        tv_del.setText("折扣优惠:  ￥" + del);
+        tv_del_kq.setText("卡券优惠:  ￥" + delmoney_kq);
         // tv_del_jf.setText("积分抵用:￥" + delmoney_jf);
     }
 

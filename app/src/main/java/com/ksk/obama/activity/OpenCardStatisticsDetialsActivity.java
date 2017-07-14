@@ -42,6 +42,8 @@ public class OpenCardStatisticsDetialsActivity extends BasePrintActivity impleme
     private TextView tv_shopName;
     private TextView tv_user;
     private TextView tv_pay_mode;
+    private boolean flag_osd = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +68,9 @@ public class OpenCardStatisticsDetialsActivity extends BasePrintActivity impleme
         tv_print.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                printInfo();
+                if(flag_osd){
+                    printInfo();
+                }
             }
         });
 
@@ -124,6 +128,7 @@ public class OpenCardStatisticsDetialsActivity extends BasePrintActivity impleme
                 tv_dj.setText(recordDel.getC_BillNO() + "");
                 tv_shopName.setText(recordDel.getC_ShopName() + "");
                 tv_pay_mode.setText(recordDel.getPay_way());
+                flag_osd = true;
             } else {
                 String msg = object.getString("result_errmsg");
                 Utils.showToast(OpenCardStatisticsDetialsActivity.this, msg);

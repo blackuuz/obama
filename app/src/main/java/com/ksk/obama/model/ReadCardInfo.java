@@ -21,10 +21,18 @@ public class ReadCardInfo {
     private String result_stadus;
     private String result_errmsg;
     private String result_lost;
+    private String result_code;
     private String result_datasNum;  //是否开启
-
-
     private List<ResultDataBean> result_datas;
+
+
+    public String getResult_code() {
+        return result_code;
+    }
+
+    public void setResult_code(String result_code) {
+        this.result_code = result_code;
+    }
 
     public List<ResultDataBean> getResult_datas() {
         return result_datas;

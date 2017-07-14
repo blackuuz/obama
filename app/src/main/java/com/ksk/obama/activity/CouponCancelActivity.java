@@ -55,7 +55,7 @@ public class CouponCancelActivity extends BaseActivity implements View.OnClickLi
 
     private List<CouponCancel.ResultDataBean> c_list = new ArrayList();
     private String memberID = "";
-    private String couponCode = "";
+    private String couponCode = "-1";
     private String couponId = "";
     private String couponState = "";
 
@@ -94,6 +94,11 @@ public class CouponCancelActivity extends BaseActivity implements View.OnClickLi
 
     private void getHttpData() {
         couponCode = etUseCouponNumber.getText().toString().trim();
+        if (couponCode.equals("")){
+            couponCode = "-1";
+            Utils.showToast(CouponCancelActivity.this, "请输入卡券编码");
+            return;
+        }
         Map map = new HashMap();
         map.put("shopId", SharedUtil.getSharedData(CouponCancelActivity.this, "shopid"));
         map.put("dbName", SharedUtil.getSharedData(CouponCancelActivity.this, "dbname"));
@@ -111,7 +116,7 @@ public class CouponCancelActivity extends BaseActivity implements View.OnClickLi
                 if (coupon.getResult_stadus().equals("SUCCESS")) {
                     c_list.add(coupon.getResult_data());
                     couponState = coupon.getResult_data().getC_Status();
-                    if (couponState.equals("已核销")) {
+                    if (couponState.equals("核销")) {
                         Utils.showToast(CouponCancelActivity.this, "优惠券已核销");}
 
                 } else if (coupon.getResult_stadus().equals("ERR")) {
@@ -120,7 +125,7 @@ public class CouponCancelActivity extends BaseActivity implements View.OnClickLi
                 } else {
                     Utils.showToast(CouponCancelActivity.this, "未知错误");
                 }
-                if(couponState.equals("已核销")){
+                if(couponState.equals("核销")){
                     c_list.clear();
                 }
                 adapter = new CouponCancelAdapter(c_list);
@@ -150,7 +155,11 @@ public class CouponCancelActivity extends BaseActivity implements View.OnClickLi
                 getHttpData();
                 break;
             case R.id.tv_commit:
-                if (couponState.equals("已核销")) {
+                if(couponCode.equals("-1")){
+                    Utils.showToast(CouponCancelActivity.this, "请选择优惠券");
+                    return;
+                }
+                if (couponState.equals("核销")) {
                     Utils.showToast(CouponCancelActivity.this, "该优惠券已核销，不可用！");
                     return;
                 }
@@ -220,6 +229,7 @@ public class CouponCancelActivity extends BaseActivity implements View.OnClickLi
         dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                couponCode = "-1";
                 dialog.dismiss();
 
             }

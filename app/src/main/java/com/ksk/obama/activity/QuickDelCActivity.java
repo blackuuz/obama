@@ -4,8 +4,10 @@ import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -64,8 +66,12 @@ public class QuickDelCActivity extends BasePAndRActivity implements IReadCardId,
     private String password = "";
     private String orderTime = "";
     private String uid = "";
+
+    private boolean flag_q = false;// 这个布尔值是控制 当卡号改变时页面的刷新与重置
+
     private List<List<QuickCount.DataBean>> c_data = new ArrayList<>();
     private List<QuickCount.MemberdataBean> m_data = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -183,6 +189,7 @@ public class QuickDelCActivity extends BasePAndRActivity implements IReadCardId,
             @Override
             public void onClick(View v) {
                 getCountList("");
+                flag_q = false;
             }
         });
         findViewById(R.id.btn_read_code).setOnClickListener(new View.OnClickListener() {
@@ -203,8 +210,35 @@ public class QuickDelCActivity extends BasePAndRActivity implements IReadCardId,
                 sumCount = Integer.parseInt(list.get(position).getSumTimes());
                 prePosition = position;
                 tv_project.setText(list.get(position).getC_GoodsName());
+                flag_q = true;
             }
         });
+        et_cardNum.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (flag_q) {
+                    uid = "";
+                    tv_project.setText("");
+                    et_count.setText("");
+                    list.clear();
+                    adapter.notifyDataSetChanged();
+                }
+                flag_q =true;
+
+            }
+        });
+
+
     }
 
     private void getCountList(String cardNum) {
@@ -243,7 +277,7 @@ public class QuickDelCActivity extends BasePAndRActivity implements IReadCardId,
                     if (card_dnum > 1) {
                         dialog_(readCard);
                     } else {
-                        ToRead(readCard.getData(),readCard.getMemberdata());
+                        ToRead(readCard.getData(), readCard.getMemberdata());
                     }
 
 
@@ -291,7 +325,7 @@ public class QuickDelCActivity extends BasePAndRActivity implements IReadCardId,
                     public void onClick(DialogInterface dialog, int which) {
                         if (yourChoice == -1) {
                             //Toast.makeText(QuickDelCActivity.this, "你选择了" + items[0], Toast.LENGTH_SHORT).show();
-                            ToRead(c_data.get(0),m_data.get(0));
+                            ToRead(c_data.get(0), m_data.get(0));
                             c_data.clear();
                             m_data.clear();
                         }
@@ -299,7 +333,7 @@ public class QuickDelCActivity extends BasePAndRActivity implements IReadCardId,
                         if (yourChoice != -1) {
 //                            Toast.makeText(QuickDelCActivity.this, "你选择了" + items[yourChoice],
 //                                    Toast.LENGTH_SHORT).show();
-                            ToRead(c_data.get(yourChoice),m_data.get(yourChoice));
+                            ToRead(c_data.get(yourChoice), m_data.get(yourChoice));
                             c_data.clear();
                             m_data.clear();
                         }
@@ -445,10 +479,8 @@ public class QuickDelCActivity extends BasePAndRActivity implements IReadCardId,
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
-
+                        isclick_pay = true;
                     }
-
-
                 }
 
                 @Override
@@ -460,14 +492,14 @@ public class QuickDelCActivity extends BasePAndRActivity implements IReadCardId,
         }
     }
 
-    private void reset(){
+    private void reset() {
         uid = "";
         et_cardNum.setText("");
         tv_project.setText("");
         et_count.setText("");
         list.clear();
         adapter.notifyDataSetChanged();
-        switch (robotType){
+        switch (robotType) {
             case 3:
             case 4:
                 showAlert();

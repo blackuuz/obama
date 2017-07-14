@@ -270,6 +270,25 @@ public class ReadCardInfoActivity extends BaseReadCardActivity implements IReadC
                 ToActivity(readCard.getResult_data());
             }
         } else {
+            if(readCard.getResult_stadus().equals("ERR")&&readCard.getResult_code().equals("102")){//卡片已到期
+                if(n == 6||n==15){
+                    Intent intent = new Intent();
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("infoma", readCard.getResult_data());
+                    bundle.putInt("stop", 1);
+                    bundle.putString("uid", uid);
+                    intent.putExtras(bundle);
+                    if(n==6){
+                        intent.setClass(ReadCardInfoActivity.this, CardDelayedActivity.class);
+                    }else {
+                        intent.setClass(ReadCardInfoActivity.this, ExitCardActivity.class);
+                    }
+                    startActivity(intent);
+                }else {
+                    openRead();
+                    Utils.showToast(ReadCardInfoActivity.this, readCard.getResult_errmsg());
+                }
+            }
             if (readCard.getResult_lost() != null && readCard.getResult_lost().equals("1")) {//挂失
                 if (n == 14) {
                     Intent intent = new Intent();

@@ -76,7 +76,6 @@ public class ChangePersonActivity extends BasePrintActivity implements IPrintSuc
     private TextView tv_time;
     private boolean isSupplement = false;
     private boolean flag = false;
-
     //交班
     @Override
     protected void onCreate(Bundle savedInstanceState) {

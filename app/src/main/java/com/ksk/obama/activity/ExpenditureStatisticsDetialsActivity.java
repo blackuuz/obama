@@ -54,6 +54,7 @@ public class ExpenditureStatisticsDetialsActivity extends BasePrintActivity impl
     private TextView tv10;
     private TextView tv11;
     private boolean isPrint = false;
+    private boolean flag_esd = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +88,10 @@ public class ExpenditureStatisticsDetialsActivity extends BasePrintActivity impl
                         public void onClick(View v) {
                             isPrint = true;
                             bluetoothPrint(listson,tv6.getText().toString());
-                            printInfo();
+                            if(flag_esd){
+                                printInfo();
+                            }
+
                             window.dismiss();
                         }
                     });
@@ -200,6 +204,7 @@ public class ExpenditureStatisticsDetialsActivity extends BasePrintActivity impl
                 } else {
                     ll.setVisibility(View.GONE);
                 }
+                flag_esd = true;
             } else {
                 String msg = object.getString("result_errmsg");
                 Utils.showToast(ExpenditureStatisticsDetialsActivity.this, msg);

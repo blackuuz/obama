@@ -583,7 +583,7 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
         float integra = Float.parseFloat(et_integral.getText().toString());
         newMoney = Utils.getNumStr(money + oldMoney);
         newintegra = Utils.getNumStr(integra + oldintegra);
-        tv_str0.setText("当前储值 :  " + newMoney);
+        tv_str0.setText("" + newMoney);
 
         str1 = tv_money.getText().toString();
         str2 = tv_pay.getText().toString();
