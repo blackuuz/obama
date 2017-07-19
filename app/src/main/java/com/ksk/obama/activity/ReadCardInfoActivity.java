@@ -338,7 +338,6 @@ public class ReadCardInfoActivity extends BaseReadCardActivity implements IReadC
             }
         } else {
             switch (n) {
-
                 //积分兑换
                 case 3:
                     intent.setClass(ReadCardInfoActivity.this, IntegralExchangeListActivity.class);

@@ -619,6 +619,7 @@ public class BuyShopReadActivity extends BaseTypeActivity {
                 try {
                     JSONObject object = new JSONObject(jsonText);
                     String code = object.getString("result_stadus");
+                    String r_code = object.getString("result_code");
                     if (code.equals("SUCCESS")) {
                         String cardNumber = object.getString("result_data").trim();
                         if (mIReadCardId != null) {
@@ -628,6 +629,14 @@ public class BuyShopReadActivity extends BaseTypeActivity {
                             Log.e("djy", "请实现mIReadCardId接口");
                         }
                     } else {
+                        if(r_code.equals("001")){
+                            if (mIReadCardId != null) {
+                                mIReadCardId.readCardNo("", cardNo);
+                                playSound();
+                            } else {
+                                Log.e("djy", "请实现mIReadCardId接口");
+                            }
+                        }
                         String msg = object.getString("result_errmsg");
                         Utils.showToast(BuyShopReadActivity.this, msg);
                     }

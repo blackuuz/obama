@@ -806,7 +806,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
         flag = true;
         payHint(true);
         tv_print.setVisibility(View.VISIBLE);
-        tv_print.setEnabled(true);
+        tv_print.setEnabled(false);
         printInfo(true);
         switch (robotType) {
             case 3:

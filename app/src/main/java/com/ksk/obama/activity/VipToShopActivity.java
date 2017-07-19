@@ -1,14 +1,18 @@
 package com.ksk.obama.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -17,6 +21,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.ksk.obama.R;
 import com.ksk.obama.callback.IHttpCallBack;
+import com.ksk.obama.callback.IReadCardId;
 import com.ksk.obama.model.ReadCardInfo;
 import com.ksk.obama.utils.NetworkUrl;
 import com.ksk.obama.utils.SharedUtil;
@@ -29,8 +34,10 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class VipToShopActivity extends BaseActivity implements View.OnClickListener {
+import static com.ksk.obama.utils.SharedUtil.getSharedData;
 
+public class VipToShopActivity extends BuyShopReadActivity implements View.OnClickListener, IReadCardId {
+    private Dialog mdialog;
     private ReadCardInfo.ResultDataBean cardInfo;
     private String oldPassword = "";
     private boolean flag = true;
@@ -40,9 +47,11 @@ public class VipToShopActivity extends BaseActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vip_to_shop);
+        this.setOnReadCardId(this);
         initTitale();
         initData();
         initView();
+        close();
     }
 
     private void initTitale() {
@@ -122,6 +131,28 @@ public class VipToShopActivity extends BaseActivity implements View.OnClickListe
                 }
                 break;
             case R.id.ll_vip_set:
+                openRead();
+                mdialog = new Dialog(VipToShopActivity.this, R.style.BottomDialogStyle);
+                //填充对话框的布局
+                View view = LayoutInflater.from(VipToShopActivity.this).inflate(R.layout.dialog_viptoshop_bindcard, null);
+                //将布局设置给Dialog
+                mdialog.setContentView(view);
+                //获取当前Activity所在的窗体
+                Window dialogWindow = mdialog.getWindow();
+                //设置Dialog从窗体底部弹出
+                dialogWindow.setGravity(Gravity.BOTTOM);
+                //获得窗体的属性
+                WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+                DisplayMetrics dm = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(dm);
+                lp.width = (int) (dm.widthPixels * 0.95);
+                lp.y = 370; //设置Dialog距离底部的距离
+                dialogWindow.setAttributes(lp); //将属性设置给窗体
+                mdialog.show();//显示对话框
+                //mdialog.setOutsideTouchable(false);
+                mdialog.setCancelable(true);
+
+
 //                if (SharedUtil.getSharedBData(VipToShopActivity.this, "vip2")) {
 
 //                } else {
@@ -165,9 +196,9 @@ public class VipToShopActivity extends BaseActivity implements View.OnClickListe
 
     private void getOpenId() {
         Map<String, String> map = new HashMap<>();
-        map.put("dbName", SharedUtil.getSharedData(VipToShopActivity.this, "dbname"));
+        map.put("dbName", getSharedData(VipToShopActivity.this, "dbname"));
         map.put("cardNO", cardInfo.getC_CardNO());
-        map.put("shopID",shopId);
+        map.put("shopID", shopId);
         postToHttp(NetworkUrl.ISCARD, map, new IHttpCallBack() {
                     @Override
                     public void OnSucess(String jsonText) {
@@ -225,9 +256,9 @@ public class VipToShopActivity extends BaseActivity implements View.OnClickListe
 
     private void sendUnbind() {
         Map<String, String> map = new HashMap<>();
-        map.put("dbName", SharedUtil.getSharedData(VipToShopActivity.this, "dbname"));
+        map.put("dbName", getSharedData(VipToShopActivity.this, "dbname"));
         map.put("OpenID", cardInfo.getC_OpenID());
-        map.put("GroupID", SharedUtil.getSharedData(VipToShopActivity.this, "groupid"));
+        map.put("GroupID", getSharedData(VipToShopActivity.this, "groupid"));
         postToHttp(NetworkUrl.REMOVEWX, map, new IHttpCallBack() {
             @Override
             public void OnSucess(String jsonText) {
@@ -325,7 +356,7 @@ public class VipToShopActivity extends BaseActivity implements View.OnClickListe
 
     private void getCardInfo() {
         Map<String, String> map = new HashMap<>();
-        map.put("dbName", SharedUtil.getSharedData(VipToShopActivity.this, "dbname"));
+        map.put("dbName", getSharedData(VipToShopActivity.this, "dbname"));
         map.put("cardNO", cardInfo.getC_CardNO());
 
         postToHttp(NetworkUrl.ISCARD, map, new IHttpCallBack() {
@@ -347,4 +378,57 @@ public class VipToShopActivity extends BaseActivity implements View.OnClickListe
             }
         });
     }
+
+    @Override
+    public void readCardNo(String cardNo, String UID) {
+        Log.d("uuz", "_" + cardNo + "*****" + UID);
+        if(mdialog == null){return;}
+        if (mdialog.isShowing()) {
+            if (cardNo.equals("") && (!UID.equals(""))) {
+                cardNo = cardInfo.getC_CardNO();
+                bindCard(cardNo, UID);
+                mdialog.dismiss();
+                close();
+            } else {
+                Utils.showToast(VipToShopActivity.this, "该会员卡已绑定过卡号");
+            }
+        }
+    }
+
+    private synchronized void bindCard(String cardNo, String uid) {
+        Map<String, String> map = new HashMap<>();
+        map.put("dbName", getSharedData(VipToShopActivity.this, "dbname"));
+        map.put("groupId", getSharedData(VipToShopActivity.this, "groupid"));
+        map.put("shopId", shopId);
+        map.put("cardNO", cardNo);
+        map.put("CardCode", uid);
+        postToHttp(NetworkUrl.BINDCARD, map, new IHttpCallBack() {
+            @Override
+            public void OnSucess(String jsonText) {
+                Logger.e(jsonText);
+                try {
+                    JSONObject object = new JSONObject(jsonText);
+                    String str = object.getString("result_stadus");
+                    if (str.equals("SUCCESS")) {
+                        Utils.showToast(VipToShopActivity.this, "卡号绑定成功");
+                    } else {
+                        Utils.showToast(VipToShopActivity.this, "绑定失败请重试");
+                        return;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void OnFail(String message) {
+                Logger.e(message);
+                Utils.showToast(VipToShopActivity.this, "绑定失败请重试");
+                return;
+            }
+        });
+
+    }
+
+
 }

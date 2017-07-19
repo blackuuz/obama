@@ -401,34 +401,35 @@ public class BaseReadCardActivity extends BaseTypeActivity {
             final String str = HexUtil.bcd2str(data);
             String str2 = str.substring(0, 32);
             Logger.e(str2);
-            int i = 0;
-            int j = 2;
-            List<String> list = new ArrayList<String>();
-            while (str2.length() >= j) {
-                list.add(str2.substring(i, j));
-                i = j;
-                j += 2;
-            }
-            String cardNum = "";
-            for (int n = 0; n < list.size(); n++) {
-                String str3 = list.get(n);
-                cardNum += (char) Integer.parseInt(str3, 16);
-            }
-            String uid = getUID();
-            if (uid == null) {
-                uid = "";
-            }
-            close();
-            final String Num = cardNum.trim();
-            final String finalUid = uid;
+                int i = 0;
+                int j = 2;
+                List<String> list = new ArrayList<>();
+                while (str2.length() >= j) {
+                    list.add(str2.substring(i, j));
+                    i = j;
+                    j += 2;
+                }
+                String cardNum = "";
+                for (int n = 0; n < list.size(); n++) {
+                    String str3 = list.get(n);
+                    cardNum += (char) Integer.parseInt(str3, 16);
+                }
+                String uid = getUID();
+                if (uid == null) {
+                    uid = "";
+                }
+                close();
+                final String Num = cardNum.trim();
+                final String finalUid = uid;
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     if (mIReadCardId != null) {
                         mIReadCardId.readCardNo(Num, finalUid);
+                        Log.e("uuz", "拉卡拉读取m1卡- - - -卡号："+Num+"   uid: "+finalUid );
                         playSound();
                     } else {
-                        Log.e("djy", "请实现mIReadCardId接口");
+                        Log.e("uuz", "请实现mIReadCardId接口");
                     }
                 }
             });
@@ -486,11 +487,11 @@ public class BaseReadCardActivity extends BaseTypeActivity {
                 if (rfcard != null) {
                     int ret = rfcard.halt();
                     if (ret == 0x00) {
-                        Log.d("djy", "非接卡下电操作成功");
+                        Log.d("uuz", "非接卡下电操作成功");
                     }
                     boolean flag = rfcard.close();
                     if (flag) {
-                        Log.d("djy", "rf关闭");
+                        Log.d("uuz", "rf关闭");
                     } else {
                         close();
                     }
@@ -727,6 +728,7 @@ public class BaseReadCardActivity extends BaseTypeActivity {
         map.put("gid", SharedUtil.getSharedData(BaseReadCardActivity.this, "groupid"));
         map.put("cardNO", "");
         map.put("CardCode", cardNo);
+      //  map.put("CardCode", cardNo);
         postToHttp(NetworkUrl.GETCARD, map, new IHttpCallBack() {
             @Override
             public void OnSucess(String jsonText) {
@@ -735,6 +737,7 @@ public class BaseReadCardActivity extends BaseTypeActivity {
                 try {
                     JSONObject object = new JSONObject(jsonText);
                     String code = object.getString("result_stadus");
+                    String r_code = object.getString("result_code");
                     if (code.equals("SUCCESS")) {
                         String cardNumber = object.getString("result_data").trim();
                         if (mIReadCardId != null) {
@@ -744,6 +747,14 @@ public class BaseReadCardActivity extends BaseTypeActivity {
                             Log.e("djy", "请实现mIReadCardId接口");
                         }
                     } else {
+                        if(r_code.equals("001")){
+                            if (mIReadCardId != null) {
+                                mIReadCardId.readCardNo("", cardNo);
+                                playSound();
+                            } else {
+                                Log.e("djy", "请实现mIReadCardId接口");
+                            }
+                        }
                         String msg = object.getString("result_errmsg");
                         Utils.showToast(BaseReadCardActivity.this, msg);
                     }

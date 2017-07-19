@@ -132,6 +132,19 @@
                 style="@style/main_iv_item"
                 android:src="@mipmap/main_30" />
         </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_main_goods_in"
+            style="@style/main_f"
+            android:layout_marginTop="10px">
+
+            <TextView
+                style="@style/main_tv_item"
+                android:text="商品入库" />
+
+            <ImageView
+                style="@style/main_iv_item"
+                android:src="@mipmap/main_30" />
+        </RelativeLayout>
 
     </LinearLayout>
 </ScrollView>

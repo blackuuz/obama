@@ -8,9 +8,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -48,13 +51,17 @@ public class OpenCardActivity extends BaseReadCardActivity implements IReadCardI
     private TextView tv_cardType, tv_should, tv0, tv1, tv2, tv3, tv4;
     private TextView tv_recharge_rate;//充值倍率
     private ImageView iv_cardType;
+    //private Button btnchange;
     private List<CardTypeSelect.ResultDataBean> list = new ArrayList<>();
     private ListView lv_card_type;
     private boolean isShow = false;
+    private boolean isM1 = true;//是否弹窗
     private String goodsId = "";
     private String cardName;
     private String cardPrice;
     private String uid = "";
+    private String cardNum = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,9 +145,11 @@ public class OpenCardActivity extends BaseReadCardActivity implements IReadCardI
         tv2 = (TextView) findViewById(R.id.tv_open2);
         tv3 = (TextView) findViewById(R.id.tv_open3);
         tv4 = (TextView) findViewById(R.id.tv_open4);
+        //btnchange = (Button) findViewById(R.id.btn_change);
         tv_recharge_rate = (TextView) findViewById(R.id.tv_integral_rate);
 
         tv4.setText(SharedUtil.getSharedData(OpenCardActivity.this, "shopname"));
+
 
         findViewById(R.id.btn_read_code).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -283,7 +292,17 @@ public class OpenCardActivity extends BaseReadCardActivity implements IReadCardI
     @Override
     public void readCardNo(String cardNo, String UID) {
         uid = UID;
+        Log.e("uuz", "uid ：" + uid + "----- 卡号 :" + cardNo);
+        if (cardNo.equals("") && (!UID.equals(""))) {
+            if(isM1){
+                isM1 = false;
+                setCardnum();
+            }
+
+        }
+
         et_cardNum.setText(cardNo);
+
         switch (robotType) {
             case 1:
                 handler.postDelayed(new Runnable() {
@@ -295,6 +314,8 @@ public class OpenCardActivity extends BaseReadCardActivity implements IReadCardI
                     }
                 }, 2000);
                 break;
+
+
         }
     }
 
@@ -406,4 +427,91 @@ public class OpenCardActivity extends BaseReadCardActivity implements IReadCardI
         }
     }
 
+    private void setCardnum() {
+        final PopupWindow window = new PopupWindow();
+        View contentView = LayoutInflater.from(OpenCardActivity.this).inflate(R.layout.num_opencard_setcardnum, null);
+        final EditText editText = (EditText) contentView.findViewById(R.id.alert_num);
+        ImageView back = (ImageView) contentView.findViewById(R.id.alert_back_0);
+        Button sure = (Button) contentView.findViewById(R.id.btn_sure);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                window.dismiss();
+                isM1 = true;
+            }
+        });
+        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                isM1 = true;
+            }
+        });
+        sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cardNum = editText.getText().toString().trim();
+                et_cardNum.setText(cardNum);
+                //isM1 = true;
+//                btnchange.setVisibility(View.VISIBLE);
+//                et_cardNum.setInputType(InputType.TYPE_NULL);
+                if(cardNum.equals("")){
+                    Utils.showToast(OpenCardActivity.this,"请输入卡号");
+                    return;
+                }
+                bindCard(cardNum,uid);
+                isM1 = true;
+                window.dismiss();
+            }
+        });
+
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int w = dm.widthPixels;
+        int h = dm.heightPixels;
+        window.setContentView(contentView);
+        window.setWidth((int) (w * 0.8));
+        window.setHeight((int) (h * 0.4));
+        window.setFocusable(true);
+        window.setOutsideTouchable(false);
+        window.update();
+        ColorDrawable dw = new ColorDrawable();
+        window.setBackgroundDrawable(dw);
+        window.showAtLocation(findViewById(R.id.activity_open_card), Gravity.CENTER, 0, 0);
+    }
+
+    private void bindCard(String cardNo, String uid) {
+        Map<String, String> map = new HashMap<>();
+        map.put("dbName", getSharedData(OpenCardActivity.this, "dbname"));
+        map.put("groupId", SharedUtil.getSharedData(OpenCardActivity.this, "groupid"));
+        map.put("shopId",shopId);
+        map.put("cardNO", cardNo);
+        map.put("CardCode",uid);
+        postToHttp(NetworkUrl.BINDCARD, map, new IHttpCallBack() {
+            @Override
+            public void OnSucess(String jsonText) {
+                Logger.e(jsonText);
+                try {
+                    JSONObject object = new JSONObject(jsonText);
+                    String str = object.getString("result_stadus");
+                    if(str.equals("SUCCESS")){
+                        Utils.showToast(OpenCardActivity.this,"卡号绑定成功");
+                    }else{
+                        Utils.showToast(OpenCardActivity.this,"绑定失败请重试");
+                        return;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void OnFail(String message) {
+                Logger.e(message);
+                Utils.showToast(OpenCardActivity.this,"绑定失败请重试");
+                return;
+            }
+        });
+
+    }
 }

@@ -58,8 +58,21 @@
                     android:layout_width="100px"
                     android:layout_height="60px"
                     android:layout_marginLeft="20px"
-                    android:layout_marginRight="160px"
+                    android:layout_marginRight="20px"
                     android:background="@drawable/select_code" />
+
+                <Button
+                    android:id="@+id/btn_change"
+                    android:layout_width="100px"
+                    android:layout_height="60px"
+                    android:layout_marginLeft="20px"
+                    android:layout_marginRight="20px"
+                    android:text="修改"
+                    android:textSize="30px"
+                    android:textColor="@color/white"
+                    android:background="@drawable/select_button_r"
+                    android:visibility="gone" />
+
             </LinearLayout>
 
             <LinearLayout

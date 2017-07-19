@@ -380,12 +380,12 @@ public class QuickDelCActivity extends BasePAndRActivity implements IReadCardId,
 
     private void ToRead(List<QuickCount.DataBean> dataBeen, QuickCount.MemberdataBean memberdataBean) {
 
-        switch (robotType) {
-            case 3:
-            case 4:
-                et_cardNum.setText(memberdataBean.getC_CardNO());
-                break;
-        }
+//        switch (robotType) {
+//            case 3:
+//            case 4:
+//                et_cardNum.setText(memberdataBean.getC_CardNO());
+//                break;
+//        }
         password = memberdataBean.getC_Password();
         list = dataBeen;
         if (list != null) {
@@ -393,13 +393,14 @@ public class QuickDelCActivity extends BasePAndRActivity implements IReadCardId,
                 adapter.clean();
                 adapter = new DelCountAdapter(QuickDelCActivity.this, list);
                 lv_count.setAdapter(adapter);
-
                 et_cardNum.setText(memberdataBean.getC_CardNO());
+                Log.d("uuz", "list.size"+list.size());
             } else {
                 openRead();
                 adapter.clean();
                 adapter.notifyDataSetChanged();
                 et_cardNum.setText("");
+                Log.d("uuz", "else"+list.size());
                 Utils.showToast(QuickDelCActivity.this, "您没有可扣项目");
             }
         }

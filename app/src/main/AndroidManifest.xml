@@ -357,7 +357,8 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".activity.CouponSelectActivity" />
-        <activity android:name=".activity.CouponCancelActivity"></activity>
+        <activity android:name=".activity.CouponCancelActivity" />
+        <activity android:name=".activity.GoodsWareHousingActivity"></activity>
     </application>
 
 </manifest>

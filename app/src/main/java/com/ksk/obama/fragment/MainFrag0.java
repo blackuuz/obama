@@ -18,6 +18,7 @@ import com.ksk.obama.activity.BuyShopListActivity;
 import com.ksk.obama.activity.ChangePersonActivity;
 import com.ksk.obama.activity.CouponCancelActivity;
 import com.ksk.obama.activity.GetMoneyActivity;
+import com.ksk.obama.activity.GoodsWareHousingActivity;
 import com.ksk.obama.activity.HouseActivity;
 import com.ksk.obama.activity.MainActivity;
 import com.ksk.obama.activity.QuickDelCActivity;
@@ -40,7 +41,7 @@ public class MainFrag0 extends Fragment implements View.OnClickListener {
     private RelativeLayout rl_main_10;
     private RelativeLayout rl_main_11;
     private RelativeLayout rl_main_coupon;
-
+    private RelativeLayout rl_main_goods_in;//商品入库
 
     @Nullable
     @Override
@@ -64,6 +65,7 @@ public class MainFrag0 extends Fragment implements View.OnClickListener {
         rl_main_10 = (RelativeLayout) getView().findViewById(R.id.rl_main10);
         rl_main_11 = (RelativeLayout) getView().findViewById(R.id.rl_main11);
         rl_main_coupon = (RelativeLayout) getView().findViewById(R.id.rl_main_coupon);
+        rl_main_goods_in = (RelativeLayout) getView().findViewById(R.id.rl_main_goods_in);
         rl_main_0.setVisibility(View.GONE);
         rl_main_1.setVisibility(View.GONE);
         rl_main_3.setVisibility(View.GONE);
@@ -73,6 +75,8 @@ public class MainFrag0 extends Fragment implements View.OnClickListener {
         rl_main_10.setVisibility(View.GONE);
         rl_main_11.setVisibility(View.GONE);
         rl_main_coupon.setVisibility(View.GONE);
+        rl_main_goods_in.setVisibility(View.GONE);
+
         for (int i = 0; i < MainActivity.list_pow.size(); i++) {
             String str = MainActivity.list_pow.get(i).getC_PopedomName();
             if (str.equals("POS:商品消费")) {
@@ -95,7 +99,9 @@ public class MainFrag0 extends Fragment implements View.OnClickListener {
             }else if(str.equals("POS:优惠券核销")){
                 rl_main_coupon.setVisibility(View.VISIBLE);
                 rl_main_coupon.setOnClickListener(this);
-
+            }else if(str.equals("POS:商品入库")){//str.equals("POS:商品入库")
+                rl_main_goods_in.setVisibility(View.VISIBLE);
+                rl_main_goods_in.setOnClickListener(this);
             }
         }
 
@@ -130,12 +136,10 @@ public class MainFrag0 extends Fragment implements View.OnClickListener {
                     intent.putExtra("type", 3);
                     intent.setClass(getActivity(), ReadCardInfoActivity.class);
                     break;
-
                 //交班
                 case R.id.rl_main05:
                     intent.setClass(getActivity(), ChangePersonActivity.class);
                     break;
-
                 //今日收益*
                 case R.id.rl_main07:
                     intent.putExtra("type", 6);
@@ -154,6 +158,10 @@ public class MainFrag0 extends Fragment implements View.OnClickListener {
                 //优惠券核销
                 case R.id.rl_main_coupon:
                     intent.setClass(getActivity(), CouponCancelActivity.class);
+                    break;
+                //商品入库
+                case R.id.rl_main_goods_in:
+                    intent.setClass(getActivity(), GoodsWareHousingActivity.class);
                     break;
 
             }
