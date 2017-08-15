@@ -14,6 +14,7 @@ import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ import com.ksk.obama.callback.IHttpCallBack;
 import com.ksk.obama.callback.IQrcodeCallBack;
 import com.ksk.obama.callback.IReadCardId;
 import com.ksk.obama.model.ReadCardInfo;
+import com.ksk.obama.model.ShopStockDec;
 import com.ksk.obama.utils.MyTextFilter2;
 import com.ksk.obama.utils.MyTextFilter3;
 import com.ksk.obama.utils.NetworkUrl;
@@ -107,7 +109,60 @@ public class BuyShopCartActivity extends BuyShopReadActivity implements IReadCar
             @Override
             public void onClick(View v) {
                 if (list_buy.size() > 0) {
-                    changeAcivity();
+                    String ids = "";
+                    String num = "";
+                    for (int i = 0; i < list_buy.size(); i++) {
+                        if (i == list_buy.size() - 1) {
+                            ids += list_buy.get(i).getId();
+                            num += list_buy.get(i).getNum();
+                        } else {
+                            ids += list_buy.get(i).getId() + ",";
+                            num += list_buy.get(i).getNum() + ",";
+                        }
+                    }
+                    Map<String, String> map = new HashMap<>();
+                    map.put("shopId",shopId);
+                    map.put("dbName", SharedUtil.getSharedData(BuyShopCartActivity.this, "dbname"));
+                    map.put("userId",SharedUtil.getSharedData(BuyShopCartActivity.this, "userInfoId"));
+                    map.put("goodsId",ids);
+                    map.put("nums",num);
+                    postToHttp(NetworkUrl.CHECKSTOCK, map, new IHttpCallBack() {
+                        @Override
+                        public void OnSucess(String jsonText) {
+                            ShopStockDec stockDec = new Gson().fromJson(jsonText,ShopStockDec.class);
+                            if(stockDec.getResult_stadus().equals("SUCCESS")){
+                                changeAcivity();
+                            }else {
+                                if(stockDec.getResult_stadus().equals("ERR")){
+                                    if(stockDec.getResult_data().getIsSetNegativeStock().equals("1")){//库存不足但是可以扣负数  需要弹窗判断
+                                        new AlertDialog.Builder(BuyShopCartActivity.this)
+                                                .setTitle("提示")
+                                                .setMessage(stockDec.getResult_errmsg()+"是否进行负库存操作？")
+                                                .setPositiveButton("是", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        changeAcivity();
+                                                    }
+                                                })
+                                                .setNegativeButton("否", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        return;
+                                                    }
+                                                })
+                                                .show();
+                                    }else {
+                                        Utils.showToast(BuyShopCartActivity.this,stockDec.getResult_errmsg());
+                                    }
+                                }
+                            }
+                        }
+                        @Override
+                        public void OnFail(String message) {
+                            Log.d("uuz", "OnFail: ++++");
+                        }
+                    });
+
                 } else {
                     Utils.showToast(BuyShopCartActivity.this, "您还没有选中任何商品");
                 }
@@ -256,23 +311,24 @@ public class BuyShopCartActivity extends BuyShopReadActivity implements IReadCar
         }
 
     }
+
     //计算物品单价
-    private void checkDisPrice(int ctype,int position){
+    private void checkDisPrice(int ctype, int position) {
         switch (ctype) {//物品单价
             case 0:
                 zdj = list_buy.get(position).getPrice();
                 break;
             case 1:
-                zdj =  list_buy.get(position).getDis_price_a();
+                zdj = list_buy.get(position).getDis_price_a();
                 break;
             case 2:
-                zdj =  list_buy.get(position).getDis_price_b();
+                zdj = list_buy.get(position).getDis_price_b();
                 break;
             case 3:
-                zdj =  list_buy.get(position).getDis_price_c();
+                zdj = list_buy.get(position).getDis_price_c();
                 break;
             case 4:
-                zdj =  list_buy.get(position).getDis_price_d();
+                zdj = list_buy.get(position).getDis_price_d();
                 break;
             default:
                 zdj = list_buy.get(position).getPrice();
@@ -316,12 +372,18 @@ public class BuyShopCartActivity extends BuyShopReadActivity implements IReadCar
         editText.setFilters(filters3);
         editz.setFilters(filters2);
         edit_discount.setFilters(filters2);
-        editText.setOnClickListener(new View.OnClickListener() {
+        editText.setOnKeyListener(new View.OnKeyListener() {
             @Override
-            public void onClick(View v) {
-                editText.setText("");
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                //You can identify which key pressed buy checking keyCode value with KeyEvent.KEYCODE_
+                if(keyCode == KeyEvent.KEYCODE_DEL){
+                    //this is for backspace
+                    editText.setText("");
+                }
+                return false;
             }
         });
+
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -331,15 +393,27 @@ public class BuyShopCartActivity extends BuyShopReadActivity implements IReadCar
             }
         });
 
-        editz.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        edit_discount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    editz.setText("");
+                    edit_discount.setText("");
                 }
             }
         });
-        checkDisPrice(ctype,position);
+
+        edit_discount.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                //You can identify which key pressed buy checking keyCode value with KeyEvent.KEYCODE_
+                if(keyCode == KeyEvent.KEYCODE_DEL){
+                    //this is for backspace
+                    edit_discount.setText("");
+                }
+                return false;
+            }
+        });
+        checkDisPrice(ctype, position);
         if (!isVip) {
             tv_discount.setText("无折扣");
         } else {
@@ -364,8 +438,8 @@ public class BuyShopCartActivity extends BuyShopReadActivity implements IReadCar
             } else if (ctype == 0) {
                 edit_discount.setText(Utils.getNumStrE((list_buy.get(position).getPrice() * num_) + ""));
             } else {
-                checkDisPrice(ctype,position);
-                edit_discount.setText(zdj* num_ + "");
+                checkDisPrice(ctype, position);
+                edit_discount.setText(zdj * num_ + "");
             }
         } else {
             edit_discount.setText(Utils.getNumStrE((list_buy.get(position).getPrice() * num_) + ""));
@@ -394,23 +468,23 @@ public class BuyShopCartActivity extends BuyShopReadActivity implements IReadCar
 
                     float num = 0;
                     if (isVip) {
-                        if (list_buy.get(position).getDazhe() != 0&& ctype == 0) {
+                        if (list_buy.get(position).getDazhe() != 0 && ctype == 0) {
                             num = money / (dj * discount);
-                        } else if(ctype == 0){
+                        } else if (ctype == 0) {
                             num = money / dj;
-                        }else {
-                            if(zdj == 0.0f){
+                        } else {
+                            if (zdj == 0.0f) {
                                 num = 0;
-                                Utils.showToast(BuyShopCartActivity.this,"商品价格为\"0\",不能计算数量");
-                            }else {
-                                num = money/zdj;
+                                Utils.showToast(BuyShopCartActivity.this, "商品价格为\"0\",不能计算数量");
+                            } else {
+                                num = money / zdj;
                             }
                         }
                     } else {
                         num = money / dj;
                     }
                     editText.setText(Utils.getNum3(num));
-                    editz.setText(Utils.getNum3(num*dj));
+                    editz.setText(Utils.getNum3(num * dj));
                 }
             }
         });
@@ -436,14 +510,14 @@ public class BuyShopCartActivity extends BuyShopReadActivity implements IReadCar
                     }
                     editz.setText(dj * num + "");
                     if (isVip) {
-                        if (list_buy.get(position).getDazhe() != 0&&ctype ==0) {
+                        if (list_buy.get(position).getDazhe() != 0 && ctype == 0) {
                             edit_discount.setText(Utils.getNumStrE((list_buy.get(position).getPrice() * num *
                                     discount) + ""));
-                        } else if(ctype ==0) {
+                        } else if (ctype == 0) {
                             edit_discount.setText(Utils.getNumStrE((list_buy.get(position).getPrice() * num) + ""));
                         } else {
-                            checkDisPrice(ctype,position);
-                            edit_discount.setText(Utils.getNumStrE((zdj*num)+""));
+                            checkDisPrice(ctype, position);
+                            edit_discount.setText(Utils.getNumStrE((zdj * num) + ""));
                         }
                     } else {
                         edit_discount.setText(Utils.getNumStrE((list_buy.get(position).getPrice() * num) + ""));
@@ -521,28 +595,25 @@ public class BuyShopCartActivity extends BuyShopReadActivity implements IReadCar
             public void onClick(View arg0) {
                 if (!TextUtils.isEmpty(editText.getText().toString())) {
                     float num = parseFloat(editText.getText().toString());
-                    if (num < 1) {
-                        list_buy.remove(position);
-                    } else {
-                        list_buy.get(position).setNum(num);
-                        list_buy.get(position).setMoney(list_buy.get(position).getPrice()
-                                * num);
-                        if (isVip) {
-                            if (list_buy.get(position).getDazhe() != 0 && ctype == 0) {//1
-                                list_buy.get(position).setMoneyin(list_buy.get(position).getPrice()
-                                        * num * discount);
-                            } else if (ctype == 0) {
-                                list_buy.get(position).setMoneyin(list_buy.get(position).getPrice()
-                                        * num);
-                            }else {
-                                checkDisPrice(ctype,position);
-                                list_buy.get(position).setMoneyin(zdj*num);
-                            }
-                        } else {
+                    list_buy.get(position).setNum(num);
+                    list_buy.get(position).setMoney(list_buy.get(position).getPrice()
+                            * num);
+                    if (isVip) {
+                        if (list_buy.get(position).getDazhe() != 0 && ctype == 0) {//1
+                            list_buy.get(position).setMoneyin(list_buy.get(position).getPrice()
+                                    * num * discount);
+                        } else if (ctype == 0) {
                             list_buy.get(position).setMoneyin(list_buy.get(position).getPrice()
                                     * num);
+                        } else {
+                            checkDisPrice(ctype, position);
+                            list_buy.get(position).setMoneyin(zdj * num);
                         }
+                    } else {
+                        list_buy.get(position).setMoneyin(list_buy.get(position).getPrice()
+                                * num);
                     }
+
                     adapter.notifyDataSetChanged();
                     upListData();
                     window.dismiss();
@@ -578,7 +649,7 @@ public class BuyShopCartActivity extends BuyShopReadActivity implements IReadCar
     @Override
     public void readCardNo(String cardNo, String UID) {
         uid = UID;
-        if(editText == null){
+        if (editText == null) {
             return;
         }
         editText.setText(cardNo);
@@ -619,7 +690,7 @@ public class BuyShopCartActivity extends BuyShopReadActivity implements IReadCar
         map.put("cardNO", cardNum);
         map.put("CardCode", uid);
         map.put("gid", SharedUtil.getSharedData(BuyShopCartActivity.this, "groupid"));
-        map.put("shopID",shopId);
+        map.put("shopID", shopId);
         postToHttp(NetworkUrl.ISCARD, map, new IHttpCallBack() {
             @Override
             public void OnSucess(String jsonText) {
@@ -635,7 +706,7 @@ public class BuyShopCartActivity extends BuyShopReadActivity implements IReadCar
                     }
                     if (card_dnum > 1) {
                         dialog_(readCard);
-                    }else {
+                    } else {
                         ToActivity(readCard.getResult_data());
                     }
                 } else {
@@ -650,6 +721,7 @@ public class BuyShopCartActivity extends BuyShopReadActivity implements IReadCar
     }
 
     private int yourChoice;
+
     /**
      * 这是一个单项选择弹窗
      */
@@ -671,7 +743,7 @@ public class BuyShopCartActivity extends BuyShopReadActivity implements IReadCar
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(yourChoice == -1){
+                        if (yourChoice == -1) {
                             Toast.makeText(BuyShopCartActivity.this, "你选择了" + items[0], Toast.LENGTH_SHORT).show();
                             ToActivity(c_data.get(0));
                             c_data.clear();
@@ -719,7 +791,7 @@ public class BuyShopCartActivity extends BuyShopReadActivity implements IReadCar
         }
     }
 
-    private void ToActivity(ReadCardInfo.ResultDataBean resultData){
+    private void ToActivity(ReadCardInfo.ResultDataBean resultData) {
         switch (robotType) {
             case 3:
                 editText.setText(resultData.getC_CardNO());
@@ -740,20 +812,21 @@ public class BuyShopCartActivity extends BuyShopReadActivity implements IReadCar
         checkCType(cardType);
         adapter.setCtype(ctype);
         for (int i = 0; i < list_buy.size(); i++) {
-            if (list_buy.get(i).getDis() == 1&&ctype == 0) {
+            if (list_buy.get(i).getDis() == 1 && ctype == 0) {
                 list_buy.get(i).setMoneyin((int) (list_buy.get(i).getPrice() * list_buy.get(i).getNum() *
                         parseFloat(cardInfo.getN_DiscountValue())) * 0.01f);
-            } else if(ctype == 0){
+            } else if (ctype == 0) {
                 list_buy.get(i).setMoneyin(list_buy.get(i).getPrice() * list_buy.get(i).getNum());
-            }else {
-                checkDisPrice(ctype,i);
-                list_buy.get(i).setMoneyin( zdj* list_buy.get(i).getNum());
+            } else {
+                checkDisPrice(ctype, i);
+                list_buy.get(i).setMoneyin(zdj * list_buy.get(i).getNum());
             }
             list_buy.get(i).setDazhe(list_buy.get(i).getDis() * 0.01f);
             list_buy.get(i).setJifen(list_buy.get(i).getInteg() == 1 ? list_buy.get(i).getInteg() : 0);
         }
         upListData();
     }
+
     private void showalert() {
         window0 = new PopupWindow(BuyShopCartActivity.this);
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -890,6 +963,7 @@ public class BuyShopCartActivity extends BuyShopReadActivity implements IReadCar
                 Logger.e(jsonText);
                 showOrderG(jsonText);
             }
+
             @Override
             public void OnFail(String message) {
                 Utils.showToast(BuyShopCartActivity.this, message);
@@ -923,7 +997,7 @@ public class BuyShopCartActivity extends BuyShopReadActivity implements IReadCar
         bundle.putString("isVip", isVip ? "yes" : "no");
         if (isVip) {
             bundle.putParcelable("info", cardInfo);
-            bundle.putInt("ctype",ctype);
+            bundle.putInt("ctype", ctype);
         }
         intent.putExtras(bundle);
         setResult(RESULT_OK, intent);

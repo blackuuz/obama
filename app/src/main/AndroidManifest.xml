@@ -191,7 +191,8 @@
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+             />
         <activity
             android:name=".activity.BuyCountListActivity"
             android:screenOrientation="portrait"
@@ -346,6 +347,13 @@
             android:name=".activity.AddPersonActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".activity.CheckGoodsActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+
+
         <activity android:name=".activity.SalesStatisticsActivity" />
         <activity android:name=".activity.SalesStatisticsDetialsActivity" />
         <!--
@@ -356,9 +364,22 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".activity.CouponSelectActivity" />
-        <activity android:name=".activity.CouponCancelActivity" />
-        <activity android:name=".activity.GoodsWareHousingActivity"></activity>
+        <activity
+            android:name=".activity.CouponSelectActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".activity.CouponCancelActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".activity.GoodsWareHousingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.GoodsWareHousingCarActivity"
+            android:screenOrientation="portrait"
+            />
+
     </application>
 
 </manifest>

@@ -30,8 +30,9 @@ public class LoginData {
      * HandoverTime : 12:20:00
      * ShopIntegraltimes : 10
      * "n_IntegralTimes":"1.00","n_IntegralToMoney":"2.00","n_IntegralToMoneyMax":"10.00","n_IntegralToMoneyDefault":"50.00"
-     * Module : [{"id":"1","i_GroupID":"1","c_ModuleName":"台房","t_StopTime":"2028-02-22","ROW_NUMBER":"1"}]
-     */
+     * Module : [{"c_ModuleName": "基础","ROW_NUMBER": "1"},{"c_ModuleName": "电子称","ROW_NUMBER": "2"}……]
+     * min_money : 10
+     * */
 
     private String result_stadus;
     private String UserInfoId;
@@ -53,6 +54,20 @@ public class LoginData {
     private String n_IntegralToMoneyDefault;
     private String Rechargebutton;//是否开启快速充值
     private String RechargePoints;
+    private String min_money;//会员卡消费冻结金额
+    private String PayMent; // 是否使用wangpos官方支付接口  1|0
+
+    private List<SetPaysBean> SetPays;
+    private List<RechargefastBean> Rechargefast;
+
+    public String getMin_money() {
+        return min_money;
+    }
+
+    public void setMin_money(String min_money) {
+        this.min_money = min_money;
+    }
+
 
     public String getPayMent() {
         return PayMent;
@@ -62,10 +77,7 @@ public class LoginData {
         PayMent = payMent;
     }
 
-    private String PayMent; // 是否使用wangpos官方支付接口  1|0
 
-    private List<SetPaysBean> SetPays;
-    private List<RechargefastBean> Rechargefast;
 
     public List<RechargefastBean> getRechargefast() {
         return Rechargefast;
@@ -408,24 +420,25 @@ public class LoginData {
 
     public static class ModuleBean implements Parcelable {
         /**
-         * id : 1
-         * i_GroupID : 1
-         * c_ModuleName : 台房
-         * t_StopTime : 2028-02-22
-         * ROW_NUMBER : 1
+         *"Module": [{
+         "c_ModuleName": "基础",
+         "ROW_NUMBER": "1"},
+         {
+         "c_ModuleName": "电子称",
+         "ROW_NUMBER": "2"
+         },
+         {
+         "c_ModuleName": "微信支付",
+         "ROW_NUMBER": "3"
+         }
          */
 
-        private String id;
-        private String i_GroupID;
         private String c_ModuleName;
-        private String t_StopTime;
         private String ROW_NUMBER;
 
         protected ModuleBean(Parcel in) {
-            id = in.readString();
-            i_GroupID = in.readString();
+
             c_ModuleName = in.readString();
-            t_StopTime = in.readString();
             ROW_NUMBER = in.readString();
         }
 
@@ -441,22 +454,6 @@ public class LoginData {
             }
         };
 
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getI_GroupID() {
-            return i_GroupID;
-        }
-
-        public void setI_GroupID(String i_GroupID) {
-            this.i_GroupID = i_GroupID;
-        }
-
         public String getC_ModuleName() {
             return c_ModuleName;
         }
@@ -465,13 +462,6 @@ public class LoginData {
             this.c_ModuleName = c_ModuleName;
         }
 
-        public String getT_StopTime() {
-            return t_StopTime;
-        }
-
-        public void setT_StopTime(String t_StopTime) {
-            this.t_StopTime = t_StopTime;
-        }
 
         public String getROW_NUMBER() {
             return ROW_NUMBER;
@@ -488,10 +478,7 @@ public class LoginData {
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(id);
-            dest.writeString(i_GroupID);
             dest.writeString(c_ModuleName);
-            dest.writeString(t_StopTime);
             dest.writeString(ROW_NUMBER);
         }
     }

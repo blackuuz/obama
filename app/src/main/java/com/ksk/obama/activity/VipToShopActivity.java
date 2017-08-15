@@ -1,6 +1,7 @@
 package com.ksk.obama.activity;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -81,6 +82,9 @@ public class VipToShopActivity extends BuyShopReadActivity implements View.OnCli
         ll_wx0.setOnClickListener(this);
         ll_wx1.setOnClickListener(this);
         ll_wx2.setOnClickListener(this);
+        TextView textView = (TextView)findViewById(R.id.tv_vip_set);
+        String s = robotType == 8 ? "会员卡绑定":"消息设置";
+        textView.setText(s);
     }
 
     private void initData() {
@@ -131,28 +135,42 @@ public class VipToShopActivity extends BuyShopReadActivity implements View.OnCli
                 }
                 break;
             case R.id.ll_vip_set:
-                openRead();
-                mdialog = new Dialog(VipToShopActivity.this, R.style.BottomDialogStyle);
-                //填充对话框的布局
-                View view = LayoutInflater.from(VipToShopActivity.this).inflate(R.layout.dialog_viptoshop_bindcard, null);
-                //将布局设置给Dialog
-                mdialog.setContentView(view);
-                //获取当前Activity所在的窗体
-                Window dialogWindow = mdialog.getWindow();
-                //设置Dialog从窗体底部弹出
-                dialogWindow.setGravity(Gravity.BOTTOM);
-                //获得窗体的属性
-                WindowManager.LayoutParams lp = dialogWindow.getAttributes();
-                DisplayMetrics dm = new DisplayMetrics();
-                getWindowManager().getDefaultDisplay().getMetrics(dm);
-                lp.width = (int) (dm.widthPixels * 0.95);
-                lp.y = 370; //设置Dialog距离底部的距离
-                dialogWindow.setAttributes(lp); //将属性设置给窗体
-                mdialog.show();//显示对话框
-                //mdialog.setOutsideTouchable(false);
-                mdialog.setCancelable(true);
+                switch (robotType){
+                    case 1:
+                    case 3:
+                        case 8:
+                        openRead();
+                        mdialog = new Dialog(VipToShopActivity.this, R.style.BottomDialogStyle);
+                        //填充对话框的布局
+                        View view = LayoutInflater.from(VipToShopActivity.this).inflate(R.layout.dialog_viptoshop_bindcard, null);
+                        //将布局设置给Dialog
+                        mdialog.setContentView(view);
+                        //获取当前Activity所在的窗体
+                        Window dialogWindow = mdialog.getWindow();
+                        //设置Dialog从窗体底部弹出
+                        dialogWindow.setGravity(Gravity.BOTTOM);
+                        //获得窗体的属性
+                        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+                        DisplayMetrics dm = new DisplayMetrics();
+                        getWindowManager().getDefaultDisplay().getMetrics(dm);
+                        lp.width = (int) (dm.widthPixels * 0.95);
+                        lp.y = 370; //设置Dialog距离底部的距离
+                        dialogWindow.setAttributes(lp); //将属性设置给窗体
+                        mdialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                            @Override
+                            public void onCancel(DialogInterface dialog) {
+                                close();
+                            }
+                        });
+                        mdialog.show();//显示对话框
+                        //mdialog.setOutsideTouchable(false);
+                        mdialog.setCancelable(true);
 
+                        break;
+                    default:
 
+                        break;
+                }
 //                if (SharedUtil.getSharedBData(VipToShopActivity.this, "vip2")) {
 
 //                } else {

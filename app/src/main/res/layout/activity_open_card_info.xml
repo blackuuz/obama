@@ -16,7 +16,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100px"
+            android:layout_marginTop="40px"
             android:orientation="horizontal">
 
             <TextView
@@ -81,7 +81,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60px"
+            android:layout_marginTop="35px"
             android:orientation="horizontal">
 
             <TextView
@@ -89,24 +89,25 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|right"
                 android:text="手机号 :"
-                android:textSize="36px" />
+                android:textSize="30px" />
 
             <EditText
                 android:id="@+id/et_open_info_phone"
                 android:layout_width="420px"
-                android:layout_height="60px"
+                android:layout_height="50px"
                 android:layout_marginLeft="20px"
                 android:background="@mipmap/edit_bg"
                 android:gravity="center_vertical"
                 android:inputType="phone"
                 android:maxLength="11"
-                android:paddingLeft="20px" />
+                android:paddingLeft="20px"
+                android:textSize="28px" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60px"
+            android:layout_marginTop="40px"
             android:orientation="horizontal"
             android:visibility="gone">
 
@@ -142,7 +143,82 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60px"
+            android:layout_marginTop="35px"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="200px"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|right"
+                android:text="身份证号 :"
+                android:textSize="30px" />
+
+            <EditText
+                android:id="@+id/et_id_card_number"
+                android:layout_width="420px"
+                android:layout_height="50px"
+                android:layout_marginLeft="20px"
+                android:background="@mipmap/edit_bg"
+                android:gravity="center_vertical"
+                android:inputType="number"
+                android:maxLength="18"
+                android:paddingLeft="20px"
+                android:textSize="28px" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35px"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="200px"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|right"
+                android:text="车号 :"
+                android:textSize="30px" />
+
+            <EditText
+                android:id="@+id/et_car_number"
+                android:layout_width="420px"
+                android:layout_height="50px"
+                android:layout_marginLeft="20px"
+                android:background="@mipmap/edit_bg"
+                android:gravity="center_vertical"
+                android:maxLength="18"
+                android:paddingLeft="20px"
+                android:textSize="28px" />
+
+        </LinearLayout>    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35px"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="200px"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|right"
+            android:text="地址 :"
+            android:textSize="30px" />
+
+        <EditText
+            android:id="@+id/et_address"
+            android:layout_width="420px"
+            android:layout_height="50px"
+            android:layout_marginLeft="20px"
+            android:background="@mipmap/edit_bg"
+            android:gravity="center_vertical"
+            android:maxLength="18"
+            android:paddingLeft="20px"
+            android:textSize="28px" />
+
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35px"
             android:orientation="horizontal">
 
             <TextView
@@ -150,23 +226,24 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|right"
                 android:text="生日 :"
-                android:textSize="36px" />
+                android:textSize="30px" />
 
             <TextView
                 android:id="@+id/tv_open_info_birthday"
                 android:layout_width="240px"
-                android:layout_height="60px"
+                android:layout_height="45px"
                 android:layout_marginLeft="20px"
                 android:background="@mipmap/edit_bg"
                 android:gravity="center_vertical"
-                android:paddingLeft="20px" />
+                android:paddingLeft="20px"
+                android:textSize="28px" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60px"
+            android:layout_marginTop="35px"
             android:orientation="horizontal">
 
             <TextView
@@ -174,24 +251,25 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|right"
                 android:text="消费密码 :"
-                android:textSize="36px" />
+                android:textSize="30px" />
 
             <EditText
                 android:id="@+id/et_open_info_pw1"
                 android:layout_width="420px"
-                android:layout_height="60px"
+                android:layout_height="50px"
                 android:layout_marginLeft="20px"
                 android:background="@mipmap/edit_bg"
                 android:gravity="center_vertical"
                 android:inputType="textPassword"
-                android:paddingLeft="20px" />
+                android:paddingLeft="20px"
+                android:textSize="28px" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60px"
+            android:layout_marginTop="35px"
             android:orientation="horizontal">
 
             <TextView
@@ -199,41 +277,79 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|right"
                 android:text="确认密码 :"
-                android:textSize="36px" />
+                android:textSize="30px" />
 
             <EditText
                 android:id="@+id/et_open_info_pw2"
                 android:layout_width="420px"
-                android:layout_height="60px"
+                android:layout_height="50px"
                 android:layout_marginLeft="20px"
                 android:background="@mipmap/edit_bg"
                 android:gravity="center_vertical"
                 android:inputType="textPassword"
-                android:paddingLeft="20px" />
+                android:paddingLeft="20px"
+                android:textSize="28px" />
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/add_shop"
-            android:layout_width="360px"
-            android:layout_height="80px"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="60px"
-            android:background="@mipmap/add_person"
-            android:text="点击选择推荐员工"
-            android:textColor="#323232"
-            android:textSize="30px" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50px"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/add_vip"
-            android:layout_width="360px"
-            android:layout_height="80px"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="60px"
-            android:background="@mipmap/add_person"
-            android:text="点击选择推荐会员"
-            android:textColor="#323232"
-            android:textSize="30px" />
+            <Button
+                android:id="@+id/add_shop"
+                android:layout_width="0dp"
+                android:layout_height="80px"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="50px"
+                android:layout_marginRight="30px"
+                android:layout_weight="1"
+                android:background="@mipmap/add_person"
+                android:text="点击选择推荐员工"
+                android:textColor="#323232"
+                android:textSize="30px" />
+
+            <Button
+                android:id="@+id/add_vip"
+                android:layout_width="0dp"
+                android:layout_height="80px"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="30px"
+                android:layout_marginRight="50px"
+                android:layout_weight="1"
+                android:background="@mipmap/add_person"
+                android:text="点击选择推荐会员"
+                android:textColor="#323232"
+                android:textSize="30px" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40px"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="200px"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|right"
+                android:text="备注 :"
+                android:textSize="36px" />
+
+            <EditText
+                android:id="@+id/et_card_remarks"
+                android:layout_width="420px"
+                android:layout_height="120px"
+                android:layout_marginLeft="20px"
+                android:background="@mipmap/edit_bg"
+                android:gravity="left|top"
+                android:inputType="textMultiLine"
+                android:maxLines="3"
+                android:paddingLeft="20px"
+                android:textSize="25px" />
+        </LinearLayout>
 
     </LinearLayout>
 

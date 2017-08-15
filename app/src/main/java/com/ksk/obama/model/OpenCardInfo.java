@@ -31,6 +31,61 @@ public class OpenCardInfo implements Parcelable{
     private String addId;
     private String addPerson;
 
+    private String memberPriceType;
+    private String cardTime;
+    private String remarks;
+    private String idCardNumber;
+    private String carNum;//车牌号
+    private String address;//地址
+
+    public String getCarNum() {
+        return carNum;
+    }
+
+    public void setCarNum(String carNum) {
+        this.carNum = carNum;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getMemberPriceType() {
+        return memberPriceType;
+    }
+
+    public void setMemberPriceType(String memberPriceType) {
+        this.memberPriceType = memberPriceType;
+    }
+
+    public String getCardTime() {
+        return cardTime;
+    }
+
+    public void setCardTime(String cardTime) {
+        this.cardTime = cardTime;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
+    public String getIdCardNumber() {
+        return idCardNumber;
+    }
+
+    public void setIdCardNumber(String idCardNumber) {
+        this.idCardNumber = idCardNumber;
+    }
+
     public String getVipAddPerson() {
         return vipAddPerson;
     }
@@ -118,6 +173,12 @@ public class OpenCardInfo implements Parcelable{
         addPerson = in.readString();
         vipAddId = in.readString();
         vipAddPerson = in.readString();
+        cardTime = in.readString();
+        memberPriceType = in.readString();
+        remarks = in.readString();
+        idCardNumber = in.readString();
+        carNum = in.readString();
+        address = in.readString();
     }
 
     public static final Creator<OpenCardInfo> CREATOR = new Creator<OpenCardInfo>() {
@@ -272,5 +333,11 @@ public class OpenCardInfo implements Parcelable{
         dest.writeString(addPerson);
         dest.writeString(vipAddId);
         dest.writeString(vipAddPerson);
+        dest.writeString(cardTime);
+        dest.writeString(memberPriceType);
+        dest.writeString(remarks);
+        dest.writeString(idCardNumber);
+        dest.writeString(carNum);
+        dest.writeString(address);
     }
 }

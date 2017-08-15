@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.ksk.obama.R;
-import com.ksk.obama.model.BuyShopList;
+import com.ksk.obama.model.GoodsWareHousing;
 
 import java.util.List;
 
@@ -24,9 +24,9 @@ import java.util.List;
 
 public class GoodsWareHousingAdapter extends BaseAdapter {
     private Context context;
-    private List<BuyShopList.GoodsSBean> list;//修改
+    private List<GoodsWareHousing.ResultDataBean.StockSBean> list;//修改
 
-    public GoodsWareHousingAdapter(Context context, List<BuyShopList.GoodsSBean> list) {
+    public GoodsWareHousingAdapter(Context context, List<GoodsWareHousing.ResultDataBean.StockSBean> list) {
         this.context = context;
         this.list = list;
     }
@@ -61,7 +61,7 @@ public class GoodsWareHousingAdapter extends BaseAdapter {
         }
         holder.tv_num.setText(list.get(i).getNum()+"");
         holder.tv_name.setText(list.get(i).getC_GoodsName());
-        holder.tv_price.setText(list.get(i).getN_PriceRetail()+"");
+        holder.tv_price.setText(list.get(i).getN_DePrice()+"");
 
         return view;
     }

@@ -18,7 +18,6 @@ public class BuyCount extends DataSupport implements Parcelable {
     private float num = 1;
     private float price;//单价
     private float dis_price_a;//折扣之后的单价
-    //private String dis_type;//折扣模式的文本
     private float dis_price_b;
 
     public float getDis_price_a() {

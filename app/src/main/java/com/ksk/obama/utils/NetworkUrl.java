@@ -6,7 +6,7 @@ package com.ksk.obama.utils;
 public class NetworkUrl {
     private static final String IP = "http://123.207.146.244/";
 
-//    //测试
+    //测试
 //    private static final String IP2 = "yideweb";//测试
 //    private static final String VERSION = "";
 //________________________________________________________________________________________________________________________
@@ -16,7 +16,7 @@ public class NetworkUrl {
 // ________________________________________________________________________________________________________________________
     //各版本正式
     private static final String IP2 = "yideApp/yidesoft";//正式
-    private static final String VERSION = "234";//版本号 数字部分随版本改变
+    private static final String VERSION = "236";//版本号 数字部分随版本改变
 
 
 
@@ -78,4 +78,10 @@ public class NetworkUrl {
     public static final String COUPONCANCEL = URL + "Business/detail_member_coupon";//优惠券核销查询
     public static final String COUPONCANCELSURE = URL + "Business/verify_coupon";//优惠券核销确认
     public static final String BINDCARD = URL +"Business/bingCardNO";//绑定卡号
+    public static final String GOODSSTOCK = URL+"Stock/listStock";//商品入列表
+    public static final String CHECKSTOCK = URL+"Business/checkStock";//判断库存是否够
+    public static final String STOCKIN = URL+"Stock/stock_save";//商品入库操作
+    public static final String GOODSCHECK = URL+"Stock/stocktaking";//商品盘点
+    public static final String GOODSCHECKSAVE = URL+"Stock/stock_taking";//商品盘点保存
+
 }

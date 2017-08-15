@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothSocket;
 
 import com.ksk.obama.model.BlueTool;
 import com.orhanobut.logger.Logger;
+import com.sunmi.pay.hardware.aidl.readcard.ReadCardOpt;
 
 import org.litepal.LitePalApplication;
 
@@ -24,6 +25,9 @@ public class MyApp extends LitePalApplication {
     private OutputStream mOutputStream = null;
     private InputStream mInputStream = null;
     private boolean mIsConnect = false;
+    //商米读卡模块
+    public static ReadCardOpt mReadCardOpt;
+
 
     @Override
     public void onCreate() {

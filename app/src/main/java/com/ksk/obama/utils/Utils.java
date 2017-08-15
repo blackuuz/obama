@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class Utils {
 
-    private static Toast toast;
+    public static Toast toast;
     public static final String isNum = "^[0-9]+(.[0-9]{2})?$";
 
     public static void showToast(Context context, String text) {
@@ -55,6 +55,15 @@ public class Utils {
         //"[1]"代表第1位为数字1，"[358]"代表第二位可以为3、5、8中的一个，"\\d{9}"代表后面是可以是0～9的数字，有9位。
         if (TextUtils.isEmpty(mobiles)) return false;
         else return mobiles.matches(telRegex);
+    }
+
+    /**
+     * 验证身份证
+     */
+    public static boolean isIdCardNumber(String idCatd) {
+        String num = "^(\\d{6})(\\d{4})(\\d{2})(\\d{2})(\\d{3})([0-9]|X)$";
+        if (TextUtils.isEmpty(idCatd)) return false;
+        else return idCatd.matches(num);
     }
 
 
@@ -157,6 +166,32 @@ public class Utils {
             }
         }
         return money;
+    }
+
+    /**
+     * 商米16进制转换
+     * @param hexstr
+     * @return
+     */
+    /**
+     * Convert byte[] to hex string.将byte转换成int，然后利用Integer.toHexString(int)来转换成16进制字符串。
+     * @param src byte[] data
+     * @return hex string
+     */
+    public static String bytesToHexString(byte[] src){
+        StringBuilder stringBuilder = new StringBuilder("");
+        if (src == null || src.length <= 0) {
+            return null;
+        }
+        for (int i = 0; i < src.length; i++) {
+            int v = src[i] & 0xFF;
+            String hv = Integer.toHexString(v);
+            if (hv.length() < 2) {
+                stringBuilder.append(0);
+            }
+            stringBuilder.append(hv);
+        }
+        return stringBuilder.toString();
     }
 
 }

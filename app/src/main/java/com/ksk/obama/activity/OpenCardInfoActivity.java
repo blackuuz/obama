@@ -48,9 +48,14 @@ OpenCardInfoActivity extends BaseActivity implements View.OnClickListener {
     private EditText et_yzm;
     private EditText et_pw1;
     private EditText et_pw2;
+    private EditText et_id_card;
+    private EditText et_remark;
+    private EditText et_car_number;
+    private EditText et_address;
     private Button et_btn;
     private Button btn_add_shop;
     private Button btn_add_vip;
+
     private int curyear;
     private int curmonth;
     private int curday;
@@ -66,6 +71,7 @@ OpenCardInfoActivity extends BaseActivity implements View.OnClickListener {
     private String addName = "";
     private String vipAddId = "";
     private String vipAddName = "";
+
 
     private Handler mHandler = new Handler() {
         @Override
@@ -130,6 +136,10 @@ OpenCardInfoActivity extends BaseActivity implements View.OnClickListener {
         et_pw1 = (EditText) findViewById(R.id.et_open_info_pw1);
         et_pw2 = (EditText) findViewById(R.id.et_open_info_pw2);
         et_btn = (Button) findViewById(R.id.btn_yzm);
+        et_id_card = (EditText) findViewById(R.id.et_id_card_number);
+        et_remark = (EditText) findViewById(R.id.et_card_remarks);
+        et_address = (EditText) findViewById(R.id.et_address);
+        et_car_number = (EditText) findViewById(R.id.et_car_number);
         btn_add_shop = (Button) findViewById(R.id.add_shop);
         btn_add_vip = (Button) findViewById(R.id.add_vip);
 
@@ -163,14 +173,31 @@ OpenCardInfoActivity extends BaseActivity implements View.OnClickListener {
         if (isChange()) {
             if (getIntent() != null) {
                 if (TextUtils.isEmpty(et_phone.getText().toString())) {
-                    change();
+                    if(TextUtils.isEmpty(et_id_card.getText().toString())){
+                        change();
+                    }else {
+                        if (Utils.isIdCardNumber(et_id_card.getText().toString())){
+                            change();
+                        }else {
+                            Utils.showToast(OpenCardInfoActivity.this,"请填写正确的身份证号");
+                        }
+                    }
                 } else {
                     if (Utils.isMobileNO(et_phone.getText().toString())) {
-                        change();
+                        if(TextUtils.isEmpty(et_id_card.getText().toString())){
+                            change();
+                        }else {
+                            if (Utils.isIdCardNumber(et_id_card.getText().toString())){
+                                change();
+                            }else {
+                                Utils.showToast(OpenCardInfoActivity.this,"请填写正确的身份证号");
+                            }
+                        }
                     } else {
                         Utils.showToast(OpenCardInfoActivity.this, "请填写正确的手机号");
                     }
                 }
+
 
             }
         } else {
@@ -201,6 +228,12 @@ OpenCardInfoActivity extends BaseActivity implements View.OnClickListener {
             cardInfo.setAddPerson(addName);//推荐员工
             cardInfo.setVipAddId(vipAddId);
             cardInfo.setVipAddPerson(vipAddName);//推荐会员
+
+            cardInfo.setAddress(et_address.getText().toString());//
+            cardInfo.setRemarks(et_remark.getText().toString());//
+            cardInfo.setIdCardNumber(et_id_card.getText().toString());//
+            cardInfo.setCarNum(et_car_number.getText().toString());//
+
             Bundle bundle = new Bundle();
             bundle.putParcelable("info", cardInfo);
             Intent intent = new Intent(OpenCardInfoActivity.this, PayOpenCardActivity.class);
@@ -262,11 +295,11 @@ OpenCardInfoActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        String name= "";
+        String name = "";
         if (resultCode == RESULT_OK) {
             if (data != null) {
 //                addId = data.getStringExtra("id");
-                 name = data.getStringExtra("name");
+                name = data.getStringExtra("name");
             }
             switch (requestCode) {
                 case 100:
@@ -275,7 +308,7 @@ OpenCardInfoActivity extends BaseActivity implements View.OnClickListener {
                         addId = data.getStringExtra("id");
                         addName = data.getStringExtra("name");
                     }
-                   //btn_add_vip.setText("点击选择推荐会员");
+                    //btn_add_vip.setText("点击选择推荐会员");
                     break;
                 case 101:
                     btn_add_vip.setText("推荐会员:" + name);
@@ -405,7 +438,6 @@ OpenCardInfoActivity extends BaseActivity implements View.OnClickListener {
         });
         final Button btncancel = (Button) contentView.findViewById(R.id.btn_cancel);
         btncancel.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View arg0) {
                 dialog.dismiss();

@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import com.ksk.obama.R;
 import com.ksk.obama.activity.BuyShopListActivity;
 import com.ksk.obama.activity.ChangePersonActivity;
+import com.ksk.obama.activity.CheckGoodsActivity;
 import com.ksk.obama.activity.CouponCancelActivity;
 import com.ksk.obama.activity.GetMoneyActivity;
 import com.ksk.obama.activity.GoodsWareHousingActivity;
@@ -42,6 +43,7 @@ public class MainFrag0 extends Fragment implements View.OnClickListener {
     private RelativeLayout rl_main_11;
     private RelativeLayout rl_main_coupon;
     private RelativeLayout rl_main_goods_in;//商品入库
+    private RelativeLayout rl_main_check_goods;//商品盘点
 
     @Nullable
     @Override
@@ -66,6 +68,7 @@ public class MainFrag0 extends Fragment implements View.OnClickListener {
         rl_main_11 = (RelativeLayout) getView().findViewById(R.id.rl_main11);
         rl_main_coupon = (RelativeLayout) getView().findViewById(R.id.rl_main_coupon);
         rl_main_goods_in = (RelativeLayout) getView().findViewById(R.id.rl_main_goods_in);
+        rl_main_check_goods = (RelativeLayout) getView().findViewById(R.id.rl_main_check_goods);
         rl_main_0.setVisibility(View.GONE);
         rl_main_1.setVisibility(View.GONE);
         rl_main_3.setVisibility(View.GONE);
@@ -76,6 +79,7 @@ public class MainFrag0 extends Fragment implements View.OnClickListener {
         rl_main_11.setVisibility(View.GONE);
         rl_main_coupon.setVisibility(View.GONE);
         rl_main_goods_in.setVisibility(View.GONE);
+        rl_main_check_goods.setVisibility(View.GONE);
 
         for (int i = 0; i < MainActivity.list_pow.size(); i++) {
             String str = MainActivity.list_pow.get(i).getC_PopedomName();
@@ -84,10 +88,11 @@ public class MainFrag0 extends Fragment implements View.OnClickListener {
                 rl_main_0.setOnClickListener(this);
             } else if (str.equals("POS:快速收银")) {
                 rl_main_1.setVisibility(View.VISIBLE);
-                rl_main_9.setVisibility(View.VISIBLE);
                 rl_main_1.setOnClickListener(this);
+            }else if(str.equals("POS:快速扣次")){
+                rl_main_9.setVisibility(View.VISIBLE);
                 rl_main_9.setOnClickListener(this);
-            } else if (str.equals("POS:积分兑换")) {
+            }else if (str.equals("POS:积分兑换")) {
                 rl_main_3.setVisibility(View.VISIBLE);
                 rl_main_3.setOnClickListener(this);
             } else if (str.equals("POS:交班")) {
@@ -102,18 +107,18 @@ public class MainFrag0 extends Fragment implements View.OnClickListener {
             }else if(str.equals("POS:商品入库")){//str.equals("POS:商品入库")
                 rl_main_goods_in.setVisibility(View.VISIBLE);
                 rl_main_goods_in.setOnClickListener(this);
+            }else if (str.equals("POS:商品盘点")){//
+                rl_main_check_goods.setVisibility(View.VISIBLE);
+                rl_main_check_goods.setOnClickListener(this);
             }
         }
 
-//        for (int i = 0; i < MainActivity.list_module.size(); i++) {
-//            String str = MainActivity.list_module.get(i).getC_ModuleName();
-//            if (str.equals("台房")) {
-//                rl_main_10.setVisibility(View.VISIBLE);
-//                rl_main_10.setOnClickListener(this);
-//                rl_main_11.setVisibility(View.VISIBLE);
-//                rl_main_11.setOnClickListener(this);
-//            }
-//        }
+        for (int i = 0; i < MainActivity.list_module.size(); i++) {
+            String str = MainActivity.list_module.get(i).getC_ModuleName();
+            if (str.equals("卡号激活")) {
+
+            }
+        }
 
     }
 
@@ -162,6 +167,10 @@ public class MainFrag0 extends Fragment implements View.OnClickListener {
                 //商品入库
                 case R.id.rl_main_goods_in:
                     intent.setClass(getActivity(), GoodsWareHousingActivity.class);
+                    break;
+                //商品盘点
+                case R.id.rl_main_check_goods:
+                    intent.setClass(getActivity(), CheckGoodsActivity.class);
                     break;
 
             }

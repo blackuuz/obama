@@ -51,6 +51,8 @@ public class QuickDelCActivity extends BasePAndRActivity implements IReadCardId,
     private EditText et_count;
     private ListView lv_count;
     private TextView tv_project;
+
+    private TextView tv_name,tv_cardtype;
     private List<QuickCount.DataBean> list = new ArrayList<>();
     private DelCountAdapter adapter;
     private int prePosition = 0;
@@ -66,6 +68,9 @@ public class QuickDelCActivity extends BasePAndRActivity implements IReadCardId,
     private String password = "";
     private String orderTime = "";
     private String uid = "";
+
+
+
 
     private boolean flag_q = false;// 这个布尔值是控制 当卡号改变时页面的刷新与重置
 
@@ -210,6 +215,7 @@ public class QuickDelCActivity extends BasePAndRActivity implements IReadCardId,
                 sumCount = Integer.parseInt(list.get(position).getSumTimes());
                 prePosition = position;
                 tv_project.setText(list.get(position).getC_GoodsName());
+                et_count.setText("1");
                 flag_q = true;
             }
         });
@@ -232,13 +238,14 @@ public class QuickDelCActivity extends BasePAndRActivity implements IReadCardId,
                     et_count.setText("");
                     list.clear();
                     adapter.notifyDataSetChanged();
+                    tv_name.setText("姓名: ");
+                    tv_cardtype.setText("卡类型: ");
                 }
                 flag_q =true;
-
             }
         });
-
-
+        tv_name = (TextView) findViewById(R.id.tv_vip_name);
+        tv_cardtype = (TextView) findViewById(R.id.tv_vip_type);
     }
 
     private void getCountList(String cardNum) {
@@ -260,6 +267,7 @@ public class QuickDelCActivity extends BasePAndRActivity implements IReadCardId,
         map.put("CardCode", uid);
         map.put("gid", SharedUtil.getSharedData(QuickDelCActivity.this, "groupid"));
         map.put("shopid", shopId);
+
         postToHttp(NetworkUrl.QUICK_LIST, map, new IHttpCallBack() {
             @Override
             public void OnSucess(String jsonText) {
@@ -279,8 +287,6 @@ public class QuickDelCActivity extends BasePAndRActivity implements IReadCardId,
                     } else {
                         ToRead(readCard.getData(), readCard.getMemberdata());
                     }
-
-
                 } else {
                     openRead();
                     try {
@@ -291,6 +297,10 @@ public class QuickDelCActivity extends BasePAndRActivity implements IReadCardId,
                         e.printStackTrace();
                     }
                 }
+
+
+
+
             }
 
             @Override
@@ -394,6 +404,9 @@ public class QuickDelCActivity extends BasePAndRActivity implements IReadCardId,
                 adapter = new DelCountAdapter(QuickDelCActivity.this, list);
                 lv_count.setAdapter(adapter);
                 et_cardNum.setText(memberdataBean.getC_CardNO());
+                tv_name.setText("姓名:  "+memberdataBean.getC_Name());
+                tv_cardtype.setText("卡类型:  "+memberdataBean.getC_ClassName());
+
                 Log.d("uuz", "list.size"+list.size());
             } else {
                 openRead();
@@ -466,8 +479,6 @@ public class QuickDelCActivity extends BasePAndRActivity implements IReadCardId,
                             haveintegral = data.getString("n_IntegralAvailable");
                             printInfo();
                             reset();
-
-
                         } else if (tag.equals("ERR")) {
                             isclick_pay = true;
                             String msg = object.getString("result_errmsg");

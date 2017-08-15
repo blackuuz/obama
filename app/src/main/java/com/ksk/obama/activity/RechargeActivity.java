@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +58,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import static com.ksk.obama.R.id.et_rech_pay_give;
 import static com.ksk.obama.R.id.tv_commit;
 import static com.ksk.obama.utils.SharedUtil.getSharedData;
 
@@ -65,7 +65,7 @@ import static com.ksk.obama.utils.SharedUtil.getSharedData;
  * 会员充值的页面
  */
 public class RechargeActivity extends BasePrintActivity implements View.OnClickListener, IPayCallBack,
-        IPrintSuccessCallback, IPrintErrorCallback, ICreateOrderNumber {
+        IPrintSuccessCallback, IPrintErrorCallback, ICreateOrderNumber,View.OnKeyListener {
 
 
     private TextView tv_print;
@@ -111,6 +111,8 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
     private String paysend = "";
     private String key = "";
     private String result = "";
+    private String PayTicket = "";//优惠金额
+    private String couponId = "";//优惠券码
 
     private String globalIntegral = "";//全局积分倍率
     private String rechargeIntegral = "";//充值积分倍率
@@ -136,6 +138,12 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
     TextView tvPayZfb;
     @BindView(R.id.ll_w_a)
     LinearLayout llWA;
+    @BindView(R.id.tv_coupon)
+    TextView tvCoupon;
+    @BindView(R.id.tv_rech_coupon)
+    TextView tvRechCoupon;
+    @BindView(R.id.btn_rech_coupon)
+    Button btnRechCoupon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,6 +160,7 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
         initData();
         getOrderNum("CZ");
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);//默认不弹出键盘
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);//键盘不顶起控件
     }
 
     private void initTitale() {
@@ -220,7 +229,7 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
 
         et_paya = (EditText) findViewById(R.id.et_rech_paya);//充值金额
         tv_pay = (EditText) findViewById(R.id.tv_rech_pay);//edittext 实际金额
-        et_pay_give = (EditText) findViewById(et_rech_pay_give);//赠送金额
+        et_pay_give = (EditText) findViewById(R.id.et_rech_pay_give);//赠送金额
         et_integral = (EditText) findViewById(R.id.et_rech_integral);//赠送积分
 
         tv_pay.setInputType(InputType.TYPE_NULL);//禁止软件盘输入
@@ -298,11 +307,19 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
         tvPayZfb.setOnClickListener(this);
         tvPayWx.setOnClickListener(this);
 
+
         tv_clean.setOnClickListener(this);
+        tvRechCoupon.setOnClickListener(this);
+
         btn_select.setOnClickListener(this);
         btn_modify0.setOnClickListener(this);
         btn_modify1.setOnClickListener(this);
         btn_modify2.setOnClickListener(this);
+        btnRechCoupon.setOnClickListener(this);
+        et_paya.setOnKeyListener(this);
+        et_pay_give.setOnKeyListener(this);
+        et_integral.setOnKeyListener(this);
+        tv_pay.setOnKeyListener(this);
 
 
         InputFilter[] filters = {new MyTextFilter()};
@@ -312,6 +329,8 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
         tv_pay.setFilters(filters);
         // et_pay_give.setInputType(InputType.TYPE_NULL);
         // et_integral.setInputType(InputType.TYPE_NULL);
+
+
         et_paya.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -344,7 +363,6 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
                 if (et_pay_give.hasFocus()) {
                     addMoney();
                 }
-                // addMoney();
             }
         });
 
@@ -402,11 +420,18 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
         }
         String m_is = et_paya.getText().toString();
         String m_ps = et_pay_give.getText().toString();
+        String coupon = tvRechCoupon.getText().toString();
+
         //  et_integral
+        float ticket = coupon.equals("") ? 0 : Float.parseFloat(coupon);
         float m_i = m_is.equals("") ? 0 : Float.parseFloat(m_is);
         float m_p = m_ps.equals("") ? 0 : Float.parseFloat(m_ps);
-        float money = m_i + m_p;
-        tv_pay.setText(Utils.getNumStr(m_i));
+        float money = m_i + m_p ;
+        float acmoney = m_i - ticket;
+        if(acmoney <0){
+            acmoney = 0;
+        }
+        tv_pay.setText(Utils.getNumStr(acmoney));//实际金额
         String m_sj = tv_pay.getText().toString();
         // if(m_sj.equals("")){m_sj = "0";}
         float m_s = m_is.equals("") ? 0 : Float.parseFloat(m_sj);
@@ -473,6 +498,35 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
             case R.id.tv_clean:
                 et_pay_give.setText("0");
                 break;
+            case R.id.btn_rech_coupon:
+                if (et_paya.getText().toString().trim().equals("")) {
+                    Utils.showToast(RechargeActivity.this, "请填写充值金额");
+                    return;
+                } else {
+                    Intent intent = new Intent();
+                    intent.setClass(RechargeActivity.this, CouponSelectActivity.class);
+                    intent.putExtra("memberID", cardInfo.getId());
+                    intent.putExtra("couponCode", "");
+                    intent.putExtra("costType", "充值收费");
+                    intent.putExtra("costMoney", Float.parseFloat(et_paya.getText().toString()));
+                    startActivityForResult(intent, 122);
+                }
+                break;
+
+
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && data != null && requestCode == 122) {
+            float delmoney_kq = data.getFloatExtra("couponMoney", 0);
+            couponId = data.getStringExtra("couponId");
+
+             PayTicket = delmoney_kq + "";
+            tvRechCoupon.setText(PayTicket);
+            addMoney();
         }
     }
 
@@ -490,10 +544,10 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
         if (TextUtils.isEmpty(m_is)) {
             isclick_pay = true;
             Utils.showToast(RechargeActivity.this, "请填写充值金额");
-        } else if(TextUtils.isEmpty(m_sj)){
+        } else if (TextUtils.isEmpty(m_sj)) {
             isclick_pay = true;
             Utils.showToast(RechargeActivity.this, "请填写实收金额");
-        }else  {
+        } else {
             Date date = new Date(System.currentTimeMillis());
             SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             orderTime = simpleFormat.format(date);
@@ -512,6 +566,8 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
             map.put("result_name", result);
             map.put("paySend", paysend);
             map.put("n_GetIntegral", et_integral.getText().toString());
+            map.put("coupon_code", couponId);
+            map.put("PayTicket",PayTicket);
             switch (n) {
                 case 0:
                     map.put("payCash", m_sj);
@@ -554,7 +610,9 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
             String tag = object.getString("result_stadus");
             if (tag.equals("SUCCESS")) {
                 if (n != 0) {
-                    if(n == 3){isclick_pay = true;}
+                    if (n == 3) {
+                        isclick_pay = true;
+                    }
                     payMoney(n, tv_pay.getText().toString(), orderNumber, "会员充值");
                 } else {
                     reSet();
@@ -565,7 +623,7 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
                 Utils.showToast(RechargeActivity.this, msg);
             } else {
                 Utils.showToast(RechargeActivity.this, "支付失败,请稍后重试");
-                if (n!=3) {
+                if (n != 3) {
                     showAlert();
                 } else {
                     isclick_pay = true;
@@ -672,6 +730,7 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
 
         }
         list.add("充值金额 :" + str1);
+        list.add("  优惠券 :"+ PayTicket);
         list.add("实收金额 :" + str2);
         if (flag) {
             list.add("充后余额 :" + newMoney);
@@ -700,8 +759,6 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
     @Override
     public void onStart() {
         super.onStart();
-
-
     }
 
     @Override
@@ -716,8 +773,26 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
         unbinder.unbind();
     }
 
-    public class PopupWindows extends PopupWindow implements View.OnClickListener, PopupWindow.OnDismissListener {
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        switch (v.getId()){
+            case R.id.et_rech_paya:
+                et_paya.setText("");
+                break;
+            case R.id.tv_rech_pay:
+                tv_pay.setText("");
+                break;
+            case R.id.et_rech_pay_give:
+                et_pay_give.setText("");
+                break;
+            case R.id.et_rech_integral:
+                et_integral.setText("");
+                break;
+        }
+        return false;
+    }
 
+    public class PopupWindows extends PopupWindow implements View.OnClickListener, PopupWindow.OnDismissListener {
         //        private final ImageView iv1;
 //        private final ImageView iv2;
 //        private final ImageView iv3;
@@ -1073,7 +1148,6 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
             @Override
             public void OnSucess(String jsonText) {
                 Logger.e(jsonText);
-
                 try {
                     JSONObject j = new JSONObject(jsonText);
                     String s = j.getString("result_data");
@@ -1118,12 +1192,10 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
                             tv_pay.setFocusable(true);
                             tv_pay.requestFocus();
                             tv_pay.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
-
                         } else {
                             Utils.showToast(RechargeActivity.this, "您没有权限");
                         }
                     }
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -1136,7 +1208,6 @@ public class RechargeActivity extends BasePrintActivity implements View.OnClickL
             public void OnFail(String message) {
                 Utils.showToast(RechargeActivity.this, "临时授权失败");
             }
-
         });
     }
 

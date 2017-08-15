@@ -64,7 +64,17 @@ public class CardTypeSelect {
         private String n_InitAmount;
         private String n_InitIntegral;
         private String ROW_NUMBER;
+        private String C_PriceClass;
+
         private String N_Recharge_Integral_Value;
+
+        public String getC_PriceClass() {
+            return C_PriceClass;
+        }
+
+        public void setC_PriceClass(String c_PriceClass) {
+            C_PriceClass = c_PriceClass;
+        }
 
         public String getId() {
             return id;

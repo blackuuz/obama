@@ -206,6 +206,10 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
         map.put("payShould", cardInfo.getPayshould());//应付款
         map.put("orderNo", orderNumber);
         map.put("CardCode", cardInfo.getUid());
+        map.put("IDCard", cardInfo.getIdCardNumber());
+        map.put("car",cardInfo.getCarNum());
+        map.put("add",cardInfo.getAddress());
+        map.put("Remark",cardInfo.getRemarks());
         map.put("c_Billfrom", robotType + "");
         if (isTemporary) {
             map.put("temporary_num", temporaryNum);
@@ -465,6 +469,12 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
         } else {
             listp.add("会员手机号:无");
         }
+        if (cardInfo.getIdCardNumber().length() == 18) {
+            listp.add("会员身份证号:" + cardInfo.getIdCardNumber());
+        } else {
+            listp.add("会员身份证号:无");
+        }
+
         if (flag) {
             printPage("会员开卡小票", listp, null, false);
         } else {

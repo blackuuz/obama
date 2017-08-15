@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -133,7 +134,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
     private String temName = "";
     private String temporaryNum = "";
     private boolean isTemporary = false;
-
+    private  float min_money = 0f;
     private boolean XJ, WX, AL, TR;
 
     @BindView(R.id.ll_jfdx)
@@ -205,6 +206,13 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                 printInfo(true);
             }
         });
+        if(SharedUtil.getSharedData(PayBuyShopActivity.this,"min_money").equals("")){
+            min_money = 0f;
+        }else {
+            min_money = Float.parseFloat(SharedUtil.getSharedData(PayBuyShopActivity.this,"min_money"));
+        }
+
+
 
     }
 
@@ -359,7 +367,6 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                         ll_jfdx.setVisibility(View.GONE);
                     }
 
-
                 } else {
                     db_isCheck.setChecked(false);
                     Utils.showToast(PayBuyShopActivity.this, "您不是会员，无法使用积分");
@@ -385,6 +392,26 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
 //                }
 //            }
 //        });
+
+        et_dx_jf.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    et_dx_jf.setText("");
+                }
+            }
+        });
+
+        et_dx_jf.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(keyCode == KeyEvent.KEYCODE_DEL){
+                    et_dx_jf.setText("");
+                }
+                return false;
+            }
+        });
+
 
         et_dx_jf.addTextChangedListener(new TextWatcher() {
             @Override
@@ -458,6 +485,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
         if (intent != null) {
             String str = intent.getStringExtra("isVip");
             should = intent.getStringExtra("should");
+            if(should.equals("")){should ="0.0" ;}
             if (str.equals("yes")) {
                 isVip = true;
                 tv_jf.setVisibility(View.VISIBLE);
@@ -595,7 +623,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                             Utils.showToast(PayBuyShopActivity.this, "请输入积分");
                         } else {
                             n = 4;
-                            if (oldm >= payau) {
+                            if (oldm >= (payau + min_money)) {
                                 if (TextUtils.isEmpty(password)) {
                                     sendData("");
                                 } else {
@@ -731,7 +759,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
 
             @Override
             public void OnFail(String message) {
-                if (n != 3) {
+                if (n == 0|| n ==4) {
                     flag = false;
                     payHint(false);
                     showAlert();
@@ -788,7 +816,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
             } else {
                 String msg = object.getString("result_errmsg");
                 Utils.showToast(PayBuyShopActivity.this, msg);
-                if (n != 3) {
+                if (n == 0 || n == 4) {
                     flag = false;
                     payHint(false);
                     showAlert();
@@ -976,6 +1004,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            showAlert();
                         }
 
                     }

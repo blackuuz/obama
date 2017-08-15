@@ -69,11 +69,26 @@ public class CouponSelectActivity extends BaseActivity implements IQrcodeCallBac
     }
 
     private void initTitle() {
-        tvCommit.setVisibility(View.GONE);
+        tvCommit.setText("取消优惠券");
+        tvCommit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                couponId = "";
+                couponMoney_ = 0f;//优惠金额)
+                intent.putExtra("couponMoney", couponMoney_);
+                intent.putExtra("couponId", couponId);
+                //   intent.putExtra("couponCode",)
+                //  intent.putExtra("conditions",list.get(position).get)
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
         titleName.setText("可用优惠券");
         tvBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 finish();
             }
         });
@@ -88,7 +103,7 @@ public class CouponSelectActivity extends BaseActivity implements IQrcodeCallBac
         map.put("memberID", memberID);
         map.put("couponCode", couponCode);
         map.put("costType", costType);
-        map.put("costMoney", costMoney+"");
+        map.put("costMoney", costMoney + "");
         if (list.size() > 0) {
             list.clear();
         }
@@ -140,7 +155,7 @@ public class CouponSelectActivity extends BaseActivity implements IQrcodeCallBac
             memberID = getIntent().getStringExtra("memberID");
             couponCode = getIntent().getStringExtra("couponCode");
             costType = getIntent().getStringExtra("costType");
-            costMoney = getIntent().getFloatExtra("costMoney",0);
+            costMoney = getIntent().getFloatExtra("costMoney", 0);
         }
 
     }
@@ -162,7 +177,8 @@ public class CouponSelectActivity extends BaseActivity implements IQrcodeCallBac
                 couponId = list.get(position).getC_Code();
                 couponMoney_ = Float.parseFloat(list.get(position).getN_Money());//优惠金额)
                 intent.putExtra("couponMoney", couponMoney_);
-                intent.putExtra("couponId",couponId);
+                intent.putExtra("couponId", couponId);
+                //   intent.putExtra("couponCode",)
 
                 //  intent.putExtra("conditions",list.get(position).get)
                 setResult(RESULT_OK, intent);

@@ -50,6 +50,8 @@ public class OpenCardActivity extends BaseReadCardActivity implements IReadCardI
     private EditText et_cardNum, et_name, et_pay;
     private TextView tv_cardType, tv_should, tv0, tv1, tv2, tv3, tv4;
     private TextView tv_recharge_rate;//充值倍率
+    private TextView tv_card_date;//会员卡有效期
+    private TextView tv_cardPrice_type;//会员价类型
     private ImageView iv_cardType;
     //private Button btnchange;
     private List<CardTypeSelect.ResultDataBean> list = new ArrayList<>();
@@ -147,6 +149,8 @@ public class OpenCardActivity extends BaseReadCardActivity implements IReadCardI
         tv4 = (TextView) findViewById(R.id.tv_open4);
         //btnchange = (Button) findViewById(R.id.btn_change);
         tv_recharge_rate = (TextView) findViewById(R.id.tv_integral_rate);
+        tv_card_date = (TextView) findViewById(R.id.tv_card_date);
+        tv_cardPrice_type = (TextView) findViewById(R.id.tv_member_price_type);
 
         tv4.setText(SharedUtil.getSharedData(OpenCardActivity.this, "shopname"));
 
@@ -216,6 +220,8 @@ public class OpenCardActivity extends BaseReadCardActivity implements IReadCardI
         String str2 = tv2.getText().toString();
         String str3 = tv3.getText().toString();
         String str4 = tv4.getText().toString();
+
+
         if (TextUtils.isEmpty(cardnum)) {
             Utils.showToast(OpenCardActivity.this, "请填写卡号");
         } else if (TextUtils.isEmpty(name)) {
@@ -257,6 +263,10 @@ public class OpenCardActivity extends BaseReadCardActivity implements IReadCardI
                 String str3 = tv3.getText().toString();
                 String str4 = tv4.getText().toString();
                 String str5 = tv_recharge_rate.getText().toString();
+                String cardDate = tv_card_date.getText().toString();
+                String cardPriceType = tv_cardPrice_type.getText().toString();
+
+
                 Intent intent = new Intent(OpenCardActivity.this, OpenCardInfoActivity.class);
                 OpenCardInfo cardInfo = new OpenCardInfo();
                 cardInfo.setCardnum(cardnum);
@@ -273,7 +283,8 @@ public class OpenCardActivity extends BaseReadCardActivity implements IReadCardI
                 cardInfo.setStr2(str2);
                 cardInfo.setStr3(str3);
                 cardInfo.setStr4(str4);
-
+                cardInfo.setCardTime(cardDate);
+                cardInfo.setRemarks(cardPriceType);
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("info", cardInfo);
                 intent.putExtras(bundle);
@@ -294,17 +305,20 @@ public class OpenCardActivity extends BaseReadCardActivity implements IReadCardI
         uid = UID;
         Log.e("uuz", "uid ：" + uid + "----- 卡号 :" + cardNo);
         if (cardNo.equals("") && (!UID.equals(""))) {
-            if(isM1){
-                isM1 = false;
-                setCardnum();
+            if(SharedUtil.getSharedBData(OpenCardActivity.this,"khjh")){
+                if(Utils.toast != null){
+                    Utils.toast.cancel();
+                }
+                if (isM1) {
+                    isM1 = false;
+                    setCardnum();
+                }
             }
-
         }
-
         et_cardNum.setText(cardNo);
-
         switch (robotType) {
             case 1:
+            case 3:
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -382,7 +396,9 @@ public class OpenCardActivity extends BaseReadCardActivity implements IReadCardI
                     tv1.setText(dataBean.getN_InitIntegral());
                     tv2.setText(dataBean.getN_DiscountValue());
                     tv3.setText(dataBean.getN_IntegralValue());
+                    tv_cardPrice_type.setText(dataBean.getC_PriceClass());
                     tv_recharge_rate.setText(dataBean.getN_Recharge_Integral_Value());
+                    tv_card_date.setText(dataBean.getC_Validity());
                     dismiss();
                 }
             });
@@ -454,11 +470,11 @@ public class OpenCardActivity extends BaseReadCardActivity implements IReadCardI
                 //isM1 = true;
 //                btnchange.setVisibility(View.VISIBLE);
 //                et_cardNum.setInputType(InputType.TYPE_NULL);
-                if(cardNum.equals("")){
-                    Utils.showToast(OpenCardActivity.this,"请输入卡号");
+                if (cardNum.equals("")) {
+                    Utils.showToast(OpenCardActivity.this, "请输入卡号");
                     return;
                 }
-                bindCard(cardNum,uid);
+                bindCard(cardNum, uid);
                 isM1 = true;
                 window.dismiss();
             }
@@ -484,9 +500,9 @@ public class OpenCardActivity extends BaseReadCardActivity implements IReadCardI
         Map<String, String> map = new HashMap<>();
         map.put("dbName", getSharedData(OpenCardActivity.this, "dbname"));
         map.put("groupId", SharedUtil.getSharedData(OpenCardActivity.this, "groupid"));
-        map.put("shopId",shopId);
+        map.put("shopId", shopId);
         map.put("cardNO", cardNo);
-        map.put("CardCode",uid);
+        map.put("CardCode", uid);
         postToHttp(NetworkUrl.BINDCARD, map, new IHttpCallBack() {
             @Override
             public void OnSucess(String jsonText) {
@@ -494,10 +510,10 @@ public class OpenCardActivity extends BaseReadCardActivity implements IReadCardI
                 try {
                     JSONObject object = new JSONObject(jsonText);
                     String str = object.getString("result_stadus");
-                    if(str.equals("SUCCESS")){
-                        Utils.showToast(OpenCardActivity.this,"卡号绑定成功");
-                    }else{
-                        Utils.showToast(OpenCardActivity.this,"绑定失败请重试");
+                    if (str.equals("SUCCESS")) {
+                        Utils.showToast(OpenCardActivity.this, "卡号绑定成功");
+                    } else {
+                        Utils.showToast(OpenCardActivity.this, "绑定失败请重试");
                         return;
                     }
                 } catch (JSONException e) {
@@ -508,7 +524,7 @@ public class OpenCardActivity extends BaseReadCardActivity implements IReadCardI
             @Override
             public void OnFail(String message) {
                 Logger.e(message);
-                Utils.showToast(OpenCardActivity.this,"绑定失败请重试");
+                Utils.showToast(OpenCardActivity.this, "绑定失败请重试");
                 return;
             }
         });

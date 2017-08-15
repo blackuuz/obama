@@ -220,7 +220,12 @@ public class QuickDelMoneySupplementActivity extends BaseSupplementActivity impl
             list.add("会员卡号:散客");
             list.add("会员姓名:散客");
         }
-        list.add("消费金额:" + upLoading.getDelMoney());
+        if (upLoading.isIntegral()){//是否使用了积分抵现
+            list.add("消费金额:" + upLoading.getDelMoney());
+        }else {
+            list.add("消费金额:" + upLoading.getMoney());
+        }
+
         if (flag) {
             list.add("实收金额:" + upLoading.getMoney());
             if (upLoading.getIsTem()) {

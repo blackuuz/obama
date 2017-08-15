@@ -17,6 +17,7 @@ import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -153,7 +154,9 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
     Button quickm_select;
 
     private QuickDelMAdapter adapter;
-
+    private int dFlag = -1;
+    private String quotaMoney = "";//定额
+    private  float min_money = 0f;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -211,6 +214,11 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                 finish();
             }
         });
+        if(SharedUtil.getSharedData(QuickDelMActivity.this,"min_money").equals("")){
+            min_money = 0f;
+        }else {
+            min_money = Float.parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this,"min_money"));
+        }
     }
 
     private int queryDb(boolean flag) {
@@ -640,21 +648,35 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
             public void OnSucess(String jsonText) {
                 Logger.e(jsonText);
                 QuickDelM quick = new Gson().fromJson(jsonText, QuickDelM.class);
-                String money;
+                String money = "";
                 if (quick.getResult_stadus().equals("SUCCESS")) {
-                    money = quick.getDefaultcost()+"";
-                    if(quick.getFast_state()==null||!quick.getFast_state().equals("1")){ //快速消费状态 如果不等于“1” 隐藏按钮
-                        Log.d("uuz", "消费状态 ："+quick.getFast_state());
+                    if (quick.getSetDefaultCost() != null) {
+                        // TODO: 2017/8/1 要进行非空判断
+                        if (quick.getSetDefaultCost().equals("定额")) {
+                            dFlag = 1;
+                            money = quick.getDefaultcost() + "";
+                            quotaMoney = quick.getDefaultcost()+"";
+                        } else if (quick.getSetDefaultCost().equals("上次")) {
+                            dFlag = 2;
+
+                        } else if (quick.getSetDefaultCost().equals("0")) {
+                            dFlag = 0;
+                        }
+                    } else {
+                        money = quick.getDefaultcost() + "";
+                    }
+                    if (quick.getFast_state() == null || !quick.getFast_state().equals("1")) { //快速消费状态 如果不等于“1” 隐藏按钮
+                        Log.d("uuz", "消费状态 ：" + quick.getFast_state());
                         quickm_select.setVisibility(View.GONE);
-                    }else {
+                    } else {
                         quickm_select.setVisibility(View.VISIBLE);
                         q_data = quick.getFast_list();
-                        adapter = new QuickDelMAdapter(QuickDelMActivity.this,q_data);
+                        adapter = new QuickDelMAdapter(QuickDelMActivity.this, q_data);
                     }
-                }else {
-                     money ="";
+                } else {
+                    money = "";
                     quickm_select.setVisibility(View.GONE);
-                    adapter = new QuickDelMAdapter(QuickDelMActivity.this,q_data);
+                    adapter = new QuickDelMAdapter(QuickDelMActivity.this, q_data);
                 }
                 et_money.setText(money);
                 openRead();
@@ -799,11 +821,11 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
 
     private void ToActivity(CardInfo.ResultDataBean resultData) {
         if (resultData != null) {
-            switch (robotType) {
-                case 3:
-                    et_cardNum.setText(resultData.getC_CardNO());
-                    break;
-            }
+//            switch (robotType) {
+//                case 3:
+//                    et_cardNum.setText(resultData.getC_CardNO());
+//                    break;
+//            }
             isInfo = true;
             cardNum = resultData.getC_CardNO();
             cardName = resultData.getC_Name();
@@ -1044,8 +1066,8 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                                     tv_money_dx.setText(Utils.getNumStr(jf / dx_jf));
                                     tv_pay.setText(Utils.getNumStr(del - jf / dx_jf));
                                 }
-                                if(dx_max == 0.0f){//不限积分抵现额度
-                                    if(del*dx_mr*dx_jf <= jf ){//卡积分够
+                                if (dx_max == 0.0f) {//不限积分抵现额度
+                                    if (del * dx_mr * dx_jf <= jf) {//卡积分够
                                         et_gread_dx.setText(Utils.getNumStr(del * dx_mr * dx_jf));
                                         tv_money_dx.setText(Utils.getNumStr(del * dx_mr));
                                         tv_pay.setText(Utils.getNumStr(del - del * dx_mr));
@@ -1091,15 +1113,37 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
             }
         });
 
-
-        et_money.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        et_gread_dx.setOnKeyListener(new View.OnKeyListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus && isCheck == false) {
-                    et_money.setText("");
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                //You can identify which key pressed buy checking keyCode value with KeyEvent.KEYCODE_
+                if (keyCode == KeyEvent.KEYCODE_DEL) {
+                    //this is for backspace
+                    et_gread_dx.setText("");
                 }
+                return false;
             }
         });
+
+        et_money.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                //You can identify which key pressed buy checking keyCode value with KeyEvent.KEYCODE_
+                if (keyCode == KeyEvent.KEYCODE_DEL) {
+                    //this is for backspace
+                    et_money.setText("");
+                }
+                return false;
+            }
+        });
+//        et_money.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if (hasFocus && isCheck == false) {
+//                    et_money.setText("");
+//                }
+//            }
+//        });
 
         et_gread_dx.addTextChangedListener(new TextWatcher() {
             @Override
@@ -1114,7 +1158,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
             public void afterTextChanged(Editable s) {
 
                 String e = et_gread_dx.getText().toString();
-                if (e.equals(0) || e.equals("0") || e.equals("0.")||e.equals(".0")) {
+                if (e.equals(0) || e.equals("0") || e.equals("0.") || e.equals(".0")) {
                     et_gread_dx.setText("");
                 }
                 if (isTemporary || SharedUtil.getSharedBData(QuickDelMActivity.this, "qdx")) {
@@ -1168,7 +1212,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         quickm_select.setOnClickListener(new View.OnClickListener() {//快速消费列表
             @Override
             public void onClick(View v) {
-                if(!db_isCheck.isChecked()){
+                if (!db_isCheck.isChecked()) {
                     new PopupWindows(QuickDelMActivity.this, findViewById(R.id.ll_quick_money_root));
                 }
 
@@ -1250,7 +1294,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
             map.put("userID", getSharedData(QuickDelMActivity.this, "userInfoId"));
             if (!TextUtils.isEmpty(et_cardNum.getText().toString()) && isInfo) {
                 boolean isvipcard = true;
-                if (n == 4 && parseFloat(money1) < parseFloat(money)) {
+                if (n == 4 &&((parseFloat(money1)+min_money )< parseFloat(money))) {
                     isvipcard = false;
                 }
                 if (isvipcard) {
@@ -1282,7 +1326,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                                         String msg = object1.getString("result_errmsg");
                                         Utils.showToast(QuickDelMActivity.this, msg);
                                         openRead();
-                                        if (n != 3) {
+                                        if (n == 0||n == 4) {
                                             showDBAlert();
                                         } else {
                                             isclick_pay = true;
@@ -1366,7 +1410,19 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         orderNo = "";
         flag = true;
         et_cardNum.setText("");
-        et_money.setText("");
+        switch (dFlag){
+            case 0://关闭
+                et_money.setText("");
+                break;
+            case 1://定额
+                et_money.setText(quotaMoney);
+                break;
+            case 2://上次
+                break;
+            default:
+                et_money.setText("");
+                break;
+        }
         et_money.setFocusableInTouchMode(true);
         et_money.setFocusable(true);
         et_money.requestFocus();
@@ -1388,7 +1444,17 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         password = "";
         money1 = "0";
         et_cardNum.setText("");
-        et_money.setText("");
+        switch (dFlag){
+            case 0://关闭
+                et_money.setText("");
+                break;
+            case 1://定额
+                et_money.setText(quotaMoney);
+                break;
+            case 2://上次
+                break;
+        }
+
         et_money.setFocusableInTouchMode(true);
         et_money.setFocusable(true);
         et_money.requestFocus();
@@ -1520,6 +1586,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         upLoading.setOrderTime(orderte);
         upLoading.setUserName(getSharedData(QuickDelMActivity.this, "username"));
         upLoading.setShopName(getSharedData(QuickDelMActivity.this, "shopname"));
+        upLoading.setisIntegral(db_isCheck.isChecked());
         if (isVip) {
             if (!TextUtils.isEmpty(cardNum) && !TextUtils.isEmpty(orderNumber) && !TextUtils.isEmpty(money)) {
                 Logger.d(upLoading.save() + "");
@@ -1709,13 +1776,13 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
             update();
             ImageView back = (ImageView) view.findViewById(R.id.pop_iv_click);
             lv_quick = (ListView) view.findViewById(R.id.lv_quickdelm);
-             lv_quick.setAdapter(adapter);
-             adapter.notifyDataSetChanged();
+            lv_quick.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
 
             lv_quick.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    et_money.setText(q_data.get(position).getC_Value()+"");
+                    et_money.setText(q_data.get(position).getC_Value() + "");
                     dismiss();
                 }
             });

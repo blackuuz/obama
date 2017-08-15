@@ -15,14 +15,26 @@ public class QuickDelM {
     /**
      * result_stadus : SUCCESS
      * defaultcost : 5
+     * setDefaultCost ：定额
      * fast_state : 1
      * fast_list : [{"c_Value":"11","ROW_NUMBER":"1"},{"c_Value":"22","ROW_NUMBER":"2"},{"c_Value":"33","ROW_NUMBER":"3"},{"c_Value":"44","ROW_NUMBER":"4"},{"c_Value":"0","ROW_NUMBER":"5"}]
      */
 
     private String result_stadus;
-    private int defaultcost;
+    private String setDefaultCost;
+    private float defaultcost;
     private String fast_state;
     private List<FastListBean> fast_list;
+
+    public String getSetDefaultCost() {
+        return setDefaultCost;
+    }
+
+    public void setSetDefaultCost(String setDefaultCost) {
+        this.setDefaultCost = setDefaultCost;
+    }
+
+
 
     public String getResult_stadus() {
         return result_stadus;
@@ -32,11 +44,11 @@ public class QuickDelM {
         this.result_stadus = result_stadus;
     }
 
-    public int getDefaultcost() {
+    public float getDefaultcost() {
         return defaultcost;
     }
 
-    public void setDefaultcost(int defaultcost) {
+    public void setDefaultcost(float defaultcost) {
         this.defaultcost = defaultcost;
     }
 

@@ -123,6 +123,7 @@
 
             <EditText
                 android:id="@+id/try_phone"
+                android:textSize="30px"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@null"
@@ -195,6 +196,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@null"
+                android:textSize="30px"
                 android:inputType="number"
                 android:maxLength="6"
                 android:paddingBottom="2px" />
@@ -259,6 +261,7 @@
 
             <EditText
                 android:id="@+id/try_shop"
+                android:textSize="30px"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@null"
@@ -316,6 +319,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@null"
+                android:textSize="30px"
                 android:paddingBottom="2px" />
 
             <ImageView

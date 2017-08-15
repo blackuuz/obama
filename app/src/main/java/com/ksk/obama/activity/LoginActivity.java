@@ -194,6 +194,8 @@ public class LoginActivity extends BaseTypeActivity {
                         SharedUtil.setSharedData(LoginActivity.this, "exittime", loginData.getQuitTime());
                         SharedUtil.setSharedBData(LoginActivity.this, "bluetooth", loginData.getDrawmenu().equals("1"));
                         SharedUtil.setSharedBData(LoginActivity.this, "pay_ment", loginData.getPayMent().equals("1")); //旺POS是否使用官方接口  1为使用
+                        SharedUtil.setSharedData(LoginActivity.this, "min_money",loginData.getMin_money());//会员卡冻结金额
+
                         getPrintInfo(loginData.getDbname() + ".");
                     } else {
                         try {
@@ -457,6 +459,7 @@ public class LoginActivity extends BaseTypeActivity {
                         Bundle bundle = new Bundle();
                         bundle.putParcelableArrayList("info", (ArrayList<? extends Parcelable>) loginData.getAuthor());
                         bundle.putParcelableArrayList("infom", (ArrayList<? extends Parcelable>) loginData.getModule());
+//                        bundle.putParcelableArrayList("module",(ArrayList<? extends Parcelable>) loginData.getModule());
                         intent.putExtras(bundle);
                         startActivity(intent);
                     } else {

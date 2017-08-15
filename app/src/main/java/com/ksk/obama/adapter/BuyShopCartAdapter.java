@@ -25,6 +25,8 @@ public class BuyShopCartAdapter extends BaseAdapter {
     private float disPrice;
     private String type_s;
 
+
+
     public void setCtype(int ctype) {
         this.ctype = ctype;
     }

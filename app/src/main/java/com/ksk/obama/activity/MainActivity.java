@@ -159,6 +159,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             list_pow = bundle.getParcelableArrayList("info");
             list_module = bundle.getParcelableArrayList("infom");
         }
+
+
+        for (int i = 0; i < MainActivity.list_module.size(); i++) {
+            String str = MainActivity.list_module.get(i).getC_ModuleName();
+            if (str.equals("卡号激活")) {
+                SharedUtil.setSharedBData(MainActivity.this,"khjh",true);
+              //
+                //  Utils.showToast(MainActivity.this,"卡号激活");
+            }else {
+                SharedUtil.setSharedBData(MainActivity.this,"khjh",false);
+
+            }
+        }
     }
 
     private void initView() {

@@ -69,7 +69,7 @@ public class CouponCancelActivity extends BaseActivity implements View.OnClickLi
         setOnReadQrcode(this);
         initView();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);//默认不弹出键盘
-
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);//键盘不顶起控件
     }
 
     private void initView() {

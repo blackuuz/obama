@@ -143,7 +143,20 @@
 
             <ImageView
                 style="@style/main_iv_item"
-                android:src="@mipmap/main_30" />
+                android:src="@mipmap/main_warehousing" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_main_check_goods"
+            style="@style/main_f"
+            android:layout_marginTop="10px">
+
+            <TextView
+                style="@style/main_tv_item"
+                android:text="商品盘点" />
+
+            <ImageView
+                style="@style/main_iv_item"
+                android:src="@mipmap/main_check" />
         </RelativeLayout>
 
     </LinearLayout>

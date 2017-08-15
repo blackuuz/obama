@@ -15,6 +15,7 @@ import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,7 @@ import org.litepal.tablemanager.Connector;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -214,20 +216,6 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
                 if (shopList.getResult_stadus().equals("SUCCESS")) {
                     list = shopList.getGoods_s();
                     resetList();
-                    if (list != null) {
-                        for (int i = 0; i < list.size(); i++) {
-                            for (int j = 0; j < list_buy.size(); j++) {
-                                if (list.get(i).getId().equals(list_buy.get(j).getId())) {
-                                    list.get(i).setNum(list_buy.get(j).getNum());
-                                    if (list.get(i).getNum() == 0) {
-                                        list.remove(i);
-                                    }
-                                    break;
-                                }
-                            }
-                        }
-                    }
-
                     if (list_type.size() == 0) {
                         list_type = shopList.getGoods_class();
                         if (list_type != null && list_type.size() > 0) {
@@ -278,12 +266,19 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
         editText.setFilters(filters3);
         editz.setFilters(filters2);
         edit_discount.setFilters(filters2);
-        editText.setOnClickListener(new View.OnClickListener() {
+
+        editText.setOnKeyListener(new View.OnKeyListener() {
             @Override
-            public void onClick(View v) {
-                editText.setText("");
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                //You can identify which key pressed buy checking keyCode value with KeyEvent.KEYCODE_
+                if(keyCode == KeyEvent.KEYCODE_DEL){
+                    //this is for backspace
+                    editText.setText("");
+                }
+                return false;
             }
         });
+
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -293,14 +288,28 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
             }
         });
 
-        editz.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        edit_discount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    editz.setText("");
+                    edit_discount.setText("");
                 }
             }
         });
+
+        edit_discount.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                //You can identify which key pressed buy checking keyCode value with KeyEvent.KEYCODE_
+                if(keyCode == KeyEvent.KEYCODE_DEL){
+                    //this is for backspace
+                    edit_discount.setText("");
+                }
+                return false;
+            }
+        });
+
+
         final float dj = list.get(i).getN_PriceRetail();
         editd.setText(dj + "");
 
@@ -492,7 +501,6 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
         Button btn_sure = (Button) contentView.findViewById(R.id.btn_sure);
         ImageView iv_back = (ImageView) contentView.findViewById(R.id.alert_back_0);
         iv_back.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View arg0) {
                 window.dismiss();
@@ -544,10 +552,9 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
                             list_buy.add(buyCount);
                         }
                         list.get(i).setNum(num);
-
+                        removeList();
                         adapter.notifyDataSetChanged();
                     }
-
                     window.dismiss();
                 } else {
                     Utils.showToast(BuyShopListActivity.this, "请填写正确的数量");
@@ -631,7 +638,7 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
         map.put("cardNO", cardNum);
         map.put("CardCode", uid);
         map.put("gid", SharedUtil.getSharedData(BuyShopListActivity.this, "groupid"));
-        map.put("shopID",shopId);
+        map.put("shopID", shopId);
         postToHttp(NetworkUrl.ISCARD, map, new IHttpCallBack() {
             @Override
             public void OnSucess(String jsonText) {
@@ -647,7 +654,7 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
                     }
                     if (card_dnum > 1) {
                         dialog_(readCard);
-                    }else {
+                    } else {
                         ToActivity(readCard.getResult_data());
                     }
 
@@ -664,6 +671,7 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
     }
 
     private int yourChoice;
+
     /**
      * 这是一个单项选择弹窗
      */
@@ -686,7 +694,7 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        if(yourChoice == -1){
+                        if (yourChoice == -1) {
                             Toast.makeText(BuyShopListActivity.this, "你选择了" + items[0], Toast.LENGTH_SHORT).show();
                             ToActivity(c_data.get(0));
                             c_data.clear();
@@ -703,6 +711,7 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
     }
 
     private String card__[] = null;
+
     private void dialog_(ReadCardInfo readCard) {
         int card_dnum = 0;
         try {
@@ -735,15 +744,10 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
     }
 
 
-
-
     /**
-     * @param resultData
-     *
-     * <p>读取会员卡数据</p>
-     *
+     * @param resultData <p>读取会员卡数据</p>
      */
-    private void ToActivity(ReadCardInfo.ResultDataBean resultData){
+    private void ToActivity(ReadCardInfo.ResultDataBean resultData) {
         switch (robotType) {
             case 3:
                 editText.setText(resultData.getC_CardNO());
@@ -794,7 +798,6 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
         }
 
     }
-
 
 
     private void resetData() {
@@ -971,5 +974,15 @@ public class BuyShopListActivity extends BuyShopReadActivity implements IReadCar
         });
         window0.showAtLocation(findViewById(R.id.activity_buy_count_list), Gravity.CENTER, 0, 0);
         openRead();
+    }
+
+    private void removeList() {
+        Iterator<BuyCount> bc = list_buy.iterator();
+        while (bc.hasNext()) {
+            BuyCount buyCount = bc.next();
+            if (buyCount.getNum() == 0) {
+                bc.remove();
+            }
+        }
     }
 }

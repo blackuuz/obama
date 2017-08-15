@@ -122,6 +122,20 @@ public class TryOutActivity extends BasePrintActivity implements View.OnClickLis
         String shop = et_shop.getText().toString();
         String shopName = et_shopName.getText().toString();
         String remak = et_remark.getText().toString();
+        String robotType_name = "";
+        switch (robotType) {
+            case 1:
+                robotType_name = "拉卡拉";
+                break;
+            case 3:
+                robotType_name = "商米";
+                break;
+            case 4:
+                robotType_name = "安卓手机";
+                break;
+            case 8:
+                robotType_name = "旺POS";
+        }
 
         if (TextUtils.isEmpty(name)) {
             Utils.showToast(TryOutActivity.this, "请填写姓名");
@@ -133,13 +147,14 @@ public class TryOutActivity extends BasePrintActivity implements View.OnClickLis
             Utils.showToast(TryOutActivity.this, "请填写正确的验证码");
         } else {
             Map<String, String> map = new HashMap<>();
-            map.put("Ver", "易德会员云POS" + Utils.getAppVersionName(TryOutActivity.this));
+            map.put("Ver", "易德会员云POS" + Utils.getAppVersionName(TryOutActivity.this)+", 终端型号 :"+robotType_name );
             map.put("EquipmentNum", terminalSn);
             map.put("ComName", shopName);
             map.put("Industry", shop);
             map.put("LinkMan", name);
             map.put("Contact", phone);
             map.put("Trial", remak);
+
             postToHttp(NetworkUrl.SHIYONG, map, new IHttpCallBack() {
                 @Override
                 public void OnSucess(String jsonText) {

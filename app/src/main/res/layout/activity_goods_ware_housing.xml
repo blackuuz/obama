@@ -16,20 +16,59 @@
         android:layout_weight="1"
         android:background="@color/white"
         android:orientation="vertical">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="10px"
             android:background="@color/main_bg" />
+
         <include layout="@layout/buy_shop_1" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="10px"
             android:background="@color/main_bg" />
-        <include layout="@layout/buy_shop_2" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80px"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="40px"
+            android:paddingRight="40px">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="名称"
+                android:textColor="@color/text_blue"
+                android:textSize="40px" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="平均单价"
+                android:textColor="@color/text_blue"
+                android:textSize="40px" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="数量"
+                android:textColor="@color/text_blue"
+                android:textSize="40px" />
+        </LinearLayout>
 
         <include layout="@layout/buy_shop_3" />
 
     </LinearLayout>
+
     <include layout="@layout/bottom_s" />
 </LinearLayout>

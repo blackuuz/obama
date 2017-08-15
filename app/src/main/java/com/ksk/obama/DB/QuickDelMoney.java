@@ -24,10 +24,18 @@ public class QuickDelMoney extends DataSupport {
     private String userName;
     private String shopName;
     private boolean isVip;
+    private boolean isIntegral;//是否使用了积分抵现
     private String haveMoney;
     private String haveIntegral;
     private String getIntegral;
     private String uid;
+    private String dmoney;
+    private String delMoney;
+    private String delIntegral;
+    private String tem;
+    private String temName;
+    private boolean isTem;
+
 
     public String getDmoney() {
         return dmoney;
@@ -37,13 +45,13 @@ public class QuickDelMoney extends DataSupport {
         this.dmoney = dmoney;
     }
 
-    private String dmoney;
-    private String delMoney;
-    private String delIntegral;
-    private String tem;
-    private String temName;
-    private boolean isTem;
+    public boolean isIntegral() {
+        return isIntegral;
+    }
 
+    public void setisIntegral(boolean integral) {
+        isIntegral = integral;
+    }
 
     public String getTemName() {
         return temName;

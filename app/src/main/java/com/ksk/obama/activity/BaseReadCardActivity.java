@@ -8,15 +8,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.ksk.obama.R;
+import com.ksk.obama.application.MyApp;
 import com.ksk.obama.callback.IHttpCallBack;
 import com.ksk.obama.callback.IReadCardId;
-import com.ksk.obama.printer.CardInfo;
-import com.ksk.obama.printer.ConnectPayService;
-import com.ksk.obama.printer.TransactionCallback;
 import com.ksk.obama.utils.NetworkUrl;
 import com.ksk.obama.utils.SharedUtil;
 import com.ksk.obama.utils.Utils;
@@ -29,7 +27,9 @@ import com.lkl.cloudpos.aidl.printer.AidlPrinter;
 import com.lkl.cloudpos.aidl.rfcard.AidlRFCard;
 import com.lkl.cloudpos.util.HexUtil;
 import com.orhanobut.logger.Logger;
-import com.sunmi.pay.hardware.aidl.DeviceProvide;
+import com.sunmi.pay.hardware.aidl.bean.CardInfo;
+import com.sunmi.pay.hardware.aidl.readcard.ReadCardCallback;
+import com.sunmi.pay.hardware.aidl.readcard.ReadCardOpt;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -70,13 +70,7 @@ public class BaseReadCardActivity extends BaseTypeActivity {
         if (!str.equals("30")) {
             switch (robotType) {
                 case 3:
-                    mInit = new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            sumiInit();
-                        }
-                    });
-                    mInit.start();
+                    mReadCardOpt = MyApp.mReadCardOpt;
                     break;
                 case 8:
                     initWangPOS();
@@ -85,16 +79,11 @@ public class BaseReadCardActivity extends BaseTypeActivity {
         }
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
-        // TODO: 2017/6/19 16:19 注释的 
-//        switch (robotType) {
-//            case 8:
-//                mNFCManager.setNFCListener(mNFCListener);
-//                mNFCManager.onResume(this);
-//                break;
-//        }
+        // TODO: 2017/6/19 16:19 注释的
         openRead();
     }
 
@@ -105,7 +94,9 @@ public class BaseReadCardActivity extends BaseTypeActivity {
         close();
         switch (robotType) {
             case 8:
-                mNFCManager.onPause(this);
+                if (mNFCManager != null) {
+                    mNFCManager.onPause(this);
+                }
                 break;
         }
     }
@@ -139,6 +130,8 @@ public class BaseReadCardActivity extends BaseTypeActivity {
                     break;
 
                 case 3:
+                    //                  checkCard();
+                    //  m1Read();
                     SUNMIread();
                     break;
                 case 8:
@@ -155,15 +148,12 @@ public class BaseReadCardActivity extends BaseTypeActivity {
                 case 1:
                     LKLclose();
                     break;
-
                 case 3:
                     SUNMIclose();
                     break;
-
                 case 8:
                     WangPosclose();//uuz旺POS关闭
                     break;
-
             }
         }
     }
@@ -401,33 +391,38 @@ public class BaseReadCardActivity extends BaseTypeActivity {
             final String str = HexUtil.bcd2str(data);
             String str2 = str.substring(0, 32);
             Logger.e(str2);
-                int i = 0;
-                int j = 2;
-                List<String> list = new ArrayList<>();
-                while (str2.length() >= j) {
-                    list.add(str2.substring(i, j));
-                    i = j;
-                    j += 2;
-                }
-                String cardNum = "";
-                for (int n = 0; n < list.size(); n++) {
-                    String str3 = list.get(n);
-                    cardNum += (char) Integer.parseInt(str3, 16);
-                }
-                String uid = getUID();
-                if (uid == null) {
-                    uid = "";
-                }
-                close();
-                final String Num = cardNum.trim();
-                final String finalUid = uid;
+            int i = 0;
+            int j = 2;
+            List<String> list = new ArrayList<>();
+            while (str2.length() >= j) {
+                list.add(str2.substring(i, j));
+                i = j;
+                j += 2;
+            }
+            String cardNum = "";
+            for (int n = 0; n < list.size(); n++) {
+                String str3 = list.get(n);
+                cardNum += (char) Integer.parseInt(str3, 16);
+            }
+            String uid = getUID();
+            if (uid == null) {
+                uid = "";
+            }
+            close();
+            final String Num = cardNum.trim();
+            final String finalUid = uid;
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     if (mIReadCardId != null) {
-                        mIReadCardId.readCardNo(Num, finalUid);
-                        Log.e("uuz", "拉卡拉读取m1卡- - - -卡号："+Num+"   uid: "+finalUid );
-                        playSound();
+                        if("".equals(Num)){
+                            getCardUID(finalUid);
+                        }else {
+                            mIReadCardId.readCardNo(Num, finalUid);
+                            Log.e("uuz", "拉卡拉读取m1卡- - - -卡号：" + Num + "   uid: " + finalUid);
+                            playSound();
+                        }
+
                     } else {
                         Log.e("uuz", "请实现mIReadCardId接口");
                     }
@@ -506,7 +501,7 @@ public class BaseReadCardActivity extends BaseTypeActivity {
     private void LKLcloseSwipe() {
         if (null != magCardDev) {
             try {
-                Log.e("djy", "刷卡关闭");
+                Log.e("uuz", "刷卡关闭");
                 magCardDev.stopSearch();
             } catch (RemoteException e) {
                 e.printStackTrace();
@@ -520,139 +515,219 @@ public class BaseReadCardActivity extends BaseTypeActivity {
     /**************************************************************************************
      * *************************************SUNMI*****************************************
      **************************************************************************************/
-    public static final int CARDTYPE_MAG = 1;
-    public static final int CARDTYPE_IC = 2;
-    public static final int CARDTYPE_NFC = 4;
-    public static final int GENERAL_READER_DEVICE = 269484034;
-    private ConnectPayService connectPayService;
-    public static DeviceProvide deviceProvide;
-    private Thread mInit;
+    private ReadCardOpt mReadCardOpt;
 
-    private Handler mHandlers = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            if (4 == msg.what) {
-                SUNMIclose();
-                if (hasWindowFocus())
-                    SUNMIread();
-            } else {
-                SUNMIclose();
-                CardInfo cardInfo = (CardInfo) msg.obj;
-                if (cardInfo != null && cardInfo.cardType != 7) {
-                    String cardnum = "";
-                    if (cardInfo.cardType == 1 && !TextUtils.isEmpty(cardInfo.track2)) {
-                        cardnum = cardInfo.track2;
-                    } else if (cardInfo.cardType == 4 && null != cardInfo.hashMap && cardInfo.hashMap.get("UUID") != null) {
-                        String str = (String) cardInfo.hashMap.get("UUID") + "";
-                        cardnum = str + "-Is";
-                    }
-
-                    Logger.e(cardnum);
-
-                    if (!number.equals(cardnum) && !TextUtils.isEmpty(cardnum) && mIReadCardId != null) {
-                        playSound();
-                        mIReadCardId.readCardNo(cardnum, "");
-                    } else {
-                        Log.e("djy", "请实现mIReadCardId接口");
-                    }
-                    number = cardnum;
-                } else {
-                    if (hasWindowFocus())
-                        SUNMIread();
-                }
-            }
+    /**
+     * sunMiCardType : 1磁条卡   2 ic   4 nfc卡   7全部
+     */
+    private void SUNMIread() {
+        int sunMiCardType = 0;
+        if (SharedUtil.getSharedBData(BaseReadCardActivity.this, "citiao")) {
+            sunMiCardType = 1;
         }
-    };
-
-    private TransactionCallback mCallback = new TransactionCallback(mHandlers);
-
-    private ConnectPayService.PayServiceConnected mPayServiceConnected = new ConnectPayService.PayServiceConnected() {
-
-        @Override
-        public void onServiceConnected(DeviceProvide mDeviceProvide) {
-            mInit.interrupt();
-            deviceProvide = mDeviceProvide;
+        if (SharedUtil.getSharedBData(BaseReadCardActivity.this, "nfc")) {
+            sunMiCardType = 4;
         }
-
-        @Override
-        public void onServiceDisconnected() {
-            deviceProvide = null;
+        if (SharedUtil.getSharedBData(BaseReadCardActivity.this, "citiao")
+                && SharedUtil.getSharedBData(BaseReadCardActivity.this, "nfc")) {
+            sunMiCardType = 7;
         }
-    };
+        try {
+            //   playSound();
+            mReadCardOpt.readCard(sunMiCardType, readCardCallback, 600);
+        } catch (RemoteException e) {
+            e.printStackTrace();
 
-    private void sumiInit() {
-        if (deviceProvide == null) {
-            connectPayService = ConnectPayService.Init(BaseReadCardActivity.this);
-            connectPayService.connectPayService(mPayServiceConnected);
-            Log.e("sunmi", "初始化失败");
-            sumiInit();
-        } else {
-            mInit.interrupt();
-            try {
-                deviceProvide.registerTransactionCallback(mCallback);
-                Log.e("sunmi", "初始化成功");
-                SUNMIread();
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
+            Toast.makeText(this, "检卡失败" + e, Toast.LENGTH_LONG).show();
+            // cardInfoTxt.setText(getString(R.string.error_time) + e);
         }
     }
 
-    private Thread mThread;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0x01:
+                    CardInfo cardInfo = (CardInfo) msg.obj;
+                    mIReadCardId.readCardNo(cardInfo.cardNo, "");
+                    Log.d("uuz", cardInfo.cardNo);
 
-    protected void SUNMIread() {
-        int cardType = 0;
-        if (SharedUtil.getSharedBData(BaseReadCardActivity.this, "citiao")) {
-            cardType += CARDTYPE_MAG;
-        }
-        if (SharedUtil.getSharedBData(BaseReadCardActivity.this, "nfc")) {
-            cardType += CARDTYPE_NFC;
-        }
-        final int finalCardType = cardType;
-        mThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    byte[] b = new byte[4];
-                    if (deviceProvide != null) {
-                        deviceProvide.getReadCardProvider().checkCard(finalCardType, GENERAL_READER_DEVICE, b, b.length, 360);
-                        Log.e("sunmi", "等待检卡......");
-                    } else {
-                        sumiInit();
-                    }
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
+                    playSound();
+                    sumiCloseMA();
+                    SUNMIread();
+//                    cardInfoTxt.setText(cardInfo.toString());
+//                    startCheckBtn.setEnabled(true);
+                    break;
+                case 0x02:
+                    Utils.showToast(BaseReadCardActivity.this, "刷卡超时");
+                    SUNMIread();
+//                    cardInfoTxt.setText(getString(R.string.check_time_out));
+//                    startCheckBtn.setEnabled(true);
+                    break;
+                case 0x03:
+                    int i = (int) msg.obj;
+                    sumiCloseMA();
+                    SUNMIread();
+//                    cardInfoTxt.setText(getString(R.string.error_time) + i);
+//                    startCheckBtn.setEnabled(true);
+                    break;
+
+                case 0x16:
+                    Log.d("uuz", "M1授权");
+                    m1auth();
+                    break;
+
+
             }
-        });
-        mThread.start();
+        }
+    };
+
+    /**
+     * 检卡回调
+     */
+    private ReadCardCallback readCardCallback = new ReadCardCallback.Stub() {
+
+        @Override
+        public void onStartReadCard() throws RemoteException {
+        }
+
+        @Override
+        public void onFindMAGCard(CardInfo cardInfo) throws RemoteException {
+            Logger.d("lj", cardInfo.toString());
+            Message message = new Message();
+            message.what = 0x01;
+            message.obj = cardInfo;
+            mHandler.sendMessage(message);
+        }
+
+        @Override
+        public void onFindNFCCard(CardInfo cardInfo) throws RemoteException {
+            Message message = new Message();
+            message.what = 0x16;
+            mHandler.sendEmptyMessage(0x16);
+
+        }
+
+        @Override
+        public void onFindICCard(CardInfo cardInfo) throws RemoteException {
+            Message message = new Message();
+            message.what = 0x01;
+            message.obj = cardInfo;
+            mHandler.sendMessage(message);
+
+        }
+
+        @Override
+        public void onError(int i) throws RemoteException {
+            Message message = new Message();
+            message.what = 0x03;
+            message.obj = i;
+            mHandler.sendMessage(message);
+
+        }
+
+        @Override
+        public void onTimeOut() throws RemoteException {
+            mHandler.sendEmptyMessage(0x02);
+
+        }
+    };
+
+
+
+
+
+    /**
+     * 授权
+     */
+    private void m1auth() {
+        try {
+            byte[] key = new byte[6];
+            for (int i = 0; i < key.length; i++) {
+                key[i] = (byte) 0xFF;
+            }
+            int result = mReadCardOpt.m1Auth(0, 0, key);
+            if (result == 0) {
+                m1readblock();
+            } else {
+                sumiCloseMA();
+                SUNMIread();
+            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 读取块数据
+     */
+    private void m1readblock() {
+        try {
+            byte[] blockData = new byte[16];
+            int blockResult = mReadCardOpt.m1ReadBlock(0, blockData);
+            String Num = "";
+            if (blockResult == 0) {
+                if (mIReadCardId != null) {
+                    String str2 = Utils.bytesToHexString(blockData);
+                    String cardNum = "";
+                    cardNum = str2.substring(0, 8);
+                    close();
+                    Num = cardNum.trim();
+                    getCardUID(Num);
+                   // mIReadCardId.readCardNo(Num, "");
+
+//                    sumiCloseMA();
+//                    SUNMIread();
+                } else {
+                    Log.e("djy", "请实现mIReadCardId接口");
+                }
+            } else {
+                Log.e("uuz", "读卡失败");
+                sumiCloseMA();
+                SUNMIread();
+                Utils.showToast(BaseReadCardActivity.this, "读卡失败");
+            }
+            number = Num;
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            Log.e("uuz", "读卡异常");
+            Utils.showToast(BaseReadCardActivity.this, "读卡异常");
+        }
     }
 
     protected void SUNMIclose() {
-        try {
-            mInit.interrupt();
-            mThread.interrupt();
-            if (deviceProvide != null) {
-                deviceProvide.getReadCardProvider().abortCheckCard();
-                Log.e("sunmi", "读卡关闭");
-            }
-        } catch (Exception e) {
-            Log.e("sunmi", "读卡关闭异常");
-        }
+        sumiCloseMA();
     }
 
+
+    private void sumiCloseMA() {
+        try {
+            if (mReadCardOpt != null) {
+                mReadCardOpt.cancelCheckCard();
+                Log.e("sunmi", "读卡关闭");
+            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            Log.e("sunmi", "读卡关闭异常");
+        }
+
+    }
+
+
+//        try {
+//            mInit.interrupt();
+//            mThread.interrupt();
+//            if (deviceProvide != null) {
+//                deviceProvide.getReadCardProvider().abortCheckCard();
+//                Log.e("sunmi", "读卡关闭");
+//            }
+//        } catch (Exception e) {
+//            Log.e("sunmi", "读卡关闭异常");
+//        }
+
+
     /*************************************SUNMI*********************************************/
-
-
-
-
-
-
-
-
-
-
-
 
 
     /************************************** wangpos*********************************************/
@@ -728,7 +803,7 @@ public class BaseReadCardActivity extends BaseTypeActivity {
         map.put("gid", SharedUtil.getSharedData(BaseReadCardActivity.this, "groupid"));
         map.put("cardNO", "");
         map.put("CardCode", cardNo);
-      //  map.put("CardCode", cardNo);
+        //  map.put("CardCode", cardNo);
         postToHttp(NetworkUrl.GETCARD, map, new IHttpCallBack() {
             @Override
             public void OnSucess(String jsonText) {
@@ -744,15 +819,15 @@ public class BaseReadCardActivity extends BaseTypeActivity {
                             mIReadCardId.readCardNo(cardNumber, cardNo);
                             playSound();
                         } else {
-                            Log.e("djy", "请实现mIReadCardId接口");
+                            Log.e("uuz", "请实现mIReadCardId接口");
                         }
                     } else {
-                        if(r_code.equals("001")){
+                        if (r_code.equals("001")) {
                             if (mIReadCardId != null) {
                                 mIReadCardId.readCardNo("", cardNo);
                                 playSound();
                             } else {
-                                Log.e("djy", "请实现mIReadCardId接口");
+                                Log.e("uuz", "请实现mIReadCardId接口");
                             }
                         }
                         String msg = object.getString("result_errmsg");

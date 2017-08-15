@@ -29,7 +29,7 @@
             android:gravity="center_horizontal"
             android:text="商品入库修改"
             android:textColor="@color/text_blue"
-            android:textSize="47px" />
+            android:textSize="46px" />
     </RelativeLayout>
 
 
@@ -46,7 +46,7 @@
             android:layout_weight="1"
             android:text="      商品名称: "
             android:textColor="@color/text_black1"
-            android:textSize="47px" />
+            android:textSize="46px" />
 
         <TextView
             android:id="@+id/goods_in_name"
@@ -56,7 +56,7 @@
             android:gravity="center_horizontal"
             android:text="草莓"
             android:textColor="@color/text_black1"
-            android:textSize="47px" />
+            android:textSize="40px" />
 
     </LinearLayout>
 
@@ -74,21 +74,22 @@
             android:layout_weight="1"
             android:text="      进货价格: "
             android:textColor="@color/text_black1"
-            android:textSize="47px" />
+            android:textSize="46px" />
 
         <EditText
+            android:id="@+id/et_price"
             android:layout_width="match_parent"
             android:layout_height="50px"
-            android:layout_marginLeft="50px"
+            android:layout_marginLeft="40px"
             android:layout_marginRight="50px"
             android:layout_weight="1"
-            android:background="@mipmap/edit_l_1"
+            android:background="@mipmap/edit_bg"
             android:gravity="center"
             android:inputType="numberDecimal"
             android:selectAllOnFocus="true"
             android:text="100"
-            android:textColor="@color/text_black1"
-            android:textSize="47px" />
+            android:textColor="@color/text_black3"
+            android:textSize="40px" />
 
     </LinearLayout>
 
@@ -106,7 +107,7 @@
             android:layout_weight="1"
             android:text="      数量: "
             android:textColor="@color/text_black1"
-            android:textSize="47px" />
+            android:textSize="46px" />
 
         <ImageView
             android:id="@+id/iv_click_del"
@@ -122,12 +123,12 @@
             android:layout_marginLeft="20px"
             android:layout_marginRight="20px"
             android:layout_weight="1"
-            android:background="@mipmap/edit_l_1"
+            android:background="@mipmap/edit_bg"
             android:gravity="center"
             android:inputType="numberDecimal"
             android:selectAllOnFocus="true"
             android:text="20"
-            android:textSize="47px" />
+            android:textSize="42px" />
 
         <ImageView
             android:id="@+id/iv_click_add"
@@ -153,19 +154,20 @@
             android:layout_weight="1"
             android:text="      合计金额: "
             android:textColor="@color/text_black1"
-            android:textSize="47px" />
+            android:textSize="46px" />
 
         <TextView
+            android:id="@+id/total_money"
             android:layout_width="match_parent"
             android:layout_height="50px"
-            android:layout_marginLeft="50px"
+            android:layout_marginLeft="40px"
             android:layout_marginRight="50px"
             android:layout_weight="1"
-            android:background="@mipmap/edit_l_1"
+            android:background="@mipmap/edit_bg"
             android:gravity="center"
             android:text="100"
             android:textColor="@color/text_black1"
-            android:textSize="47px" />
+            android:textSize="40px" />
 
     </LinearLayout>
 
@@ -183,19 +185,20 @@
             android:layout_weight="1"
             android:text="      商品状态: "
             android:textColor="@color/text_black1"
-            android:textSize="47px" />
+            android:textSize="46px" />
 
         <Spinner
+            android:spinnerMode="dialog"
             android:layout_width="match_parent"
             android:layout_height="50px"
+            android:id="@+id/goods_spinner"
             android:layout_marginLeft="70px"
             android:layout_marginRight="50px"
             android:layout_weight="1"
-            android:background="@mipmap/edit_l_1"
             android:gravity="center"
             android:text="100"
             android:textColor="@color/text_black1"
-            android:textSize="47px" />
+            android:textSize="46px" />
 
     </LinearLayout>
 

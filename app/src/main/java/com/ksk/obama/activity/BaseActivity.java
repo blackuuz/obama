@@ -40,6 +40,7 @@ import com.ksk.obama.callback.IHttpCallBack;
 import com.ksk.obama.callback.IPayCallBack;
 import com.ksk.obama.callback.IQrcodeCallBack;
 import com.ksk.obama.model.BuyCount;
+import com.ksk.obama.model.GoodsStock;
 import com.ksk.obama.model.IntegralShopCount;
 import com.ksk.obama.model.LoginData;
 import com.ksk.obama.model.WangPosPAY;
@@ -83,6 +84,7 @@ import static com.ksk.obama.utils.SharedUtil.getSharedBData;
  */
 public class BaseActivity extends AutoLayoutActivity {
     public static List<BuyCount> list_buy = new ArrayList<>();
+    public static List<GoodsStock> list_stock = new ArrayList<>();
     public static List<LoginData.RechargefastBean> list_rechargefast = new ArrayList<>();
     public static List<IntegralShopCount> list_integral = new ArrayList<>();
     private InputMethodManager manager;
@@ -94,6 +96,8 @@ public class BaseActivity extends AutoLayoutActivity {
     protected String shopId = "";
     protected String terminalSn;
     protected Bitmap bmp;
+
+
 
     protected Handler mHandler = new Handler() {
         @Override
@@ -242,6 +246,8 @@ public class BaseActivity extends AutoLayoutActivity {
         } else {
             shopIntegral = Float.parseFloat(jf);
         }
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
     @Override
@@ -605,6 +611,7 @@ public class BaseActivity extends AutoLayoutActivity {
                                                     Log.e("uuz", "请实现IPayCallBack接口");
                                                 }
                                             } else if (tag.equals("FAIL")) {
+
                                                 Log.e("uuz", "失败" + jsonText);
                                                 JSONObject object2 = new JSONObject(jsonText);
                                                 String tag2 = object1.getString("result_msg");

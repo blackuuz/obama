@@ -107,6 +107,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
     private float dx_jf;
     private float dx_mr;
     private float dx_max;
+    private  float min_money = 0f;
 
     private Unbinder unbinder;
 
@@ -202,7 +203,11 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
                 printInfo(true);
             }
         });
-
+        if(SharedUtil.getSharedData(PayBuyCountActivity.this,"min_money").equals("")){
+            min_money = 0f;
+        }else {
+            min_money = Float.parseFloat(SharedUtil.getSharedData(PayBuyCountActivity.this,"min_money"));
+        }
 
     }
 
@@ -528,7 +533,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
                         if (TextUtils.isEmpty(payau)) {
                             payau = "0";
                         }
-                        if (oldMoney >= Float.parseFloat(payau)) {
+                        if (oldMoney >= (Float.parseFloat(payau)+min_money)) {
                             if (TextUtils.isEmpty(password)) {
                                 sendData("");
                             } else {
@@ -681,7 +686,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
 
             @Override
             public void OnFail(String message) {
-                if (n != 3) {
+                if (n == 0 ||n ==4) {
                     showAlert();
                 } else {
                     isclick_pay = true;
@@ -712,7 +717,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
                 String msg = object.getString("result_errmsg");
                 Utils.showToast(PayBuyCountActivity.this, msg);
             } else {
-                if (n != 3) {
+                if (n == 0 || n == 4) {
                     String msg = object.getString("result_errmsg");
                     Utils.showToast(PayBuyCountActivity.this, msg);
                     tv_print.setVisibility(View.INVISIBLE);
@@ -848,9 +853,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
-
                     @Override
                     public void OnFail(String message) {
                         showAlert();

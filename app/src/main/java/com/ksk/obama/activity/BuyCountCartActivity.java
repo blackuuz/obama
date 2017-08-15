@@ -87,6 +87,10 @@ public class BuyCountCartActivity extends BaseActivity implements View.OnClickLi
         tv_print.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!(list_buy.size()>0)){
+                    Utils.showToast(BuyCountCartActivity.this,"你还没选则购买的项目");
+                    return;
+                }
                 changeAcivity();
             }
         });

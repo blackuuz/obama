@@ -16,6 +16,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.ksk.obama.application.MyApp;
 import com.ksk.obama.callback.IConnectCallBack;
 import com.ksk.obama.callback.IPrintErrorCallback;
 import com.ksk.obama.callback.IPrintSuccessCallback;
@@ -31,6 +32,7 @@ import cn.weipass.pos.sdk.IPrint;
 import cn.weipass.pos.sdk.Printer;
 import cn.weipass.pos.sdk.Weipos;
 import cn.weipass.pos.sdk.impl.WeiposImpl;
+import sunmi.paylib.SunmiPayKernel;
 import woyou.aidlservice.jiuiv5.ICallback;
 import woyou.aidlservice.jiuiv5.IWoyouService;
 
@@ -177,8 +179,40 @@ public abstract class BaseTypeActivity extends BaseActivity {
         }
     };
 
+    private SunmiPayKernel mSunmiPayKernel;
+
+    /**
+     * 连接支付SDK
+     */
+    private void conn() {
+        mSunmiPayKernel = SunmiPayKernel.getInstance();
+        mSunmiPayKernel.connectPayService(getApplicationContext(), mConnCallback);
+    }
+
+    /**
+     * 连接状态回调
+     */
+    private SunmiPayKernel.ConnCallback mConnCallback = new SunmiPayKernel.ConnCallback() {
+        @Override
+        public void onServiceConnected() {
+            try {
+                MyApp.mReadCardOpt = mSunmiPayKernel.mReadCardOpt;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onServiceDisconnected() {
+        }
+    };
+
+
+
+
     //商米
     private void initView() {
+        conn();
         terminalSn = SystemProperties.get("ro.serialno");
         callback = new ICallback.Stub() {
 
