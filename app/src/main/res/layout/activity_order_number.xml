@@ -11,23 +11,83 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
+        <android.support.v7.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:iconifiedByDefault="false"
+            android:queryHint="请输入搜索订单号" />
 
         <ListView
             android:id="@+id/lv_order"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="100px"
+            android:layout_marginBottom="64px"
             android:layout_marginLeft="32px"
             android:layout_marginRight="32px"></ListView>
 
-        <ProgressBar
-            android:id="@+id/pgb"
-            style="?android:attr/progressBarStyleHorizontal"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerInParent="true"
+            android:id="@+id/ll_order_progressbar"
             android:background="@color/viewfinder_mask"
-            android:padding="32px"
-            android:visibility="gone" />
+            android:orientation="vertical"
+            android:visibility="gone">
+            <ProgressBar
+                android:id="@+id/progressBar1"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_weight="3.11"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/pgb"
+                android:layout_gravity="center_horizontal"
+                android:layout_toEndOf="@+id/tv_checked_num"
+                android:layout_toRightOf="@+id/tv_checked_num"
+               />
+
+            <ProgressBar
+                android:id="@+id/pgb"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="249dp"
+                android:layout_above="@+id/tv_checked_num"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:padding="32px"
+               />
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tv_checked_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="32px"
+            android:text="当前选中 0 条订单"
+            android:textSize="32px" />
+
+
+        <TextView
+            android:id="@+id/tv_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="32px"
+            android:layout_marginRight="1px"
+            android:layout_toLeftOf="@+id/cb_order_activiy"
+            android:gravity="center|right"
+            android:text="选中所有订单"
+            android:textSize="32px" />
+
+        <CheckBox
+            android:id="@+id/cb_order_activiy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/tv_text"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="32px" />
     </RelativeLayout>
 
 

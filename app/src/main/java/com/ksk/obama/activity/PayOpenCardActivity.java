@@ -21,6 +21,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.ksk.obama.DB.OpenCardDb;
+import com.ksk.obama.DB.OrderNumber;
 import com.ksk.obama.R;
 import com.ksk.obama.callback.IHttpCallBack;
 import com.ksk.obama.callback.IPayCallBack;
@@ -35,7 +36,6 @@ import com.orhanobut.logger.Logger;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.litepal.tablemanager.Connector;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -50,6 +50,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import static com.ksk.obama.utils.SharedUtil.getSharedData;
+import static org.litepal.tablemanager.Connector.getDatabase;
 
 public class PayOpenCardActivity extends BasePrintActivity implements View.OnClickListener, IPayCallBack,
         IPrintSuccessCallback, IPrintErrorCallback {
@@ -268,6 +269,7 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
                 Utils.showToast(PayOpenCardActivity.this, msg);
                 payHint(true);
                 printInfo(true);
+                setOrderDB();
                 switch (robotType) {
                     case 3:
                     case 4:
@@ -325,9 +327,41 @@ public class PayOpenCardActivity extends BasePrintActivity implements View.OnCli
             }
         }
     }
+    private void setOrderDB() {
+        getDatabase();
+        OrderNumber upLoading = new OrderNumber();
+        upLoading.setOrderNumber(orderNumber);
+        upLoading.setGroupId(getSharedData(PayOpenCardActivity.this, "groupid"));
+        upLoading.setDbName(getSharedData(PayOpenCardActivity.this, "dbname"));
+        upLoading.setCardNum(cardInfo.getCardnum());
+        upLoading.setCardName(cardInfo.getName());
+        upLoading.setSex(cardInfo.getSex());
+        upLoading.setMobile(cardInfo.getPhone());
+        upLoading.setBirthday(cardInfo.getBirthday());
+        upLoading.setGoodsId(cardInfo.getGoodsId());
+        upLoading.setMoney(actualMoney);
+        upLoading.setShouldMoney(cardInfo.getPayshould());
+        upLoading.setCardCode(cardInfo.getUid());
+        upLoading.setIDCard(cardInfo.getIdCardNumber());
+        upLoading.setCar(cardInfo.getCarNum());
+        upLoading.setAddress(cardInfo.getAddress());
+        upLoading.setRemarks(cardInfo.getRemarks());
+        upLoading.setTemporary(isTemporary);
+        upLoading.setTemporary_num(temporaryNum);
+        upLoading.setResult_name(temName);
+        upLoading.setPayType(n);
+        upLoading.setRecommendEmpoyee(cardInfo.getAddId());
+        upLoading.setMemberid(cardInfo.getVipAddId());//推荐会员
+        upLoading.setPassword(cardInfo.getPassword());
+        //upLoading.setGforder(gforder);
+        upLoading.setUserId(getSharedData(PayOpenCardActivity.this, "userInfoId"));
+        upLoading.setTime(orderTime);
+        upLoading.setFormClazz("KK");
+        upLoading.save();
+    }
 
     private void setDBData() {
-        Connector.getDatabase();
+        getDatabase();
         OpenCardDb openCardDb = new OpenCardDb();
         openCardDb.setN(n);
         openCardDb.setUid(cardInfo.getUid());

@@ -87,14 +87,22 @@ public class HttpTools {
     }
 
     public static void postToHttps(final int i, final Handler mHandler, String url, Map<String, String> map) {
-        Log.e("djy", url);
+        Log.e("uuz", url);
         OkHttpClient client = OKHttpSingleton.getInstance();
         FormBody.Builder builder = new FormBody.Builder();
         Set keySet = map.keySet();
         for (Iterator<String> iter = keySet.iterator(); iter.hasNext(); ) {
             String key = iter.next();
             String value = map.get(key);
-            Log.d("djy", key + "=" + value);
+            Log.d("uuz", key + "=" + value);
+            if(value == null){
+                Log.e("uuz", "postToHttps变量 "+key+"的值为空" );
+                Message msg = Message.obtain();
+                msg.what = -1;
+                msg.obj = "!!变量 "+key+"的值为空";
+                mHandler.sendMessage(msg);
+                return;
+            }
             builder.add(key, value);
         }
         RequestBody body = builder.build();
@@ -127,8 +135,8 @@ public class HttpTools {
                 mHandler.sendMessage(msg);
             }
         });
-
     }
+
 
     public static void sendToServer(final Handler mHandler, String url, Map<String, String> map, File file, ProgressListener progressListener) {
         Log.e("djy", url);

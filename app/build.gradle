@@ -8,22 +8,21 @@ android {
     compileSdkVersion 24
     buildToolsVersion "24.0.1"
 
-    defaultConfig {//正式版
-        applicationId "com.ksk.obama"
-        minSdkVersion 14
-        targetSdkVersion 25
-        versionCode 361      //商米刷卡 更新sdk   会员卡绑定
-        versionName "2.3.6"//2017-8-15 版本号为 x.y.z  其中y为单数
-    }
-//    defaultConfig {//测试版
+//    defaultConfig {//正式版
 //        applicationId "com.ksk.obama"
-//        minSdkVersion 14
-//        targetSdkVersion 24
-//        versionCode 347
-//        versionName "3.1.7"//time : 2017-7-4 8:59 优惠券核销测试版
-//        //versionName "_____"//旺pos
-//
+//        minSdkVersion 15
+//        targetSdkVersion 25
+//        versionCode 363      //商米刷卡 更新sdk   会员卡绑定
+//        versionName "2.3.7"//2017-8-15 版本号为 x.y.z  其中y为单数
 //    }
+    defaultConfig {//测试版
+        applicationId "com.ksk.obama"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 347
+        versionName "3.1.7"//time : 2017-7-4 8:59 优惠券核销测试版
+        //versionName "_____"//旺pos
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -43,10 +42,19 @@ android {
     }
 }
 
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile files('libs/Lklpospmidlib_V1.11_20151030.jar')
     compile files('libs/WeiposSDKII-bin-2.0.jar')
+    compile(name: 'paysdk', ext: 'aar')
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.google.zxing:core:3.2.1'
@@ -58,8 +66,8 @@ dependencies {
     compile 'com.zhy:autolayout:1.4.5'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha8'
     compile 'com.android.support:recyclerview-v7:24.0.0'
-    testCompile 'junit:junit:4.12'
     compile 'com.jakewharton:butterknife:8.5.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile 'com.sunmi:PayLib:latest.release'
+    testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }

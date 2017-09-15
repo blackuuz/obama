@@ -196,6 +196,7 @@ public class CouponSelectActivity extends BaseActivity implements IQrcodeCallBac
         btnUseCouponQrCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isCouponSaoma =true;
                 toQrcodeActivity();
             }
         });

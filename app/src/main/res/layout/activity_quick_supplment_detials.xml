@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_quick_supplement"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_obama" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#ffffff"
+            android:orientation="vertical"
+           >
+
+
+            <TextView
+                android:id="@+id/tv_quick_dialog_shop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10px"
+                android:paddingTop="30px"
+                android:text="消费店面 :"
+                android:paddingLeft="60px"
+                android:textColor="@color/text_black3"
+                android:textSize="30px" />
+
+            <TextView
+                android:paddingLeft="60px"
+                android:id="@+id/tv_quick_dialog_serial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10px"
+                android:text="手持序列号 :"
+                android:textColor="@color/text_black3"
+                android:textSize="30px" />
+
+            <TextView
+                android:paddingLeft="60px"
+                android:id="@+id/tv_quick_dialog_employee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10px"
+                android:text="操作员工 :"
+                android:textColor="@color/text_black3"
+                android:textSize="30px" />
+
+            <TextView
+                android:paddingLeft="60px"
+                android:id="@+id/tv_quick_dialog_ordertime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10px"
+                android:text="订单时间 :"
+                android:textColor="@color/text_black3"
+                android:textSize="30px" />
+
+            <TextView
+                android:paddingLeft="60px"
+                android:id="@+id/tv_quick_dialog_ordernumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10px"
+                android:text="单据号 :"
+                android:textColor="@color/text_black3"
+                android:textSize="30px" />
+
+            <TextView
+                android:paddingLeft="60px"
+                android:id="@+id/tv_quick_dialog_vipname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10px"
+                android:text="会员姓名 :"
+                android:textColor="@color/text_black3"
+                android:textSize="30px" />
+
+
+            <TextView
+                android:paddingLeft="60px"
+                android:id="@+id/tv_quick_dialog_vipnumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10px"
+                android:text="会员卡号 :"
+                android:textColor="@color/text_black3"
+                android:textSize="30px" />
+
+
+            <TextView
+                android:paddingLeft="60px"
+                android:id="@+id/tv_quick_dialog_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10px"
+                android:text="支付方式 :"
+                android:textColor="@color/text_black3"
+                android:textSize="30px" />
+
+            <TextView
+                android:paddingLeft="60px"
+                android:id="@+id/tv_quick_dialog_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10px"
+                android:text="消费金额 :"
+                android:textColor="@color/text_black3"
+                android:textSize="30px" />
+
+            <TextView
+                android:paddingLeft="60px"
+                android:id="@+id/tv_quick_dialog_actual_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10px"
+                android:text="实收金额 :"
+                android:textColor="@color/text_black3"
+                android:textSize="30px" />
+
+            <TextView
+                android:paddingLeft="60px"
+                android:id="@+id/tv_quick_dialog_del_integral"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10px"
+                android:text="抵现积分 :"
+                android:textColor="@color/text_black3"
+                android:textSize="30px" />
+
+            <TextView
+                android:paddingLeft="60px"
+                android:id="@+id/tv_quick_dialog_get_integral"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10px"
+                android:text="获得积分 :"
+                android:textColor="@color/text_black3"
+                android:textSize="30px" />
+
+            <TextView
+                android:paddingLeft="60px"
+                android:id="@+id/tv_quick_dialog_have_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10px"
+                android:text="可用储值 :"
+                android:textColor="@color/text_black3"
+                android:textSize="30px"
+                android:visibility="gone" />
+
+            <TextView
+                android:paddingLeft="60px"
+                android:id="@+id/tv_quick_dialog_have_integral"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10px"
+                android:text="可用积分 :"
+                android:textColor="@color/text_black3"
+                android:textSize="30px"
+                android:visibility="gone" />
+
+            <include layout="@layout/statistics_bottom" />
+        </LinearLayout>
+        
+        
+
+    </LinearLayout>
+
+    <include layout="@layout/bottom_s" />
+</LinearLayout>

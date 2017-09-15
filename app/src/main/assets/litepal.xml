@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <litepal>
     <dbname value="yide"></dbname>
-    <version value="20"></version>
+    <version value="30"></version>
 
     <list>
         <mapping class="com.ksk.obama.DB.RechargeAgain"></mapping>
@@ -12,5 +12,6 @@
         <mapping class="com.ksk.obama.DB.OrderNumber"></mapping>
         <mapping class="com.ksk.obama.DB.UserID"></mapping>
         <mapping class="com.ksk.obama.model.BuyCount"></mapping>
+        <mapping class="com.ksk.obama.DB.DetailsDb"></mapping>
     </list>
 </litepal>

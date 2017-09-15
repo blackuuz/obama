@@ -12,6 +12,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.ksk.obama.DB.BuyCountDb;
+import com.ksk.obama.DB.OrderNumber;
 import com.ksk.obama.R;
 import com.ksk.obama.callback.ICreateOrderNumber;
 import com.ksk.obama.callback.IHttpCallBack;
@@ -40,7 +42,7 @@ import com.orhanobut.logger.Logger;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.litepal.tablemanager.Connector;
+import org.litepal.crud.DataSupport;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -63,6 +65,7 @@ import static com.ksk.obama.R.id.ll_pay;
 import static com.ksk.obama.R.id.tv_money_dx;
 import static com.ksk.obama.utils.SharedUtil.getSharedData;
 import static java.lang.Float.parseFloat;
+import static org.litepal.tablemanager.Connector.getDatabase;
 
 public class PayBuyCountActivity extends BasePrintActivity implements View.OnClickListener, IPayCallBack,
         IPrintSuccessCallback, IPrintErrorCallback, ICreateOrderNumber {
@@ -107,7 +110,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
     private float dx_jf;
     private float dx_mr;
     private float dx_max;
-    private  float min_money = 0f;
+    private float min_money = 0f;
 
     private Unbinder unbinder;
 
@@ -203,10 +206,10 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
                 printInfo(true);
             }
         });
-        if(SharedUtil.getSharedData(PayBuyCountActivity.this,"min_money").equals("")){
+        if (SharedUtil.getSharedData(PayBuyCountActivity.this, "min_money").equals("")) {
             min_money = 0f;
-        }else {
-            min_money = Float.parseFloat(SharedUtil.getSharedData(PayBuyCountActivity.this,"min_money"));
+        } else {
+            min_money = Float.parseFloat(SharedUtil.getSharedData(PayBuyCountActivity.this, "min_money"));
         }
 
     }
@@ -533,7 +536,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
                         if (TextUtils.isEmpty(payau)) {
                             payau = "0";
                         }
-                        if (oldMoney >= (Float.parseFloat(payau)+min_money)) {
+                        if (oldMoney >= (Float.parseFloat(payau) + min_money)) {
                             if (TextUtils.isEmpty(password)) {
                                 sendData("");
                             } else {
@@ -686,7 +689,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
 
             @Override
             public void OnFail(String message) {
-                if (n == 0 ||n ==4) {
+                if (n == 0 || n == 4) {
                     showAlert();
                 } else {
                     isclick_pay = true;
@@ -701,6 +704,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
             String tag = object.getString("result_stadus");
             if (tag.equals("SUCCESS")) {
                 if (n == 0 || n == 4) {
+                    setOrderDB();
                     reSet();//现金支付
                 } else {
                     payMoney(n, payau + "", orderNumber, "购买次数");
@@ -792,6 +796,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
         if (flag) {
             printPage("购次小票", listp, list_son, true);
         } else {
+            Log.d("uuz", "printInfo: 0000");
             printPage("购次延时扣款小票", listp, list_son, true);
             printPage("购次延时扣款小票(商户存根)", listp, list_son, true);
         }
@@ -846,6 +851,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
                             JSONObject object = new JSONObject(jsonText);
                             String tag = object.getString("result_stadus");
                             if (tag.equals("SUCCESS")) {
+                                setOrderDB();
                                 reSet();
                             } else {
                                 showAlert();
@@ -854,6 +860,7 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
                             e.printStackTrace();
                         }
                     }
+
                     @Override
                     public void OnFail(String message) {
                         showAlert();
@@ -862,10 +869,46 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
 
         );
     }
+    private void setOrderDB() {
+        getDatabase();
+        OrderNumber upLoading = new OrderNumber();
+        upLoading.setOrderNumber(orderNumber);
+        //upLoading.setIsSucceedUploading(0);
+        upLoading.setGroupId(getSharedData(PayBuyCountActivity.this, "groupid"));
+        upLoading.setDbName(getSharedData(PayBuyCountActivity.this, "dbname"));
+        upLoading.setGoodsId(ids);
+        upLoading.setMemberid(memid);
+        upLoading.setCosttime(times);
+        upLoading.setMoney(payau);
+        upLoading.setShouldMoney(should);
+        upLoading.setGetIntegral(gread);
+        upLoading.setPayDiscounted(pay);
+        upLoading.setGetMoney(moneycount);
+        upLoading.setCardCode(uid);
+        upLoading.setValidTimes(validTimes);
+        upLoading.setTemporary(isTemporary);
+        upLoading.setTemporary_num(temporaryNum);
+        upLoading.setResult_name(temName);
+        upLoading.setPayType(n);
+        upLoading.setPayDecIntegral(dx_integral);
+        upLoading.setDelMoney(dx_money);
+        //upLoading.setGforder(gforder);
+        upLoading.setRefernumber(order_again);
+
+        upLoading.setUserId(getSharedData(PayBuyCountActivity.this, "userInfoId"));
+        upLoading.setTime(orderTime);
+        upLoading.setFormClazz("BT");
+        upLoading.save();
+    }
+
+
 
     private void setDBData() {
-        Connector.getDatabase();
+        getDatabase();
         BuyCountDb buyCountDb = new BuyCountDb();
+        DataSupport.saveAll(list_buy);
+
+        buyCountDb.setDataList(list_buy);
         buyCountDb.setUrl(NetworkUrl.SENDBUYCOUNT);
         buyCountDb.setCardNo(cardNum);
         buyCountDb.setUid(uid);
@@ -874,10 +917,10 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
         buyCountDb.setTimes(times);
         buyCountDb.setPayshould(should);
         buyCountDb.setPayDiscounted(pay);
-        buyCountDb.setPayactual(payau);
+        buyCountDb.setPayactual(payau+"o");
         buyCountDb.setGet_money(moneycount);
         buyCountDb.setN(n);
-        buyCountDb.setName(name);
+        buyCountDb.setCardName(name);
         buyCountDb.setUserid(SharedUtil.getSharedData(PayBuyCountActivity.this, "userInfoId"));
         buyCountDb.setUserName(SharedUtil.getSharedData(PayBuyCountActivity.this, "username"));
         buyCountDb.setShopName(SharedUtil.getSharedData(PayBuyCountActivity.this, "shopname"));
@@ -886,7 +929,6 @@ public class PayBuyCountActivity extends BasePrintActivity implements View.OnCli
         buyCountDb.setOrderNo(orderNumber);
         buyCountDb.setYouhui(del);
         buyCountDb.setEquipmentNum(terminalSn);
-        buyCountDb.setDataList(list_buy);
         buyCountDb.setRefernumber(order_again);
         buyCountDb.setValidTimes(validTimes);
         buyCountDb.setGetIntegral(gread);

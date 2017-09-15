@@ -21,6 +21,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.ksk.obama.DB.OrderNumber;
 import com.ksk.obama.R;
 import com.ksk.obama.adapter.DelCountAdapter;
 import com.ksk.obama.callback.IHttpCallBack;
@@ -45,6 +46,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.ksk.obama.utils.SharedUtil.getSharedData;
+import static org.litepal.tablemanager.Connector.getDatabase;
 
 public class QuickDelCActivity extends BasePAndRActivity implements IReadCardId, IQrcodeCallBack, IPrintErrorCallback, IPrintSuccessCallback {
     private EditText et_cardNum;
@@ -466,7 +468,6 @@ public class QuickDelCActivity extends BasePAndRActivity implements IReadCardId,
             map.put("orderNo", orderNumber);
             map.put("EquipmentNum", terminalSn);
             postToHttp(NetworkUrl.QUICK_COUNT, map, new IHttpCallBack() {
-
                 @Override
                 public void OnSucess(String jsonText) {
                     try {
@@ -478,6 +479,7 @@ public class QuickDelCActivity extends BasePAndRActivity implements IReadCardId,
                             haveMoney = data.getString("n_AmountAvailable");
                             haveintegral = data.getString("n_IntegralAvailable");
                             printInfo();
+                            setOrderDB();
                             reset();
                         } else if (tag.equals("ERR")) {
                             isclick_pay = true;
@@ -503,6 +505,25 @@ public class QuickDelCActivity extends BasePAndRActivity implements IReadCardId,
             });
         }
     }
+    private void setOrderDB() {
+        getDatabase();
+        OrderNumber upLoading = new OrderNumber();
+        upLoading.setOrderNumber(orderNumber);
+        upLoading.setGroupId(SharedUtil.getSharedData(QuickDelCActivity.this, "groupid"));
+        upLoading.setDbName(getSharedData(QuickDelCActivity.this, "dbname"));
+        upLoading.setCardCode(uid);
+        upLoading.setCosttime(count+"");
+        upLoading.setGoodsId(projectId);
+        //upLoading.setGforder(gforder);
+        upLoading.setUserId(getSharedData(QuickDelCActivity.this, "userInfoId"));
+        upLoading.setCardNum(et_cardNum.getText().toString());
+        upLoading.setTime(orderTime);
+        upLoading.setFormClazz("KT");
+        upLoading.save();
+    }
+
+
+
 
     private void reset() {
         uid = "";

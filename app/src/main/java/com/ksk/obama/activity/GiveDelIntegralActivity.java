@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.ksk.obama.DB.OrderNumber;
 import com.ksk.obama.R;
 import com.ksk.obama.callback.IHttpCallBack;
 import com.ksk.obama.callback.IPrintErrorCallback;
@@ -34,6 +35,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.ksk.obama.utils.SharedUtil.getSharedData;
+import static org.litepal.tablemanager.Connector.getDatabase;
 
 public class GiveDelIntegralActivity extends BasePrintActivity implements IPrintSuccessCallback, IPrintErrorCallback {
 
@@ -159,8 +163,8 @@ public class GiveDelIntegralActivity extends BasePrintActivity implements IPrint
             Map<String, String> map = new HashMap<>();
             map.put("integral_val", del_integral);
             map.put("CardNO", cardInfo.getC_CardNO());
-            map.put("YdUserinfoId", SharedUtil.getSharedData(GiveDelIntegralActivity.this, "userInfoId"));
-            map.put("dbName", SharedUtil.getSharedData(GiveDelIntegralActivity.this, "dbname"));
+            map.put("YdUserinfoId", getSharedData(GiveDelIntegralActivity.this, "userInfoId"));
+            map.put("dbName", getSharedData(GiveDelIntegralActivity.this, "dbname"));
             map.put("Equipment", terminalSn);
             map.put("orderNo", orderNumber);
             map.put("CardCode", uid);
@@ -197,6 +201,7 @@ public class GiveDelIntegralActivity extends BasePrintActivity implements IPrint
                 }
                 tv4.setText("当前积分:" + Utils.getNumStr(integral));
                 payHint(true);
+                setOrderDB();
                 tv_print.setVisibility(View.VISIBLE);
                 tv_print.setEnabled(true);
                 printInfo();
@@ -216,6 +221,22 @@ public class GiveDelIntegralActivity extends BasePrintActivity implements IPrint
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private void setOrderDB() {
+        getDatabase();
+        OrderNumber upLoading = new OrderNumber();
+        upLoading.setOrderNumber(orderNumber);
+        upLoading.setGroupId(getSharedData(GiveDelIntegralActivity.this, "groupid"));
+        upLoading.setDbName(getSharedData(GiveDelIntegralActivity.this, "dbname"));
+        upLoading.setCardNum(cardInfo.getC_CardNO());
+        upLoading.setCardCode(uid);
+        upLoading.setGetIntegral(del_integral);
+        upLoading.setPayType(n);
+        upLoading.setUserId(getSharedData(GiveDelIntegralActivity.this, "userInfoId"));
+        upLoading.setTime(orderte);
+        upLoading.setFormClazz("KJ");
+        upLoading.save();
     }
 
     private void printInfo() {

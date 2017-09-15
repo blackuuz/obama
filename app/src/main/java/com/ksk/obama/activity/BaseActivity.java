@@ -92,11 +92,10 @@ public class BaseActivity extends AutoLayoutActivity {
     private Dialog mdialog;
     private IHttpCallBack callBack;
     protected boolean isclick_pay = true;
-
+    protected boolean isCouponSaoma = false;
     protected String shopId = "";
     protected String terminalSn;
     protected Bitmap bmp;
-
 
 
     protected Handler mHandler = new Handler() {
@@ -304,12 +303,14 @@ public class BaseActivity extends AutoLayoutActivity {
      *                  <p> 点击支付选项 调用次方法  2017-6-27  <p/>
      *                  <p>所有页面的支付选项 都会先调用此方法   </p>
      */
-    protected void payMoney(final int n, final String money, final String orderDesc, String str2) {
+    protected  synchronized void payMoney(final int n, final String money, final String orderDesc, String str2) {
         switch (robotType) {
             case 1://拉卡拉
                 switch (n) {
                     case 3://第三方支付
-                        mdialog = new Dialog(BaseActivity.this, R.style.BottomDialogStyle);
+                        if(null == mdialog){
+                            mdialog = new Dialog(BaseActivity.this, R.style.BottomDialogStyle);
+                        }
                         //填充对话框的布局
                         View view = LayoutInflater.from(BaseActivity.this).inflate(R.layout.dialog_base_sm_yl, null);
                         //初始化控件
@@ -344,7 +345,9 @@ public class BaseActivity extends AutoLayoutActivity {
                         lp.width = (int) (dm.widthPixels * 0.95);
                         lp.y = 300; //设置Dialog距离底部的距离
                         dialogWindow.setAttributes(lp); //将属性设置给窗体
-                        mdialog.show();//显示对话框
+                       if(!mdialog.isShowing()){
+                           mdialog.show();//显示对话框
+                       }
                         //mdialog.setOutsideTouchable(false);
                         mdialog.setCancelable(false);
                         break;
@@ -461,9 +464,10 @@ public class BaseActivity extends AutoLayoutActivity {
     }
 
     protected void toQrcodeActivity() {
-        if (getSharedBData(BaseActivity.this, "saoma")) {
+        if (getSharedBData(BaseActivity.this, "saoma")||isCouponSaoma) {
             Intent intent = new Intent(BaseActivity.this, MipcaActivityCapture.class);
             intent.putExtra("isPay", false);
+            isCouponSaoma = false;
             startActivityForResult(intent, 10086);
         } else {
             isclick_pay = true;
@@ -534,6 +538,7 @@ public class BaseActivity extends AutoLayoutActivity {
             }
         }
         if (resultCode == Activity.RESULT_OK) {
+            if(data ==null){return;}
             Logger.e(resultCode + "-" + data.toString());
             String orderidScan = "";
             switch (requestCode) {
@@ -682,6 +687,7 @@ public class BaseActivity extends AutoLayoutActivity {
         callBack = IHttpCallBack;
         HttpTools.postMethod(mHandler, url, map);
     }
+
 
     protected void postToHttp(String url, Map<String, String> map, IHttpCallBack IHttpCallBack, int nn) {
         int n = (int) (Math.random() * (Integer.MAX_VALUE));

@@ -19,6 +19,18 @@ public class BuyCount extends DataSupport implements Parcelable {
     private float price;//单价
     private float dis_price_a;//折扣之后的单价
     private float dis_price_b;
+    private float dis_price_c;
+    private float dis_price_d;
+    private float money;
+    private float dazhe;
+    private float jifen;
+    private float moneyin;
+    private String validTime;
+    private float dis;
+    private float integ;
+    private BuyCountDb buyCountDb;
+    private BuyShopDb buyShopDb;
+    private String c_type;
 
     public float getDis_price_a() {
         return dis_price_a;
@@ -51,19 +63,6 @@ public class BuyCount extends DataSupport implements Parcelable {
     public void setDis_price_d(float dis_price_d) {
         this.dis_price_d = dis_price_d;
     }
-
-    private float dis_price_c;
-    private float dis_price_d;
-    private float money;
-    private float dazhe;
-    private float jifen;
-    private float moneyin;
-    private String validTime;
-    private float dis;
-    private float integ;
-    private BuyCountDb buyCountDb;
-    private BuyShopDb buyShopDb;
-    private String c_type;
 
     public String getC_type() {
         return c_type;

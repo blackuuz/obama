@@ -1,15 +1,19 @@
 package com.ksk.obama.activity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -48,6 +52,8 @@ public class BuyCountSupplementActivity extends BaseSupplementActivity implement
     private boolean isComplition = false;
     private String haveMoney;
     private String haveIntegral;
+    private Button btn_details;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +77,19 @@ public class BuyCountSupplementActivity extends BaseSupplementActivity implement
                 }
             }
         });
+        btn_details = (Button) findViewById(R.id.btn_quick_supplement_details);
+        btn_details.setText("查看详情");
+        btn_details.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.putExtra("flag",true);
+                intent.putExtra("clazz","Count");
+                intent.setClass(BuyCountSupplementActivity.this, SupplmentDetialsActivity.class);
+                startActivityForResult(intent, 86);
+            }
+        });
+
         pb1 = (ProgressBar) findViewById(R.id.progressBar1);
         pb2 = (ProgressBar) findViewById(R.id.progressBar2);
         tv_hint = (TextView) findViewById(R.id.tv_hint);
@@ -79,7 +98,7 @@ public class BuyCountSupplementActivity extends BaseSupplementActivity implement
 
     private void queryDb() {
         Connector.getDatabase();
-        list = DataSupport.findAll(BuyCountDb.class);
+        list = DataSupport.findAll(BuyCountDb.class,true);
         pb2.setMax(list.size());
         pb2.setProgress(0);
         tv_hint.setText("当前有 " + orderYes + "/" + list.size() + " 个订单正在上传,不要退出页面");
@@ -112,10 +131,10 @@ public class BuyCountSupplementActivity extends BaseSupplementActivity implement
             map.put("EquipmentNum", upLoading.getEquipmentNum());
             map.put("Supplement", "1");
             map.put("CardCode", upLoading.getUid());
-            map.put("temporary_num",upLoading.getTemporaryNum());
-            map.put("result_name",upLoading.getTemName());
-            map.put("payIntegral",upLoading.getDx_Money());
-            map.put("payDecIntegral",upLoading.getDx_Integral());
+            map.put("temporary_num", upLoading.getTemporaryNum());
+            map.put("result_name", upLoading.getTemName());
+            map.put("payIntegral", upLoading.getDx_Money());
+            map.put("payDecIntegral", upLoading.getDx_Integral());
             switch (payMode) {
                 case 0:
                     map.put("payCash", m_is);
@@ -160,6 +179,7 @@ public class BuyCountSupplementActivity extends BaseSupplementActivity implement
             JSONObject object = new JSONObject(text);
             String msg = object.getString("result_stadus");
             if (msg.equals("SUCCESS")) {
+                btn_details.setClickable(false);
                 orderYes += 1;
                 pb2.setProgress(orderYes);
                 tv_hint.setText("当前有 " + orderYes + "/" + list.size() + " 个订单正在上传,不要退出页面");
@@ -170,6 +190,7 @@ public class BuyCountSupplementActivity extends BaseSupplementActivity implement
             }
         } catch (JSONException e) {
             e.printStackTrace();
+            btn_details.setClickable(true);
         }
         switch (robotType) {
             case 3:
@@ -215,6 +236,7 @@ public class BuyCountSupplementActivity extends BaseSupplementActivity implement
         BuyCountDb upLoading = list.get(n);
         final List<PrintPage> list_son = new ArrayList<>();
         for (int i = 0; i < upLoading.getDataList().size(); i++) {
+            Log.d("uuz", "printInformation: "+upLoading.getDataList().size());
             PrintPage page = new PrintPage();
             page.setName(upLoading.getDataList().get(i).getName());
             page.setPrice(upLoading.getDataList().get(i).getPrice() + "");
@@ -223,14 +245,14 @@ public class BuyCountSupplementActivity extends BaseSupplementActivity implement
             list_son.add(page);
         }
         final List<String> printP = new ArrayList<>();
-        printP.add("订单生成时间:" + upLoading.getOrderTime());
+         printP.add("订单生成时间:" + upLoading.getOrderTime());
         printP.add("补单时间:" + nowTime);
-        printP.add("单据号:" + upLoading.getOrderNo());
-        printP.add("消费店面: " + upLoading.getShopName());
-        printP.add("卡号 :" + upLoading.getCardNo());
-        printP.add("姓名:" + upLoading.getName());
-        printP.add("操作员 :" + upLoading.getUserName());
-        printP.add("手持序列号:" + upLoading.getEquipmentNum());
+         printP.add("单据号:" + upLoading.getOrderNo());
+         printP.add("消费店面: " + upLoading.getShopName());
+         printP.add("卡号 :" + upLoading.getCardNo());
+         printP.add("姓名:" + upLoading.getCardName());
+         printP.add("操作员 :" + upLoading.getUserName());
+         printP.add("手持序列号:" + upLoading.getEquipmentNum());
         printP.add("son");
         switch (upLoading.getN()) {
             case 1:
@@ -240,7 +262,7 @@ public class BuyCountSupplementActivity extends BaseSupplementActivity implement
                 printP.add("支付方式:支付宝支付");
                 break;
             case 3:
-                printP.add("支付方式:银联支付");
+                printP.add("支付方式:第三方支付");
                 break;
             case 4:
                 printP.add("支付方式:会员卡支付");
@@ -297,5 +319,17 @@ public class BuyCountSupplementActivity extends BaseSupplementActivity implement
     @Override
     public void OnPrintSuccess() {
         isChangeActivity();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == 86) {
+                DataSupport.delete(BuyCountDb.class, list.get(0).getId());
+                Log.d("uuz", "onActivityResult: ");
+                finish();
+            }
+        }
     }
 }

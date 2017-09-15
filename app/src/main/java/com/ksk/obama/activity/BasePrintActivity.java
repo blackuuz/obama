@@ -67,11 +67,12 @@ public class BasePrintActivity extends BaseTypeActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
+int a = 0;
     protected synchronized void printPage(final String str, final List<String> list, final List<PrintPage> sonList, final boolean flag) {
         if (list != null && list.size() > 0) {
             switch (robotType) {
                 case 1:
+                    Log.d("uuz", "printPage: "+a++);
                     LKLprint(str, list, sonList, flag);
                     break;
 

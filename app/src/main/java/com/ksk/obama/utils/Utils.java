@@ -12,6 +12,9 @@ import android.widget.Toast;
 
 import java.math.BigDecimal;
 import java.security.MessageDigest;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -175,10 +178,11 @@ public class Utils {
      */
     /**
      * Convert byte[] to hex string.将byte转换成int，然后利用Integer.toHexString(int)来转换成16进制字符串。
+     *
      * @param src byte[] data
      * @return hex string
      */
-    public static String bytesToHexString(byte[] src){
+    public static String bytesToHexString(byte[] src) {
         StringBuilder stringBuilder = new StringBuilder("");
         if (src == null || src.length <= 0) {
             return null;
@@ -193,5 +197,43 @@ public class Utils {
         }
         return stringBuilder.toString();
     }
+
+    /**
+     * 判断订单时间是否是三天前
+     *
+     * @param s1 传入的订单时间
+     * @return 如果订单时间大于三天 返回true 否则返回false
+     */
+    public static boolean getIsTime(String s1) {
+        //设定时间的模板
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        //得到指定模范的时间
+
+        Log.d("uuz", "getIsTime: " + s1);
+        Date currentTime = new Date(System.currentTimeMillis());
+        Date orderTime = null;
+        boolean isTime = true;
+        try {
+            orderTime = sdf.parse(s1);
+
+        } catch (ParseException e) {
+            isTime = false;
+            e.printStackTrace();
+        }
+
+        if (!isTime) {
+            return false;
+         }
+
+        //比较
+        if ((currentTime.getTime() - orderTime.getTime()) / (24 * 3600 * 1000) >= 3) {
+            Log.d("uuz", "getIsTime: " + s1 + orderTime.getTime());
+            return true;
+        } else {
+            Log.d("uuz", "getIsTime: " + s1 + orderTime.getTime());
+            return false;
+        }
+    }
+
 
 }

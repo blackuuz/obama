@@ -149,6 +149,7 @@ public class CouponCancelActivity extends BaseActivity implements View.OnClickLi
                 finish();
                 break;
             case R.id.btn_use_coupon_qrCode:
+                isCouponSaoma = true;
                 toQrcodeActivity();
                 break;
             case R.id.btn_use_coupon_query:

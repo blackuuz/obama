@@ -26,6 +26,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.ksk.obama.DB.BuyShopDb;
+import com.ksk.obama.DB.OrderNumber;
 import com.ksk.obama.R;
 import com.ksk.obama.callback.ICreateOrderNumber;
 import com.ksk.obama.callback.IHttpCallBack;
@@ -41,7 +42,7 @@ import com.orhanobut.logger.Logger;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.litepal.tablemanager.Connector;
+import org.litepal.crud.DataSupport;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -59,6 +60,7 @@ import static com.ksk.obama.utils.SharedUtil.getSharedBData;
 import static com.ksk.obama.utils.SharedUtil.getSharedData;
 import static com.ksk.obama.utils.SharedUtil.getSharedInt;
 import static java.lang.Float.parseFloat;
+import static org.litepal.tablemanager.Connector.getDatabase;
 
 public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBack,
         IPrintSuccessCallback, IPrintErrorCallback, ICreateOrderNumber, View.OnClickListener {
@@ -702,11 +704,11 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
             orderidScan = "";
         Map<String, String> map = new HashMap<>();
         if (isVip) {
-            map.put("integral", integral);
-            map.put("get_integral", gread);
+            map.put("integral", integral);//每个商品的积分 "," 拼接
+            map.put("get_integral", gread);//获得的积分
             map.put("Member_Id", memid);
             map.put("payDecIntegral", dx_integral);//抵现的积分
-            map.put("payIntegral", dx_money);//抵现的金额
+            map.put("payIntegral", dx_money);//积分抵现的金额
         }
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -719,7 +721,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
         map.put("EquipmentNum", terminalSn);
         map.put("PayShould", should);
         map.put("PayActual", payau + "");
-        map.put("PayDiscounted", payAu + "");
+        map.put("PayDiscounted", payAu + "");//抹零
         map.put("orderNo", orderNumber);
         map.put("CardCode", uid);
         map.put("c_Billfrom", robotType + "");
@@ -830,12 +832,50 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
         }
     }
 
+    private void setOrderDB() {
+        getDatabase();
+        OrderNumber upLoading = new OrderNumber();
+        upLoading.setOrderNumber(orderNumber);
+        upLoading.setGroupId(SharedUtil.getSharedData(PayBuyShopActivity.this, "groupid"));
+        upLoading.setDbName(getSharedData(PayBuyShopActivity.this, "dbname"));
+        upLoading.setCardCode(uid);
+        upLoading.setPayType(n);
+        upLoading.setMoney(payau+"");
+        upLoading.setRefernumber(order_again);
+      //  upLoading.setGforder(gforder);
+        upLoading.setDelMoney(delMoney);
+        upLoading.setPayDecIntegral(del_jf+"");
+        upLoading.setUserId(getSharedData(PayBuyShopActivity.this, "userInfoId"));
+        upLoading.setVip(isVip);
+        upLoading.setshopIntegral(integral);//每个商品积分
+        upLoading.setGetIntegral(gread);
+        upLoading.setMemberid(memid);
+        upLoading.setPayDecIntegral(dx_integral);
+        upLoading.setDelMoney(dx_money);
+        upLoading.setGoodsId(ids);
+        upLoading.setNum(num);
+        upLoading.setGoodsMoney(moneycount);
+        upLoading.setShouldMoney(should);
+        upLoading.setPayDiscounted(payAu+"");//抹零
+        upLoading.setPayTicket(PayTicket);
+        upLoading.setCouponId(couponId);
+        //upLoading.setCardNum(cardNum);
+        upLoading.setTemporary_num(temporaryNum);
+        upLoading.setResult_name(temName);
+        upLoading.setTemporary(isTemporary);
+        upLoading.setTime(orderTime);
+        upLoading.setFormClazz("SY");
+        upLoading.save();
+    }
+
+
     private void reSet() {
         flag = true;
         payHint(true);
         tv_print.setVisibility(View.VISIBLE);
         tv_print.setEnabled(false);
         printInfo(true);
+        setOrderDB();
         switch (robotType) {
             case 3:
             case 4:
@@ -988,7 +1028,6 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
             case 4:
                 map.put("payCard", payau + "");
                 break;
-
         }
         postToHttp(NetworkUrl.PAYQRCODE, map, new IHttpCallBack() {
                     @Override
@@ -998,6 +1037,7 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
                             JSONObject object = new JSONObject(jsonText);
                             String tag = object.getString("result_stadus");
                             if (tag.equals("SUCCESS")) {
+                                setOrderDB();
                                 reSet();
                             } else {
                                 showAlert();
@@ -1019,15 +1059,17 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
     }
 
     private void setDBData() {
-        Connector.getDatabase();
+        getDatabase();
         BuyShopDb buyShopDb = new BuyShopDb();
+        DataSupport.saveAll(list_buy);
+        buyShopDb.setDataList(list_buy);
         buyShopDb.setN(n);
         buyShopDb.setVip(isVip);
         buyShopDb.setUrl(NetworkUrl.BUYSHOP);
         buyShopDb.setGoods_id(ids);
         buyShopDb.setNum(num);
         buyShopDb.setUid(uid);
-        buyShopDb.setMoney(moneycount);
+        buyShopDb.setMoney(moneycount+"o");
         buyShopDb.setIntegral(integral);
         buyShopDb.setDx_Integral(dx_integral);
         buyShopDb.setDx_Money(dx_money);
@@ -1042,9 +1084,9 @@ public class PayBuyShopActivity extends BasePrintActivity implements IPayCallBac
         buyShopDb.setDbName(SharedUtil.getSharedData(PayBuyShopActivity.this, "dbname"));
         buyShopDb.setOrderTime(orderTime);
         buyShopDb.setShopName(SharedUtil.getSharedData(PayBuyShopActivity.this, "shopname"));
-        buyShopDb.setCardNum(cardNum);
+        buyShopDb.setCardNO(cardNum);
         buyShopDb.setOrder_again(order_again);
-        buyShopDb.setName(name);
+        buyShopDb.setCardName(name);
         buyShopDb.setYouhui(del);
         buyShopDb.setTemName(temName);
         buyShopDb.setTemporaryNum(temporaryNum);

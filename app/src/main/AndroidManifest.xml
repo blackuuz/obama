@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ksk.obama">
 
+    <!-- 联动优势权限 -->
+    <uses-permission android:name="com.umpay.payplugin.permission.OPERATION_HARDWARE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
@@ -191,8 +193,7 @@
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-             />
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".activity.BuyCountListActivity"
             android:screenOrientation="portrait"
@@ -352,8 +353,6 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-
-
         <activity android:name=".activity.SalesStatisticsActivity" />
         <activity android:name=".activity.SalesStatisticsDetialsActivity" />
         <!--
@@ -367,19 +366,17 @@
         <activity
             android:name=".activity.CouponSelectActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activity.CouponCancelActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.GoodsWareHousingActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.GoodsWareHousingCarActivity"
-            android:screenOrientation="portrait"
-            />
-
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.SupplmentDetialsActivity"></activity>
     </application>
 
 </manifest>

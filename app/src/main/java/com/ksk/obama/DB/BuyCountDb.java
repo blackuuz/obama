@@ -16,7 +16,7 @@ public class BuyCountDb extends DataSupport {
     private String url;
     private String cardNo;
     private String dbname;
-    private String name;
+    private String cardName;
     private String userid;
     private String userName;
     private String shopName;
@@ -39,9 +39,22 @@ public class BuyCountDb extends DataSupport {
     private String uid;
     private String dx_Integral;
     private String dx_Money;
-
     private String temporaryNum;
     private String temName;
+
+    private List<BuyCount> dataList=new ArrayList<>();
+
+    public List<BuyCount> getDataList() {
+        return dataList;
+    }
+
+    public void setDataList(List<BuyCount> dataList) {
+        this.dataList = dataList;
+    }
+
+
+
+
 
     public String getDx_Integral() {
         return dx_Integral;
@@ -75,7 +88,6 @@ public class BuyCountDb extends DataSupport {
         this.temporaryNum = temporaryNum;
     }
 
-    private List<BuyCount> dataList=new ArrayList<>();
 
     public String getUid() {
         return uid;
@@ -149,14 +161,13 @@ public class BuyCountDb extends DataSupport {
         this.dbname = dbname;
     }
 
-    public String getName() {
-        return name;
+    public String getCardName() {
+        return cardName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCardName(String cardName) {
+        this.cardName = cardName;
     }
-
     public String getUserid() {
         return userid;
     }
@@ -277,9 +288,7 @@ public class BuyCountDb extends DataSupport {
         this.havejf = havejf;
     }
 
-    public List<BuyCount> getDataList() {
-        return dataList;
-    }
+
 
     public String getRefernumber() {
         return refernumber;
@@ -289,7 +298,5 @@ public class BuyCountDb extends DataSupport {
         this.refernumber = refernumber;
     }
 
-    public void setDataList(List<BuyCount> dataList) {
-        this.dataList = dataList;
-    }
+
 }

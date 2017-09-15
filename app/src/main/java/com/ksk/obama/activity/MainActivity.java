@@ -1,6 +1,8 @@
 package com.ksk.obama.activity;
 
+import android.app.Dialog;
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.drawable.ColorDrawable;
@@ -15,10 +17,16 @@ import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.ListPopupWindow;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -29,22 +37,30 @@ import com.ksk.obama.DB.OpenCardDb;
 import com.ksk.obama.DB.QuickDelMoney;
 import com.ksk.obama.DB.RechargeAgain;
 import com.ksk.obama.R;
+import com.ksk.obama.callback.IHttpCallBack;
 import com.ksk.obama.fragment.MainFrag0;
 import com.ksk.obama.fragment.MainFrag1;
 import com.ksk.obama.fragment.MainFrag2;
 import com.ksk.obama.model.LoginData;
 import com.ksk.obama.service.OrderService;
+import com.ksk.obama.utils.NetworkUrl;
 import com.ksk.obama.utils.SharedUtil;
 import com.ksk.obama.utils.Utils;
+import com.orhanobut.logger.Logger;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.litepal.crud.DataSupport;
 import org.litepal.tablemanager.Connector;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.ksk.obama.utils.SharedUtil.getSharedBData;
 import static com.ksk.obama.utils.SharedUtil.getSharedData;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
@@ -63,6 +79,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private ImageView iv_pop;
     private boolean isSupplement;
     private List<String> lists = new ArrayList<>();
+
+    private PopupWindow window;
+    private Dialog mdialog;
+
 
     ServiceConnection connection = new ServiceConnection() {
         @Override
@@ -158,15 +178,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             Bundle bundle = getIntent().getExtras();
             list_pow = bundle.getParcelableArrayList("info");
             list_module = bundle.getParcelableArrayList("infom");
+            for (int i = 0; i < list_pow.size(); i++) {
+                String str = list_pow.get(i).getC_PopedomName();
+                if(str.equals("POS:补单删除")){
+                    SharedUtil.setSharedBData(MainActivity.this,"bdsc",true);
+                }else {
+                    SharedUtil.setSharedBData(MainActivity.this,"bdsc",false);
+                }
+                if(str.equals("POS:备份订单上传")){
+                    SharedUtil.setSharedBData(MainActivity.this,"bfddsc",true);
+                }else {
+                    SharedUtil.setSharedBData(MainActivity.this,"bfddsc",false);
+                }
+            }
         }
-
 
         for (int i = 0; i < MainActivity.list_module.size(); i++) {
             String str = MainActivity.list_module.get(i).getC_ModuleName();
             if (str.equals("卡号激活")) {
                 SharedUtil.setSharedBData(MainActivity.this,"khjh",true);
-              //
-                //  Utils.showToast(MainActivity.this,"卡号激活");
             }else {
                 SharedUtil.setSharedBData(MainActivity.this,"khjh",false);
 
@@ -235,7 +265,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void showAlertDB() {
         timer.cancel();
         timer = null;
-        startActivity(new Intent(MainActivity.this, OrderNumberActivity.class));
+        if(!getSharedBData(MainActivity.this,"bfddsc")){
+            showDialog();
+        }else {
+            startActivity(new Intent(MainActivity.this, OrderNumberActivity.class));
+        }
+        Log.d("uuz", "showAlertDB: "+n);
+        n = 0;
     }
 
     // TODO: 2017/4/21 改名。。 
@@ -426,4 +462,104 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         endTimes = currentTimes;
     }
 
+    private void getTemporary(final String num, String pwd) {
+        Map<String, String> map = new HashMap<>();
+        map.put("c_JobNumber", num);
+        map.put("Password", pwd);
+        map.put("dbName", getSharedData(MainActivity.this, "dbname"));
+        postToHttp(NetworkUrl.TEMPORARY, map, new IHttpCallBack() {
+            @Override
+            public void OnSucess(String jsonText) {
+                Logger.e(jsonText);
+                try {
+                    JSONObject j = new JSONObject(jsonText);
+                    String s = j.getString("result_data");
+                    int bfddsc = s.indexOf("POS:备份订单上传");
+                    Logger.e("" + bfddsc);
+                    if (bfddsc > 0) {
+                        Utils.showToast(MainActivity.this, "授权成功");
+                        startActivity(new Intent(MainActivity.this, OrderNumberActivity.class));
+                    } else {
+                        Utils.showToast(MainActivity.this, "您没有权限或密码错误");
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Utils.showToast(MainActivity.this, "服务器异常");
+                }
+            }
+            @Override
+            public void OnFail(String message) {
+                Utils.showToast(MainActivity.this, "临时授权失败");
+            }
+
+        });
+    }
+
+    private void showDialog(){
+        if(null == mdialog){
+            mdialog = new Dialog(MainActivity.this, R.style.BottomDialogStyle);
+        }
+        View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.pop_temporary, null);
+        final EditText et_num = (EditText) view.findViewById(R.id.et_num);
+        final EditText et_pwd = (EditText) view.findViewById(R.id.et_pwd);
+        ImageView back = (ImageView) view.findViewById(R.id.iv_back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mdialog.dismiss();
+            }
+        });
+
+        view.findViewById(R.id.btn_yes).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String str1 = et_num.getText().toString();
+                String str2 = et_pwd.getText().toString();
+                if (TextUtils.isEmpty(str1)) {
+                    Utils.showToast(MainActivity.this, "请输入工号");
+                } //else if (TextUtils.isEmpty(str2)) {
+//                    Utils.showToast(RechargeActivity.this, "请输入密码");
+                else {
+                    getTemporary(str1, str2);
+                    mdialog.dismiss();
+                }
+            }
+        });
+
+
+
+        mdialog.setContentView(view);
+        Window dialogWindow = mdialog.getWindow();
+        dialogWindow.setGravity(Gravity.CENTER);
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        lp.width = (int) (dm.widthPixels * 0.8);
+        lp.height = (int)(dm.heightPixels*0.4);
+
+        dialogWindow.setAttributes(lp); //将属性设置给窗体
+        mdialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+
+            }
+        });
+        if(!mdialog.isShowing()){
+            mdialog.show();//显示对话框
+        }
+        //mdialog.setOutsideTouchable(false);
+        mdialog.setCancelable(false);
+
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+
+        if(window!=null&&window.isShowing()){
+            return false;
+        }
+        return super.dispatchTouchEvent(ev);
+    }
 }

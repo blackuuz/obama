@@ -34,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.ksk.obama.DB.OrderNumber;
 import com.ksk.obama.DB.QuickDelMoney;
 import com.ksk.obama.R;
 import com.ksk.obama.adapter.QuickDelMAdapter;
@@ -55,7 +56,6 @@ import com.orhanobut.logger.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.litepal.crud.DataSupport;
-import org.litepal.tablemanager.Connector;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -72,6 +72,7 @@ import butterknife.Unbinder;
 import static com.ksk.obama.utils.SharedUtil.getSharedBData;
 import static com.ksk.obama.utils.SharedUtil.getSharedData;
 import static java.lang.Float.parseFloat;
+import static org.litepal.tablemanager.Connector.getDatabase;
 
 /**
  * 快速收银界面*2017
@@ -127,6 +128,8 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
     private String temporaryNum = "";
     private boolean isTemporary = false;
     private String temName = "";
+   // private String gforder = "";//官方订单号
+    private boolean isvipcard = true;
     //private boolean isQrSure = false;//二维码支付确认
     private List<CardInfo.ResultDataBean> c_data = new ArrayList<>();
     private List<QuickDelM.FastListBean> q_data = new ArrayList<>();//快速消费快速选择集合
@@ -156,7 +159,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
     private QuickDelMAdapter adapter;
     private int dFlag = -1;
     private String quotaMoney = "";//定额
-    private  float min_money = 0f;
+    private float min_money = 0f;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -179,7 +182,6 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
             int n = queryDb(false);
             Utils.showToast(QuickDelMActivity.this, "当前无网络,您有" + n + "单子未上传");
         }
-
     }
 
     @Override
@@ -214,15 +216,15 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                 finish();
             }
         });
-        if(SharedUtil.getSharedData(QuickDelMActivity.this,"min_money").equals("")){
+        if (SharedUtil.getSharedData(QuickDelMActivity.this, "min_money").equals("")) {
             min_money = 0f;
-        }else {
-            min_money = Float.parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this,"min_money"));
+        } else {
+            min_money = Float.parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "min_money"));
         }
     }
 
     private int queryDb(boolean flag) {
-        Connector.getDatabase();
+        getDatabase();
         List<QuickDelMoney> list = DataSupport.findAll(QuickDelMoney.class);
         if (list != null && list.size() > 0 && flag) {
             startActivity(new Intent(QuickDelMActivity.this, QuickDelMoneySupplementActivity.class));
@@ -336,6 +338,9 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         });
     }
 
+    /**
+     * @param v
+     */
     @OnClick({R.id.btn_read_code, R.id.btn_change, R.id.tv_pay_xj, R.id.tv_pay_hy, R.id.tv_pay_wx, R.id.tv_pay_zfb, R.id.tv_pay_dsf})
     public void onClick(View v) {
         payau = et_money.getText().toString();
@@ -655,7 +660,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                         if (quick.getSetDefaultCost().equals("定额")) {
                             dFlag = 1;
                             money = quick.getDefaultcost() + "";
-                            quotaMoney = quick.getDefaultcost()+"";
+                            quotaMoney = quick.getDefaultcost() + "";
                         } else if (quick.getSetDefaultCost().equals("上次")) {
                             dFlag = 2;
 
@@ -861,6 +866,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         map.put("refernumber", order);
         map.put("orderNo", ordernb);
         map.put("dbName", getSharedData(QuickDelMActivity.this, "dbname"));
+       // gforder = order;
         switch (n) {
             case 1:
                 map.put("payWeChat", money + "");
@@ -1270,7 +1276,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
             map.put("Supplement", "0");
             switch (n) {
                 case 0:
-                    map.put("payCash", money + "");
+                    map.put("payCash", money);
                     break;
                 case 1:
                     map.put("refernumber", orderNo);
@@ -1288,14 +1294,20 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                     map.put("payCard", money + "");
                     break;
             }
-            dmoney = tv_money_dx.getText().toString();
+            if(tv_money_dx == null){
+                dmoney = "0";
+            }else {
+                dmoney = tv_money_dx.getText().toString();
+            }
             map.put("payIntegral", dmoney);//积分抵现的金额
             map.put("payDecIntegral", delIntegral);//抵现的积分
             map.put("userID", getSharedData(QuickDelMActivity.this, "userInfoId"));
             if (!TextUtils.isEmpty(et_cardNum.getText().toString()) && isInfo) {
-                boolean isvipcard = true;
-                if (n == 4 &&((parseFloat(money1)+min_money )< parseFloat(money))) {
+
+                if (n == 4 && ((parseFloat(money1) + min_money) < parseFloat(money))) {
                     isvipcard = false;
+                }else {
+                    isvipcard  =true;
                 }
                 if (isvipcard) {
                     isVip = true;
@@ -1326,7 +1338,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                                         String msg = object1.getString("result_errmsg");
                                         Utils.showToast(QuickDelMActivity.this, msg);
                                         openRead();
-                                        if (n == 0||n == 4) {
+                                        if (n == 0 || n == 4) {
                                             showDBAlert();
                                         } else {
                                             isclick_pay = true;
@@ -1343,7 +1355,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                             public void OnFail(String message) {
                                 Logger.e(message + "!!!!!!失败");
                                 openRead();
-                                if (n != 3) {
+                                if (n == 0 || n == 4) {
                                     showDBAlert();
                                 } else {
                                     isclick_pay = true;
@@ -1376,7 +1388,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                                 }
                             } else {
                                 Utils.showToast(QuickDelMActivity.this, "支付失败,请重试");
-                                if (n != 3) {
+                                if (n == 0 || n == 4) {
                                     showDBAlert();
                                 } else {
                                     isclick_pay = true;
@@ -1390,7 +1402,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
 
                     @Override
                     public void OnFail(String message) {
-                        if (n != 3) {
+                        if (n == 0 || n == 4) {
                             showDBAlert();
                         } else {
                             isclick_pay = true;
@@ -1402,6 +1414,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
     }
 
     private void noVIPReset() {
+        setOrderDB();
         uid = "";
         cardNum = "散客";
         haveMoney = "0";
@@ -1410,7 +1423,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         orderNo = "";
         flag = true;
         et_cardNum.setText("");
-        switch (dFlag){
+        switch (dFlag) {
             case 0://关闭
                 et_money.setText("");
                 break;
@@ -1437,14 +1450,40 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         reset();
     }
 
+    private void setOrderDB() {
+        getDatabase();
+        OrderNumber upLoading = new OrderNumber();
+        upLoading.setOrderNumber(ordernb);
+        upLoading.setGroupId(SharedUtil.getSharedData(QuickDelMActivity.this, "groupid"));
+        upLoading.setDbName(getSharedData(QuickDelMActivity.this, "dbname"));
+        upLoading.setCardCode(uid);
+        upLoading.setPayType(n);
+        upLoading.setMoney(money);
+        upLoading.setRefernumber(orderNo);
+        //upLoading.setGforder(gforder);
+        upLoading.setDelMoney(dmoney);
+        upLoading.setPayDecIntegral(delIntegral);
+        upLoading.setUserId(getSharedData(QuickDelMActivity.this, "userInfoId"));
+        upLoading.setVip(isVip);
+        upLoading.setCardNum(et_cardNum.getText().toString());
+        upLoading.setTemporary_num(temporaryNum);
+        upLoading.setResult_name(temName);
+        upLoading.setTemporary(isTemporary);
+        upLoading.setTime(orderte);
+        upLoading.setFormClazz("KM");
+        upLoading.save();
+    }
+
+
     private void VIPReset() {
+        setOrderDB();
         uid = "";
         flag = true;
         preID = cardNum;
         password = "";
         money1 = "0";
         et_cardNum.setText("");
-        switch (dFlag){
+        switch (dFlag) {
             case 0://关闭
                 et_money.setText("");
                 break;
@@ -1473,15 +1512,17 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         }
         tv_money_dx.setText("0");
         tv_pay.setText("0");
-
         et_money.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
         reset();
     }
+
+    int a = 1;
 
     private void reset() {
         dx_jf = parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_jf"));//几多积分抵现一元
         dx_mr = parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_mr")) * 0.01f;//默认抵现倍率
         dx_max = parseFloat(SharedUtil.getSharedData(QuickDelMActivity.this, "dx_max"));//最大抵现几多
+
         switch (robotType) {
             case 3:
             case 4:
@@ -1559,7 +1600,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
     }
 
     private void setDBData() {
-        Connector.getDatabase();
+        getDatabase();
         QuickDelMoney upLoading = new QuickDelMoney();
         upLoading.setUrl(NetworkUrl.QUICK_M);
         upLoading.setUrl1(NetworkUrl.NOVIPQUICK);
@@ -1570,8 +1611,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         upLoading.setTemName(temName);
         upLoading.setDelIntegral(delIntegral);
         upLoading.setDelMoney(dmoney);
-        upLoading.setCardNum(cardNum);
-
+        upLoading.setCardNo(cardNum);
         upLoading.setCardName(cardName);
         upLoading.setHaveMoney(haveMoney);
         upLoading.setHaveIntegral(gread);

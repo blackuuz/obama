@@ -22,6 +22,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.ksk.obama.DB.OrderNumber;
 import com.ksk.obama.R;
 import com.ksk.obama.application.MyApp;
 import com.ksk.obama.broadcast.MyReceiver;
@@ -36,11 +37,14 @@ import com.orhanobut.logger.Logger;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.ksk.obama.utils.Utils.getIsTime;
 
 public class LoginActivity extends BaseTypeActivity {
 
@@ -52,6 +56,7 @@ public class LoginActivity extends BaseTypeActivity {
     private String employeeNo;
     private LoginData loginData;
     private MyReceiver receiver;
+    private List<OrderNumber> orderNumberList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +77,19 @@ public class LoginActivity extends BaseTypeActivity {
         // 注册广播接收器，接收并处理搜索结果
         registerReceiver(receiver, intentFilter);
         initView();
+        removeOrder();
+    }
+
+    /**
+     * 移除数据库三天前的订单
+     */
+    private void removeOrder() {
+        orderNumberList = DataSupport.findAll(OrderNumber.class);
+        for (int i = 0; i < orderNumberList.size(); i++) {
+            if (getIsTime(orderNumberList.get(i).getTime())) {
+                DataSupport.delete(OrderNumber.class, orderNumberList.get(i).getId());
+            }
+        }
     }
 
     @Override
@@ -194,7 +212,7 @@ public class LoginActivity extends BaseTypeActivity {
                         SharedUtil.setSharedData(LoginActivity.this, "exittime", loginData.getQuitTime());
                         SharedUtil.setSharedBData(LoginActivity.this, "bluetooth", loginData.getDrawmenu().equals("1"));
                         SharedUtil.setSharedBData(LoginActivity.this, "pay_ment", loginData.getPayMent().equals("1")); //旺POS是否使用官方接口  1为使用
-                        SharedUtil.setSharedData(LoginActivity.this, "min_money",loginData.getMin_money());//会员卡冻结金额
+                        SharedUtil.setSharedData(LoginActivity.this, "min_money", loginData.getMin_money());//会员卡冻结金额
 
                         getPrintInfo(loginData.getDbname() + ".");
                     } else {

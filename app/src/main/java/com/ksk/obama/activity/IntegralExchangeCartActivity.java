@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.ksk.obama.DB.OrderNumber;
 import com.ksk.obama.R;
 import com.ksk.obama.adapter.IntegralExchangeCartAdapter;
 import com.ksk.obama.callback.IHttpCallBack;
@@ -25,7 +26,6 @@ import com.ksk.obama.callback.IPrintErrorCallback;
 import com.ksk.obama.callback.IPrintSuccessCallback;
 import com.ksk.obama.model.PrintPage;
 import com.ksk.obama.utils.NetworkUrl;
-import com.ksk.obama.utils.SharedUtil;
 import com.ksk.obama.utils.Utils;
 
 import org.json.JSONException;
@@ -37,6 +37,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.ksk.obama.utils.SharedUtil.getSharedData;
+import static org.litepal.tablemanager.Connector.getDatabase;
 
 public class IntegralExchangeCartActivity extends BasePrintActivity implements IPrintErrorCallback, IPrintSuccessCallback {
     private TextView tv_cardNum;
@@ -178,7 +181,7 @@ public class IntegralExchangeCartActivity extends BasePrintActivity implements I
             SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             orderTime = simpleFormat.format(date);
             Map<String, String> map = new HashMap<>();
-            map.put("dbName", SharedUtil.getSharedData(IntegralExchangeCartActivity.this, "dbname"));
+            map.put("dbName", getSharedData(IntegralExchangeCartActivity.this, "dbname"));
             map.put("goods_id", gids);
             map.put("goods_name", gname);
             map.put("num", nums);
@@ -188,12 +191,13 @@ public class IntegralExchangeCartActivity extends BasePrintActivity implements I
             map.put("allintegral", count + "");
             map.put("CardCode", uid);
             map.put("c_Billfrom", robotType + "");
-            map.put("User_Id", SharedUtil.getSharedData(IntegralExchangeCartActivity.this, "userInfoId"));
+            map.put("User_Id", getSharedData(IntegralExchangeCartActivity.this, "userInfoId"));
             map.put("Member_Id", memid);
             postToHttp(NetworkUrl.BUYINTEGRAL, map, new IHttpCallBack() {
                 @Override
                 public void OnSucess(String jsonText) {
                     showHttpData(jsonText);
+                    setOrderDB();
                 }
 
                 @Override
@@ -380,7 +384,6 @@ public class IntegralExchangeCartActivity extends BasePrintActivity implements I
                 window.dismiss();
             }
         });
-
         window.setContentView(view);
         window.setOutsideTouchable(false);
         window.setFocusable(true);
@@ -420,5 +423,25 @@ public class IntegralExchangeCartActivity extends BasePrintActivity implements I
         intent.putExtra("del", Utils.getNumStr(count));
         intent.putExtra("integral", Utils.getNumStr(integralCount - count));
         startActivity(intent);
+    }
+
+    private void setOrderDB() {
+        getDatabase();
+        OrderNumber upLoading = new OrderNumber();
+        upLoading.setOrderNumber(orderNumber);
+        upLoading.setGroupId(getSharedData(IntegralExchangeCartActivity.this, "groupid"));
+        upLoading.setDbName(getSharedData(IntegralExchangeCartActivity.this, "dbname"));
+        upLoading.setGoodsId(gids);
+        upLoading.setGoodsName(gname);
+        upLoading.setNum(nums);
+        upLoading.setshopIntegral(integral);
+        upLoading.setCosttime(count + "");
+        upLoading.setCardCode(uid);
+        upLoading.setMemberid(memid);
+        //upLoading.setGforder(gforder);
+        upLoading.setUserId(getSharedData(IntegralExchangeCartActivity.this, "userInfoId"));
+        upLoading.setTime(orderTime);
+        upLoading.setFormClazz("DH");
+        upLoading.save();
     }
 }

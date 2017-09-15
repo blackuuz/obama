@@ -1,11 +1,15 @@
 package com.ksk.obama.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -44,7 +48,7 @@ public class BuyShopSupplementActivity extends BaseSupplementActivity implements
     private boolean isComplition = false;
     private String haveMoney;
     private String haveIntegral;
-
+    private Button btn_details;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +75,19 @@ public class BuyShopSupplementActivity extends BaseSupplementActivity implements
         pb2 = (ProgressBar) findViewById(R.id.progressBar2);
         tv_hint = (TextView) findViewById(R.id.tv_hint);
         pb1.setVisibility(View.VISIBLE);
+
+        btn_details = (Button) findViewById(R.id.btn_quick_supplement_details);
+        btn_details.setText("查看详情");
+        btn_details.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.putExtra("flag",true);
+                intent.putExtra("clazz","Shop");
+                intent.setClass(BuyShopSupplementActivity.this, SupplmentDetialsActivity.class);
+                startActivityForResult(intent, 84);
+            }
+        });
     }
 
     private void queryDb() {
@@ -159,6 +176,7 @@ public class BuyShopSupplementActivity extends BaseSupplementActivity implements
             JSONObject object = new JSONObject(str);
             String msg = object.getString("result_stadus");
             if (msg.equals("SUCCESS")) {
+                btn_details.setClickable(false);
                 orderYes += 1;
                 pb2.setProgress(orderYes);
                 tv_hint.setText("当前有 " + orderYes + "/" + list.size() + " 个订单正在上传,不要退出页面");
@@ -170,6 +188,7 @@ public class BuyShopSupplementActivity extends BaseSupplementActivity implements
                 printInformation(n);
             }
         } catch (JSONException e) {
+            btn_details.setClickable(true);
             e.printStackTrace();
         }
         switch (robotType) {
@@ -211,8 +230,8 @@ public class BuyShopSupplementActivity extends BaseSupplementActivity implements
         printP.add("补单时间:" + nowTime);
         printP.add("单据号:" + upLoading.getOrderNo());
         printP.add("消费店面: " + upLoading.getShopName());
-        printP.add("卡号 :" + upLoading.getCardNum());
-        printP.add("姓名:" + upLoading.getName());
+        printP.add("卡号 :" + upLoading.getCardNO());
+        printP.add("姓名:" + upLoading.getCardName());
         printP.add("操作员 :" + upLoading.getUserName());
         printP.add("手持序列号:" + upLoading.getEquipmentNum());
         printP.add("son");
@@ -291,5 +310,17 @@ public class BuyShopSupplementActivity extends BaseSupplementActivity implements
     @Override
     public void OnPrintSuccess() {
         isChangeActivity();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == 84) {
+                DataSupport.delete(BuyShopDb.class, list.get(0).getId());
+                Log.d("uuz", "onActivityResult: ");
+                finish();
+            }
+        }
     }
 }

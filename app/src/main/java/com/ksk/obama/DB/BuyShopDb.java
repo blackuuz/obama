@@ -33,8 +33,8 @@ public class BuyShopDb extends DataSupport {
     private String dbName;
     private String orderTime;
     private String shopName;
-    private String cardNum;
-    private String name;
+    private String cardNO;
+    private String cardName;
     private String userName;
     private String havejf;
     private String haveMoney;
@@ -49,7 +49,7 @@ public class BuyShopDb extends DataSupport {
     private String dx_Money;
     private String PayTicket;//优惠券金额
     private String coupon_id;//优惠券id
-
+    private List<BuyCount> dataList=new ArrayList<>();
     private String temporaryNum;
     private String temName;
 
@@ -101,7 +101,7 @@ public class BuyShopDb extends DataSupport {
         this.dx_Integral = dx_Integral;
     }
 
-    private List<BuyCount> dataList=new ArrayList<>();
+
 
     public String getUid() {
         return uid;
@@ -319,21 +319,22 @@ public class BuyShopDb extends DataSupport {
         this.shopName = shopName;
     }
 
-    public String getCardNum() {
-        return cardNum;
+    public String getCardNO() {
+        return cardNO;
     }
 
-    public void setCardNum(String cardNum) {
-        this.cardNum = cardNum;
+    public void setCardNO(String cardNO) {
+        this.cardNO = cardNO;
     }
 
-    public String getName() {
-        return name;
+    public String getCardName() {
+        return cardName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCardName(String cardName) {
+        this.cardName = cardName;
     }
+
 
     public String getUserName() {
         return userName;

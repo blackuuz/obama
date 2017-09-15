@@ -1,11 +1,16 @@
 package com.ksk.obama.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -35,7 +40,7 @@ import java.util.Map;
  * Created by Administrator on 2016/10/25.
  */
 
-public class QuickDelMoneySupplementActivity extends BaseSupplementActivity implements IPrintErrorCallback, IPrintSuccessCallback {
+public class QuickDelMoneySupplementActivity extends BaseSupplementActivity implements IPrintErrorCallback, IPrintSuccessCallback, OnClickListener {
     private List<QuickDelMoney> list = new ArrayList<>();
     private int orderNum = 0;
     private int orderYes = 0;
@@ -45,6 +50,8 @@ public class QuickDelMoneySupplementActivity extends BaseSupplementActivity impl
     private boolean isComplition = false;
     private String haveMoney;
     private String haveIntegral;
+    private Button btn_details;
+    boolean flag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +67,7 @@ public class QuickDelMoneySupplementActivity extends BaseSupplementActivity impl
         TextView name = (TextView) findViewById(R.id.title_name);
         name.setText("快速消费补单");
         TextView back = (TextView) findViewById(R.id.tv_back);
-        back.setOnClickListener(new View.OnClickListener() {
+        back.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (true) {
@@ -68,6 +75,9 @@ public class QuickDelMoneySupplementActivity extends BaseSupplementActivity impl
                 }
             }
         });
+        btn_details = (Button) findViewById(R.id.btn_quick_supplement_details);
+        btn_details.setOnClickListener(this);
+
         pb1 = (ProgressBar) findViewById(R.id.progressBar1);
         pb2 = (ProgressBar) findViewById(R.id.progressBar2);
         tv_hint = (TextView) findViewById(R.id.tv_hint);
@@ -90,18 +100,17 @@ public class QuickDelMoneySupplementActivity extends BaseSupplementActivity impl
             String userID = upLoading.getUser_Id();
             String money = upLoading.getMoney();
             int payMode = upLoading.getN();
-            boolean flag = upLoading.isVip();
+             flag = upLoading.isVip();
             Map<String, String> map = new HashMap<>();
             if (flag) {
-                map.put("CardNum", upLoading.getCardNum());
+                map.put("CardNum", upLoading.getCardNo());
                 if (upLoading.getIsTem()) {
                     map.put("temporary_num", upLoading.getTem());
                     map.put("result_name", upLoading.getTemName());
                 }
             }
-
-            map.put("payIntegral",upLoading.getDelMoney());
-            map.put("payDecIntegral",upLoading.getDelIntegral());
+            map.put("payIntegral", upLoading.getDelMoney());
+            map.put("payDecIntegral", upLoading.getDelIntegral());
             map.put("Supplement", "1");
             map.put("userID", userID);
             map.put("EquipmentNum", upLoading.getEquipmentNum());
@@ -172,6 +181,7 @@ public class QuickDelMoneySupplementActivity extends BaseSupplementActivity impl
             JSONObject object = new JSONObject(text);
             String msg = object.getString("result_stadus");
             if (msg.equals("SUCCESS")) {
+                btn_details.setClickable(false);
                 orderYes += 1;
                 pb2.setProgress(orderYes);
                 tv_hint.setText("当前有 " + orderYes + "/" + list.size() + " 个订单正在上传,不要退出页面");
@@ -184,6 +194,8 @@ public class QuickDelMoneySupplementActivity extends BaseSupplementActivity impl
             }
         } catch (JSONException e) {
             e.printStackTrace();
+            btn_details.setClickable(true);
+
         }
         switch (robotType) {
             case 3:
@@ -214,15 +226,15 @@ public class QuickDelMoneySupplementActivity extends BaseSupplementActivity impl
         list.add("补单时间:" + nowTime);
         list.add("单据号:" + upLoading.getOrderNo());
         if (flag) {
-            list.add("会员卡号:" + upLoading.getCardNum());
+            list.add("会员卡号:" + upLoading.getCardNo());
             list.add("会员姓名:" + upLoading.getCardName());
-        }else {
+        } else {
             list.add("会员卡号:散客");
             list.add("会员姓名:散客");
         }
-        if (upLoading.isIntegral()){//是否使用了积分抵现
+        if (upLoading.isIntegral()) {//是否使用了积分抵现
             list.add("消费金额:" + upLoading.getDelMoney());
-        }else {
+        } else {
             list.add("消费金额:" + upLoading.getMoney());
         }
 
@@ -266,11 +278,12 @@ public class QuickDelMoneySupplementActivity extends BaseSupplementActivity impl
     }
 
     private boolean isclick;
+
     private void printError(int id) {
         isclick = true;
         final PopupWindow window = new PopupWindow(this);
         View view = LayoutInflater.from(this).inflate(R.layout.pop_print_hint, null);
-        view.findViewById(R.id.btn_print_again).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.btn_print_again).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 window.dismiss();
@@ -292,9 +305,10 @@ public class QuickDelMoneySupplementActivity extends BaseSupplementActivity impl
         window.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                if (isclick){
-                    isclick=false;
-                    printInformation(0);}
+                if (isclick) {
+                    isclick = false;
+                    printInformation(0);
+                }
             }
         });
         window.showAtLocation(findViewById(id), Gravity.CENTER, 0, 0);
@@ -303,5 +317,38 @@ public class QuickDelMoneySupplementActivity extends BaseSupplementActivity impl
     @Override
     public void OnPrintSuccess() {
         isChangeActivity();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_quick_supplement_details:
+                Intent intent = new Intent();
+                intent.putExtra("flag",flag);
+                intent.putExtra("clazz","Quick");
+                intent.setClass(QuickDelMoneySupplementActivity.this, SupplmentDetialsActivity.class);
+                startActivityForResult(intent, 324);
+
+                break;
+
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == Activity.RESULT_OK){
+            if(requestCode == 324){
+                DataSupport.delete(QuickDelMoney.class, list.get(0).getId());
+                Log.d("uuz", "onActivityResult: ");
+             finish();
+            }
+        }
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
     }
 }

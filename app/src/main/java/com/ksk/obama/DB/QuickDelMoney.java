@@ -9,7 +9,10 @@ import org.litepal.crud.DataSupport;
 public class QuickDelMoney extends DataSupport {
 
     private int id;
-    private String cardNum;
+
+
+
+    private String cardNo;
     private String cardName;
     private String dbName;
     private String user_Id;
@@ -140,14 +143,20 @@ public class QuickDelMoney extends DataSupport {
     public void setId(int id) {
         this.id = id;
     }
-
-    public String getCardNum() {
-        return cardNum;
+    public String getCardNo() {
+        return cardNo;
     }
 
-    public void setCardNum(String cardNum) {
-        this.cardNum = cardNum;
+    public void setCardNo(String cardNo) {
+        this.cardNo = cardNo;
     }
+//    public String getCardNum() {
+//        return cardNum;
+//    }
+//
+//    public void setCardNum(String cardNum) {
+//        this.cardNum = cardNum;
+//    }
 
     public String getCardName() {
         return cardName;

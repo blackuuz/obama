@@ -13,6 +13,7 @@
         android:layout_gravity="right"
         android:src="@mipmap/pop_up_03"/>
     <TextView
+        android:id="@+id/tv_authority_title1"
         android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,6 +21,7 @@
         android:textSize="36px"
         android:text="当前账号无修改权限"/>
     <TextView
+        android:id="@+id/tv_authority_title2"
         android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -87,11 +89,11 @@
         android:orientation="horizontal">
         <Button
             android:id="@+id/btn_yes"
-            android:layout_width="200px"
+            android:layout_width="180px"
             android:layout_height="75px"
             android:background="@drawable/select_pw_yes"
             android:text="确定"
-            android:layout_marginLeft="40px"
+            android:layout_marginLeft="80px"
             android:textColor="@color/white"
             android:textSize="36px"/>
 
@@ -101,11 +103,11 @@
 
         <Button
             android:id="@+id/btn_back"
-            android:layout_width="200px"
+            android:layout_width="180px"
             android:layout_height="75px"
             android:background="@drawable/select_pw_no"
             android:text="取消"
-            android:layout_marginRight="40px"
+            android:layout_marginRight="80px"
             android:textColor="@color/white"
             android:textSize="36px"/>
     </LinearLayout>

@@ -114,8 +114,11 @@ public class NFCManager {
 		mActivity = null;
 	}
 
-	@SuppressLint("NewApi")
-	public void onResume(Activity activity) {
+	/**
+	 * 试图用同步锁解决非法状态异常
+	 * @param activity
+	 */
+	private synchronized void nfcManager(Activity activity){
 		if (nfcAdapter != null) {
 			if (mActivity == null) {
 				mActivity = activity;
@@ -131,6 +134,14 @@ public class NFCManager {
 				}
 			}
 		}
+	}
+
+
+
+
+	@SuppressLint("NewApi")
+	public void onResume(Activity activity) {
+		nfcManager(activity);
 	}
 
 	public boolean isEnabled() {

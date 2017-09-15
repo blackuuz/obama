@@ -7,16 +7,16 @@ public class NetworkUrl {
     private static final String IP = "http://123.207.146.244/";
 
     //测试
-//    private static final String IP2 = "yideweb";//测试
-//    private static final String VERSION = "";
+    private static final String IP2 = "yideweb";//测试
+    private static final String VERSION = "";
 //________________________________________________________________________________________________________________________
     //通用版本正式
     //private static final String IP2 = "yidesoft";
     //private static final String VERSION = ""
 // ________________________________________________________________________________________________________________________
     //各版本正式
-    private static final String IP2 = "yideApp/yidesoft";//正式
-    private static final String VERSION = "236";//版本号 数字部分随版本改变
+//    private static final String IP2 = "yideApp/yidesoft";//正式
+//    private static final String VERSION = "237";//版本号 数字部分随版本改变
 
 
 
