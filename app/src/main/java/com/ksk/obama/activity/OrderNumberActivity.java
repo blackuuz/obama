@@ -423,7 +423,7 @@ public class OrderNumberActivity extends BaseSupplementActivity {
         map.put("orderNo", orderNumber.getOrderNumber());
         map.put("CardCode", orderNumber.getCardCode());
         map.put("Supplement", "1");
-        // map.put("EquipmentNum", terminalSn);
+        map.put("EquipmentNum", terminalSn);
         map.put("c_Billfrom", robotType + "");
         switch (orderNumber.getPayType()) {
             case 0:
@@ -448,23 +448,37 @@ public class OrderNumberActivity extends BaseSupplementActivity {
         map.put("payIntegral", orderNumber.getDelMoney());//积分抵现的金额
         map.put("payDecIntegral", orderNumber.getPayDecIntegral());//抵现的积分
         map.put("userID", orderNumber.getUserId());
-        if (orderNumber.isTemporary()) {
-            map.put("temporary_num", orderNumber.getTemporary_num());
-            map.put("result_name", orderNumber.getResult_name());
+        if(orderNumber.isFlag_()){
+            map.put("CardNum", orderNumber.getCardNum());
+            if (orderNumber.isTemporary()) {
+                map.put("temporary_num", orderNumber.getTemporary_num());
+                map.put("result_name", orderNumber.getResult_name());
+            }
+            postToHttps(i, NetworkUrl.QUICK_M, map, new IHttpCallBackS() {
+                @Override
+                public void OnSucess(String jsonText, int n) {
+                    showData(jsonText, n);
+                    Log.e("uuz", n + "OnSucess: " + jsonText);
+                }
+                @Override
+                public void OnFail(String message) {
+                    list.get(i).setIsSucceedUploading(-1);
+                }
+            });
+        }else {
+            postToHttps(i, NetworkUrl.NOVIPQUICK, map, new IHttpCallBackS() {
+                @Override
+                public void OnSucess(String jsonText, int n) {
+                    showData(jsonText, n);
+                    Log.e("uuz", n + "OnSucess: " + jsonText);
+                }
+
+                @Override
+                public void OnFail(String message) {
+                    list.get(i).setIsSucceedUploading(-1);
+                }
+            });
         }
-        postToHttps(i, NetworkUrl.QUICK_M, map, new IHttpCallBackS() {
-            @Override
-            public void OnSucess(String jsonText, int n) {
-                showData(jsonText, n);
-                Log.e("uuz", n + "OnSucess: " + jsonText);
-            }
-
-            @Override
-            public void OnFail(String message) {
-                list.get(i).setIsSucceedUploading(-1);
-
-            }
-        });
     }
 
     private void postQuickC(OrderNumber orderNumber, int i) {

@@ -8,21 +8,21 @@ android {
     compileSdkVersion 24
     buildToolsVersion "24.0.1"
 
-//    defaultConfig {//正式版
-//        applicationId "com.ksk.obama"
-//        minSdkVersion 15
-//        targetSdkVersion 25
-//        versionCode 363      //商米刷卡 更新sdk   会员卡绑定
-//        versionName "2.3.7"//2017-8-15 版本号为 x.y.z  其中y为单数
-//    }
-    defaultConfig {//测试版
+    defaultConfig {//正式版
         applicationId "com.ksk.obama"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 347
-        versionName "3.1.7"//time : 2017-9-18 8:59 本地数据库修复
-        //versionName "_____"//旺pos
+        versionCode 365      //商米刷卡 更新sdk   会员卡绑定
+        versionName "2.3.8"//2017-9-20 版本号为 x.y.z  其中y为单数
     }
+//    defaultConfig {//测试版
+//        applicationId "com.ksk.obama"
+//        minSdkVersion 15
+//        targetSdkVersion 25
+//        versionCode 347
+//        versionName "3.1.7"//time : 2017-9-18 8:59 本地数据库修复
+//        //versionName "_____"//旺pos
+//    }
     buildTypes {
         release {
             minifyEnabled false

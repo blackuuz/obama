@@ -43,11 +43,15 @@ public class CouponCancelAdapter extends RecyclerView.Adapter<CouponCancelAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        goodsName = "兑换的商品: " + c_list.get(position).getC_GoodsName();
+        coupon_type = "优惠券类型: " + c_list.get(position).getI_Type();
+        if(c_list.get(position).getI_Type().equals("代金券")){
+            goodsName = "抵扣金额: " + c_list.get(position).getCoupon_money();
+        }else {
+            goodsName = "兑换的商品: " + c_list.get(position).getC_GoodsName();
+        }
         vipName = "会员姓名: " + c_list.get(position).getC_MemberName();
         vipnum = "会员卡号: " + c_list.get(position).getC_CardNO();
         coupon_name = "优惠券名称: " + c_list.get(position).getCoupon_name();
-        coupon_type = "优惠券类型: " + c_list.get(position).getI_Type();
         if (c_list.get(position).getC_MemberName() == null || c_list.get(position).getC_MemberName().equals("")) {
             vipName = "会员姓名: " + "散客";
             vipnum = "会员卡号: " + "无";

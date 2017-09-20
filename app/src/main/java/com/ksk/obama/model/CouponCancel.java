@@ -107,6 +107,16 @@ public class CouponCancel {
         private String c_UseShopType;
         private String c_GoodsName;
 
+        public String getCoupon_money() {
+            return coupon_money;
+        }
+
+        public void setCoupon_money(String coupon_money) {
+            this.coupon_money = coupon_money;
+        }
+
+        private String coupon_money;
+
         public String getI_Type() {
             return i_Type;
         }

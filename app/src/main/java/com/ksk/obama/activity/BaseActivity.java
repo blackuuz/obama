@@ -75,6 +75,7 @@ import cn.weipass.service.bizInvoke.RequestInvoke;
 import cn.weipass.service.bizInvoke.RequestResult;
 
 import static com.ksk.obama.utils.SharedUtil.getSharedBData;
+import static java.lang.Float.parseFloat;
 
 
 /**
@@ -243,7 +244,7 @@ public class BaseActivity extends AutoLayoutActivity {
         if (TextUtils.isEmpty(jf)) {
             shopIntegral = 0;
         } else {
-            shopIntegral = Float.parseFloat(jf);
+            shopIntegral = parseFloat(jf);
         }
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
@@ -403,7 +404,7 @@ public class BaseActivity extends AutoLayoutActivity {
      */
 
     private void newPay(int n, String str, String order, String str2) {
-        if (!TextUtils.isEmpty(str) && Float.parseFloat(str) > 0) {
+        if (!TextUtils.isEmpty(str) && parseFloat(str) > 0) {
             money = str;
             type = n;
             orderNo = order;
@@ -432,7 +433,12 @@ public class BaseActivity extends AutoLayoutActivity {
      *                  <p>2017-06-28</p>
      */
     private void newPay(int n, String money, String orderDesc) {
-        if (!TextUtils.isEmpty(money) && Float.parseFloat(money) > 0) {
+        if (!TextUtils.isEmpty(money) && parseFloat(money) > 0) {
+            float fmoney = Float.parseFloat(money);
+            money = fmoney+"";
+//            if(!(".".indexOf(money)>0)){
+//                money = money+".0";
+//            }
             Intent intent = new Intent();
             ComponentName componet = new ComponentName("com.lkl.cloudpos.payment",
                     "com.lkl.cloudpos.payment.activity.MainMenuActivity");
@@ -792,7 +798,7 @@ public class BaseActivity extends AutoLayoutActivity {
      *                  <p> 旺POS 官方支付接口调用</p>
      */
     private void requestCashier(int n, String money, String orderDesc) {
-        if (!TextUtils.isEmpty(money) && Float.parseFloat(money) > 0) {
+        if (!TextUtils.isEmpty(money) && parseFloat(money) > 0) {
             // 1003 微信
             // 1004 支付宝
             // 1006 银行卡
@@ -809,7 +815,7 @@ public class BaseActivity extends AutoLayoutActivity {
 
                 return;
             }
-            String s[] = (Utils.getNumStr(Float.parseFloat(money) * 100)).split("\\.");
+            String s[] = (Utils.getNumStr(parseFloat(money) * 100)).split("\\.");
             total_fee = s[0];
             backClassPath = "com.ksk.obama.activity." + getRunningActivityName();//uuz 动态获取当前运行Activity 的名字
             Log.d("8268", "innerRequestCashier: " + backClassPath + "===" + s[0]);

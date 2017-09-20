@@ -148,13 +148,12 @@ public class VipToShopActivity extends BuyShopReadActivity implements View.OnCli
                         //获取当前Activity所在的窗体
                         Window dialogWindow = mdialog.getWindow();
                         //设置Dialog从窗体底部弹出
-                        dialogWindow.setGravity(Gravity.BOTTOM);
+                        dialogWindow.setGravity(Gravity.CENTER);
                         //获得窗体的属性
                         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
                         DisplayMetrics dm = new DisplayMetrics();
                         getWindowManager().getDefaultDisplay().getMetrics(dm);
                         lp.width = (int) (dm.widthPixels * 0.95);
-                        lp.y = 370; //设置Dialog距离底部的距离
                         dialogWindow.setAttributes(lp); //将属性设置给窗体
                         mdialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                             @Override

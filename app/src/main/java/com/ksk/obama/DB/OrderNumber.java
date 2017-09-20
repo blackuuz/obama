@@ -57,6 +57,15 @@ public class OrderNumber extends DataSupport {
     private boolean isChecked = true;//是否被选中
     private  String getMoney;//购买次数里面的属性
     private boolean isQuery;//是否被查询
+    private boolean flag_;//临时变量
+
+    public boolean isFlag_() {
+        return flag_;
+    }
+
+    public void setFlag_(boolean flag_) {
+        this.flag_ = flag_;
+    }
 
     public boolean isQuery() {
         return isQuery;

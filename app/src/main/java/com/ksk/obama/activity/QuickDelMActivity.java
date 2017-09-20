@@ -128,12 +128,12 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
     private String temporaryNum = "";
     private boolean isTemporary = false;
     private String temName = "";
-   // private String gforder = "";//官方订单号
+    // private String gforder = "";//官方订单号
     private boolean isvipcard = true;
     //private boolean isQrSure = false;//二维码支付确认
     private List<CardInfo.ResultDataBean> c_data = new ArrayList<>();
     private List<QuickDelM.FastListBean> q_data = new ArrayList<>();//快速消费快速选择集合
-
+    private boolean flag_;
     private Unbinder unbinder;
     private boolean XJ, WX, AL, TR;
     @BindView(R.id.tv_pay_hy)
@@ -866,7 +866,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         map.put("refernumber", order);
         map.put("orderNo", ordernb);
         map.put("dbName", getSharedData(QuickDelMActivity.this, "dbname"));
-       // gforder = order;
+        // gforder = order;
         switch (n) {
             case 1:
                 map.put("payWeChat", money + "");
@@ -1294,20 +1294,20 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
                     map.put("payCard", money + "");
                     break;
             }
-            if(tv_money_dx == null){
+            if (tv_money_dx == null) {
                 dmoney = "0";
-            }else {
+            } else {
                 dmoney = tv_money_dx.getText().toString();
             }
             map.put("payIntegral", dmoney);//积分抵现的金额
             map.put("payDecIntegral", delIntegral);//抵现的积分
             map.put("userID", getSharedData(QuickDelMActivity.this, "userInfoId"));
             if (!TextUtils.isEmpty(et_cardNum.getText().toString()) && isInfo) {
-
+                flag_ = !TextUtils.isEmpty(et_cardNum.getText().toString()) && isInfo;
                 if (n == 4 && ((parseFloat(money1) + min_money) < parseFloat(money))) {
                     isvipcard = false;
-                }else {
-                    isvipcard  =true;
+                } else {
+                    isvipcard = true;
                 }
                 if (isvipcard) {
                     isVip = true;
@@ -1459,12 +1459,13 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         upLoading.setCardCode(uid);
         upLoading.setPayType(n);
         upLoading.setMoney(money);
+        upLoading.setFlag_(flag_);
         upLoading.setRefernumber(orderNo);
         //upLoading.setGforder(gforder);
         upLoading.setDelMoney(dmoney);
         upLoading.setPayDecIntegral(delIntegral);
         upLoading.setUserId(getSharedData(QuickDelMActivity.this, "userInfoId"));
-        upLoading.setVip(isVip);
+        upLoading.setVip(isInfo);
         upLoading.setCardNum(et_cardNum.getText().toString());
         upLoading.setTemporary_num(temporaryNum);
         upLoading.setResult_name(temName);
@@ -1472,6 +1473,7 @@ public class QuickDelMActivity extends BasePAndRActivity implements View.OnClick
         upLoading.setTime(orderte);
         upLoading.setFormClazz("KM");
         upLoading.save();
+        flag_ = false;
     }
 
 
