@@ -234,6 +234,14 @@ public class BasePAndRActivity extends BaseReadCardActivity {
                 woyouService.printTextWithFont(SharedUtil.getSharedData(BasePAndRActivity.this, "name2") + "\n", "", 30, callback);
                 woyouService.printTextWithFont(SharedUtil.getSharedData(BasePAndRActivity.this, "name3") + "\n", "", 30, callback);
                 woyouService.printTextWithFont(SharedUtil.getSharedData(BasePAndRActivity.this, "name4") + "\n", "", 30, callback);
+                woyouService.printText("　      _        　" + "\n", callback);
+                woyouService.printText("　      _        　" + "\n", callback);
+                woyouService.printText("　      _        　" + "\n", callback);
+                woyouService.printText("　      _        　" + "\n", callback);
+                woyouService.printText("　      _        　" + "\n", callback);
+                woyouService.printText("　      _        　" + "\n", callback);
+                woyouService.printText("　      _        　" + "\n", callback);
+
 
                 woyouService.lineWrap(4, callback);
             } catch (RemoteException e) {

@@ -275,7 +275,13 @@ int a = 0;
                 woyouService.printTextWithFont(SharedUtil.getSharedData(BasePrintActivity.this, "name2") + "\n", "", 30, callback);
                 woyouService.printTextWithFont(SharedUtil.getSharedData(BasePrintActivity.this, "name3") + "\n", "", 30, callback);
                 woyouService.printTextWithFont(SharedUtil.getSharedData(BasePrintActivity.this, "name4") + "\n", "", 30, callback);
-
+                woyouService.printText("　      _        　" + "\n", callback);
+                woyouService.printText("　      _        　" + "\n", callback);
+                woyouService.printText("　      _        　" + "\n", callback);
+                woyouService.printText("　      _        　" + "\n", callback);
+                woyouService.printText("　      _        　" + "\n", callback);
+                woyouService.printText("　      _        　" + "\n", callback);
+                woyouService.printText("　      _        　" + "\n", callback);
                 woyouService.lineWrap(4, callback);
             } catch (RemoteException e) {
                 e.printStackTrace();
